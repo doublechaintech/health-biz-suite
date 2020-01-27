@@ -53,7 +53,7 @@ class QuestionTypeProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  questionType = this.props.questionType;
-    const { id,displayName, questionCount, classQuestionCount, dailySurveyQuestionCount } = questionType
+    const { id,displayName, questionCount, dailySurveyQuestionCount } = questionType
     const  returnURL = `/questionType/${id}/dashboard`
     const cardsData = {cardsName:"问题类型",cardsFor: "questionType",cardsSource: questionType,displayName,returnURL,
   		subItems: [

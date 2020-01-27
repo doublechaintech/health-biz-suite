@@ -12,14 +12,14 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.user.User;
 
 @JsonSerialize(using = WechatLoginInfoSerializer.class)
 public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable{
 
 	
 	public static final String ID_PROPERTY                    = "id"                ;
-	public static final String WECHAT_USER_PROPERTY           = "wechatUser"        ;
+	public static final String USER_PROPERTY                  = "user"              ;
 	public static final String APP_ID_PROPERTY                = "appId"             ;
 	public static final String OPEN_ID_PROPERTY               = "openId"            ;
 	public static final String SESSION_KEY_PROPERTY           = "sessionKey"        ;
@@ -47,7 +47,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 	
 
 	protected		String              	mId                 ;
-	protected		WechatUser          	mWechatUser         ;
+	protected		User                	mUser               ;
 	protected		String              	mAppId              ;
 	protected		String              	mOpenId             ;
 	protected		String              	mSessionKey         ;
@@ -72,7 +72,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 	
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
-		setWechatUser( null );
+		setUser( null );
 
 		this.changed = true;
 	}
@@ -164,8 +164,8 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 	
 	public Object propertyOf(String property) {
      	
-		if(WECHAT_USER_PROPERTY.equals(property)){
-			return getWechatUser();
+		if(USER_PROPERTY.equals(property)){
+			return getUser();
 		}
 		if(APP_ID_PROPERTY.equals(property)){
 			return getAppId();
@@ -206,24 +206,24 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 	}
 	
 	
-	public void setWechatUser(WechatUser wechatUser){
-		this.mWechatUser = wechatUser;;
+	public void setUser(User user){
+		this.mUser = user;;
 	}
-	public WechatUser getWechatUser(){
-		return this.mWechatUser;
+	public User getUser(){
+		return this.mUser;
 	}
-	public WechatLoginInfo updateWechatUser(WechatUser wechatUser){
-		this.mWechatUser = wechatUser;;
+	public WechatLoginInfo updateUser(User user){
+		this.mUser = user;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeWechatUser(WechatUser wechatUser){
-		if(wechatUser != null) { setWechatUser(wechatUser);}
+	public void mergeUser(User user){
+		if(user != null) { setUser(user);}
 	}
 	
 	
-	public void clearWechatUser(){
-		setWechatUser ( null );
+	public void clearUser(){
+		setUser ( null );
 		this.changed = true;
 	}
 	
@@ -320,7 +320,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
-		addToEntityList(this, entityList, getWechatUser(), internalType);
+		addToEntityList(this, entityList, getUser(), internalType);
 
 		
 	}
@@ -345,7 +345,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		List<KeyValuePair> result =  super.keyValuePairOf();
 
 		appendKeyValuePair(result, ID_PROPERTY, getId());
-		appendKeyValuePair(result, WECHAT_USER_PROPERTY, getWechatUser());
+		appendKeyValuePair(result, USER_PROPERTY, getUser());
 		appendKeyValuePair(result, APP_ID_PROPERTY, getAppId());
 		appendKeyValuePair(result, OPEN_ID_PROPERTY, getOpenId());
 		appendKeyValuePair(result, SESSION_KEY_PROPERTY, getSessionKey());
@@ -366,7 +366,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 			WechatLoginInfo dest =(WechatLoginInfo)baseDest;
 		
 			dest.setId(getId());
-			dest.setWechatUser(getWechatUser());
+			dest.setUser(getUser());
 			dest.setAppId(getAppId());
 			dest.setOpenId(getOpenId());
 			dest.setSessionKey(getSessionKey());
@@ -386,7 +386,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 			WechatLoginInfo dest =(WechatLoginInfo)baseDest;
 		
 			dest.mergeId(getId());
-			dest.mergeWechatUser(getWechatUser());
+			dest.mergeUser(getUser());
 			dest.mergeAppId(getAppId());
 			dest.mergeOpenId(getOpenId());
 			dest.mergeSessionKey(getSessionKey());
@@ -417,15 +417,15 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getWechatUser(), getAppId(), getOpenId(), getSessionKey(), getLastUpdateTime(), getVersion()};
+		return new Object[]{getId(), getUser(), getAppId(), getOpenId(), getSessionKey(), getLastUpdateTime(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
 
 		stringBuilder.append("WechatLoginInfo{");
 		stringBuilder.append("\tid='"+getId()+"';");
-		if(getWechatUser() != null ){
- 			stringBuilder.append("\twechatUser='WechatUser("+getWechatUser().getId()+")';");
+		if(getUser() != null ){
+ 			stringBuilder.append("\tuser='User("+getUser().getId()+")';");
  		}
 		stringBuilder.append("\tappId='"+getAppId()+"';");
 		stringBuilder.append("\topenId='"+getOpenId()+"';");

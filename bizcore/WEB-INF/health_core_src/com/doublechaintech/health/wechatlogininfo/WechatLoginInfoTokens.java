@@ -72,13 +72,13 @@ public class WechatLoginInfoTokens extends CommonTokens{
 	protected static WechatLoginInfoTokens allTokens(){
 		
 		return start()
-			.withWechatUser();
+			.withUser();
 	
 	}
 	public static WechatLoginInfoTokens withoutListsTokens(){
 		
 		return start()
-			.withWechatUser();
+			.withUser();
 	
 	}
 	
@@ -97,12 +97,12 @@ public class WechatLoginInfoTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String WECHATUSER = "wechatUser";
-	public String getWechatUser(){
-		return WECHATUSER;
+	protected static final String USER = "user";
+	public String getUser(){
+		return USER;
 	}
-	public WechatLoginInfoTokens withWechatUser(){		
-		addSimpleOptions(WECHATUSER);
+	public WechatLoginInfoTokens withUser(){		
+		addSimpleOptions(USER);
 		return this;
 	}
 	

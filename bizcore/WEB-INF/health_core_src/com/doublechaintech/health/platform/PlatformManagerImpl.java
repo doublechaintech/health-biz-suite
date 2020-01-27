@@ -19,32 +19,27 @@ import com.doublechaintech.health.userapp.UserApp;
 import com.terapico.uccaf.BaseUserContext;
 
 
+import com.doublechaintech.health.city.City;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.guardian.Guardian;
-import com.doublechaintech.health.question.Question;
-import com.doublechaintech.health.wechatuser.WechatUser;
-import com.doublechaintech.health.city.City;
-import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
+import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
+import com.doublechaintech.health.province.Province;
 import com.doublechaintech.health.district.District;
-import com.doublechaintech.health.questionsource.QuestionSource;
-import com.doublechaintech.health.usertype.UserType;
+import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.user.User;
 
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.city.City;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.wechatuser.WechatUser;
-import com.doublechaintech.health.usertype.UserType;
+import com.doublechaintech.health.user.User;
 
 
 
@@ -188,18 +183,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		addAction(userContext, platform, tokens,"platform.removeDistrict","removeDistrict","removeDistrict/"+platform.getId()+"/","districtList","primary");
 		addAction(userContext, platform, tokens,"platform.updateDistrict","updateDistrict","updateDistrict/"+platform.getId()+"/","districtList","primary");
 		addAction(userContext, platform, tokens,"platform.copyDistrictFrom","copyDistrictFrom","copyDistrictFrom/"+platform.getId()+"/","districtList","primary");
-		addAction(userContext, platform, tokens,"platform.addSchoolClass","addSchoolClass","addSchoolClass/"+platform.getId()+"/","schoolClassList","primary");
-		addAction(userContext, platform, tokens,"platform.removeSchoolClass","removeSchoolClass","removeSchoolClass/"+platform.getId()+"/","schoolClassList","primary");
-		addAction(userContext, platform, tokens,"platform.updateSchoolClass","updateSchoolClass","updateSchoolClass/"+platform.getId()+"/","schoolClassList","primary");
-		addAction(userContext, platform, tokens,"platform.copySchoolClassFrom","copySchoolClassFrom","copySchoolClassFrom/"+platform.getId()+"/","schoolClassList","primary");
 		addAction(userContext, platform, tokens,"platform.addTeacher","addTeacher","addTeacher/"+platform.getId()+"/","teacherList","primary");
 		addAction(userContext, platform, tokens,"platform.removeTeacher","removeTeacher","removeTeacher/"+platform.getId()+"/","teacherList","primary");
 		addAction(userContext, platform, tokens,"platform.updateTeacher","updateTeacher","updateTeacher/"+platform.getId()+"/","teacherList","primary");
 		addAction(userContext, platform, tokens,"platform.copyTeacherFrom","copyTeacherFrom","copyTeacherFrom/"+platform.getId()+"/","teacherList","primary");
-		addAction(userContext, platform, tokens,"platform.addGuardian","addGuardian","addGuardian/"+platform.getId()+"/","guardianList","primary");
-		addAction(userContext, platform, tokens,"platform.removeGuardian","removeGuardian","removeGuardian/"+platform.getId()+"/","guardianList","primary");
-		addAction(userContext, platform, tokens,"platform.updateGuardian","updateGuardian","updateGuardian/"+platform.getId()+"/","guardianList","primary");
-		addAction(userContext, platform, tokens,"platform.copyGuardianFrom","copyGuardianFrom","copyGuardianFrom/"+platform.getId()+"/","guardianList","primary");
+		addAction(userContext, platform, tokens,"platform.addStudent","addStudent","addStudent/"+platform.getId()+"/","studentList","primary");
+		addAction(userContext, platform, tokens,"platform.removeStudent","removeStudent","removeStudent/"+platform.getId()+"/","studentList","primary");
+		addAction(userContext, platform, tokens,"platform.updateStudent","updateStudent","updateStudent/"+platform.getId()+"/","studentList","primary");
+		addAction(userContext, platform, tokens,"platform.copyStudentFrom","copyStudentFrom","copyStudentFrom/"+platform.getId()+"/","studentList","primary");
 		addAction(userContext, platform, tokens,"platform.addQuestion","addQuestion","addQuestion/"+platform.getId()+"/","questionList","primary");
 		addAction(userContext, platform, tokens,"platform.removeQuestion","removeQuestion","removeQuestion/"+platform.getId()+"/","questionList","primary");
 		addAction(userContext, platform, tokens,"platform.updateQuestion","updateQuestion","updateQuestion/"+platform.getId()+"/","questionList","primary");
@@ -208,22 +199,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		addAction(userContext, platform, tokens,"platform.removeQuestionType","removeQuestionType","removeQuestionType/"+platform.getId()+"/","questionTypeList","primary");
 		addAction(userContext, platform, tokens,"platform.updateQuestionType","updateQuestionType","updateQuestionType/"+platform.getId()+"/","questionTypeList","primary");
 		addAction(userContext, platform, tokens,"platform.copyQuestionTypeFrom","copyQuestionTypeFrom","copyQuestionTypeFrom/"+platform.getId()+"/","questionTypeList","primary");
-		addAction(userContext, platform, tokens,"platform.addQuestionSource","addQuestionSource","addQuestionSource/"+platform.getId()+"/","questionSourceList","primary");
-		addAction(userContext, platform, tokens,"platform.removeQuestionSource","removeQuestionSource","removeQuestionSource/"+platform.getId()+"/","questionSourceList","primary");
-		addAction(userContext, platform, tokens,"platform.updateQuestionSource","updateQuestionSource","updateQuestionSource/"+platform.getId()+"/","questionSourceList","primary");
-		addAction(userContext, platform, tokens,"platform.copyQuestionSourceFrom","copyQuestionSourceFrom","copyQuestionSourceFrom/"+platform.getId()+"/","questionSourceList","primary");
 		addAction(userContext, platform, tokens,"platform.addSurveyStatus","addSurveyStatus","addSurveyStatus/"+platform.getId()+"/","surveyStatusList","primary");
 		addAction(userContext, platform, tokens,"platform.removeSurveyStatus","removeSurveyStatus","removeSurveyStatus/"+platform.getId()+"/","surveyStatusList","primary");
 		addAction(userContext, platform, tokens,"platform.updateSurveyStatus","updateSurveyStatus","updateSurveyStatus/"+platform.getId()+"/","surveyStatusList","primary");
 		addAction(userContext, platform, tokens,"platform.copySurveyStatusFrom","copySurveyStatusFrom","copySurveyStatusFrom/"+platform.getId()+"/","surveyStatusList","primary");
-		addAction(userContext, platform, tokens,"platform.addWechatUser","addWechatUser","addWechatUser/"+platform.getId()+"/","wechatUserList","primary");
-		addAction(userContext, platform, tokens,"platform.removeWechatUser","removeWechatUser","removeWechatUser/"+platform.getId()+"/","wechatUserList","primary");
-		addAction(userContext, platform, tokens,"platform.updateWechatUser","updateWechatUser","updateWechatUser/"+platform.getId()+"/","wechatUserList","primary");
-		addAction(userContext, platform, tokens,"platform.copyWechatUserFrom","copyWechatUserFrom","copyWechatUserFrom/"+platform.getId()+"/","wechatUserList","primary");
-		addAction(userContext, platform, tokens,"platform.addUserType","addUserType","addUserType/"+platform.getId()+"/","userTypeList","primary");
-		addAction(userContext, platform, tokens,"platform.removeUserType","removeUserType","removeUserType/"+platform.getId()+"/","userTypeList","primary");
-		addAction(userContext, platform, tokens,"platform.updateUserType","updateUserType","updateUserType/"+platform.getId()+"/","userTypeList","primary");
-		addAction(userContext, platform, tokens,"platform.copyUserTypeFrom","copyUserTypeFrom","copyUserTypeFrom/"+platform.getId()+"/","userTypeList","primary");
+		addAction(userContext, platform, tokens,"platform.addUser","addUser","addUser/"+platform.getId()+"/","userList","primary");
+		addAction(userContext, platform, tokens,"platform.removeUser","removeUser","removeUser/"+platform.getId()+"/","userList","primary");
+		addAction(userContext, platform, tokens,"platform.updateUser","updateUser","updateUser/"+platform.getId()+"/","userList","primary");
+		addAction(userContext, platform, tokens,"platform.copyUserFrom","copyUserFrom","copyUserFrom/"+platform.getId()+"/","userList","primary");
 		addAction(userContext, platform, tokens,"platform.addChangeRequest","addChangeRequest","addChangeRequest/"+platform.getId()+"/","changeRequestList","primary");
 		addAction(userContext, platform, tokens,"platform.removeChangeRequest","removeChangeRequest","removeChangeRequest/"+platform.getId()+"/","changeRequestList","primary");
 		addAction(userContext, platform, tokens,"platform.updateChangeRequest","updateChangeRequest","updateChangeRequest/"+platform.getId()+"/","changeRequestList","primary");
@@ -392,15 +375,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		.sortProvinceListWith("id","desc")
 		.sortCityListWith("id","desc")
 		.sortDistrictListWith("id","desc")
-		.sortSchoolClassListWith("id","desc")
 		.sortTeacherListWith("id","desc")
-		.sortGuardianListWith("id","desc")
+		.sortStudentListWith("id","desc")
 		.sortQuestionListWith("id","desc")
 		.sortQuestionTypeListWith("id","desc")
-		.sortQuestionSourceListWith("id","desc")
 		.sortSurveyStatusListWith("id","desc")
-		.sortWechatUserListWith("id","desc")
-		.sortUserTypeListWith("id","desc")
+		.sortUserListWith("id","desc")
 		.sortChangeRequestListWith("id","desc")
 		.sortChangeRequestTypeListWith("id","desc")
 		.analyzeAllLists().done();
@@ -488,8 +468,8 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				return platform;
 			}
 	}
-	//disconnect Platform with class_teacher in SchoolClass
-	protected Platform breakWithSchoolClassByClassTeacher(HealthUserContext userContext, String platformId, String classTeacherId,  String [] tokensExpr)
+	//disconnect Platform with change_request in Teacher
+	protected Platform breakWithTeacherByChangeRequest(HealthUserContext userContext, String platformId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -500,50 +480,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveSchoolClassListWithClassTeacher(platform, classTeacherId, this.emptyOptions());
-
-				platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-				return platform;
-			}
-	}
-	//disconnect Platform with cq in SchoolClass
-	protected Platform breakWithSchoolClassByCq(HealthUserContext userContext, String platformId, String cqId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-
-			synchronized(platform){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				platformDaoOf(userContext).planToRemoveSchoolClassListWithCq(platform, cqId, this.emptyOptions());
-
-				platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-				return platform;
-			}
-	}
-	//disconnect Platform with cq in Teacher
-	protected Platform breakWithTeacherByCq(HealthUserContext userContext, String platformId, String cqId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-
-			synchronized(platform){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				platformDaoOf(userContext).planToRemoveTeacherListWithCq(platform, cqId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveTeacherListWithChangeRequest(platform, changeRequestId, this.emptyOptions());
 
 				platform = savePlatform(userContext, platform, tokens().withTeacherList().done());
 				return platform;
 			}
 	}
-	//disconnect Platform with address in Guardian
-	protected Platform breakWithGuardianByAddress(HealthUserContext userContext, String platformId, String addressId,  String [] tokensExpr)
+	//disconnect Platform with student_id in Student
+	protected Platform breakWithStudentByStudentId(HealthUserContext userContext, String platformId, String studentIdId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -554,14 +498,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveGuardianListWithAddress(platform, addressId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveStudentListWithStudentId(platform, studentIdId, this.emptyOptions());
 
-				platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 				return platform;
 			}
 	}
-	//disconnect Platform with wechat_user in Guardian
-	protected Platform breakWithGuardianByWechatUser(HealthUserContext userContext, String platformId, String wechatUserId,  String [] tokensExpr)
+	//disconnect Platform with address in Student
+	protected Platform breakWithStudentByAddress(HealthUserContext userContext, String platformId, String addressId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -572,14 +516,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveGuardianListWithWechatUser(platform, wechatUserId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveStudentListWithAddress(platform, addressId, this.emptyOptions());
 
-				platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 				return platform;
 			}
 	}
-	//disconnect Platform with cq in Guardian
-	protected Platform breakWithGuardianByCq(HealthUserContext userContext, String platformId, String cqId,  String [] tokensExpr)
+	//disconnect Platform with user in Student
+	protected Platform breakWithStudentByUser(HealthUserContext userContext, String platformId, String userId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -590,9 +534,27 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveGuardianListWithCq(platform, cqId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveStudentListWithUser(platform, userId, this.emptyOptions());
 
-				platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
+				return platform;
+			}
+	}
+	//disconnect Platform with change_request in Student
+	protected Platform breakWithStudentByChangeRequest(HealthUserContext userContext, String platformId, String changeRequestId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Platform platform = loadPlatform(userContext, platformId, allTokens());
+
+			synchronized(platform){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				platformDaoOf(userContext).planToRemoveStudentListWithChangeRequest(platform, changeRequestId, this.emptyOptions());
+
+				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 				return platform;
 			}
 	}
@@ -614,8 +576,8 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				return platform;
 			}
 	}
-	//disconnect Platform with address in WechatUser
-	protected Platform breakWithWechatUserByAddress(HealthUserContext userContext, String platformId, String addressId,  String [] tokensExpr)
+	//disconnect Platform with creator in Question
+	protected Platform breakWithQuestionByCreator(HealthUserContext userContext, String platformId, String creatorId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -626,14 +588,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveWechatUserListWithAddress(platform, addressId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveQuestionListWithCreator(platform, creatorId, this.emptyOptions());
 
-				platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
+				platform = savePlatform(userContext, platform, tokens().withQuestionList().done());
 				return platform;
 			}
 	}
-	//disconnect Platform with user_type in WechatUser
-	protected Platform breakWithWechatUserByUserType(HealthUserContext userContext, String platformId, String userTypeId,  String [] tokensExpr)
+	//disconnect Platform with cq in Question
+	protected Platform breakWithQuestionByCq(HealthUserContext userContext, String platformId, String cqId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -644,9 +606,27 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				platformDaoOf(userContext).planToRemoveWechatUserListWithUserType(platform, userTypeId, this.emptyOptions());
+				platformDaoOf(userContext).planToRemoveQuestionListWithCq(platform, cqId, this.emptyOptions());
 
-				platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
+				platform = savePlatform(userContext, platform, tokens().withQuestionList().done());
+				return platform;
+			}
+	}
+	//disconnect Platform with address in User
+	protected Platform breakWithUserByAddress(HealthUserContext userContext, String platformId, String addressId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Platform platform = loadPlatform(userContext, platformId, allTokens());
+
+			synchronized(platform){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				platformDaoOf(userContext).planToRemoveUserListWithAddress(platform, addressId, this.emptyOptions());
+
+				platform = savePlatform(userContext, platform, tokens().withUserList().done());
 				return platform;
 			}
 	}
@@ -1377,257 +1357,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingSchoolClass(HealthUserContext userContext, String platformId, String name, String classTeacherId, String schoole, String cqId,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfPlatform(platformId);
-
-		
-		checkerOf(userContext).checkNameOfSchoolClass(name);
-		
-		checkerOf(userContext).checkClassTeacherIdOfSchoolClass(classTeacherId);
-		
-		checkerOf(userContext).checkSchooleOfSchoolClass(schoole);
-		
-		checkerOf(userContext).checkCqIdOfSchoolClass(cqId);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-
-	}
-	public  Platform addSchoolClass(HealthUserContext userContext, String platformId, String name, String classTeacherId, String schoole, String cqId, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingSchoolClass(userContext,platformId,name, classTeacherId, schoole, cqId,tokensExpr);
-
-		SchoolClass schoolClass = createSchoolClass(userContext,name, classTeacherId, schoole, cqId);
-
-		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.addSchoolClass( schoolClass );
-			platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-			
-			userContext.getManagerGroup().getSchoolClassManager().onNewInstanceCreated(userContext, schoolClass);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingSchoolClassProperties(HealthUserContext userContext, String platformId,String id,String name,String schoole,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfSchoolClass(id);
-
-		checkerOf(userContext).checkNameOfSchoolClass( name);
-		checkerOf(userContext).checkSchooleOfSchoolClass( schoole);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform updateSchoolClassProperties(HealthUserContext userContext, String platformId, String id,String name,String schoole, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingSchoolClassProperties(userContext,platformId,id,name,schoole,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withSchoolClassListList()
-				.searchSchoolClassListWith(SchoolClass.ID_PROPERTY, "is", id).done();
-
-		Platform platformToUpdate = loadPlatform(userContext, platformId, options);
-
-		if(platformToUpdate.getSchoolClassList().isEmpty()){
-			throw new PlatformManagerException("SchoolClass is NOT FOUND with id: '"+id+"'");
-		}
-
-		SchoolClass item = platformToUpdate.getSchoolClassList().first();
-
-		item.updateName( name );
-		item.updateSchoole( schoole );
-
-
-		//checkParamsForAddingSchoolClass(userContext,platformId,name, code, used,tokensExpr);
-		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withSchoolClassList().done());
-		synchronized(platform){
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected SchoolClass createSchoolClass(HealthUserContext userContext, String name, String classTeacherId, String schoole, String cqId) throws Exception{
-
-		SchoolClass schoolClass = new SchoolClass();
-		
-		
-		schoolClass.setName(name);		
-		Teacher  classTeacher = new Teacher();
-		classTeacher.setId(classTeacherId);		
-		schoolClass.setClassTeacher(classTeacher);		
-		schoolClass.setCreateTime(userContext.now());		
-		schoolClass.setSchoole(schoole);		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		schoolClass.setCq(cq);
-	
-		
-		return schoolClass;
-
-
-	}
-
-	protected SchoolClass createIndexedSchoolClass(String id, int version){
-
-		SchoolClass schoolClass = new SchoolClass();
-		schoolClass.setId(id);
-		schoolClass.setVersion(version);
-		return schoolClass;
-
-	}
-
-	protected void checkParamsForRemovingSchoolClassList(HealthUserContext userContext, String platformId,
-			String schoolClassIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		for(String schoolClassIdItem: schoolClassIds){
-			checkerOf(userContext).checkIdOfSchoolClass(schoolClassIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeSchoolClassList(HealthUserContext userContext, String platformId,
-			String schoolClassIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingSchoolClassList(userContext, platformId,  schoolClassIds, tokensExpr);
-
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-			synchronized(platform){
-				//Will be good when the platform loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				platformDaoOf(userContext).planToRemoveSchoolClassList(platform, schoolClassIds, allTokens());
-				platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-				deleteRelationListInGraph(userContext, platform.getSchoolClassList());
-				return present(userContext,platform, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingSchoolClass(HealthUserContext userContext, String platformId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeSchoolClass(HealthUserContext userContext, String platformId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingSchoolClass(userContext,platformId, schoolClassId, schoolClassVersion,tokensExpr);
-
-		SchoolClass schoolClass = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.removeSchoolClass( schoolClass );
-			platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-			deleteRelationInGraph(userContext, schoolClass);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingSchoolClass(HealthUserContext userContext, String platformId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform copySchoolClassFrom(HealthUserContext userContext, String platformId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingSchoolClass(userContext,platformId, schoolClassId, schoolClassVersion,tokensExpr);
-
-		SchoolClass schoolClass = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			platform.copySchoolClassFrom( schoolClass );
-			platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-			
-			userContext.getManagerGroup().getSchoolClassManager().onNewInstanceCreated(userContext, (SchoolClass)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingSchoolClass(HealthUserContext userContext, String platformId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
-		
-
-		if(SchoolClass.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfSchoolClass(parseString(newValueExpr));
-		}
-		
-		if(SchoolClass.SCHOOLE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkSchooleOfSchoolClass(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-
-	public  Platform updateSchoolClass(HealthUserContext userContext, String platformId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingSchoolClass(userContext, platformId, schoolClassId, schoolClassVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withSchoolClassList().searchSchoolClassListWith(SchoolClass.ID_PROPERTY, "eq", schoolClassId).done();
-
-
-
-		Platform platform = loadPlatform(userContext, platformId, loadTokens);
-
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//platform.removeSchoolClass( schoolClass );
-			//make changes to AcceleraterAccount.
-			SchoolClass schoolClassIndex = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
-
-			SchoolClass schoolClass = platform.findTheSchoolClass(schoolClassIndex);
-			if(schoolClass == null){
-				throw new PlatformManagerException(schoolClass+" is NOT FOUND" );
-			}
-
-			schoolClass.changeProperty(property, newValueExpr);
-			
-			platform = savePlatform(userContext, platform, tokens().withSchoolClassList().done());
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String schoole, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
@@ -1636,20 +1366,22 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		
 		checkerOf(userContext).checkMobileOfTeacher(mobile);
 		
-		checkerOf(userContext).checkSchooleOfTeacher(schoole);
+		checkerOf(userContext).checkSchoolOfTeacher(school);
 		
-		checkerOf(userContext).checkCqIdOfTeacher(cqId);
+		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
+		
+		checkerOf(userContext).checkChangeRequestIdOfTeacher(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 
 	}
-	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String schoole, String cqId, String [] tokensExpr) throws Exception
+	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingTeacher(userContext,platformId,name, mobile, schoole, cqId,tokensExpr);
+		checkParamsForAddingTeacher(userContext,platformId,name, mobile, school, schoolClass, changeRequestId,tokensExpr);
 
-		Teacher teacher = createTeacher(userContext,name, mobile, schoole, cqId);
+		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, changeRequestId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
@@ -1662,21 +1394,22 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String platformId,String id,String name,String mobile,String schoole,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String platformId,String id,String name,String mobile,String school,String schoolClass,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
 		checkerOf(userContext).checkIdOfTeacher(id);
 
 		checkerOf(userContext).checkNameOfTeacher( name);
 		checkerOf(userContext).checkMobileOfTeacher( mobile);
-		checkerOf(userContext).checkSchooleOfTeacher( schoole);
+		checkerOf(userContext).checkSchoolOfTeacher( school);
+		checkerOf(userContext).checkSchoolClassOfTeacher( schoolClass);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform updateTeacherProperties(HealthUserContext userContext, String platformId, String id,String name,String mobile,String schoole, String [] tokensExpr) throws Exception
+	public  Platform updateTeacherProperties(HealthUserContext userContext, String platformId, String id,String name,String mobile,String school,String schoolClass, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingTeacherProperties(userContext,platformId,id,name,mobile,schoole,tokensExpr);
+		checkParamsForUpdatingTeacherProperties(userContext,platformId,id,name,mobile,school,schoolClass,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1693,7 +1426,8 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 		item.updateName( name );
 		item.updateMobile( mobile );
-		item.updateSchoole( schoole );
+		item.updateSchool( school );
+		item.updateSchoolClass( schoolClass );
 
 
 		//checkParamsForAddingTeacher(userContext,platformId,name, code, used,tokensExpr);
@@ -1704,18 +1438,19 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 	}
 
 
-	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String schoole, String cqId) throws Exception{
+	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, String changeRequestId) throws Exception{
 
 		Teacher teacher = new Teacher();
 		
 		
 		teacher.setName(name);		
 		teacher.setMobile(mobile);		
-		teacher.setSchoole(schoole);		
+		teacher.setSchool(school);		
+		teacher.setSchoolClass(schoolClass);		
 		teacher.setCreateTime(userContext.now());		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		teacher.setCq(cq);
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		teacher.setChangeRequest(changeRequest);
 	
 		
 		return teacher;
@@ -1835,8 +1570,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
 		}
 		
-		if(Teacher.SCHOOLE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkSchooleOfTeacher(parseString(newValueExpr));
+		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		}
+		
+		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
 		}
 		
 	
@@ -1881,186 +1620,196 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingGuardian(HealthUserContext userContext, String platformId, String name, String mobile, String addressId, String wechatUserId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
 		
-		checkerOf(userContext).checkNameOfGuardian(name);
+		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkMobileOfGuardian(mobile);
+		checkerOf(userContext).checkStudentIdOfStudent(studentId);
 		
-		checkerOf(userContext).checkAddressIdOfGuardian(addressId);
+		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
-		checkerOf(userContext).checkWechatUserIdOfGuardian(wechatUserId);
+		checkerOf(userContext).checkGuardianMobileOfStudent(guardianMobile);
 		
-		checkerOf(userContext).checkCqIdOfGuardian(cqId);
+		checkerOf(userContext).checkAddressIdOfStudent(addressId);
+		
+		checkerOf(userContext).checkUserIdOfStudent(userId);
+		
+		checkerOf(userContext).checkChangeRequestIdOfStudent(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 
 	}
-	public  Platform addGuardian(HealthUserContext userContext, String platformId, String name, String mobile, String addressId, String wechatUserId, String cqId, String [] tokensExpr) throws Exception
+	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingGuardian(userContext,platformId,name, mobile, addressId, wechatUserId, cqId,tokensExpr);
+		checkParamsForAddingStudent(userContext,platformId,studentName, studentId, guardianName, guardianMobile, addressId, userId, changeRequestId,tokensExpr);
 
-		Guardian guardian = createGuardian(userContext,name, mobile, addressId, wechatUserId, cqId);
+		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, addressId, userId, changeRequestId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			platform.addGuardian( guardian );
-			platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+			platform.addStudent( student );
+			platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 			
-			userContext.getManagerGroup().getGuardianManager().onNewInstanceCreated(userContext, guardian);
+			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, student);
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingGuardianProperties(HealthUserContext userContext, String platformId,String id,String name,String mobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String platformId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfGuardian(id);
+		checkerOf(userContext).checkIdOfStudent(id);
 
-		checkerOf(userContext).checkNameOfGuardian( name);
-		checkerOf(userContext).checkMobileOfGuardian( mobile);
+		checkerOf(userContext).checkStudentNameOfStudent( studentName);
+		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
+		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform updateGuardianProperties(HealthUserContext userContext, String platformId, String id,String name,String mobile, String [] tokensExpr) throws Exception
+	public  Platform updateStudentProperties(HealthUserContext userContext, String platformId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingGuardianProperties(userContext,platformId,id,name,mobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,platformId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				//.withGuardianListList()
-				.searchGuardianListWith(Guardian.ID_PROPERTY, "is", id).done();
+				//.withStudentListList()
+				.searchStudentListWith(Student.ID_PROPERTY, "is", id).done();
 
 		Platform platformToUpdate = loadPlatform(userContext, platformId, options);
 
-		if(platformToUpdate.getGuardianList().isEmpty()){
-			throw new PlatformManagerException("Guardian is NOT FOUND with id: '"+id+"'");
+		if(platformToUpdate.getStudentList().isEmpty()){
+			throw new PlatformManagerException("Student is NOT FOUND with id: '"+id+"'");
 		}
 
-		Guardian item = platformToUpdate.getGuardianList().first();
+		Student item = platformToUpdate.getStudentList().first();
 
-		item.updateName( name );
-		item.updateMobile( mobile );
+		item.updateStudentName( studentName );
+		item.updateStudentId( studentId );
+		item.updateGuardianName( guardianName );
+		item.updateGuardianMobile( guardianMobile );
 
 
-		//checkParamsForAddingGuardian(userContext,platformId,name, code, used,tokensExpr);
-		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withGuardianList().done());
+		//checkParamsForAddingStudent(userContext,platformId,name, code, used,tokensExpr);
+		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withStudentList().done());
 		synchronized(platform){
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
 
 
-	protected Guardian createGuardian(HealthUserContext userContext, String name, String mobile, String addressId, String wechatUserId, String cqId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId) throws Exception{
 
-		Guardian guardian = new Guardian();
+		Student student = new Student();
 		
 		
-		guardian.setName(name);		
-		guardian.setMobile(mobile);		
+		student.setStudentName(studentName);		
+		student.setStudentId(studentId);		
+		student.setGuardianName(guardianName);		
+		student.setGuardianMobile(guardianMobile);		
 		Location  address = new Location();
 		address.setId(addressId);		
-		guardian.setAddress(address);		
-		WechatUser  wechatUser = new WechatUser();
-		wechatUser.setId(wechatUserId);		
-		guardian.setWechatUser(wechatUser);		
-		guardian.setCreateTime(userContext.now());		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		guardian.setCq(cq);
+		student.setAddress(address);		
+		User  user = new User();
+		user.setId(userId);		
+		student.setUser(user);		
+		student.setCreateTime(userContext.now());		
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		student.setChangeRequest(changeRequest);
 	
 		
-		return guardian;
+		return student;
 
 
 	}
 
-	protected Guardian createIndexedGuardian(String id, int version){
+	protected Student createIndexedStudent(String id, int version){
 
-		Guardian guardian = new Guardian();
-		guardian.setId(id);
-		guardian.setVersion(version);
-		return guardian;
+		Student student = new Student();
+		student.setId(id);
+		student.setVersion(version);
+		return student;
 
 	}
 
-	protected void checkParamsForRemovingGuardianList(HealthUserContext userContext, String platformId,
-			String guardianIds[],String [] tokensExpr) throws Exception {
+	protected void checkParamsForRemovingStudentList(HealthUserContext userContext, String platformId,
+			String studentIds[],String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		for(String guardianIdItem: guardianIds){
-			checkerOf(userContext).checkIdOfGuardian(guardianIdItem);
+		for(String studentIdItem: studentIds){
+			checkerOf(userContext).checkIdOfStudent(studentIdItem);
 		}
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform removeGuardianList(HealthUserContext userContext, String platformId,
-			String guardianIds[],String [] tokensExpr) throws Exception{
+	public  Platform removeStudentList(HealthUserContext userContext, String platformId,
+			String studentIds[],String [] tokensExpr) throws Exception{
 
-			checkParamsForRemovingGuardianList(userContext, platformId,  guardianIds, tokensExpr);
+			checkParamsForRemovingStudentList(userContext, platformId,  studentIds, tokensExpr);
 
 
 			Platform platform = loadPlatform(userContext, platformId, allTokens());
 			synchronized(platform){
 				//Will be good when the platform loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
-				platformDaoOf(userContext).planToRemoveGuardianList(platform, guardianIds, allTokens());
-				platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
-				deleteRelationListInGraph(userContext, platform.getGuardianList());
+				platformDaoOf(userContext).planToRemoveStudentList(platform, studentIds, allTokens());
+				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
+				deleteRelationListInGraph(userContext, platform.getStudentList());
 				return present(userContext,platform, mergedAllTokens(tokensExpr));
 			}
 	}
 
-	protected void checkParamsForRemovingGuardian(HealthUserContext userContext, String platformId,
-		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForRemovingStudent(HealthUserContext userContext, String platformId,
+		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfGuardian(guardianId);
-		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
+		checkerOf(userContext).checkIdOfStudent(studentId);
+		checkerOf(userContext).checkVersionOfStudent(studentVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform removeGuardian(HealthUserContext userContext, String platformId,
-		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
+	public  Platform removeStudent(HealthUserContext userContext, String platformId,
+		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForRemovingGuardian(userContext,platformId, guardianId, guardianVersion,tokensExpr);
+		checkParamsForRemovingStudent(userContext,platformId, studentId, studentVersion,tokensExpr);
 
-		Guardian guardian = createIndexedGuardian(guardianId, guardianVersion);
+		Student student = createIndexedStudent(studentId, studentVersion);
 		Platform platform = loadPlatform(userContext, platformId, allTokens());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			platform.removeGuardian( guardian );
-			platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
-			deleteRelationInGraph(userContext, guardian);
+			platform.removeStudent( student );
+			platform = savePlatform(userContext, platform, tokens().withStudentList().done());
+			deleteRelationInGraph(userContext, student);
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
 
 	}
-	protected void checkParamsForCopyingGuardian(HealthUserContext userContext, String platformId,
-		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForCopyingStudent(HealthUserContext userContext, String platformId,
+		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfGuardian(guardianId);
-		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
+		checkerOf(userContext).checkIdOfStudent(studentId);
+		checkerOf(userContext).checkVersionOfStudent(studentVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform copyGuardianFrom(HealthUserContext userContext, String platformId,
-		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
+	public  Platform copyStudentFrom(HealthUserContext userContext, String platformId,
+		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForCopyingGuardian(userContext,platformId, guardianId, guardianVersion,tokensExpr);
+		checkParamsForCopyingStudent(userContext,platformId, studentId, studentVersion,tokensExpr);
 
-		Guardian guardian = createIndexedGuardian(guardianId, guardianVersion);
+		Student student = createIndexedStudent(studentId, studentVersion);
 		Platform platform = loadPlatform(userContext, platformId, allTokens());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
@@ -2068,30 +1817,38 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 			
 
-			platform.copyGuardianFrom( guardian );
-			platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+			platform.copyStudentFrom( student );
+			platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 			
-			userContext.getManagerGroup().getGuardianManager().onNewInstanceCreated(userContext, (Guardian)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, (Student)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
 	}
 
-	protected void checkParamsForUpdatingGuardian(HealthUserContext userContext, String platformId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+	protected void checkParamsForUpdatingStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
 		
 
 		
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfGuardian(guardianId);
-		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
+		checkerOf(userContext).checkIdOfStudent(studentId);
+		checkerOf(userContext).checkVersionOfStudent(studentVersion);
 		
 
-		if(Guardian.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfGuardian(parseString(newValueExpr));
+		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
 		
-		if(Guardian.MOBILE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkMobileOfGuardian(parseString(newValueExpr));
+		if(Student.STUDENT_ID_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
 		}
 		
 	
@@ -2099,12 +1856,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 	}
 
-	public  Platform updateGuardian(HealthUserContext userContext, String platformId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr)
+	public  Platform updateStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)
 			throws Exception{
 
-		checkParamsForUpdatingGuardian(userContext, platformId, guardianId, guardianVersion, property, newValueExpr,  tokensExpr);
+		checkParamsForUpdatingStudent(userContext, platformId, studentId, studentVersion, property, newValueExpr,  tokensExpr);
 
-		Map<String,Object> loadTokens = this.tokens().withGuardianList().searchGuardianListWith(Guardian.ID_PROPERTY, "eq", guardianId).done();
+		Map<String,Object> loadTokens = this.tokens().withStudentList().searchStudentListWith(Student.ID_PROPERTY, "eq", studentId).done();
 
 
 
@@ -2113,18 +1870,18 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			//platform.removeGuardian( guardian );
+			//platform.removeStudent( student );
 			//make changes to AcceleraterAccount.
-			Guardian guardianIndex = createIndexedGuardian(guardianId, guardianVersion);
+			Student studentIndex = createIndexedStudent(studentId, studentVersion);
 
-			Guardian guardian = platform.findTheGuardian(guardianIndex);
-			if(guardian == null){
-				throw new PlatformManagerException(guardian+" is NOT FOUND" );
+			Student student = platform.findTheStudent(studentIndex);
+			if(student == null){
+				throw new PlatformManagerException(student+" is NOT FOUND" );
 			}
 
-			guardian.changeProperty(property, newValueExpr);
+			student.changeProperty(property, newValueExpr);
 			
-			platform = savePlatform(userContext, platform, tokens().withGuardianList().done());
+			platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
@@ -2136,7 +1893,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
@@ -2152,17 +1909,21 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		checkerOf(userContext).checkOptionCOfQuestion(optionC);
 		
 		checkerOf(userContext).checkOptionDOfQuestion(optionD);
+		
+		checkerOf(userContext).checkCreatorIdOfQuestion(creatorId);
+		
+		checkerOf(userContext).checkCqIdOfQuestion(cqId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 
 	}
-	public  Platform addQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String [] tokensExpr) throws Exception
+	public  Platform addQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingQuestion(userContext,platformId,topic, questionTypeId, optionA, optionB, optionC, optionD,tokensExpr);
+		checkParamsForAddingQuestion(userContext,platformId,topic, questionTypeId, optionA, optionB, optionC, optionD, creatorId, cqId,tokensExpr);
 
-		Question question = createQuestion(userContext,topic, questionTypeId, optionA, optionB, optionC, optionD);
+		Question question = createQuestion(userContext,topic, questionTypeId, optionA, optionB, optionC, optionD, creatorId, cqId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
@@ -2221,7 +1982,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 	}
 
 
-	protected Question createQuestion(HealthUserContext userContext, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD) throws Exception{
+	protected Question createQuestion(HealthUserContext userContext, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId) throws Exception{
 
 		Question question = new Question();
 		
@@ -2233,7 +1994,13 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		question.setOptionA(optionA);		
 		question.setOptionB(optionB);		
 		question.setOptionC(optionC);		
-		question.setOptionD(optionD);
+		question.setOptionD(optionD);		
+		User  creator = new User();
+		creator.setId(creatorId);		
+		question.setCreator(creator);		
+		ChangeRequest  cq = new ChangeRequest();
+		cq.setId(cqId);		
+		question.setCq(cq);
 	
 		
 		return question;
@@ -2401,10 +2168,44 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 	}
 	/*
+	public  Platform associateQuestionListToNewCreator(HealthUserContext userContext, String platformId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		Platform platform = loadPlatform(userContext, platformId, options);
+
+		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, addressId, platformId);
+
+		for(Question question: platform.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCreator(creator);
+		}
+		return this.internalSavePlatform(userContext, platform);
+	}
 	*/
 
+	public  Platform associateQuestionListToCreator(HealthUserContext userContext, String platformId, String  questionIds[], String creatorId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		Platform platform = loadPlatform(userContext, platformId, options);
+
+		User creator = userManagerOf(userContext).loadUser(userContext,creatorId,new String[]{"none"} );
+
+		for(Question question: platform.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCreator(creator);
+		}
+		return this.internalSavePlatform(userContext, platform);
+	}
 
 
 	protected void checkParamsForAddingQuestionType(HealthUserContext userContext, String platformId, String name, String code,String [] tokensExpr) throws Exception{
@@ -2635,245 +2436,6 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			questionType.changeProperty(property, newValueExpr);
 			
 			platform = savePlatform(userContext, platform, tokens().withQuestionTypeList().done());
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingQuestionSource(HealthUserContext userContext, String platformId, String name, String code,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfPlatform(platformId);
-
-		
-		checkerOf(userContext).checkNameOfQuestionSource(name);
-		
-		checkerOf(userContext).checkCodeOfQuestionSource(code);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-
-	}
-	public  Platform addQuestionSource(HealthUserContext userContext, String platformId, String name, String code, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingQuestionSource(userContext,platformId,name, code,tokensExpr);
-
-		QuestionSource questionSource = createQuestionSource(userContext,name, code);
-
-		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.addQuestionSource( questionSource );
-			platform = savePlatform(userContext, platform, tokens().withQuestionSourceList().done());
-			
-			userContext.getManagerGroup().getQuestionSourceManager().onNewInstanceCreated(userContext, questionSource);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingQuestionSourceProperties(HealthUserContext userContext, String platformId,String id,String name,String code,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfQuestionSource(id);
-
-		checkerOf(userContext).checkNameOfQuestionSource( name);
-		checkerOf(userContext).checkCodeOfQuestionSource( code);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform updateQuestionSourceProperties(HealthUserContext userContext, String platformId, String id,String name,String code, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingQuestionSourceProperties(userContext,platformId,id,name,code,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withQuestionSourceListList()
-				.searchQuestionSourceListWith(QuestionSource.ID_PROPERTY, "is", id).done();
-
-		Platform platformToUpdate = loadPlatform(userContext, platformId, options);
-
-		if(platformToUpdate.getQuestionSourceList().isEmpty()){
-			throw new PlatformManagerException("QuestionSource is NOT FOUND with id: '"+id+"'");
-		}
-
-		QuestionSource item = platformToUpdate.getQuestionSourceList().first();
-
-		item.updateName( name );
-		item.updateCode( code );
-
-
-		//checkParamsForAddingQuestionSource(userContext,platformId,name, code, used,tokensExpr);
-		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withQuestionSourceList().done());
-		synchronized(platform){
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected QuestionSource createQuestionSource(HealthUserContext userContext, String name, String code) throws Exception{
-
-		QuestionSource questionSource = new QuestionSource();
-		
-		
-		questionSource.setName(name);		
-		questionSource.setCode(code);
-	
-		
-		return questionSource;
-
-
-	}
-
-	protected QuestionSource createIndexedQuestionSource(String id, int version){
-
-		QuestionSource questionSource = new QuestionSource();
-		questionSource.setId(id);
-		questionSource.setVersion(version);
-		return questionSource;
-
-	}
-
-	protected void checkParamsForRemovingQuestionSourceList(HealthUserContext userContext, String platformId,
-			String questionSourceIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		for(String questionSourceIdItem: questionSourceIds){
-			checkerOf(userContext).checkIdOfQuestionSource(questionSourceIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeQuestionSourceList(HealthUserContext userContext, String platformId,
-			String questionSourceIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingQuestionSourceList(userContext, platformId,  questionSourceIds, tokensExpr);
-
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-			synchronized(platform){
-				//Will be good when the platform loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				platformDaoOf(userContext).planToRemoveQuestionSourceList(platform, questionSourceIds, allTokens());
-				platform = savePlatform(userContext, platform, tokens().withQuestionSourceList().done());
-				deleteRelationListInGraph(userContext, platform.getQuestionSourceList());
-				return present(userContext,platform, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingQuestionSource(HealthUserContext userContext, String platformId,
-		String questionSourceId, int questionSourceVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfQuestionSource(questionSourceId);
-		checkerOf(userContext).checkVersionOfQuestionSource(questionSourceVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeQuestionSource(HealthUserContext userContext, String platformId,
-		String questionSourceId, int questionSourceVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingQuestionSource(userContext,platformId, questionSourceId, questionSourceVersion,tokensExpr);
-
-		QuestionSource questionSource = createIndexedQuestionSource(questionSourceId, questionSourceVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.removeQuestionSource( questionSource );
-			platform = savePlatform(userContext, platform, tokens().withQuestionSourceList().done());
-			deleteRelationInGraph(userContext, questionSource);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingQuestionSource(HealthUserContext userContext, String platformId,
-		String questionSourceId, int questionSourceVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfQuestionSource(questionSourceId);
-		checkerOf(userContext).checkVersionOfQuestionSource(questionSourceVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform copyQuestionSourceFrom(HealthUserContext userContext, String platformId,
-		String questionSourceId, int questionSourceVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingQuestionSource(userContext,platformId, questionSourceId, questionSourceVersion,tokensExpr);
-
-		QuestionSource questionSource = createIndexedQuestionSource(questionSourceId, questionSourceVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			platform.copyQuestionSourceFrom( questionSource );
-			platform = savePlatform(userContext, platform, tokens().withQuestionSourceList().done());
-			
-			userContext.getManagerGroup().getQuestionSourceManager().onNewInstanceCreated(userContext, (QuestionSource)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingQuestionSource(HealthUserContext userContext, String platformId, String questionSourceId, int questionSourceVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfQuestionSource(questionSourceId);
-		checkerOf(userContext).checkVersionOfQuestionSource(questionSourceVersion);
-		
-
-		if(QuestionSource.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfQuestionSource(parseString(newValueExpr));
-		}
-		
-		if(QuestionSource.CODE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkCodeOfQuestionSource(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-
-	public  Platform updateQuestionSource(HealthUserContext userContext, String platformId, String questionSourceId, int questionSourceVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingQuestionSource(userContext, platformId, questionSourceId, questionSourceVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withQuestionSourceList().searchQuestionSourceListWith(QuestionSource.ID_PROPERTY, "eq", questionSourceId).done();
-
-
-
-		Platform platform = loadPlatform(userContext, platformId, loadTokens);
-
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//platform.removeQuestionSource( questionSource );
-			//make changes to AcceleraterAccount.
-			QuestionSource questionSourceIndex = createIndexedQuestionSource(questionSourceId, questionSourceVersion);
-
-			QuestionSource questionSource = platform.findTheQuestionSource(questionSourceIndex);
-			if(questionSource == null){
-				throw new PlatformManagerException(questionSource+" is NOT FOUND" );
-			}
-
-			questionSource.changeProperty(property, newValueExpr);
-			
-			platform = savePlatform(userContext, platform, tokens().withQuestionSourceList().done());
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
@@ -3124,181 +2686,176 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingWechatUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId, String userTypeId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
 		
-		checkerOf(userContext).checkNameOfWechatUser(name);
+		checkerOf(userContext).checkNameOfUser(name);
 		
-		checkerOf(userContext).checkAvatarOfWechatUser(avatar);
+		checkerOf(userContext).checkAvatarOfUser(avatar);
 		
-		checkerOf(userContext).checkAddressIdOfWechatUser(addressId);
-		
-		checkerOf(userContext).checkUserTypeIdOfWechatUser(userTypeId);
+		checkerOf(userContext).checkAddressIdOfUser(addressId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 
 	}
-	public  Platform addWechatUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId, String userTypeId, String [] tokensExpr) throws Exception
+	public  Platform addUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingWechatUser(userContext,platformId,name, avatar, addressId, userTypeId,tokensExpr);
+		checkParamsForAddingUser(userContext,platformId,name, avatar, addressId,tokensExpr);
 
-		WechatUser wechatUser = createWechatUser(userContext,name, avatar, addressId, userTypeId);
+		User user = createUser(userContext,name, avatar, addressId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			platform.addWechatUser( wechatUser );
-			platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
+			platform.addUser( user );
+			platform = savePlatform(userContext, platform, tokens().withUserList().done());
 			
-			userContext.getManagerGroup().getWechatUserManager().onNewInstanceCreated(userContext, wechatUser);
+			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, user);
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingWechatUserProperties(HealthUserContext userContext, String platformId,String id,String name,String avatar,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingUserProperties(HealthUserContext userContext, String platformId,String id,String name,String avatar,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfWechatUser(id);
+		checkerOf(userContext).checkIdOfUser(id);
 
-		checkerOf(userContext).checkNameOfWechatUser( name);
-		checkerOf(userContext).checkAvatarOfWechatUser( avatar);
+		checkerOf(userContext).checkNameOfUser( name);
+		checkerOf(userContext).checkAvatarOfUser( avatar);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform updateWechatUserProperties(HealthUserContext userContext, String platformId, String id,String name,String avatar, String [] tokensExpr) throws Exception
+	public  Platform updateUserProperties(HealthUserContext userContext, String platformId, String id,String name,String avatar, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingWechatUserProperties(userContext,platformId,id,name,avatar,tokensExpr);
+		checkParamsForUpdatingUserProperties(userContext,platformId,id,name,avatar,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				//.withWechatUserListList()
-				.searchWechatUserListWith(WechatUser.ID_PROPERTY, "is", id).done();
+				//.withUserListList()
+				.searchUserListWith(User.ID_PROPERTY, "is", id).done();
 
 		Platform platformToUpdate = loadPlatform(userContext, platformId, options);
 
-		if(platformToUpdate.getWechatUserList().isEmpty()){
-			throw new PlatformManagerException("WechatUser is NOT FOUND with id: '"+id+"'");
+		if(platformToUpdate.getUserList().isEmpty()){
+			throw new PlatformManagerException("User is NOT FOUND with id: '"+id+"'");
 		}
 
-		WechatUser item = platformToUpdate.getWechatUserList().first();
+		User item = platformToUpdate.getUserList().first();
 
 		item.updateName( name );
 		item.updateAvatar( avatar );
 
 
-		//checkParamsForAddingWechatUser(userContext,platformId,name, code, used,tokensExpr);
-		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withWechatUserList().done());
+		//checkParamsForAddingUser(userContext,platformId,name, code, used,tokensExpr);
+		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withUserList().done());
 		synchronized(platform){
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
 
 
-	protected WechatUser createWechatUser(HealthUserContext userContext, String name, String avatar, String addressId, String userTypeId) throws Exception{
+	protected User createUser(HealthUserContext userContext, String name, String avatar, String addressId) throws Exception{
 
-		WechatUser wechatUser = new WechatUser();
+		User user = new User();
 		
 		
-		wechatUser.setName(name);		
-		wechatUser.setAvatar(avatar);		
+		user.setName(name);		
+		user.setAvatar(avatar);		
 		Location  address = new Location();
 		address.setId(addressId);		
-		wechatUser.setAddress(address);		
-		UserType  userType = new UserType();
-		userType.setId(userTypeId);		
-		wechatUser.setUserType(userType);		
-		wechatUser.setCreateTime(userContext.now());
+		user.setAddress(address);		
+		user.setCreateTime(userContext.now());
 	
 		
-		return wechatUser;
+		return user;
 
 
 	}
 
-	protected WechatUser createIndexedWechatUser(String id, int version){
+	protected User createIndexedUser(String id, int version){
 
-		WechatUser wechatUser = new WechatUser();
-		wechatUser.setId(id);
-		wechatUser.setVersion(version);
-		return wechatUser;
+		User user = new User();
+		user.setId(id);
+		user.setVersion(version);
+		return user;
 
 	}
 
-	protected void checkParamsForRemovingWechatUserList(HealthUserContext userContext, String platformId,
-			String wechatUserIds[],String [] tokensExpr) throws Exception {
+	protected void checkParamsForRemovingUserList(HealthUserContext userContext, String platformId,
+			String userIds[],String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		for(String wechatUserIdItem: wechatUserIds){
-			checkerOf(userContext).checkIdOfWechatUser(wechatUserIdItem);
+		for(String userIdItem: userIds){
+			checkerOf(userContext).checkIdOfUser(userIdItem);
 		}
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform removeWechatUserList(HealthUserContext userContext, String platformId,
-			String wechatUserIds[],String [] tokensExpr) throws Exception{
+	public  Platform removeUserList(HealthUserContext userContext, String platformId,
+			String userIds[],String [] tokensExpr) throws Exception{
 
-			checkParamsForRemovingWechatUserList(userContext, platformId,  wechatUserIds, tokensExpr);
+			checkParamsForRemovingUserList(userContext, platformId,  userIds, tokensExpr);
 
 
 			Platform platform = loadPlatform(userContext, platformId, allTokens());
 			synchronized(platform){
 				//Will be good when the platform loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
-				platformDaoOf(userContext).planToRemoveWechatUserList(platform, wechatUserIds, allTokens());
-				platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
-				deleteRelationListInGraph(userContext, platform.getWechatUserList());
+				platformDaoOf(userContext).planToRemoveUserList(platform, userIds, allTokens());
+				platform = savePlatform(userContext, platform, tokens().withUserList().done());
+				deleteRelationListInGraph(userContext, platform.getUserList());
 				return present(userContext,platform, mergedAllTokens(tokensExpr));
 			}
 	}
 
-	protected void checkParamsForRemovingWechatUser(HealthUserContext userContext, String platformId,
-		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForRemovingUser(HealthUserContext userContext, String platformId,
+		String userId, int userVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
-		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
+		checkerOf(userContext).checkIdOfUser(userId);
+		checkerOf(userContext).checkVersionOfUser(userVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform removeWechatUser(HealthUserContext userContext, String platformId,
-		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
+	public  Platform removeUser(HealthUserContext userContext, String platformId,
+		String userId, int userVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForRemovingWechatUser(userContext,platformId, wechatUserId, wechatUserVersion,tokensExpr);
+		checkParamsForRemovingUser(userContext,platformId, userId, userVersion,tokensExpr);
 
-		WechatUser wechatUser = createIndexedWechatUser(wechatUserId, wechatUserVersion);
+		User user = createIndexedUser(userId, userVersion);
 		Platform platform = loadPlatform(userContext, platformId, allTokens());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			platform.removeWechatUser( wechatUser );
-			platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
-			deleteRelationInGraph(userContext, wechatUser);
+			platform.removeUser( user );
+			platform = savePlatform(userContext, platform, tokens().withUserList().done());
+			deleteRelationInGraph(userContext, user);
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
 
 	}
-	protected void checkParamsForCopyingWechatUser(HealthUserContext userContext, String platformId,
-		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForCopyingUser(HealthUserContext userContext, String platformId,
+		String userId, int userVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
-		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
+		checkerOf(userContext).checkIdOfUser(userId);
+		checkerOf(userContext).checkVersionOfUser(userVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform copyWechatUserFrom(HealthUserContext userContext, String platformId,
-		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
+	public  Platform copyUserFrom(HealthUserContext userContext, String platformId,
+		String userId, int userVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForCopyingWechatUser(userContext,platformId, wechatUserId, wechatUserVersion,tokensExpr);
+		checkParamsForCopyingUser(userContext,platformId, userId, userVersion,tokensExpr);
 
-		WechatUser wechatUser = createIndexedWechatUser(wechatUserId, wechatUserVersion);
+		User user = createIndexedUser(userId, userVersion);
 		Platform platform = loadPlatform(userContext, platformId, allTokens());
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
@@ -3306,30 +2863,30 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 			
 
-			platform.copyWechatUserFrom( wechatUser );
-			platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
+			platform.copyUserFrom( user );
+			platform = savePlatform(userContext, platform, tokens().withUserList().done());
 			
-			userContext.getManagerGroup().getWechatUserManager().onNewInstanceCreated(userContext, (WechatUser)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, (User)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 
 	}
 
-	protected void checkParamsForUpdatingWechatUser(HealthUserContext userContext, String platformId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+	protected void checkParamsForUpdatingUser(HealthUserContext userContext, String platformId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
 		
 
 		
 		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
-		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
+		checkerOf(userContext).checkIdOfUser(userId);
+		checkerOf(userContext).checkVersionOfUser(userVersion);
 		
 
-		if(WechatUser.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfWechatUser(parseString(newValueExpr));
+		if(User.NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkNameOfUser(parseString(newValueExpr));
 		}
 		
-		if(WechatUser.AVATAR_PROPERTY.equals(property)){
-			checkerOf(userContext).checkAvatarOfWechatUser(parseString(newValueExpr));
+		if(User.AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkAvatarOfUser(parseString(newValueExpr));
 		}
 		
 	
@@ -3337,12 +2894,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 	}
 
-	public  Platform updateWechatUser(HealthUserContext userContext, String platformId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr)
+	public  Platform updateUser(HealthUserContext userContext, String platformId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)
 			throws Exception{
 
-		checkParamsForUpdatingWechatUser(userContext, platformId, wechatUserId, wechatUserVersion, property, newValueExpr,  tokensExpr);
+		checkParamsForUpdatingUser(userContext, platformId, userId, userVersion, property, newValueExpr,  tokensExpr);
 
-		Map<String,Object> loadTokens = this.tokens().withWechatUserList().searchWechatUserListWith(WechatUser.ID_PROPERTY, "eq", wechatUserId).done();
+		Map<String,Object> loadTokens = this.tokens().withUserList().searchUserListWith(User.ID_PROPERTY, "eq", userId).done();
 
 
 
@@ -3351,257 +2908,18 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		synchronized(platform){
 			//Will be good when the platform loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			//platform.removeWechatUser( wechatUser );
+			//platform.removeUser( user );
 			//make changes to AcceleraterAccount.
-			WechatUser wechatUserIndex = createIndexedWechatUser(wechatUserId, wechatUserVersion);
+			User userIndex = createIndexedUser(userId, userVersion);
 
-			WechatUser wechatUser = platform.findTheWechatUser(wechatUserIndex);
-			if(wechatUser == null){
-				throw new PlatformManagerException(wechatUser+" is NOT FOUND" );
+			User user = platform.findTheUser(userIndex);
+			if(user == null){
+				throw new PlatformManagerException(user+" is NOT FOUND" );
 			}
 
-			wechatUser.changeProperty(property, newValueExpr);
+			user.changeProperty(property, newValueExpr);
 			
-			platform = savePlatform(userContext, platform, tokens().withWechatUserList().done());
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingUserType(HealthUserContext userContext, String platformId, String name, String code,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfPlatform(platformId);
-
-		
-		checkerOf(userContext).checkNameOfUserType(name);
-		
-		checkerOf(userContext).checkCodeOfUserType(code);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-
-	}
-	public  Platform addUserType(HealthUserContext userContext, String platformId, String name, String code, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingUserType(userContext,platformId,name, code,tokensExpr);
-
-		UserType userType = createUserType(userContext,name, code);
-
-		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.addUserType( userType );
-			platform = savePlatform(userContext, platform, tokens().withUserTypeList().done());
-			
-			userContext.getManagerGroup().getUserTypeManager().onNewInstanceCreated(userContext, userType);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingUserTypeProperties(HealthUserContext userContext, String platformId,String id,String name,String code,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfUserType(id);
-
-		checkerOf(userContext).checkNameOfUserType( name);
-		checkerOf(userContext).checkCodeOfUserType( code);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform updateUserTypeProperties(HealthUserContext userContext, String platformId, String id,String name,String code, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingUserTypeProperties(userContext,platformId,id,name,code,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withUserTypeListList()
-				.searchUserTypeListWith(UserType.ID_PROPERTY, "is", id).done();
-
-		Platform platformToUpdate = loadPlatform(userContext, platformId, options);
-
-		if(platformToUpdate.getUserTypeList().isEmpty()){
-			throw new PlatformManagerException("UserType is NOT FOUND with id: '"+id+"'");
-		}
-
-		UserType item = platformToUpdate.getUserTypeList().first();
-
-		item.updateName( name );
-		item.updateCode( code );
-
-
-		//checkParamsForAddingUserType(userContext,platformId,name, code, used,tokensExpr);
-		Platform platform = savePlatform(userContext, platformToUpdate, tokens().withUserTypeList().done());
-		synchronized(platform){
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected UserType createUserType(HealthUserContext userContext, String name, String code) throws Exception{
-
-		UserType userType = new UserType();
-		
-		
-		userType.setName(name);		
-		userType.setCode(code);
-	
-		
-		return userType;
-
-
-	}
-
-	protected UserType createIndexedUserType(String id, int version){
-
-		UserType userType = new UserType();
-		userType.setId(id);
-		userType.setVersion(version);
-		return userType;
-
-	}
-
-	protected void checkParamsForRemovingUserTypeList(HealthUserContext userContext, String platformId,
-			String userTypeIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		for(String userTypeIdItem: userTypeIds){
-			checkerOf(userContext).checkIdOfUserType(userTypeIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeUserTypeList(HealthUserContext userContext, String platformId,
-			String userTypeIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingUserTypeList(userContext, platformId,  userTypeIds, tokensExpr);
-
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-			synchronized(platform){
-				//Will be good when the platform loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				platformDaoOf(userContext).planToRemoveUserTypeList(platform, userTypeIds, allTokens());
-				platform = savePlatform(userContext, platform, tokens().withUserTypeList().done());
-				deleteRelationListInGraph(userContext, platform.getUserTypeList());
-				return present(userContext,platform, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingUserType(HealthUserContext userContext, String platformId,
-		String userTypeId, int userTypeVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfUserType(userTypeId);
-		checkerOf(userContext).checkVersionOfUserType(userTypeVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform removeUserType(HealthUserContext userContext, String platformId,
-		String userTypeId, int userTypeVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingUserType(userContext,platformId, userTypeId, userTypeVersion,tokensExpr);
-
-		UserType userType = createIndexedUserType(userTypeId, userTypeVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			platform.removeUserType( userType );
-			platform = savePlatform(userContext, platform, tokens().withUserTypeList().done());
-			deleteRelationInGraph(userContext, userType);
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingUserType(HealthUserContext userContext, String platformId,
-		String userTypeId, int userTypeVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfPlatform( platformId);
-		checkerOf(userContext).checkIdOfUserType(userTypeId);
-		checkerOf(userContext).checkVersionOfUserType(userTypeVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-	public  Platform copyUserTypeFrom(HealthUserContext userContext, String platformId,
-		String userTypeId, int userTypeVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingUserType(userContext,platformId, userTypeId, userTypeVersion,tokensExpr);
-
-		UserType userType = createIndexedUserType(userTypeId, userTypeVersion);
-		Platform platform = loadPlatform(userContext, platformId, allTokens());
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			platform.copyUserTypeFrom( userType );
-			platform = savePlatform(userContext, platform, tokens().withUserTypeList().done());
-			
-			userContext.getManagerGroup().getUserTypeManager().onNewInstanceCreated(userContext, (UserType)platform.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,platform, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingUserType(HealthUserContext userContext, String platformId, String userTypeId, int userTypeVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfPlatform(platformId);
-		checkerOf(userContext).checkIdOfUserType(userTypeId);
-		checkerOf(userContext).checkVersionOfUserType(userTypeVersion);
-		
-
-		if(UserType.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfUserType(parseString(newValueExpr));
-		}
-		
-		if(UserType.CODE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkCodeOfUserType(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
-
-	}
-
-	public  Platform updateUserType(HealthUserContext userContext, String platformId, String userTypeId, int userTypeVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingUserType(userContext, platformId, userTypeId, userTypeVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withUserTypeList().searchUserTypeListWith(UserType.ID_PROPERTY, "eq", userTypeId).done();
-
-
-
-		Platform platform = loadPlatform(userContext, platformId, loadTokens);
-
-		synchronized(platform){
-			//Will be good when the platform loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//platform.removeUserType( userType );
-			//make changes to AcceleraterAccount.
-			UserType userTypeIndex = createIndexedUserType(userTypeId, userTypeVersion);
-
-			UserType userType = platform.findTheUserType(userTypeIndex);
-			if(userType == null){
-				throw new PlatformManagerException(userType+" is NOT FOUND" );
-			}
-
-			userType.changeProperty(property, newValueExpr);
-			
-			platform = savePlatform(userContext, platform, tokens().withUserTypeList().done());
+			platform = savePlatform(userContext, platform, tokens().withUserList().done());
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 

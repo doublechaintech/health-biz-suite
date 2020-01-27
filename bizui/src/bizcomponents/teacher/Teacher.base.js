@@ -37,7 +37,8 @@ const renderReferenceCell=defaultRenderReferenceCell
 
 const menuData = {menuName: window.trans('teacher'), menuFor: "teacher",
   		subItems: [
-  {name: 'schoolClassList', displayName: window.mtrans('school_class','teacher.school_class_list',false), type:'schoolClass',icon:'school',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','teacher.class_daily_health_survey_list',false), type:'classDailyHealthSurvey',icon:'th',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','teacher.student_health_survey_list',false), type:'studentHealthSurvey',icon:'th',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],
 }
@@ -53,10 +54,11 @@ const fieldLabels = {
   id: window.trans('teacher.id'),
   name: window.trans('teacher.name'),
   mobile: window.trans('teacher.mobile'),
-  schoole: window.trans('teacher.schoole'),
+  school: window.trans('teacher.school'),
+  schoolClass: window.trans('teacher.school_class'),
   createTime: window.trans('teacher.create_time'),
   platform: window.trans('teacher.platform'),
-  cq: window.trans('teacher.cq'),
+  changeRequest: window.trans('teacher.change_request'),
 
 }
 
@@ -64,10 +66,11 @@ const displayColumns = [
   { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'teacher') , sorter: true },
   { title: fieldLabels.name, debugtype: 'string', dataIndex: 'name', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.mobile, debugtype: 'string_china_mobile_phone', dataIndex: 'mobile', width: '15',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.schoole, debugtype: 'string', dataIndex: 'schoole', width: '8',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.school, debugtype: 'string', dataIndex: 'school', width: '8',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.schoolClass, debugtype: 'string', dataIndex: 'schoolClass', width: '12',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.createTime, dataIndex: 'createTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.platform, dataIndex: 'platform', render: (text, record) => renderReferenceCell(text, record), sorter:true},
-  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -84,9 +87,10 @@ const renderItemOfList=(teacher, targetComponent, columCount)=>{
         <Description term={fieldLabels.id} style={{wordBreak: 'break-all'}}>{teacher.id}</Description> 
         <Description term={fieldLabels.name} style={{wordBreak: 'break-all'}}>{teacher.name}</Description> 
         <Description term={fieldLabels.mobile} style={{wordBreak: 'break-all'}}>{teacher.mobile}</Description> 
-        <Description term={fieldLabels.schoole} style={{wordBreak: 'break-all'}}>{teacher.schoole}</Description> 
+        <Description term={fieldLabels.school} style={{wordBreak: 'break-all'}}>{teacher.school}</Description> 
+        <Description term={fieldLabels.schoolClass} style={{wordBreak: 'break-all'}}>{teacher.schoolClass}</Description> 
         <Description term={fieldLabels.createTime}><div>{ moment(teacher.createTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
-        <Description term={fieldLabels.cq}><div>{teacher.cq==null?appLocaleName(userContext,"NotAssigned"):`${teacher.cq.displayName}(${teacher.cq.id})`}
+        <Description term={fieldLabels.changeRequest}><div>{teacher.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${teacher.changeRequest.displayName}(${teacher.changeRequest.id})`}
         </div></Description>
 	
         
@@ -98,17 +102,17 @@ const renderItemOfList=(teacher, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {name, mobile, schoole, platformId, cqId} = formValuesToPack
+	const {name, mobile, school, schoolClass, platformId, changeRequestId} = formValuesToPack
 	const platform = {id: platformId, version: 2^31}
-	const cq = {id: cqId, version: 2^31}
-	const data = {name, mobile, schoole, platform, cq}
+	const changeRequest = {id: changeRequestId, version: 2^31}
+	const data = {name, mobile, school, schoolClass, platform, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {name, mobile, schoole, platform, cq} = objectToUnpack
+	const {name, mobile, school, schoolClass, platform, changeRequest} = objectToUnpack
 	const platformId = platform ? platform.id : null
-	const cqId = cq ? cq.id : null
-	const data = {name, mobile, schoole, platformId, cqId}
+	const changeRequestId = changeRequest ? changeRequest.id : null
+	const data = {name, mobile, school, schoolClass, platformId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

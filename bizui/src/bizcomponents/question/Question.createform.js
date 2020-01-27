@@ -25,6 +25,8 @@ const testValues = {
   optionD: '不知道',
   questionTypeId: 'OptionSelect',
   platformId: 'P000001',
+  creatorId: 'U000001',
+  cqId: 'CR000001',
 }
 */
 

@@ -26,9 +26,7 @@ import com.terapico.caf.viewcomponent.ButtonViewComponent;
 import com.terapico.utils.TextUtil;
 
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.questionsource.QuestionSource;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
-import com.doublechaintech.health.usertype.UserType;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
 
 public class HealthBaseUtils {
@@ -243,18 +241,6 @@ public class HealthBaseUtils {
 	}
 
 
-	public static QuestionSource getQuestionSource(HealthUserContext userContext, String code) throws Exception {
-		String key = "enum:" + QuestionSource.INTERNAL_TYPE + ":" + code;
-		QuestionSource data = (QuestionSource) userContext.getFromContextLocalStorage(key);
-		if (data != null) {
-			return data;
-		}
-		data = userContext.getDAOGroup().getQuestionSourceDAO().loadByCode(code, emptyOptions);
-		userContext.putIntoContextLocalStorage(key, data);
-		return data;
-	}
-
-
 	public static SurveyStatus getSurveyStatus(HealthUserContext userContext, String code) throws Exception {
 		String key = "enum:" + SurveyStatus.INTERNAL_TYPE + ":" + code;
 		SurveyStatus data = (SurveyStatus) userContext.getFromContextLocalStorage(key);
@@ -262,18 +248,6 @@ public class HealthBaseUtils {
 			return data;
 		}
 		data = userContext.getDAOGroup().getSurveyStatusDAO().loadByCode(code, emptyOptions);
-		userContext.putIntoContextLocalStorage(key, data);
-		return data;
-	}
-
-
-	public static UserType getUserType(HealthUserContext userContext, String code) throws Exception {
-		String key = "enum:" + UserType.INTERNAL_TYPE + ":" + code;
-		UserType data = (UserType) userContext.getFromContextLocalStorage(key);
-		if (data != null) {
-			return data;
-		}
-		data = userContext.getDAOGroup().getUserTypeDAO().loadByCode(code, emptyOptions);
 		userContext.putIntoContextLocalStorage(key, data);
 		return data;
 	}

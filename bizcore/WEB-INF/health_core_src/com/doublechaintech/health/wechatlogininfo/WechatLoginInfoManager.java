@@ -13,13 +13,13 @@ public interface WechatLoginInfoManager extends BaseManager{
 
 		
 
-	public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext, String wechatUserId,String appId,String openId,String sessionKey) throws Exception;	
+	public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext, String userId,String appId,String openId,String sessionKey) throws Exception;	
 	public WechatLoginInfo updateWechatLoginInfo(HealthUserContext userContext,String wechatLoginInfoId, int wechatLoginInfoVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public WechatLoginInfo loadWechatLoginInfo(HealthUserContext userContext, String wechatLoginInfoId, String [] tokensExpr) throws Exception;
 	public WechatLoginInfo internalSaveWechatLoginInfo(HealthUserContext userContext, WechatLoginInfo wechatLoginInfo) throws Exception;
 	public WechatLoginInfo internalSaveWechatLoginInfo(HealthUserContext userContext, WechatLoginInfo wechatLoginInfo,Map<String,Object>option) throws Exception;
 	
-	public WechatLoginInfo transferToAnotherWechatUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherWechatUserId)  throws Exception;
+	public WechatLoginInfo transferToAnotherUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherUserId)  throws Exception;
  
 
 	public void delete(HealthUserContext userContext, String wechatLoginInfoId, int version) throws Exception;

@@ -130,10 +130,10 @@ const internalSummaryOf = (studentHealthSurvey,targetComponent) =>{
 	      StudentHealthSurveyService.transferToAnotherSurveyStatus,"anotherSurveyStatusId",studentHealthSurvey.surveyStatus?studentHealthSurvey.surveyStatus.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
-<Description term="学校类">{studentHealthSurvey.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.schoolClass.displayName}(${studentHealthSurvey.schoolClass.id})`}
+<Description term="老师">{studentHealthSurvey.teacher==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.teacher.displayName}(${studentHealthSurvey.teacher.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"学校类","schoolClass",StudentHealthSurveyService.requestCandidateSchoolClass,
-	      StudentHealthSurveyService.transferToAnotherSchoolClass,"anotherSchoolClassId",studentHealthSurvey.schoolClass?studentHealthSurvey.schoolClass.id:"")} 
+  showTransferModel(targetComponent,"老师","teacher",StudentHealthSurveyService.requestCandidateTeacher,
+	      StudentHealthSurveyService.transferToAnotherTeacher,"anotherTeacherId",studentHealthSurvey.teacher?studentHealthSurvey.teacher.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 <Description term="每日健康调查">{studentHealthSurvey.classDailyHealthSurvey==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.classDailyHealthSurvey.displayName}(${studentHealthSurvey.classDailyHealthSurvey.id})`}
@@ -144,10 +144,10 @@ const internalSummaryOf = (studentHealthSurvey,targetComponent) =>{
 </Description>
 <Description term="创建时间">{ moment(studentHealthSurvey.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
 <Description term="最后更新时间">{ moment(studentHealthSurvey.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</Description> 
-<Description term="Cq">{studentHealthSurvey.cq==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.cq.displayName}(${studentHealthSurvey.cq.id})`}
+<Description term="变更请求">{studentHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.changeRequest.displayName}(${studentHealthSurvey.changeRequest.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"Cq","changeRequest",StudentHealthSurveyService.requestCandidateCq,
-	      StudentHealthSurveyService.transferToAnotherCq,"anotherCqId",studentHealthSurvey.cq?studentHealthSurvey.cq.id:"")} 
+  showTransferModel(targetComponent,"变更请求","changeRequest",StudentHealthSurveyService.requestCandidateChangeRequest,
+	      StudentHealthSurveyService.transferToAnotherChangeRequest,"anotherChangeRequestId",studentHealthSurvey.changeRequest?studentHealthSurvey.changeRequest.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 	

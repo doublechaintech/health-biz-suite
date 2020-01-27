@@ -129,16 +129,16 @@
 	
 
 	<div class="row">
-<c:set var="schoolClass" value="${ result.schoolClass}" scope="request" />
+<c:set var="teacher" value="${ result.teacher}" scope="request" />
 <c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/schoolclass/SchoolClass$Info.jsp" />
+<sky:include page="com/doublechaintech/health/teacher/Teacher$Info.jsp" />
 
-<c:set var="wechatUser" value="${ result.creator}" scope="request" />
+<c:set var="user" value="${ result.creator}" scope="request" />
 <c:set var="referName" value="(creator)" scope="request" />
-<sky:include page="com/doublechaintech/health/wechatuser/WechatUser$Info.jsp" />
+<sky:include page="com/doublechaintech/health/user/User$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.cq}" scope="request" />
-<c:set var="referName" value="(cq)" scope="request" />
+<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
+<c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
 
 </div>

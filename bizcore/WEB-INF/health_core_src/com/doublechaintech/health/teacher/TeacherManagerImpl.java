@@ -21,14 +21,18 @@ import com.terapico.uccaf.BaseUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 import com.doublechaintech.health.platform.CandidatePlatform;
 import com.doublechaintech.health.changerequest.CandidateChangeRequest;
 
-import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
+import com.doublechaintech.health.student.Student;
+import com.doublechaintech.health.surveystatus.SurveyStatus;
+import com.doublechaintech.health.user.User;
 
 
 
@@ -161,11 +165,15 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		addAction(userContext, teacher, tokens,"@copy","cloneTeacher","cloneTeacher/"+teacher.getId()+"/","main","primary");
 		
 		addAction(userContext, teacher, tokens,"teacher.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+teacher.getId()+"/","main","primary");
-		addAction(userContext, teacher, tokens,"teacher.transfer_to_cq","transferToAnotherCq","transferToAnotherCq/"+teacher.getId()+"/","main","primary");
-		addAction(userContext, teacher, tokens,"teacher.addSchoolClass","addSchoolClass","addSchoolClass/"+teacher.getId()+"/","schoolClassList","primary");
-		addAction(userContext, teacher, tokens,"teacher.removeSchoolClass","removeSchoolClass","removeSchoolClass/"+teacher.getId()+"/","schoolClassList","primary");
-		addAction(userContext, teacher, tokens,"teacher.updateSchoolClass","updateSchoolClass","updateSchoolClass/"+teacher.getId()+"/","schoolClassList","primary");
-		addAction(userContext, teacher, tokens,"teacher.copySchoolClassFrom","copySchoolClassFrom","copySchoolClassFrom/"+teacher.getId()+"/","schoolClassList","primary");
+		addAction(userContext, teacher, tokens,"teacher.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+teacher.getId()+"/","main","primary");
+		addAction(userContext, teacher, tokens,"teacher.addClassDailyHealthSurvey","addClassDailyHealthSurvey","addClassDailyHealthSurvey/"+teacher.getId()+"/","classDailyHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.removeClassDailyHealthSurvey","removeClassDailyHealthSurvey","removeClassDailyHealthSurvey/"+teacher.getId()+"/","classDailyHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.updateClassDailyHealthSurvey","updateClassDailyHealthSurvey","updateClassDailyHealthSurvey/"+teacher.getId()+"/","classDailyHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.copyClassDailyHealthSurveyFrom","copyClassDailyHealthSurveyFrom","copyClassDailyHealthSurveyFrom/"+teacher.getId()+"/","classDailyHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.addStudentHealthSurvey","addStudentHealthSurvey","addStudentHealthSurvey/"+teacher.getId()+"/","studentHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.removeStudentHealthSurvey","removeStudentHealthSurvey","removeStudentHealthSurvey/"+teacher.getId()+"/","studentHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.updateStudentHealthSurvey","updateStudentHealthSurvey","updateStudentHealthSurvey/"+teacher.getId()+"/","studentHealthSurveyList","primary");
+		addAction(userContext, teacher, tokens,"teacher.copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom/"+teacher.getId()+"/","studentHealthSurveyList","primary");
 	
 		
 		
@@ -177,8 +185,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
  	
  	
 
-	public Teacher createTeacher(HealthUserContext userContext, String name,String mobile,String schoole,String platformId,String cqId) throws Exception
-	//public Teacher createTeacher(HealthUserContext userContext,String name, String mobile, String schoole, String platformId, String cqId) throws Exception
+	public Teacher createTeacher(HealthUserContext userContext, String name,String mobile,String school,String schoolClass,String platformId,String changeRequestId) throws Exception
+	//public Teacher createTeacher(HealthUserContext userContext,String name, String mobile, String school, String schoolClass, String platformId, String changeRequestId) throws Exception
 	{
 
 		
@@ -187,7 +195,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 		checkerOf(userContext).checkNameOfTeacher(name);
 		checkerOf(userContext).checkMobileOfTeacher(mobile);
-		checkerOf(userContext).checkSchooleOfTeacher(schoole);
+		checkerOf(userContext).checkSchoolOfTeacher(school);
+		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
@@ -196,7 +205,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 		teacher.setName(name);
 		teacher.setMobile(mobile);
-		teacher.setSchoole(schoole);
+		teacher.setSchool(school);
+		teacher.setSchoolClass(schoolClass);
 		teacher.setCreateTime(userContext.now());
 			
 		Platform platform = loadPlatform(userContext, platformId,emptyOptions());
@@ -204,8 +214,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 		
 			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		teacher.setCq(cq);
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+		teacher.setChangeRequest(changeRequest);
 		
 		
 
@@ -238,8 +248,11 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		if(Teacher.MOBILE_PROPERTY.equals(property)){
 			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
 		}
-		if(Teacher.SCHOOLE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkSchooleOfTeacher(parseString(newValueExpr));
+		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		}
+		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
 		}		
 
 				
@@ -343,7 +356,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 	}
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
-		.sortSchoolClassListWith("id","desc")
+		.sortClassDailyHealthSurveyListWith("id","desc")
+		.sortStudentHealthSurveyListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -400,24 +414,24 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherCq(HealthUserContext userContext, String teacherId, String anotherCqId) throws Exception
+ 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String teacherId, String anotherChangeRequestId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfTeacher(teacherId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherCqId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
  	}
- 	public Teacher transferToAnotherCq(HealthUserContext userContext, String teacherId, String anotherCqId) throws Exception
+ 	public Teacher transferToAnotherChangeRequest(HealthUserContext userContext, String teacherId, String anotherChangeRequestId) throws Exception
  	{
- 		checkParamsForTransferingAnotherCq(userContext, teacherId,anotherCqId);
+ 		checkParamsForTransferingAnotherChangeRequest(userContext, teacherId,anotherChangeRequestId);
  
 		Teacher teacher = loadTeacher(userContext, teacherId, allTokens());	
 		synchronized(teacher){
 			//will be good when the teacher loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			ChangeRequest cq = loadChangeRequest(userContext, anotherCqId, emptyOptions());		
-			teacher.updateCq(cq);		
+			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
+			teacher.updateChangeRequest(changeRequest);		
 			teacher = saveTeacher(userContext, teacher, emptyOptions());
 			
 			return present(userContext,teacher, allTokens());
@@ -429,7 +443,7 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 	
 
 
-	public CandidateChangeRequest requestCandidateCq(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
 		CandidateChangeRequest result = new CandidateChangeRequest();
 		result.setOwnerClass(ownerClass);
@@ -452,10 +466,10 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
  //--------------------------------------------------------------
 	
 
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newCqId, Map<String,Object> options) throws Exception
+ 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
  	{
 
- 		return changeRequestDaoOf(userContext).load(newCqId, options);
+ 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
  	}
  	
 
@@ -511,8 +525,8 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 	}
 
 
-	//disconnect Teacher with platform in SchoolClass
-	protected Teacher breakWithSchoolClassByPlatform(HealthUserContext userContext, String teacherId, String platformId,  String [] tokensExpr)
+	//disconnect Teacher with creator in ClassDailyHealthSurvey
+	protected Teacher breakWithClassDailyHealthSurveyByCreator(HealthUserContext userContext, String teacherId, String creatorId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -523,14 +537,14 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				teacherDaoOf(userContext).planToRemoveSchoolClassListWithPlatform(teacher, platformId, this.emptyOptions());
+				teacherDaoOf(userContext).planToRemoveClassDailyHealthSurveyListWithCreator(teacher, creatorId, this.emptyOptions());
 
-				teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
+				teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
 				return teacher;
 			}
 	}
-	//disconnect Teacher with cq in SchoolClass
-	protected Teacher breakWithSchoolClassByCq(HealthUserContext userContext, String teacherId, String cqId,  String [] tokensExpr)
+	//disconnect Teacher with change_request in ClassDailyHealthSurvey
+	protected Teacher breakWithClassDailyHealthSurveyByChangeRequest(HealthUserContext userContext, String teacherId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -541,9 +555,81 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				teacherDaoOf(userContext).planToRemoveSchoolClassListWithCq(teacher, cqId, this.emptyOptions());
+				teacherDaoOf(userContext).planToRemoveClassDailyHealthSurveyListWithChangeRequest(teacher, changeRequestId, this.emptyOptions());
 
-				teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
+				teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
+				return teacher;
+			}
+	}
+	//disconnect Teacher with student in StudentHealthSurvey
+	protected Teacher breakWithStudentHealthSurveyByStudent(HealthUserContext userContext, String teacherId, String studentId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+
+			synchronized(teacher){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				teacherDaoOf(userContext).planToRemoveStudentHealthSurveyListWithStudent(teacher, studentId, this.emptyOptions());
+
+				teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+				return teacher;
+			}
+	}
+	//disconnect Teacher with survey_status in StudentHealthSurvey
+	protected Teacher breakWithStudentHealthSurveyBySurveyStatus(HealthUserContext userContext, String teacherId, String surveyStatusId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+
+			synchronized(teacher){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				teacherDaoOf(userContext).planToRemoveStudentHealthSurveyListWithSurveyStatus(teacher, surveyStatusId, this.emptyOptions());
+
+				teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+				return teacher;
+			}
+	}
+	//disconnect Teacher with class_daily_health_survey in StudentHealthSurvey
+	protected Teacher breakWithStudentHealthSurveyByClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+
+			synchronized(teacher){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				teacherDaoOf(userContext).planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(teacher, classDailyHealthSurveyId, this.emptyOptions());
+
+				teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+				return teacher;
+			}
+	}
+	//disconnect Teacher with change_request in StudentHealthSurvey
+	protected Teacher breakWithStudentHealthSurveyByChangeRequest(HealthUserContext userContext, String teacherId, String changeRequestId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+
+			synchronized(teacher){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				teacherDaoOf(userContext).planToRemoveStudentHealthSurveyListWithChangeRequest(teacher, changeRequestId, this.emptyOptions());
+
+				teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
 				return teacher;
 			}
 	}
@@ -553,181 +639,180 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 
 
-	protected void checkParamsForAddingSchoolClass(HealthUserContext userContext, String teacherId, String name, String platformId, String schoole, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfTeacher(teacherId);
 
 		
-		checkerOf(userContext).checkNameOfSchoolClass(name);
+		checkerOf(userContext).checkNameOfClassDailyHealthSurvey(name);
 		
-		checkerOf(userContext).checkPlatformIdOfSchoolClass(platformId);
+		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(surveyTime);
 		
-		checkerOf(userContext).checkSchooleOfSchoolClass(schoole);
+		checkerOf(userContext).checkCreatorIdOfClassDailyHealthSurvey(creatorId);
 		
-		checkerOf(userContext).checkCqIdOfSchoolClass(cqId);
+		checkerOf(userContext).checkChangeRequestIdOfClassDailyHealthSurvey(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 
 	}
-	public  Teacher addSchoolClass(HealthUserContext userContext, String teacherId, String name, String platformId, String schoole, String cqId, String [] tokensExpr) throws Exception
+	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingSchoolClass(userContext,teacherId,name, platformId, schoole, cqId,tokensExpr);
+		checkParamsForAddingClassDailyHealthSurvey(userContext,teacherId,name, surveyTime, creatorId, changeRequestId,tokensExpr);
 
-		SchoolClass schoolClass = createSchoolClass(userContext,name, platformId, schoole, cqId);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, surveyTime, creatorId, changeRequestId);
 
 		Teacher teacher = loadTeacher(userContext, teacherId, emptyOptions());
 		synchronized(teacher){
 			//Will be good when the teacher loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			teacher.addSchoolClass( schoolClass );
-			teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
+			teacher.addClassDailyHealthSurvey( classDailyHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
 			
-			userContext.getManagerGroup().getSchoolClassManager().onNewInstanceCreated(userContext, schoolClass);
+			userContext.getManagerGroup().getClassDailyHealthSurveyManager().onNewInstanceCreated(userContext, classDailyHealthSurvey);
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingSchoolClassProperties(HealthUserContext userContext, String teacherId,String id,String name,String schoole,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId,String id,String name,DateTime surveyTime,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfTeacher(teacherId);
-		checkerOf(userContext).checkIdOfSchoolClass(id);
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(id);
 
-		checkerOf(userContext).checkNameOfSchoolClass( name);
-		checkerOf(userContext).checkSchooleOfSchoolClass( schoole);
+		checkerOf(userContext).checkNameOfClassDailyHealthSurvey( name);
+		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey( surveyTime);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 	}
-	public  Teacher updateSchoolClassProperties(HealthUserContext userContext, String teacherId, String id,String name,String schoole, String [] tokensExpr) throws Exception
+	public  Teacher updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId, String id,String name,DateTime surveyTime, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingSchoolClassProperties(userContext,teacherId,id,name,schoole,tokensExpr);
+		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,teacherId,id,name,surveyTime,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				//.withSchoolClassListList()
-				.searchSchoolClassListWith(SchoolClass.ID_PROPERTY, "is", id).done();
+				//.withClassDailyHealthSurveyListList()
+				.searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "is", id).done();
 
 		Teacher teacherToUpdate = loadTeacher(userContext, teacherId, options);
 
-		if(teacherToUpdate.getSchoolClassList().isEmpty()){
-			throw new TeacherManagerException("SchoolClass is NOT FOUND with id: '"+id+"'");
+		if(teacherToUpdate.getClassDailyHealthSurveyList().isEmpty()){
+			throw new TeacherManagerException("ClassDailyHealthSurvey is NOT FOUND with id: '"+id+"'");
 		}
 
-		SchoolClass item = teacherToUpdate.getSchoolClassList().first();
+		ClassDailyHealthSurvey item = teacherToUpdate.getClassDailyHealthSurveyList().first();
 
 		item.updateName( name );
-		item.updateSchoole( schoole );
+		item.updateSurveyTime( surveyTime );
 
 
-		//checkParamsForAddingSchoolClass(userContext,teacherId,name, code, used,tokensExpr);
-		Teacher teacher = saveTeacher(userContext, teacherToUpdate, tokens().withSchoolClassList().done());
+		//checkParamsForAddingClassDailyHealthSurvey(userContext,teacherId,name, code, used,tokensExpr);
+		Teacher teacher = saveTeacher(userContext, teacherToUpdate, tokens().withClassDailyHealthSurveyList().done());
 		synchronized(teacher){
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 	}
 
 
-	protected SchoolClass createSchoolClass(HealthUserContext userContext, String name, String platformId, String schoole, String cqId) throws Exception{
+	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, DateTime surveyTime, String creatorId, String changeRequestId) throws Exception{
 
-		SchoolClass schoolClass = new SchoolClass();
+		ClassDailyHealthSurvey classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		
 		
-		schoolClass.setName(name);		
-		schoolClass.setCreateTime(userContext.now());		
-		Platform  platform = new Platform();
-		platform.setId(platformId);		
-		schoolClass.setPlatform(platform);		
-		schoolClass.setSchoole(schoole);		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		schoolClass.setCq(cq);
+		classDailyHealthSurvey.setName(name);		
+		classDailyHealthSurvey.setSurveyTime(surveyTime);		
+		User  creator = new User();
+		creator.setId(creatorId);		
+		classDailyHealthSurvey.setCreator(creator);		
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		classDailyHealthSurvey.setChangeRequest(changeRequest);
 	
 		
-		return schoolClass;
+		return classDailyHealthSurvey;
 
 
 	}
 
-	protected SchoolClass createIndexedSchoolClass(String id, int version){
+	protected ClassDailyHealthSurvey createIndexedClassDailyHealthSurvey(String id, int version){
 
-		SchoolClass schoolClass = new SchoolClass();
-		schoolClass.setId(id);
-		schoolClass.setVersion(version);
-		return schoolClass;
+		ClassDailyHealthSurvey classDailyHealthSurvey = new ClassDailyHealthSurvey();
+		classDailyHealthSurvey.setId(id);
+		classDailyHealthSurvey.setVersion(version);
+		return classDailyHealthSurvey;
 
 	}
 
-	protected void checkParamsForRemovingSchoolClassList(HealthUserContext userContext, String teacherId,
-			String schoolClassIds[],String [] tokensExpr) throws Exception {
+	protected void checkParamsForRemovingClassDailyHealthSurveyList(HealthUserContext userContext, String teacherId,
+			String classDailyHealthSurveyIds[],String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfTeacher(teacherId);
-		for(String schoolClassIdItem: schoolClassIds){
-			checkerOf(userContext).checkIdOfSchoolClass(schoolClassIdItem);
+		for(String classDailyHealthSurveyIdItem: classDailyHealthSurveyIds){
+			checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyIdItem);
 		}
 
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 	}
-	public  Teacher removeSchoolClassList(HealthUserContext userContext, String teacherId,
-			String schoolClassIds[],String [] tokensExpr) throws Exception{
+	public  Teacher removeClassDailyHealthSurveyList(HealthUserContext userContext, String teacherId,
+			String classDailyHealthSurveyIds[],String [] tokensExpr) throws Exception{
 
-			checkParamsForRemovingSchoolClassList(userContext, teacherId,  schoolClassIds, tokensExpr);
+			checkParamsForRemovingClassDailyHealthSurveyList(userContext, teacherId,  classDailyHealthSurveyIds, tokensExpr);
 
 
 			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
 			synchronized(teacher){
 				//Will be good when the teacher loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
-				teacherDaoOf(userContext).planToRemoveSchoolClassList(teacher, schoolClassIds, allTokens());
-				teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
-				deleteRelationListInGraph(userContext, teacher.getSchoolClassList());
+				teacherDaoOf(userContext).planToRemoveClassDailyHealthSurveyList(teacher, classDailyHealthSurveyIds, allTokens());
+				teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
+				deleteRelationListInGraph(userContext, teacher.getClassDailyHealthSurveyList());
 				return present(userContext,teacher, mergedAllTokens(tokensExpr));
 			}
 	}
 
-	protected void checkParamsForRemovingSchoolClass(HealthUserContext userContext, String teacherId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForRemovingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId,
+		String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfTeacher( teacherId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		checkerOf(userContext).checkVersionOfClassDailyHealthSurvey(classDailyHealthSurveyVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 	}
-	public  Teacher removeSchoolClass(HealthUserContext userContext, String teacherId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
+	public  Teacher removeClassDailyHealthSurvey(HealthUserContext userContext, String teacherId,
+		String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForRemovingSchoolClass(userContext,teacherId, schoolClassId, schoolClassVersion,tokensExpr);
+		checkParamsForRemovingClassDailyHealthSurvey(userContext,teacherId, classDailyHealthSurveyId, classDailyHealthSurveyVersion,tokensExpr);
 
-		SchoolClass schoolClass = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createIndexedClassDailyHealthSurvey(classDailyHealthSurveyId, classDailyHealthSurveyVersion);
 		Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
 		synchronized(teacher){
 			//Will be good when the teacher loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			teacher.removeSchoolClass( schoolClass );
-			teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
-			deleteRelationInGraph(userContext, schoolClass);
+			teacher.removeClassDailyHealthSurvey( classDailyHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
+			deleteRelationInGraph(userContext, classDailyHealthSurvey);
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 
 
 	}
-	protected void checkParamsForCopyingSchoolClass(HealthUserContext userContext, String teacherId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForCopyingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId,
+		String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfTeacher( teacherId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		checkerOf(userContext).checkVersionOfClassDailyHealthSurvey(classDailyHealthSurveyVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 	}
-	public  Teacher copySchoolClassFrom(HealthUserContext userContext, String teacherId,
-		String schoolClassId, int schoolClassVersion,String [] tokensExpr) throws Exception{
+	public  Teacher copyClassDailyHealthSurveyFrom(HealthUserContext userContext, String teacherId,
+		String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForCopyingSchoolClass(userContext,teacherId, schoolClassId, schoolClassVersion,tokensExpr);
+		checkParamsForCopyingClassDailyHealthSurvey(userContext,teacherId, classDailyHealthSurveyId, classDailyHealthSurveyVersion,tokensExpr);
 
-		SchoolClass schoolClass = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createIndexedClassDailyHealthSurvey(classDailyHealthSurveyId, classDailyHealthSurveyVersion);
 		Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
 		synchronized(teacher){
 			//Will be good when the teacher loaded from this JVM process cache.
@@ -735,30 +820,30 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 			
 
-			teacher.copySchoolClassFrom( schoolClass );
-			teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
+			teacher.copyClassDailyHealthSurveyFrom( classDailyHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
 			
-			userContext.getManagerGroup().getSchoolClassManager().onNewInstanceCreated(userContext, (SchoolClass)teacher.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			userContext.getManagerGroup().getClassDailyHealthSurveyManager().onNewInstanceCreated(userContext, (ClassDailyHealthSurvey)teacher.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 
 	}
 
-	protected void checkParamsForUpdatingSchoolClass(HealthUserContext userContext, String teacherId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+	protected void checkParamsForUpdatingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
 		
 
 		
 		checkerOf(userContext).checkIdOfTeacher(teacherId);
-		checkerOf(userContext).checkIdOfSchoolClass(schoolClassId);
-		checkerOf(userContext).checkVersionOfSchoolClass(schoolClassVersion);
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		checkerOf(userContext).checkVersionOfClassDailyHealthSurvey(classDailyHealthSurveyVersion);
 		
 
-		if(SchoolClass.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfSchoolClass(parseString(newValueExpr));
+		if(ClassDailyHealthSurvey.NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkNameOfClassDailyHealthSurvey(parseString(newValueExpr));
 		}
 		
-		if(SchoolClass.SCHOOLE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkSchooleOfSchoolClass(parseString(newValueExpr));
+		if(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(parseTimestamp(newValueExpr));
 		}
 		
 	
@@ -766,12 +851,12 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 	}
 
-	public  Teacher updateSchoolClass(HealthUserContext userContext, String teacherId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr)
+	public  Teacher updateClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)
 			throws Exception{
 
-		checkParamsForUpdatingSchoolClass(userContext, teacherId, schoolClassId, schoolClassVersion, property, newValueExpr,  tokensExpr);
+		checkParamsForUpdatingClassDailyHealthSurvey(userContext, teacherId, classDailyHealthSurveyId, classDailyHealthSurveyVersion, property, newValueExpr,  tokensExpr);
 
-		Map<String,Object> loadTokens = this.tokens().withSchoolClassList().searchSchoolClassListWith(SchoolClass.ID_PROPERTY, "eq", schoolClassId).done();
+		Map<String,Object> loadTokens = this.tokens().withClassDailyHealthSurveyList().searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "eq", classDailyHealthSurveyId).done();
 
 
 
@@ -780,18 +865,270 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		synchronized(teacher){
 			//Will be good when the teacher loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			//teacher.removeSchoolClass( schoolClass );
+			//teacher.removeClassDailyHealthSurvey( classDailyHealthSurvey );
 			//make changes to AcceleraterAccount.
-			SchoolClass schoolClassIndex = createIndexedSchoolClass(schoolClassId, schoolClassVersion);
+			ClassDailyHealthSurvey classDailyHealthSurveyIndex = createIndexedClassDailyHealthSurvey(classDailyHealthSurveyId, classDailyHealthSurveyVersion);
 
-			SchoolClass schoolClass = teacher.findTheSchoolClass(schoolClassIndex);
-			if(schoolClass == null){
-				throw new TeacherManagerException(schoolClass+" is NOT FOUND" );
+			ClassDailyHealthSurvey classDailyHealthSurvey = teacher.findTheClassDailyHealthSurvey(classDailyHealthSurveyIndex);
+			if(classDailyHealthSurvey == null){
+				throw new TeacherManagerException(classDailyHealthSurvey+" is NOT FOUND" );
 			}
 
-			schoolClass.changeProperty(property, newValueExpr);
+			classDailyHealthSurvey.changeProperty(property, newValueExpr);
 			
-			teacher = saveTeacher(userContext, teacher, tokens().withSchoolClassList().done());
+			teacher = saveTeacher(userContext, teacher, tokens().withClassDailyHealthSurveyList().done());
+			return present(userContext,teacher, mergedAllTokens(tokensExpr));
+		}
+
+	}
+	/*
+
+	*/
+
+
+
+
+	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId,String [] tokensExpr) throws Exception{
+
+				checkerOf(userContext).checkIdOfTeacher(teacherId);
+
+		
+		checkerOf(userContext).checkStudentIdOfStudentHealthSurvey(studentId);
+		
+		checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(answerTime);
+		
+		checkerOf(userContext).checkSurveyStatusIdOfStudentHealthSurvey(surveyStatusId);
+		
+		checkerOf(userContext).checkClassDailyHealthSurveyIdOfStudentHealthSurvey(classDailyHealthSurveyId);
+		
+		checkerOf(userContext).checkChangeRequestIdOfStudentHealthSurvey(changeRequestId);
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+
+	}
+	public  Teacher addStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId, String [] tokensExpr) throws Exception
+	{
+
+		checkParamsForAddingStudentHealthSurvey(userContext,teacherId,studentId, answerTime, surveyStatusId, classDailyHealthSurveyId, changeRequestId,tokensExpr);
+
+		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,studentId, answerTime, surveyStatusId, classDailyHealthSurveyId, changeRequestId);
+
+		Teacher teacher = loadTeacher(userContext, teacherId, emptyOptions());
+		synchronized(teacher){
+			//Will be good when the teacher loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			teacher.addStudentHealthSurvey( studentHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+			
+			userContext.getManagerGroup().getStudentHealthSurveyManager().onNewInstanceCreated(userContext, studentHealthSurvey);
+			return present(userContext,teacher, mergedAllTokens(tokensExpr));
+		}
+	}
+	protected void checkParamsForUpdatingStudentHealthSurveyProperties(HealthUserContext userContext, String teacherId,String id,DateTime answerTime,String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		checkerOf(userContext).checkIdOfStudentHealthSurvey(id);
+
+		checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey( answerTime);
+
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+	}
+	public  Teacher updateStudentHealthSurveyProperties(HealthUserContext userContext, String teacherId, String id,DateTime answerTime, String [] tokensExpr) throws Exception
+	{
+		checkParamsForUpdatingStudentHealthSurveyProperties(userContext,teacherId,id,answerTime,tokensExpr);
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				//.withStudentHealthSurveyListList()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "is", id).done();
+
+		Teacher teacherToUpdate = loadTeacher(userContext, teacherId, options);
+
+		if(teacherToUpdate.getStudentHealthSurveyList().isEmpty()){
+			throw new TeacherManagerException("StudentHealthSurvey is NOT FOUND with id: '"+id+"'");
+		}
+
+		StudentHealthSurvey item = teacherToUpdate.getStudentHealthSurveyList().first();
+
+		item.updateAnswerTime( answerTime );
+
+
+		//checkParamsForAddingStudentHealthSurvey(userContext,teacherId,name, code, used,tokensExpr);
+		Teacher teacher = saveTeacher(userContext, teacherToUpdate, tokens().withStudentHealthSurveyList().done());
+		synchronized(teacher){
+			return present(userContext,teacher, mergedAllTokens(tokensExpr));
+		}
+	}
+
+
+	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId) throws Exception{
+
+		StudentHealthSurvey studentHealthSurvey = new StudentHealthSurvey();
+		
+		
+		Student  student = new Student();
+		student.setId(studentId);		
+		studentHealthSurvey.setStudent(student);		
+		studentHealthSurvey.setAnswerTime(answerTime);		
+		SurveyStatus  surveyStatus = new SurveyStatus();
+		surveyStatus.setId(surveyStatusId);		
+		studentHealthSurvey.setSurveyStatus(surveyStatus);		
+		ClassDailyHealthSurvey  classDailyHealthSurvey = new ClassDailyHealthSurvey();
+		classDailyHealthSurvey.setId(classDailyHealthSurveyId);		
+		studentHealthSurvey.setClassDailyHealthSurvey(classDailyHealthSurvey);		
+		studentHealthSurvey.setCreateTime(userContext.now());		
+		studentHealthSurvey.setLastUpdateTime(userContext.now());		
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		studentHealthSurvey.setChangeRequest(changeRequest);
+	
+		
+		return studentHealthSurvey;
+
+
+	}
+
+	protected StudentHealthSurvey createIndexedStudentHealthSurvey(String id, int version){
+
+		StudentHealthSurvey studentHealthSurvey = new StudentHealthSurvey();
+		studentHealthSurvey.setId(id);
+		studentHealthSurvey.setVersion(version);
+		return studentHealthSurvey;
+
+	}
+
+	protected void checkParamsForRemovingStudentHealthSurveyList(HealthUserContext userContext, String teacherId,
+			String studentHealthSurveyIds[],String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		for(String studentHealthSurveyIdItem: studentHealthSurveyIds){
+			checkerOf(userContext).checkIdOfStudentHealthSurvey(studentHealthSurveyIdItem);
+		}
+
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+	}
+	public  Teacher removeStudentHealthSurveyList(HealthUserContext userContext, String teacherId,
+			String studentHealthSurveyIds[],String [] tokensExpr) throws Exception{
+
+			checkParamsForRemovingStudentHealthSurveyList(userContext, teacherId,  studentHealthSurveyIds, tokensExpr);
+
+
+			Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+			synchronized(teacher){
+				//Will be good when the teacher loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+				teacherDaoOf(userContext).planToRemoveStudentHealthSurveyList(teacher, studentHealthSurveyIds, allTokens());
+				teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+				deleteRelationListInGraph(userContext, teacher.getStudentHealthSurveyList());
+				return present(userContext,teacher, mergedAllTokens(tokensExpr));
+			}
+	}
+
+	protected void checkParamsForRemovingStudentHealthSurvey(HealthUserContext userContext, String teacherId,
+		String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfTeacher( teacherId);
+		checkerOf(userContext).checkIdOfStudentHealthSurvey(studentHealthSurveyId);
+		checkerOf(userContext).checkVersionOfStudentHealthSurvey(studentHealthSurveyVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+	}
+	public  Teacher removeStudentHealthSurvey(HealthUserContext userContext, String teacherId,
+		String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForRemovingStudentHealthSurvey(userContext,teacherId, studentHealthSurveyId, studentHealthSurveyVersion,tokensExpr);
+
+		StudentHealthSurvey studentHealthSurvey = createIndexedStudentHealthSurvey(studentHealthSurveyId, studentHealthSurveyVersion);
+		Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+		synchronized(teacher){
+			//Will be good when the teacher loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			teacher.removeStudentHealthSurvey( studentHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+			deleteRelationInGraph(userContext, studentHealthSurvey);
+			return present(userContext,teacher, mergedAllTokens(tokensExpr));
+		}
+
+
+	}
+	protected void checkParamsForCopyingStudentHealthSurvey(HealthUserContext userContext, String teacherId,
+		String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfTeacher( teacherId);
+		checkerOf(userContext).checkIdOfStudentHealthSurvey(studentHealthSurveyId);
+		checkerOf(userContext).checkVersionOfStudentHealthSurvey(studentHealthSurveyVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+	}
+	public  Teacher copyStudentHealthSurveyFrom(HealthUserContext userContext, String teacherId,
+		String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForCopyingStudentHealthSurvey(userContext,teacherId, studentHealthSurveyId, studentHealthSurveyVersion,tokensExpr);
+
+		StudentHealthSurvey studentHealthSurvey = createIndexedStudentHealthSurvey(studentHealthSurveyId, studentHealthSurveyVersion);
+		Teacher teacher = loadTeacher(userContext, teacherId, allTokens());
+		synchronized(teacher){
+			//Will be good when the teacher loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+
+			studentHealthSurvey.updateLastUpdateTime(userContext.now());
+
+			teacher.copyStudentHealthSurveyFrom( studentHealthSurvey );
+			teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
+			
+			userContext.getManagerGroup().getStudentHealthSurveyManager().onNewInstanceCreated(userContext, (StudentHealthSurvey)teacher.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			return present(userContext,teacher, mergedAllTokens(tokensExpr));
+		}
+
+	}
+
+	protected void checkParamsForUpdatingStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+		
+
+		
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		checkerOf(userContext).checkIdOfStudentHealthSurvey(studentHealthSurveyId);
+		checkerOf(userContext).checkVersionOfStudentHealthSurvey(studentHealthSurveyVersion);
+		
+
+		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		}
+		
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
+
+	}
+
+	public  Teacher updateStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)
+			throws Exception{
+
+		checkParamsForUpdatingStudentHealthSurvey(userContext, teacherId, studentHealthSurveyId, studentHealthSurveyVersion, property, newValueExpr,  tokensExpr);
+
+		Map<String,Object> loadTokens = this.tokens().withStudentHealthSurveyList().searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "eq", studentHealthSurveyId).done();
+
+
+
+		Teacher teacher = loadTeacher(userContext, teacherId, loadTokens);
+
+		synchronized(teacher){
+			//Will be good when the teacher loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			//teacher.removeStudentHealthSurvey( studentHealthSurvey );
+			//make changes to AcceleraterAccount.
+			StudentHealthSurvey studentHealthSurveyIndex = createIndexedStudentHealthSurvey(studentHealthSurveyId, studentHealthSurveyVersion);
+
+			StudentHealthSurvey studentHealthSurvey = teacher.findTheStudentHealthSurvey(studentHealthSurveyIndex);
+			if(studentHealthSurvey == null){
+				throw new TeacherManagerException(studentHealthSurvey+" is NOT FOUND" );
+			}
+
+			studentHealthSurvey.changeProperty(property, newValueExpr);
+			studentHealthSurvey.updateLastUpdateTime(userContext.now());
+			teacher = saveTeacher(userContext, teacher, tokens().withStudentHealthSurveyList().done());
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 

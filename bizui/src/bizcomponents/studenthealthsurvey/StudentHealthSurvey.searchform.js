@@ -134,9 +134,9 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'id'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'student'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'surveyStatus'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'schoolClass'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'teacher'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'classDailyHealthSurvey'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'cq'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'changeRequest'))
 
      
       console.log("the final parameter", paramList)
@@ -285,13 +285,13 @@ componentDidMount() {
                   )}
                 </Form.Item></Col>
  <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.schoolClass}>
-                  {getFieldDecorator('schoolClass', {initialValue: tryinit('schoolClass')})(
+                    <Form.Item label={fieldLabels.teacher}>
+                  {getFieldDecorator('teacher', {initialValue: tryinit('teacher')})(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('schoolClass')}
-                    targetType={"schoolClass"} 
-                    requestFunction={StudentHealthSurveyService.requestCandidateSchoolClass} useForSearch />
+                    disabled={!availableForEdit('teacher')}
+                    targetType={"teacher"} 
+                    requestFunction={StudentHealthSurveyService.requestCandidateTeacher} useForSearch />
                   	
                  
                   )}
@@ -309,13 +309,13 @@ componentDidMount() {
                   )}
                 </Form.Item></Col>
  <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.cq}>
-                  {getFieldDecorator('cq', {initialValue: tryinit('cq')})(
+                    <Form.Item label={fieldLabels.changeRequest}>
+                  {getFieldDecorator('changeRequest', {initialValue: tryinit('changeRequest')})(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('cq')}
-                    targetType={"cq"} 
-                    requestFunction={StudentHealthSurveyService.requestCandidateCq} useForSearch />
+                    disabled={!availableForEdit('changeRequest')}
+                    targetType={"changeRequest"} 
+                    requestFunction={StudentHealthSurveyService.requestCandidateChangeRequest} useForSearch />
                   	
                  
                   )}

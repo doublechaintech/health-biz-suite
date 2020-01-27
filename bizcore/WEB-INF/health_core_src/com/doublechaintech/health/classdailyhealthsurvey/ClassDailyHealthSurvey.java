@@ -14,9 +14,9 @@ import com.doublechaintech.health.KeyValuePair;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.user.User;
 
 @JsonSerialize(using = ClassDailyHealthSurveySerializer.class)
 public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Serializable{
@@ -24,10 +24,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	
 	public static final String ID_PROPERTY                    = "id"                ;
 	public static final String NAME_PROPERTY                  = "name"              ;
-	public static final String SCHOOL_CLASS_PROPERTY          = "schoolClass"       ;
+	public static final String TEACHER_PROPERTY               = "teacher"           ;
 	public static final String SURVEY_TIME_PROPERTY           = "surveyTime"        ;
 	public static final String CREATOR_PROPERTY               = "creator"           ;
-	public static final String CQ_PROPERTY                    = "cq"                ;
+	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String DAILY_SURVEY_QUESTION_LIST               = "dailySurveyQuestionList";
@@ -54,10 +54,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 
 	protected		String              	mId                 ;
 	protected		String              	mName               ;
-	protected		SchoolClass         	mSchoolClass        ;
+	protected		Teacher             	mTeacher            ;
 	protected		DateTime            	mSurveyTime         ;
-	protected		WechatUser          	mCreator            ;
-	protected		ChangeRequest       	mCq                 ;
+	protected		User                	mCreator            ;
+	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
@@ -80,9 +80,9 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
-		setSchoolClass( null );
+		setTeacher( null );
 		setCreator( null );
-		setCq( null );
+		setChangeRequest( null );
 
 		this.changed = true;
 	}
@@ -141,8 +141,8 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		if(NAME_PROPERTY.equals(property)){
 			return getName();
 		}
-		if(SCHOOL_CLASS_PROPERTY.equals(property)){
-			return getSchoolClass();
+		if(TEACHER_PROPERTY.equals(property)){
+			return getTeacher();
 		}
 		if(SURVEY_TIME_PROPERTY.equals(property)){
 			return getSurveyTime();
@@ -150,8 +150,8 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		if(CREATOR_PROPERTY.equals(property)){
 			return getCreator();
 		}
-		if(CQ_PROPERTY.equals(property)){
-			return getCq();
+		if(CHANGE_REQUEST_PROPERTY.equals(property)){
+			return getChangeRequest();
 		}
 		if(DAILY_SURVEY_QUESTION_LIST.equals(property)){
 			List<BaseEntity> list = getDailySurveyQuestionList().stream().map(item->item).collect(Collectors.toList());
@@ -204,24 +204,24 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	}
 	
 	
-	public void setSchoolClass(SchoolClass schoolClass){
-		this.mSchoolClass = schoolClass;;
+	public void setTeacher(Teacher teacher){
+		this.mTeacher = teacher;;
 	}
-	public SchoolClass getSchoolClass(){
-		return this.mSchoolClass;
+	public Teacher getTeacher(){
+		return this.mTeacher;
 	}
-	public ClassDailyHealthSurvey updateSchoolClass(SchoolClass schoolClass){
-		this.mSchoolClass = schoolClass;;
+	public ClassDailyHealthSurvey updateTeacher(Teacher teacher){
+		this.mTeacher = teacher;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeSchoolClass(SchoolClass schoolClass){
-		if(schoolClass != null) { setSchoolClass(schoolClass);}
+	public void mergeTeacher(Teacher teacher){
+		if(teacher != null) { setTeacher(teacher);}
 	}
 	
 	
-	public void clearSchoolClass(){
-		setSchoolClass ( null );
+	public void clearTeacher(){
+		setTeacher ( null );
 		this.changed = true;
 	}
 	
@@ -241,18 +241,18 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	}
 	
 	
-	public void setCreator(WechatUser creator){
+	public void setCreator(User creator){
 		this.mCreator = creator;;
 	}
-	public WechatUser getCreator(){
+	public User getCreator(){
 		return this.mCreator;
 	}
-	public ClassDailyHealthSurvey updateCreator(WechatUser creator){
+	public ClassDailyHealthSurvey updateCreator(User creator){
 		this.mCreator = creator;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeCreator(WechatUser creator){
+	public void mergeCreator(User creator){
 		if(creator != null) { setCreator(creator);}
 	}
 	
@@ -262,24 +262,24 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		this.changed = true;
 	}
 	
-	public void setCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public void setChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 	}
-	public ChangeRequest getCq(){
-		return this.mCq;
+	public ChangeRequest getChangeRequest(){
+		return this.mChangeRequest;
 	}
-	public ClassDailyHealthSurvey updateCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public ClassDailyHealthSurvey updateChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeCq(ChangeRequest cq){
-		if(cq != null) { setCq(cq);}
+	public void mergeChangeRequest(ChangeRequest changeRequest){
+		if(changeRequest != null) { setChangeRequest(changeRequest);}
 	}
 	
 	
-	public void clearCq(){
-		setCq ( null );
+	public void clearChangeRequest(){
+		setChangeRequest ( null );
 		this.changed = true;
 	}
 	
@@ -516,9 +516,9 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
-		addToEntityList(this, entityList, getSchoolClass(), internalType);
+		addToEntityList(this, entityList, getTeacher(), internalType);
 		addToEntityList(this, entityList, getCreator(), internalType);
-		addToEntityList(this, entityList, getCq(), internalType);
+		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
 	}
@@ -548,10 +548,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 
 		appendKeyValuePair(result, ID_PROPERTY, getId());
 		appendKeyValuePair(result, NAME_PROPERTY, getName());
-		appendKeyValuePair(result, SCHOOL_CLASS_PROPERTY, getSchoolClass());
+		appendKeyValuePair(result, TEACHER_PROPERTY, getTeacher());
 		appendKeyValuePair(result, SURVEY_TIME_PROPERTY, getSurveyTime());
 		appendKeyValuePair(result, CREATOR_PROPERTY, getCreator());
-		appendKeyValuePair(result, CQ_PROPERTY, getCq());
+		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionList());
 		if(!getDailySurveyQuestionList().isEmpty()){
@@ -579,10 +579,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		
 			dest.setId(getId());
 			dest.setName(getName());
-			dest.setSchoolClass(getSchoolClass());
+			dest.setTeacher(getTeacher());
 			dest.setSurveyTime(getSurveyTime());
 			dest.setCreator(getCreator());
-			dest.setCq(getCq());
+			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 			dest.setDailySurveyQuestionList(getDailySurveyQuestionList());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
@@ -601,10 +601,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		
 			dest.mergeId(getId());
 			dest.mergeName(getName());
-			dest.mergeSchoolClass(getSchoolClass());
+			dest.mergeTeacher(getTeacher());
 			dest.mergeSurveyTime(getSurveyTime());
 			dest.mergeCreator(getCreator());
-			dest.mergeCq(getCq());
+			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 			dest.mergeDailySurveyQuestionList(getDailySurveyQuestionList());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
@@ -631,7 +631,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getSchoolClass(), getSurveyTime(), getCreator(), getCq(), getVersion()};
+		return new Object[]{getId(), getName(), getTeacher(), getSurveyTime(), getCreator(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -639,15 +639,15 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		stringBuilder.append("ClassDailyHealthSurvey{");
 		stringBuilder.append("\tid='"+getId()+"';");
 		stringBuilder.append("\tname='"+getName()+"';");
-		if(getSchoolClass() != null ){
- 			stringBuilder.append("\tschoolClass='SchoolClass("+getSchoolClass().getId()+")';");
+		if(getTeacher() != null ){
+ 			stringBuilder.append("\tteacher='Teacher("+getTeacher().getId()+")';");
  		}
 		stringBuilder.append("\tsurveyTime='"+getSurveyTime()+"';");
 		if(getCreator() != null ){
- 			stringBuilder.append("\tcreator='WechatUser("+getCreator().getId()+")';");
+ 			stringBuilder.append("\tcreator='User("+getCreator().getId()+")';");
  		}
-		if(getCq() != null ){
- 			stringBuilder.append("\tcq='ChangeRequest("+getCq().getId()+")';");
+		if(getChangeRequest() != null ){
+ 			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

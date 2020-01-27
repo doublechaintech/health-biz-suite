@@ -139,7 +139,7 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'optionC'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'optionD'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'classDailyHealthSurvey'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'classQuestion'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'surveyQuestion'))
 
      
       console.log("the final parameter", paramList)
@@ -328,13 +328,13 @@ componentDidMount() {
                   )}
                 </Form.Item></Col>
  <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.classQuestion}>
-                  {getFieldDecorator('classQuestion', {initialValue: tryinit('classQuestion')})(
+                    <Form.Item label={fieldLabels.surveyQuestion}>
+                  {getFieldDecorator('surveyQuestion', {initialValue: tryinit('surveyQuestion')})(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('classQuestion')}
-                    targetType={"classQuestion"} 
-                    requestFunction={DailySurveyQuestionService.requestCandidateClassQuestion} useForSearch />
+                    disabled={!availableForEdit('surveyQuestion')}
+                    targetType={"surveyQuestion"} 
+                    requestFunction={DailySurveyQuestionService.requestCandidateSurveyQuestion} useForSearch />
                   	
                  
                   )}

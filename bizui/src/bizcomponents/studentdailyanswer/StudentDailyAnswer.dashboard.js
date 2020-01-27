@@ -132,10 +132,10 @@ const internalSummaryOf = (studentDailyAnswer,targetComponent) =>{
 <Description term="回答" style={{wordBreak: 'break-all'}}>{studentDailyAnswer.answer}</Description> 
 <Description term="创建时间">{ moment(studentDailyAnswer.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
 <Description term="最后更新时间">{ moment(studentDailyAnswer.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</Description> 
-<Description term="Cq">{studentDailyAnswer.cq==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.cq.displayName}(${studentDailyAnswer.cq.id})`}
+<Description term="变更请求">{studentDailyAnswer.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.changeRequest.displayName}(${studentDailyAnswer.changeRequest.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"Cq","changeRequest",StudentDailyAnswerService.requestCandidateCq,
-	      StudentDailyAnswerService.transferToAnotherCq,"anotherCqId",studentDailyAnswer.cq?studentDailyAnswer.cq.id:"")} 
+  showTransferModel(targetComponent,"变更请求","changeRequest",StudentDailyAnswerService.requestCandidateChangeRequest,
+	      StudentDailyAnswerService.transferToAnotherChangeRequest,"anotherChangeRequestId",studentDailyAnswer.changeRequest?studentDailyAnswer.changeRequest.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 	

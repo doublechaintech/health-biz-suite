@@ -104,8 +104,11 @@
 <c:if test="${param.referName ne 'mobile'}">
 	<th>${userContext.localeMap['teacher.mobile']}</th>
 </c:if>
-<c:if test="${param.referName ne 'schoole'}">
-	<th>${userContext.localeMap['teacher.schoole']}</th>
+<c:if test="${param.referName ne 'school'}">
+	<th>${userContext.localeMap['teacher.school']}</th>
+</c:if>
+<c:if test="${param.referName ne 'schoolClass'}">
+	<th>${userContext.localeMap['teacher.school_class']}</th>
 </c:if>
 <c:if test="${param.referName ne 'createTime'}">
 	<th>${userContext.localeMap['teacher.create_time']}</th>
@@ -113,8 +116,8 @@
 <c:if test="${param.referName ne 'platform'}">
 	<th>${userContext.localeMap['teacher.platform']}</th>
 </c:if>
-<c:if test="${param.referName ne 'cq'}">
-	<th>${userContext.localeMap['teacher.cq']}</th>
+<c:if test="${param.referName ne 'changeRequest'}">
+	<th>${userContext.localeMap['teacher.change_request']}</th>
 </c:if>
 <th>${userContext.localeMap['@action']}</th>
 		</tr></thead>
@@ -124,7 +127,8 @@
 				<tr currentVersion='${item.version}' id="teacher-${item.id}" ><td><a class="link-action-removed" href="./teacherManager/view/${item.id}/"> ${item.id}</a></td>
 <c:if test="${param.referName ne 'name'}">	<td contenteditable='true' class='edit-value'  propertyToChange='name' storedCellValue='${item.name}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.name}</td>
 </c:if><c:if test="${param.referName ne 'mobile'}">	<td contenteditable='true' class='edit-value'  propertyToChange='mobile' storedCellValue='${item.maskedMobile}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.maskedMobile}</td>
-</c:if><c:if test="${param.referName ne 'schoole'}">	<td contenteditable='true' class='edit-value'  propertyToChange='schoole' storedCellValue='${item.schoole}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.schoole}</td>
+</c:if><c:if test="${param.referName ne 'school'}">	<td contenteditable='true' class='edit-value'  propertyToChange='school' storedCellValue='${item.school}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.school}</td>
+</c:if><c:if test="${param.referName ne 'schoolClass'}">	<td contenteditable='true' class='edit-value'  propertyToChange='schoolClass' storedCellValue='${item.schoolClass}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.schoolClass}</td>
 </c:if><c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
 </c:if><c:if test="${param.referName ne 'platform'}">
 	<td class="select_candidate_td"
@@ -145,16 +149,16 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'cq'}">
+<c:if test="${param.referName ne 'changeRequest'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./teacherManager/requestCandidateCq/${ownerBeanName}/${item.id}/"
-			data-switch-method="./teacherManager/transferToAnotherCq/${item.id}/"
+			data-candidate-method="./teacherManager/requestCandidateChangeRequest/${ownerBeanName}/${item.id}/"
+			data-switch-method="./teacherManager/transferToAnotherChangeRequest/${item.id}/"
 			data-link-template="./changeRequestManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.cq}">
-			<a href='./changeRequestManager/view/${item.cq.id}/'>${item.cq.displayName}</a>
+			<c:if test="${not empty  item.changeRequest}">
+			<a href='./changeRequestManager/view/${item.changeRequest.id}/'>${item.changeRequest.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.cq}">
+			<c:if test="${empty  item.changeRequest}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>

@@ -19,9 +19,9 @@ import com.doublechaintech.health.userapp.UserApp;
 import com.terapico.uccaf.BaseUserContext;
 
 
-import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.user.User;
 
-import com.doublechaintech.health.wechatuser.CandidateWechatUser;
+import com.doublechaintech.health.user.CandidateUser;
 
 
 
@@ -154,7 +154,7 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 		addAction(userContext, wechatLoginInfo, tokens,"@update","updateWechatLoginInfo","updateWechatLoginInfo/"+wechatLoginInfo.getId()+"/","main","primary");
 		addAction(userContext, wechatLoginInfo, tokens,"@copy","cloneWechatLoginInfo","cloneWechatLoginInfo/"+wechatLoginInfo.getId()+"/","main","primary");
 		
-		addAction(userContext, wechatLoginInfo, tokens,"wechat_login_info.transfer_to_wechat_user","transferToAnotherWechatUser","transferToAnotherWechatUser/"+wechatLoginInfo.getId()+"/","main","primary");
+		addAction(userContext, wechatLoginInfo, tokens,"wechat_login_info.transfer_to_user","transferToAnotherUser","transferToAnotherUser/"+wechatLoginInfo.getId()+"/","main","primary");
 	
 		
 		
@@ -166,8 +166,8 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
  	
  	
 
-	public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext, String wechatUserId,String appId,String openId,String sessionKey) throws Exception
-	//public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext,String wechatUserId, String appId, String openId, String sessionKey) throws Exception
+	public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext, String userId,String appId,String openId,String sessionKey) throws Exception
+	//public WechatLoginInfo createWechatLoginInfo(HealthUserContext userContext,String userId, String appId, String openId, String sessionKey) throws Exception
 	{
 
 		
@@ -184,8 +184,8 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 		WechatLoginInfo wechatLoginInfo=createNewWechatLoginInfo();	
 
 			
-		WechatUser wechatUser = loadWechatUser(userContext, wechatUserId,emptyOptions());
-		wechatLoginInfo.setWechatUser(wechatUser);
+		User user = loadUser(userContext, userId,emptyOptions());
+		wechatLoginInfo.setUser(user);
 		
 		
 		wechatLoginInfo.setAppId(appId);
@@ -332,24 +332,24 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 		return WechatLoginInfoTokens.mergeAll(tokens).done();
 	}
 	
-	protected void checkParamsForTransferingAnotherWechatUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherWechatUserId) throws Exception
+	protected void checkParamsForTransferingAnotherUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherUserId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfWechatLoginInfo(wechatLoginInfoId);
- 		checkerOf(userContext).checkIdOfWechatUser(anotherWechatUserId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfUser(anotherUserId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(WechatLoginInfoManagerException.class);
 
  	}
- 	public WechatLoginInfo transferToAnotherWechatUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherWechatUserId) throws Exception
+ 	public WechatLoginInfo transferToAnotherUser(HealthUserContext userContext, String wechatLoginInfoId, String anotherUserId) throws Exception
  	{
- 		checkParamsForTransferingAnotherWechatUser(userContext, wechatLoginInfoId,anotherWechatUserId);
+ 		checkParamsForTransferingAnotherUser(userContext, wechatLoginInfoId,anotherUserId);
  
 		WechatLoginInfo wechatLoginInfo = loadWechatLoginInfo(userContext, wechatLoginInfoId, allTokens());	
 		synchronized(wechatLoginInfo){
 			//will be good when the wechatLoginInfo loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			WechatUser wechatUser = loadWechatUser(userContext, anotherWechatUserId, emptyOptions());		
-			wechatLoginInfo.updateWechatUser(wechatUser);		
+			User user = loadUser(userContext, anotherUserId, emptyOptions());		
+			wechatLoginInfo.updateUser(user);		
 			wechatLoginInfo = saveWechatLoginInfo(userContext, wechatLoginInfo, emptyOptions());
 			
 			return present(userContext,wechatLoginInfo, allTokens());
@@ -361,9 +361,9 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 	
 
 
-	public CandidateWechatUser requestCandidateWechatUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateUser requestCandidateUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateWechatUser result = new CandidateWechatUser();
+		CandidateUser result = new CandidateUser();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -374,7 +374,7 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<WechatUser> candidateList = wechatUserDaoOf(userContext).requestCandidateWechatUserForWechatLoginInfo(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<User> candidateList = userDaoOf(userContext).requestCandidateUserForWechatLoginInfo(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
@@ -384,10 +384,10 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
  //--------------------------------------------------------------
 	
 
- 	protected WechatUser loadWechatUser(HealthUserContext userContext, String newWechatUserId, Map<String,Object> options) throws Exception
+ 	protected User loadUser(HealthUserContext userContext, String newUserId, Map<String,Object> options) throws Exception
  	{
 
- 		return wechatUserDaoOf(userContext).load(newWechatUserId, options);
+ 		return userDaoOf(userContext).load(newUserId, options);
  	}
  	
 

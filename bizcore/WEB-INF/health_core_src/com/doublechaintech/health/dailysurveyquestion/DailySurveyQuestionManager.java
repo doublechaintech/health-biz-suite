@@ -13,7 +13,7 @@ public interface DailySurveyQuestionManager extends BaseManager{
 
 		
 
-	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String classQuestionId) throws Exception;	
+	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String surveyQuestionId) throws Exception;	
 	public DailySurveyQuestion updateDailySurveyQuestion(HealthUserContext userContext,String dailySurveyQuestionId, int dailySurveyQuestionVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public DailySurveyQuestion loadDailySurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String [] tokensExpr) throws Exception;
 	public DailySurveyQuestion internalSaveDailySurveyQuestion(HealthUserContext userContext, DailySurveyQuestion dailySurveyQuestion) throws Exception;
@@ -21,7 +21,7 @@ public interface DailySurveyQuestionManager extends BaseManager{
 	
 	public DailySurveyQuestion transferToAnotherQuestionType(HealthUserContext userContext, String dailySurveyQuestionId, String anotherQuestionTypeId)  throws Exception;
  	public DailySurveyQuestion transferToAnotherClassDailyHealthSurvey(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassDailyHealthSurveyId)  throws Exception;
- 	public DailySurveyQuestion transferToAnotherClassQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassQuestionId)  throws Exception;
+ 	public DailySurveyQuestion transferToAnotherSurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherSurveyQuestionId)  throws Exception;
  
 
 	public void delete(HealthUserContext userContext, String dailySurveyQuestionId, int version) throws Exception;
@@ -31,9 +31,9 @@ public interface DailySurveyQuestionManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String cqId , String [] tokensExpr)  throws Exception;
+	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  DailySurveyQuestion removeStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr)  throws Exception;
 	public  DailySurveyQuestion updateStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

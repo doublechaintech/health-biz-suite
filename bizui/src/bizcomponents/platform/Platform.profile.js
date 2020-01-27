@@ -53,7 +53,7 @@ class PlatformProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  platform = this.props.platform;
-    const { id,displayName, provinceCount, cityCount, districtCount, schoolClassCount, teacherCount, guardianCount, questionCount, questionTypeCount, questionSourceCount, surveyStatusCount, wechatUserCount, userTypeCount, changeRequestCount, changeRequestTypeCount } = platform
+    const { id,displayName, provinceCount, cityCount, districtCount, teacherCount, studentCount, questionCount, questionTypeCount, surveyStatusCount, userCount, changeRequestCount, changeRequestTypeCount } = platform
     const  returnURL = `/platform/${id}/dashboard`
     const cardsData = {cardsName:"平台",cardsFor: "platform",cardsSource: platform,displayName,returnURL,
   		subItems: [
@@ -61,9 +61,7 @@ class PlatformProfile extends Component {
 {name: 'cityList', displayName:'城市',type:'city',count:cityCount,addFunction: true, role: 'city',  renderItem: GlobalComponents.CityBase.renderItemOfList},
 {name: 'districtList', displayName:'区/县',type:'district',count:districtCount,addFunction: true, role: 'district',  renderItem: GlobalComponents.DistrictBase.renderItemOfList},
 {name: 'questionTypeList', displayName:'问题类型',type:'questionType',count:questionTypeCount,addFunction: false, role: 'questionType',  renderItem: GlobalComponents.QuestionTypeBase.renderItemOfList},
-{name: 'questionSourceList', displayName:'问题的来源',type:'questionSource',count:questionSourceCount,addFunction: false, role: 'questionSource',  renderItem: GlobalComponents.QuestionSourceBase.renderItemOfList},
 {name: 'surveyStatusList', displayName:'调查现状',type:'surveyStatus',count:surveyStatusCount,addFunction: false, role: 'surveyStatus',  renderItem: GlobalComponents.SurveyStatusBase.renderItemOfList},
-{name: 'userTypeList', displayName:'用户类型',type:'userType',count:userTypeCount,addFunction: false, role: 'userType',  renderItem: GlobalComponents.UserTypeBase.renderItemOfList},
 {name: 'changeRequestTypeList', displayName:'变更请求类型',type:'changeRequestType',count:changeRequestTypeCount,addFunction: false, role: 'changeRequestType',  renderItem: GlobalComponents.ChangeRequestTypeBase.renderItemOfList},
      
       	],

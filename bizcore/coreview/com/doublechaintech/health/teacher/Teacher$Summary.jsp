@@ -45,8 +45,12 @@
 <span >${result.maskedMobile}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['teacher.schoole']}</span>
-<span >${result.schoole}</span>
+<span class="summary-label">${userContext.localeMap['teacher.school']}</span>
+<span >${result.school}</span>
+</div>
+<div class="col-xs-12 col-md-3 summary-section">
+<span class="summary-label">${userContext.localeMap['teacher.school_class']}</span>
+<span >${result.schoolClass}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
 <span class="summary-label">${userContext.localeMap['teacher.create_time']}</span>

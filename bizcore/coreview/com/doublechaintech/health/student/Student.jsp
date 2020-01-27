@@ -128,16 +128,20 @@
 	
 
 	<div class="row">
-<c:set var="guardian" value="${ result.guardian}" scope="request" />
-<c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/guardian/Guardian$Info.jsp" />
+<c:set var="location" value="${ result.address}" scope="request" />
+<c:set var="referName" value="(address)" scope="request" />
+<sky:include page="com/doublechaintech/health/location/Location$Info.jsp" />
 
-<c:set var="schoolClass" value="${ result.schoolClass}" scope="request" />
+<c:set var="user" value="${ result.user}" scope="request" />
 <c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/schoolclass/SchoolClass$Info.jsp" />
+<sky:include page="com/doublechaintech/health/user/User$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.cq}" scope="request" />
-<c:set var="referName" value="(cq)" scope="request" />
+<c:set var="platform" value="${ result.platform}" scope="request" />
+<c:set var="referName" value="" scope="request" />
+<sky:include page="com/doublechaintech/health/platform/Platform$Info.jsp" />
+
+<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
+<c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
 
 </div>

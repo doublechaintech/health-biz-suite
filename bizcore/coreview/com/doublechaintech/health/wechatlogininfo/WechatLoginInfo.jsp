@@ -127,9 +127,9 @@
 	
 
 	<div class="row">
-<c:set var="wechatUser" value="${ result.wechatUser}" scope="request" />
+<c:set var="user" value="${ result.user}" scope="request" />
 <c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/wechatuser/WechatUser$Info.jsp" />
+<sky:include page="com/doublechaintech/health/user/User$Info.jsp" />
 
 </div>
 

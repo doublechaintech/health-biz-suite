@@ -11,25 +11,17 @@ import com.doublechaintech.health.district.DistrictManager;
 
 import com.doublechaintech.health.location.LocationManager;
 
-import com.doublechaintech.health.schoolclass.SchoolClassManager;
-
 import com.doublechaintech.health.teacher.TeacherManager;
 
-import com.doublechaintech.health.guardian.GuardianManager;
+import com.doublechaintech.health.student.StudentManager;
 
 import com.doublechaintech.health.question.QuestionManager;
 
 import com.doublechaintech.health.questiontype.QuestionTypeManager;
 
-import com.doublechaintech.health.questionsource.QuestionSourceManager;
-
-import com.doublechaintech.health.classquestion.ClassQuestionManager;
-
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyManager;
 
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionManager;
-
-import com.doublechaintech.health.student.StudentManager;
 
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyManager;
 
@@ -37,9 +29,7 @@ import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerManager;
 
 import com.doublechaintech.health.surveystatus.SurveyStatusManager;
 
-import com.doublechaintech.health.wechatuser.WechatUserManager;
-
-import com.doublechaintech.health.usertype.UserTypeManager;
+import com.doublechaintech.health.user.UserManager;
 
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoManager;
 
@@ -94,25 +84,17 @@ public class ManagerGroup {
 
 	protected LocationManager locationManager;
 
-	protected SchoolClassManager schoolClassManager;
-
 	protected TeacherManager teacherManager;
 
-	protected GuardianManager guardianManager;
+	protected StudentManager studentManager;
 
 	protected QuestionManager questionManager;
 
 	protected QuestionTypeManager questionTypeManager;
 
-	protected QuestionSourceManager questionSourceManager;
-
-	protected ClassQuestionManager classQuestionManager;
-
 	protected ClassDailyHealthSurveyManager classDailyHealthSurveyManager;
 
 	protected DailySurveyQuestionManager dailySurveyQuestionManager;
-
-	protected StudentManager studentManager;
 
 	protected StudentHealthSurveyManager studentHealthSurveyManager;
 
@@ -120,9 +102,7 @@ public class ManagerGroup {
 
 	protected SurveyStatusManager surveyStatusManager;
 
-	protected WechatUserManager wechatUserManager;
-
-	protected UserTypeManager userTypeManager;
+	protected UserManager userManager;
 
 	protected WechatLoginInfoManager wechatLoginInfoManager;
 
@@ -206,14 +186,6 @@ public class ManagerGroup {
 	}
 
 
-	public SchoolClassManager getSchoolClassManager(){
-		return this.schoolClassManager;
-	}
-	public void setSchoolClassManager(SchoolClassManager manager){
-		this.schoolClassManager = manager;
-	}
-
-
 	public TeacherManager getTeacherManager(){
 		return this.teacherManager;
 	}
@@ -222,11 +194,11 @@ public class ManagerGroup {
 	}
 
 
-	public GuardianManager getGuardianManager(){
-		return this.guardianManager;
+	public StudentManager getStudentManager(){
+		return this.studentManager;
 	}
-	public void setGuardianManager(GuardianManager manager){
-		this.guardianManager = manager;
+	public void setStudentManager(StudentManager manager){
+		this.studentManager = manager;
 	}
 
 
@@ -246,22 +218,6 @@ public class ManagerGroup {
 	}
 
 
-	public QuestionSourceManager getQuestionSourceManager(){
-		return this.questionSourceManager;
-	}
-	public void setQuestionSourceManager(QuestionSourceManager manager){
-		this.questionSourceManager = manager;
-	}
-
-
-	public ClassQuestionManager getClassQuestionManager(){
-		return this.classQuestionManager;
-	}
-	public void setClassQuestionManager(ClassQuestionManager manager){
-		this.classQuestionManager = manager;
-	}
-
-
 	public ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(){
 		return this.classDailyHealthSurveyManager;
 	}
@@ -275,14 +231,6 @@ public class ManagerGroup {
 	}
 	public void setDailySurveyQuestionManager(DailySurveyQuestionManager manager){
 		this.dailySurveyQuestionManager = manager;
-	}
-
-
-	public StudentManager getStudentManager(){
-		return this.studentManager;
-	}
-	public void setStudentManager(StudentManager manager){
-		this.studentManager = manager;
 	}
 
 
@@ -310,19 +258,11 @@ public class ManagerGroup {
 	}
 
 
-	public WechatUserManager getWechatUserManager(){
-		return this.wechatUserManager;
+	public UserManager getUserManager(){
+		return this.userManager;
 	}
-	public void setWechatUserManager(WechatUserManager manager){
-		this.wechatUserManager = manager;
-	}
-
-
-	public UserTypeManager getUserTypeManager(){
-		return this.userTypeManager;
-	}
-	public void setUserTypeManager(UserTypeManager manager){
-		this.userTypeManager = manager;
+	public void setUserManager(UserManager manager){
+		this.userManager = manager;
 	}
 
 

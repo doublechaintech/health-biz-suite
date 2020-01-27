@@ -65,7 +65,7 @@ const showAssociateDialog = (targetComponent) => {
   
   const { StudentAssociateForm } = GlobalComponents
   const { SurveyStatusAssociateForm } = GlobalComponents
-  const { SchoolClassAssociateForm } = GlobalComponents
+  const { TeacherAssociateForm } = GlobalComponents
   const { ClassDailyHealthSurveyAssociateForm } = GlobalComponents
   const { ChangeRequestAssociateForm } = GlobalComponents
 
@@ -83,19 +83,19 @@ const showAssociateDialog = (targetComponent) => {
 	visible={currentAssociateModal==='surveyStatus'} 
 	data={{studentHealthSurveyList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'surveyStatus')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'surveyStatus')}/> <SchoolClassAssociateForm 
-	visible={currentAssociateModal==='schoolClass'} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'surveyStatus')}/> <TeacherAssociateForm 
+	visible={currentAssociateModal==='teacher'} 
 	data={{studentHealthSurveyList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'schoolClass')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'schoolClass')}/> <ClassDailyHealthSurveyAssociateForm 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'teacher')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'teacher')}/> <ClassDailyHealthSurveyAssociateForm 
 	visible={currentAssociateModal==='classDailyHealthSurvey'} 
 	data={{studentHealthSurveyList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'classDailyHealthSurvey')} 
 	onCreate={()=>toggleAssociateModalVisible(targetComponent,'classDailyHealthSurvey')}/> <ChangeRequestAssociateForm 
-	visible={currentAssociateModal==='cq'} 
+	visible={currentAssociateModal==='changeRequest'} 
 	data={{studentHealthSurveyList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'cq')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'cq')}/> 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')}/> 
  
 
 

@@ -22,10 +22,12 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 
 
@@ -59,20 +61,39 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 			
 		
 	
-  	private  SchoolClassDAO  schoolClassDAO;
- 	public void setSchoolClassDAO(SchoolClassDAO pSchoolClassDAO){
+  	private  ClassDailyHealthSurveyDAO  classDailyHealthSurveyDAO;
+ 	public void setClassDailyHealthSurveyDAO(ClassDailyHealthSurveyDAO pClassDailyHealthSurveyDAO){
  	
- 		if(pSchoolClassDAO == null){
- 			throw new IllegalStateException("Do not try to set schoolClassDAO to null.");
+ 		if(pClassDailyHealthSurveyDAO == null){
+ 			throw new IllegalStateException("Do not try to set classDailyHealthSurveyDAO to null.");
  		}
-	 	this.schoolClassDAO = pSchoolClassDAO;
+	 	this.classDailyHealthSurveyDAO = pClassDailyHealthSurveyDAO;
  	}
- 	public SchoolClassDAO getSchoolClassDAO(){
- 		if(this.schoolClassDAO == null){
- 			throw new IllegalStateException("The schoolClassDAO is not configured yet, please config it some where.");
+ 	public ClassDailyHealthSurveyDAO getClassDailyHealthSurveyDAO(){
+ 		if(this.classDailyHealthSurveyDAO == null){
+ 			throw new IllegalStateException("The classDailyHealthSurveyDAO is not configured yet, please config it some where.");
  		}
  		
-	 	return this.schoolClassDAO;
+	 	return this.classDailyHealthSurveyDAO;
+ 	}	
+ 	
+			
+		
+	
+  	private  StudentHealthSurveyDAO  studentHealthSurveyDAO;
+ 	public void setStudentHealthSurveyDAO(StudentHealthSurveyDAO pStudentHealthSurveyDAO){
+ 	
+ 		if(pStudentHealthSurveyDAO == null){
+ 			throw new IllegalStateException("Do not try to set studentHealthSurveyDAO to null.");
+ 		}
+	 	this.studentHealthSurveyDAO = pStudentHealthSurveyDAO;
+ 	}
+ 	public StudentHealthSurveyDAO getStudentHealthSurveyDAO(){
+ 		if(this.studentHealthSurveyDAO == null){
+ 			throw new IllegalStateException("The studentHealthSurveyDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.studentHealthSurveyDAO;
  	}	
  	
 			
@@ -127,8 +148,15 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 		
 		
  		
- 		if(isSaveSchoolClassListEnabled(options)){
- 			for(SchoolClass item: newTeacher.getSchoolClassList()){
+ 		if(isSaveClassDailyHealthSurveyListEnabled(options)){
+ 			for(ClassDailyHealthSurvey item: newTeacher.getClassDailyHealthSurveyList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
+		
+ 		
+ 		if(isSaveStudentHealthSurveyListEnabled(options)){
+ 			for(StudentHealthSurvey item: newTeacher.getStudentHealthSurveyList()){
  				item.setVersion(0);
  			}
  		}
@@ -238,14 +266,14 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  	
   
 
- 	protected boolean isExtractCqEnabled(Map<String,Object> options){
+ 	protected boolean isExtractChangeRequestEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, TeacherTokens.CQ);
+	 	return checkOptions(options, TeacherTokens.CHANGEREQUEST);
  	}
 
- 	protected boolean isSaveCqEnabled(Map<String,Object> options){
+ 	protected boolean isSaveChangeRequestEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, TeacherTokens.CQ);
+ 		return checkOptions(options, TeacherTokens.CHANGEREQUEST);
  	}
  	
 
@@ -253,15 +281,29 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  
 		
 	
-	protected boolean isExtractSchoolClassListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,TeacherTokens.SCHOOL_CLASS_LIST);
+	protected boolean isExtractClassDailyHealthSurveyListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,TeacherTokens.CLASS_DAILY_HEALTH_SURVEY_LIST);
  	}
- 	protected boolean isAnalyzeSchoolClassListEnabled(Map<String,Object> options){		 		
- 		return TeacherTokens.of(options).analyzeSchoolClassListEnabled();
+ 	protected boolean isAnalyzeClassDailyHealthSurveyListEnabled(Map<String,Object> options){		 		
+ 		return TeacherTokens.of(options).analyzeClassDailyHealthSurveyListEnabled();
  	}
 	
-	protected boolean isSaveSchoolClassListEnabled(Map<String,Object> options){
-		return checkOptions(options, TeacherTokens.SCHOOL_CLASS_LIST);
+	protected boolean isSaveClassDailyHealthSurveyListEnabled(Map<String,Object> options){
+		return checkOptions(options, TeacherTokens.CLASS_DAILY_HEALTH_SURVEY_LIST);
+		
+ 	}
+ 	
+		
+	
+	protected boolean isExtractStudentHealthSurveyListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,TeacherTokens.STUDENT_HEALTH_SURVEY_LIST);
+ 	}
+ 	protected boolean isAnalyzeStudentHealthSurveyListEnabled(Map<String,Object> options){		 		
+ 		return TeacherTokens.of(options).analyzeStudentHealthSurveyListEnabled();
+ 	}
+	
+	protected boolean isSaveStudentHealthSurveyListEnabled(Map<String,Object> options){
+		return checkOptions(options, TeacherTokens.STUDENT_HEALTH_SURVEY_LIST);
 		
  	}
  	
@@ -296,16 +338,24 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	 		extractPlatform(teacher, loadOptions);
  		}
   	
- 		if(isExtractCqEnabled(loadOptions)){
-	 		extractCq(teacher, loadOptions);
+ 		if(isExtractChangeRequestEnabled(loadOptions)){
+	 		extractChangeRequest(teacher, loadOptions);
  		}
  
 		
-		if(isExtractSchoolClassListEnabled(loadOptions)){
-	 		extractSchoolClassList(teacher, loadOptions);
+		if(isExtractClassDailyHealthSurveyListEnabled(loadOptions)){
+	 		extractClassDailyHealthSurveyList(teacher, loadOptions);
  		}	
- 		if(isAnalyzeSchoolClassListEnabled(loadOptions)){
-	 		analyzeSchoolClassList(teacher, loadOptions);
+ 		if(isAnalyzeClassDailyHealthSurveyListEnabled(loadOptions)){
+	 		analyzeClassDailyHealthSurveyList(teacher, loadOptions);
+ 		}
+ 		
+		
+		if(isExtractStudentHealthSurveyListEnabled(loadOptions)){
+	 		extractStudentHealthSurveyList(teacher, loadOptions);
+ 		}	
+ 		if(isAnalyzeStudentHealthSurveyListEnabled(loadOptions)){
+	 		analyzeStudentHealthSurveyList(teacher, loadOptions);
  		}
  		
 		
@@ -335,18 +385,18 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  		
   
 
- 	protected Teacher extractCq(Teacher teacher, Map<String,Object> options) throws Exception{
+ 	protected Teacher extractChangeRequest(Teacher teacher, Map<String,Object> options) throws Exception{
 
-		if(teacher.getCq() == null){
+		if(teacher.getChangeRequest() == null){
 			return teacher;
 		}
-		String cqId = teacher.getCq().getId();
-		if( cqId == null){
+		String changeRequestId = teacher.getChangeRequest().getId();
+		if( changeRequestId == null){
 			return teacher;
 		}
-		ChangeRequest cq = getChangeRequestDAO().load(cqId,options);
-		if(cq != null){
-			teacher.setCq(cq);
+		ChangeRequest changeRequest = getChangeRequestDAO().load(changeRequestId,options);
+		if(changeRequest != null){
+			teacher.setChangeRequest(changeRequest);
 		}
 		
  		
@@ -355,12 +405,12 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  		
  
 		
-	protected void enhanceSchoolClassList(SmartList<SchoolClass> schoolClassList,Map<String,Object> options){
+	protected void enhanceClassDailyHealthSurveyList(SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
 	}
 	
-	protected Teacher extractSchoolClassList(Teacher teacher, Map<String,Object> options){
+	protected Teacher extractClassDailyHealthSurveyList(Teacher teacher, Map<String,Object> options){
 		
 		
 		if(teacher == null){
@@ -372,17 +422,17 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 
 		
 		
-		SmartList<SchoolClass> schoolClassList = getSchoolClassDAO().findSchoolClassByClassTeacher(teacher.getId(),options);
-		if(schoolClassList != null){
-			enhanceSchoolClassList(schoolClassList,options);
-			teacher.setSchoolClassList(schoolClassList);
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = getClassDailyHealthSurveyDAO().findClassDailyHealthSurveyByTeacher(teacher.getId(),options);
+		if(classDailyHealthSurveyList != null){
+			enhanceClassDailyHealthSurveyList(classDailyHealthSurveyList,options);
+			teacher.setClassDailyHealthSurveyList(classDailyHealthSurveyList);
 		}
 		
 		return teacher;
 	
 	}	
 	
-	protected Teacher analyzeSchoolClassList(Teacher teacher, Map<String,Object> options){
+	protected Teacher analyzeClassDailyHealthSurveyList(Teacher teacher, Map<String,Object> options){
 		
 		
 		if(teacher == null){
@@ -394,9 +444,59 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 
 		
 		
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();
-		if(schoolClassList != null){
-			getSchoolClassDAO().analyzeSchoolClassByClassTeacher(schoolClassList, teacher.getId(), options);
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();
+		if(classDailyHealthSurveyList != null){
+			getClassDailyHealthSurveyDAO().analyzeClassDailyHealthSurveyByTeacher(classDailyHealthSurveyList, teacher.getId(), options);
+			
+		}
+		
+		return teacher;
+	
+	}	
+	
+		
+	protected void enhanceStudentHealthSurveyList(SmartList<StudentHealthSurvey> studentHealthSurveyList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected Teacher extractStudentHealthSurveyList(Teacher teacher, Map<String,Object> options){
+		
+		
+		if(teacher == null){
+			return null;
+		}
+		if(teacher.getId() == null){
+			return teacher;
+		}
+
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = getStudentHealthSurveyDAO().findStudentHealthSurveyByTeacher(teacher.getId(),options);
+		if(studentHealthSurveyList != null){
+			enhanceStudentHealthSurveyList(studentHealthSurveyList,options);
+			teacher.setStudentHealthSurveyList(studentHealthSurveyList);
+		}
+		
+		return teacher;
+	
+	}	
+	
+	protected Teacher analyzeStudentHealthSurveyList(Teacher teacher, Map<String,Object> options){
+		
+		
+		if(teacher == null){
+			return null;
+		}
+		if(teacher.getId() == null){
+			return teacher;
+		}
+
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();
+		if(studentHealthSurveyList != null){
+			getStudentHealthSurveyDAO().analyzeStudentHealthSurveyByTeacher(studentHealthSurveyList, teacher.getId(), options);
 			
 		}
 		
@@ -457,28 +557,28 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	}
  	
   	
- 	public SmartList<Teacher> findTeacherByCq(String changeRequestId,Map<String,Object> options){
+ 	public SmartList<Teacher> findTeacherByChangeRequest(String changeRequestId,Map<String,Object> options){
  	
-  		SmartList<Teacher> resultList = queryWith(TeacherTable.COLUMN_CQ, changeRequestId, options, getTeacherMapper());
-		// analyzeTeacherByCq(resultList, changeRequestId, options);
+  		SmartList<Teacher> resultList = queryWith(TeacherTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getTeacherMapper());
+		// analyzeTeacherByChangeRequest(resultList, changeRequestId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<Teacher> findTeacherByCq(String changeRequestId, int start, int count,Map<String,Object> options){
+ 	public SmartList<Teacher> findTeacherByChangeRequest(String changeRequestId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<Teacher> resultList =  queryWithRange(TeacherTable.COLUMN_CQ, changeRequestId, options, getTeacherMapper(), start, count);
- 		//analyzeTeacherByCq(resultList, changeRequestId, options);
+ 		SmartList<Teacher> resultList =  queryWithRange(TeacherTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getTeacherMapper(), start, count);
+ 		//analyzeTeacherByChangeRequest(resultList, changeRequestId, options);
  		return resultList;
  		
  	}
- 	public void analyzeTeacherByCq(SmartList<Teacher> resultList, String changeRequestId, Map<String,Object> options){
+ 	public void analyzeTeacherByChangeRequest(SmartList<Teacher> resultList, String changeRequestId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(Teacher.CQ_PROPERTY, changeRequestId);
+ 		filterKey.put(Teacher.CHANGE_REQUEST_PROPERTY, changeRequestId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -497,13 +597,13 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  		
  	}
  	@Override
- 	public int countTeacherByCq(String changeRequestId,Map<String,Object> options){
+ 	public int countTeacherByChangeRequest(String changeRequestId,Map<String,Object> options){
 
- 		return countWith(TeacherTable.COLUMN_CQ, changeRequestId, options);
+ 		return countWith(TeacherTable.COLUMN_CHANGE_REQUEST, changeRequestId, options);
  	}
  	@Override
-	public Map<String, Integer> countTeacherByCqIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(TeacherTable.COLUMN_CQ, ids, options);
+	public Map<String, Integer> countTeacherByChangeRequestIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(TeacherTable.COLUMN_CHANGE_REQUEST, ids, options);
 	}
  	
  	
@@ -648,43 +748,45 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  		return prepareTeacherCreateParameters(teacher);
  	}
  	protected Object[] prepareTeacherUpdateParameters(Teacher teacher){
- 		Object[] parameters = new Object[9];
+ 		Object[] parameters = new Object[10];
  
  		parameters[0] = teacher.getName();
  		parameters[1] = teacher.getMobile();
- 		parameters[2] = teacher.getSchoole();
- 		parameters[3] = teacher.getCreateTime(); 	
+ 		parameters[2] = teacher.getSchool();
+ 		parameters[3] = teacher.getSchoolClass();
+ 		parameters[4] = teacher.getCreateTime(); 	
  		if(teacher.getPlatform() != null){
- 			parameters[4] = teacher.getPlatform().getId();
+ 			parameters[5] = teacher.getPlatform().getId();
  		}
   	
- 		if(teacher.getCq() != null){
- 			parameters[5] = teacher.getCq().getId();
+ 		if(teacher.getChangeRequest() != null){
+ 			parameters[6] = teacher.getChangeRequest().getId();
  		}
  		
- 		parameters[6] = teacher.nextVersion();
- 		parameters[7] = teacher.getId();
- 		parameters[8] = teacher.getVersion();
+ 		parameters[7] = teacher.nextVersion();
+ 		parameters[8] = teacher.getId();
+ 		parameters[9] = teacher.getVersion();
  				
  		return parameters;
  	}
  	protected Object[] prepareTeacherCreateParameters(Teacher teacher){
-		Object[] parameters = new Object[7];
+		Object[] parameters = new Object[8];
 		String newTeacherId=getNextId();
 		teacher.setId(newTeacherId);
 		parameters[0] =  teacher.getId();
  
  		parameters[1] = teacher.getName();
  		parameters[2] = teacher.getMobile();
- 		parameters[3] = teacher.getSchoole();
- 		parameters[4] = teacher.getCreateTime(); 	
+ 		parameters[3] = teacher.getSchool();
+ 		parameters[4] = teacher.getSchoolClass();
+ 		parameters[5] = teacher.getCreateTime(); 	
  		if(teacher.getPlatform() != null){
- 			parameters[5] = teacher.getPlatform().getId();
+ 			parameters[6] = teacher.getPlatform().getId();
  		
  		}
  		 	
- 		if(teacher.getCq() != null){
- 			parameters[6] = teacher.getCq().getId();
+ 		if(teacher.getChangeRequest() != null){
+ 			parameters[7] = teacher.getChangeRequest().getId();
  		
  		}
  				
@@ -700,14 +802,21 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	 		savePlatform(teacher, options);
  		}
   	
- 		if(isSaveCqEnabled(options)){
-	 		saveCq(teacher, options);
+ 		if(isSaveChangeRequestEnabled(options)){
+	 		saveChangeRequest(teacher, options);
  		}
  
 		
-		if(isSaveSchoolClassListEnabled(options)){
-	 		saveSchoolClassList(teacher, options);
-	 		//removeSchoolClassList(teacher, options);
+		if(isSaveClassDailyHealthSurveyListEnabled(options)){
+	 		saveClassDailyHealthSurveyList(teacher, options);
+	 		//removeClassDailyHealthSurveyList(teacher, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
+		if(isSaveStudentHealthSurveyListEnabled(options)){
+	 		saveStudentHealthSurveyList(teacher, options);
+	 		//removeStudentHealthSurveyList(teacher, options);
 	 		//Not delete the record
 	 		
  		}		
@@ -738,13 +847,13 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	
   
  
- 	protected Teacher saveCq(Teacher teacher, Map<String,Object> options){
+ 	protected Teacher saveChangeRequest(Teacher teacher, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(teacher.getCq() == null){
+ 		if(teacher.getChangeRequest() == null){
  			return teacher;//do nothing when it is null
  		}
  		
- 		getChangeRequestDAO().save(teacher.getCq(),options);
+ 		getChangeRequestDAO().save(teacher.getChangeRequest(),options);
  		return teacher;
  		
  	}
@@ -756,151 +865,355 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  
 
 	
-	public Teacher planToRemoveSchoolClassList(Teacher teacher, String schoolClassIds[], Map<String,Object> options)throws Exception{
+	public Teacher planToRemoveClassDailyHealthSurveyList(Teacher teacher, String classDailyHealthSurveyIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, teacher.getId());
-		key.put(SchoolClass.ID_PROPERTY, schoolClassIds);
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(ClassDailyHealthSurvey.ID_PROPERTY, classDailyHealthSurveyIds);
 		
-		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
-				findSchoolClassWithKey(key, options);
-		if(externalSchoolClassList == null){
+		SmartList<ClassDailyHealthSurvey> externalClassDailyHealthSurveyList = getClassDailyHealthSurveyDAO().
+				findClassDailyHealthSurveyWithKey(key, options);
+		if(externalClassDailyHealthSurveyList == null){
 			return teacher;
 		}
-		if(externalSchoolClassList.isEmpty()){
+		if(externalClassDailyHealthSurveyList.isEmpty()){
 			return teacher;
 		}
 		
-		for(SchoolClass schoolClassItem: externalSchoolClassList){
+		for(ClassDailyHealthSurvey classDailyHealthSurveyItem: externalClassDailyHealthSurveyList){
 
-			schoolClassItem.clearFromAll();
+			classDailyHealthSurveyItem.clearFromAll();
 		}
 		
 		
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();		
-		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();		
+		classDailyHealthSurveyList.addAllToRemoveList(externalClassDailyHealthSurveyList);
 		return teacher;	
 	
 	}
 
 
-	//disconnect Teacher with platform in SchoolClass
-	public Teacher planToRemoveSchoolClassListWithPlatform(Teacher teacher, String platformId, Map<String,Object> options)throws Exception{
+	//disconnect Teacher with creator in ClassDailyHealthSurvey
+	public Teacher planToRemoveClassDailyHealthSurveyListWithCreator(Teacher teacher, String creatorId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, teacher.getId());
-		key.put(SchoolClass.PLATFORM_PROPERTY, platformId);
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(ClassDailyHealthSurvey.CREATOR_PROPERTY, creatorId);
 		
-		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
-				findSchoolClassWithKey(key, options);
-		if(externalSchoolClassList == null){
+		SmartList<ClassDailyHealthSurvey> externalClassDailyHealthSurveyList = getClassDailyHealthSurveyDAO().
+				findClassDailyHealthSurveyWithKey(key, options);
+		if(externalClassDailyHealthSurveyList == null){
 			return teacher;
 		}
-		if(externalSchoolClassList.isEmpty()){
+		if(externalClassDailyHealthSurveyList.isEmpty()){
 			return teacher;
 		}
 		
-		for(SchoolClass schoolClassItem: externalSchoolClassList){
-			schoolClassItem.clearPlatform();
-			schoolClassItem.clearClassTeacher();
+		for(ClassDailyHealthSurvey classDailyHealthSurveyItem: externalClassDailyHealthSurveyList){
+			classDailyHealthSurveyItem.clearCreator();
+			classDailyHealthSurveyItem.clearTeacher();
 			
 		}
 		
 		
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();		
-		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();		
+		classDailyHealthSurveyList.addAllToRemoveList(externalClassDailyHealthSurveyList);
 		return teacher;
 	}
 	
-	public int countSchoolClassListWithPlatform(String teacherId, String platformId, Map<String,Object> options)throws Exception{
+	public int countClassDailyHealthSurveyListWithCreator(String teacherId, String creatorId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, teacherId);
-		key.put(SchoolClass.PLATFORM_PROPERTY, platformId);
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(ClassDailyHealthSurvey.CREATOR_PROPERTY, creatorId);
 		
-		int count = getSchoolClassDAO().countSchoolClassWithKey(key, options);
+		int count = getClassDailyHealthSurveyDAO().countClassDailyHealthSurveyWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Teacher with cq in SchoolClass
-	public Teacher planToRemoveSchoolClassListWithCq(Teacher teacher, String cqId, Map<String,Object> options)throws Exception{
+	//disconnect Teacher with change_request in ClassDailyHealthSurvey
+	public Teacher planToRemoveClassDailyHealthSurveyListWithChangeRequest(Teacher teacher, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, teacher.getId());
-		key.put(SchoolClass.CQ_PROPERTY, cqId);
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
-		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
-				findSchoolClassWithKey(key, options);
-		if(externalSchoolClassList == null){
+		SmartList<ClassDailyHealthSurvey> externalClassDailyHealthSurveyList = getClassDailyHealthSurveyDAO().
+				findClassDailyHealthSurveyWithKey(key, options);
+		if(externalClassDailyHealthSurveyList == null){
 			return teacher;
 		}
-		if(externalSchoolClassList.isEmpty()){
+		if(externalClassDailyHealthSurveyList.isEmpty()){
 			return teacher;
 		}
 		
-		for(SchoolClass schoolClassItem: externalSchoolClassList){
-			schoolClassItem.clearCq();
-			schoolClassItem.clearClassTeacher();
+		for(ClassDailyHealthSurvey classDailyHealthSurveyItem: externalClassDailyHealthSurveyList){
+			classDailyHealthSurveyItem.clearChangeRequest();
+			classDailyHealthSurveyItem.clearTeacher();
 			
 		}
 		
 		
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();		
-		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();		
+		classDailyHealthSurveyList.addAllToRemoveList(externalClassDailyHealthSurveyList);
 		return teacher;
 	}
 	
-	public int countSchoolClassListWithCq(String teacherId, String cqId, Map<String,Object> options)throws Exception{
+	public int countClassDailyHealthSurveyListWithChangeRequest(String teacherId, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, teacherId);
-		key.put(SchoolClass.CQ_PROPERTY, cqId);
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
-		int count = getSchoolClassDAO().countSchoolClassWithKey(key, options);
+		int count = getClassDailyHealthSurveyDAO().countClassDailyHealthSurveyWithKey(key, options);
+		return count;
+	}
+	
+	public Teacher planToRemoveStudentHealthSurveyList(Teacher teacher, String studentHealthSurveyIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(StudentHealthSurvey.ID_PROPERTY, studentHealthSurveyIds);
+		
+		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
+				findStudentHealthSurveyWithKey(key, options);
+		if(externalStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(externalStudentHealthSurveyList.isEmpty()){
+			return teacher;
+		}
+		
+		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
+
+			studentHealthSurveyItem.clearFromAll();
+		}
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+		studentHealthSurveyList.addAllToRemoveList(externalStudentHealthSurveyList);
+		return teacher;	
+	
+	}
+
+
+	//disconnect Teacher with student in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithStudent(Teacher teacher, String studentId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(StudentHealthSurvey.STUDENT_PROPERTY, studentId);
+		
+		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
+				findStudentHealthSurveyWithKey(key, options);
+		if(externalStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(externalStudentHealthSurveyList.isEmpty()){
+			return teacher;
+		}
+		
+		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
+			studentHealthSurveyItem.clearStudent();
+			studentHealthSurveyItem.clearTeacher();
+			
+		}
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+		studentHealthSurveyList.addAllToRemoveList(externalStudentHealthSurveyList);
+		return teacher;
+	}
+	
+	public int countStudentHealthSurveyListWithStudent(String teacherId, String studentId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.STUDENT_PROPERTY, studentId);
+		
+		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Teacher with survey_status in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithSurveyStatus(Teacher teacher, String surveyStatusId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatusId);
+		
+		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
+				findStudentHealthSurveyWithKey(key, options);
+		if(externalStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(externalStudentHealthSurveyList.isEmpty()){
+			return teacher;
+		}
+		
+		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
+			studentHealthSurveyItem.clearSurveyStatus();
+			studentHealthSurveyItem.clearTeacher();
+			
+		}
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+		studentHealthSurveyList.addAllToRemoveList(externalStudentHealthSurveyList);
+		return teacher;
+	}
+	
+	public int countStudentHealthSurveyListWithSurveyStatus(String teacherId, String surveyStatusId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatusId);
+		
+		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Teacher with class_daily_health_survey in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(Teacher teacher, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
+		
+		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
+				findStudentHealthSurveyWithKey(key, options);
+		if(externalStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(externalStudentHealthSurveyList.isEmpty()){
+			return teacher;
+		}
+		
+		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
+			studentHealthSurveyItem.clearClassDailyHealthSurvey();
+			studentHealthSurveyItem.clearTeacher();
+			
+		}
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+		studentHealthSurveyList.addAllToRemoveList(externalStudentHealthSurveyList);
+		return teacher;
+	}
+	
+	public int countStudentHealthSurveyListWithClassDailyHealthSurvey(String teacherId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
+		
+		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Teacher with change_request in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithChangeRequest(Teacher teacher, String changeRequestId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacher.getId());
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
+		
+		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
+				findStudentHealthSurveyWithKey(key, options);
+		if(externalStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(externalStudentHealthSurveyList.isEmpty()){
+			return teacher;
+		}
+		
+		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
+			studentHealthSurveyItem.clearChangeRequest();
+			studentHealthSurveyItem.clearTeacher();
+			
+		}
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+		studentHealthSurveyList.addAllToRemoveList(externalStudentHealthSurveyList);
+		return teacher;
+	}
+	
+	public int countStudentHealthSurveyListWithChangeRequest(String teacherId, String changeRequestId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
+		
+		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;
 	}
 	
 
 		
-	protected Teacher saveSchoolClassList(Teacher teacher, Map<String,Object> options){
+	protected Teacher saveClassDailyHealthSurveyList(Teacher teacher, Map<String,Object> options){
 		
 		
 		
 		
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();
-		if(schoolClassList == null){
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();
+		if(classDailyHealthSurveyList == null){
 			//null list means nothing
 			return teacher;
 		}
-		SmartList<SchoolClass> mergedUpdateSchoolClassList = new SmartList<SchoolClass>();
+		SmartList<ClassDailyHealthSurvey> mergedUpdateClassDailyHealthSurveyList = new SmartList<ClassDailyHealthSurvey>();
 		
 		
-		mergedUpdateSchoolClassList.addAll(schoolClassList); 
-		if(schoolClassList.getToRemoveList() != null){
+		mergedUpdateClassDailyHealthSurveyList.addAll(classDailyHealthSurveyList); 
+		if(classDailyHealthSurveyList.getToRemoveList() != null){
 			//ensures the toRemoveList is not null
-			mergedUpdateSchoolClassList.addAll(schoolClassList.getToRemoveList());
-			schoolClassList.removeAll(schoolClassList.getToRemoveList());
+			mergedUpdateClassDailyHealthSurveyList.addAll(classDailyHealthSurveyList.getToRemoveList());
+			classDailyHealthSurveyList.removeAll(classDailyHealthSurveyList.getToRemoveList());
 			//OK for now, need fix later
 		}
 
 		//adding new size can improve performance
 	
-		getSchoolClassDAO().saveSchoolClassList(mergedUpdateSchoolClassList,options);
+		getClassDailyHealthSurveyDAO().saveClassDailyHealthSurveyList(mergedUpdateClassDailyHealthSurveyList,options);
 		
-		if(schoolClassList.getToRemoveList() != null){
-			schoolClassList.removeAll(schoolClassList.getToRemoveList());
+		if(classDailyHealthSurveyList.getToRemoveList() != null){
+			classDailyHealthSurveyList.removeAll(classDailyHealthSurveyList.getToRemoveList());
 		}
 		
 		
@@ -908,25 +1221,91 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	
 	}
 	
-	protected Teacher removeSchoolClassList(Teacher teacher, Map<String,Object> options){
+	protected Teacher removeClassDailyHealthSurveyList(Teacher teacher, Map<String,Object> options){
 	
 	
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();
-		if(schoolClassList == null){
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();
+		if(classDailyHealthSurveyList == null){
 			return teacher;
 		}	
 	
-		SmartList<SchoolClass> toRemoveSchoolClassList = schoolClassList.getToRemoveList();
+		SmartList<ClassDailyHealthSurvey> toRemoveClassDailyHealthSurveyList = classDailyHealthSurveyList.getToRemoveList();
 		
-		if(toRemoveSchoolClassList == null){
+		if(toRemoveClassDailyHealthSurveyList == null){
 			return teacher;
 		}
-		if(toRemoveSchoolClassList.isEmpty()){
+		if(toRemoveClassDailyHealthSurveyList.isEmpty()){
 			return teacher;// Does this mean delete all from the parent object?
 		}
 		//Call DAO to remove the list
 		
-		getSchoolClassDAO().removeSchoolClassList(toRemoveSchoolClassList,options);
+		getClassDailyHealthSurveyDAO().removeClassDailyHealthSurveyList(toRemoveClassDailyHealthSurveyList,options);
+		
+		return teacher;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
+		
+	protected Teacher saveStudentHealthSurveyList(Teacher teacher, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();
+		if(studentHealthSurveyList == null){
+			//null list means nothing
+			return teacher;
+		}
+		SmartList<StudentHealthSurvey> mergedUpdateStudentHealthSurveyList = new SmartList<StudentHealthSurvey>();
+		
+		
+		mergedUpdateStudentHealthSurveyList.addAll(studentHealthSurveyList); 
+		if(studentHealthSurveyList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateStudentHealthSurveyList.addAll(studentHealthSurveyList.getToRemoveList());
+			studentHealthSurveyList.removeAll(studentHealthSurveyList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getStudentHealthSurveyDAO().saveStudentHealthSurveyList(mergedUpdateStudentHealthSurveyList,options);
+		
+		if(studentHealthSurveyList.getToRemoveList() != null){
+			studentHealthSurveyList.removeAll(studentHealthSurveyList.getToRemoveList());
+		}
+		
+		
+		return teacher;
+	
+	}
+	
+	protected Teacher removeStudentHealthSurveyList(Teacher teacher, Map<String,Object> options){
+	
+	
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();
+		if(studentHealthSurveyList == null){
+			return teacher;
+		}	
+	
+		SmartList<StudentHealthSurvey> toRemoveStudentHealthSurveyList = studentHealthSurveyList.getToRemoveList();
+		
+		if(toRemoveStudentHealthSurveyList == null){
+			return teacher;
+		}
+		if(toRemoveStudentHealthSurveyList.isEmpty()){
+			return teacher;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getStudentHealthSurveyDAO().removeStudentHealthSurveyList(toRemoveStudentHealthSurveyList,options);
 		
 		return teacher;
 	
@@ -943,27 +1322,48 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 
 	public Teacher present(Teacher teacher,Map<String, Object> options){
 	
-		presentSchoolClassList(teacher,options);
+		presentClassDailyHealthSurveyList(teacher,options);
+		presentStudentHealthSurveyList(teacher,options);
 
 		return teacher;
 	
 	}
 		
 	//Using java8 feature to reduce the code significantly
- 	protected Teacher presentSchoolClassList(
+ 	protected Teacher presentClassDailyHealthSurveyList(
 			Teacher teacher,
 			Map<String, Object> options) {
 
-		SmartList<SchoolClass> schoolClassList = teacher.getSchoolClassList();		
-				SmartList<SchoolClass> newList= presentSubList(teacher.getId(),
-				schoolClassList,
+		SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList = teacher.getClassDailyHealthSurveyList();		
+				SmartList<ClassDailyHealthSurvey> newList= presentSubList(teacher.getId(),
+				classDailyHealthSurveyList,
 				options,
-				getSchoolClassDAO()::countSchoolClassByClassTeacher,
-				getSchoolClassDAO()::findSchoolClassByClassTeacher
+				getClassDailyHealthSurveyDAO()::countClassDailyHealthSurveyByTeacher,
+				getClassDailyHealthSurveyDAO()::findClassDailyHealthSurveyByTeacher
 				);
 
 		
-		teacher.setSchoolClassList(newList);
+		teacher.setClassDailyHealthSurveyList(newList);
+		
+
+		return teacher;
+	}			
+		
+	//Using java8 feature to reduce the code significantly
+ 	protected Teacher presentStudentHealthSurveyList(
+			Teacher teacher,
+			Map<String, Object> options) {
+
+		SmartList<StudentHealthSurvey> studentHealthSurveyList = teacher.getStudentHealthSurveyList();		
+				SmartList<StudentHealthSurvey> newList= presentSubList(teacher.getId(),
+				studentHealthSurveyList,
+				options,
+				getStudentHealthSurveyDAO()::countStudentHealthSurveyByTeacher,
+				getStudentHealthSurveyDAO()::findStudentHealthSurveyByTeacher
+				);
+
+		
+		teacher.setStudentHealthSurveyList(newList);
 		
 
 		return teacher;
@@ -971,7 +1371,13 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 		
 
 	
-    public SmartList<Teacher> requestCandidateTeacherForSchoolClass(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+    public SmartList<Teacher> requestCandidateTeacherForClassDailyHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(TeacherTable.COLUMN_NAME, filterKey, pageNo, pageSize, getTeacherMapper());
+    }
+		
+    public SmartList<Teacher> requestCandidateTeacherForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(TeacherTable.COLUMN_NAME, filterKey, pageNo, pageSize, getTeacherMapper());
@@ -989,25 +1395,48 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 	}
 	
 	
-	// 需要一个加载引用我的对象的enhance方法:SchoolClass的classTeacher的SchoolClassList
-	public SmartList<SchoolClass> loadOurSchoolClassList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception{
+	// 需要一个加载引用我的对象的enhance方法:ClassDailyHealthSurvey的teacher的ClassDailyHealthSurveyList
+	public SmartList<ClassDailyHealthSurvey> loadOurClassDailyHealthSurveyList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
 			return new SmartList<>();
 		}
 		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<SchoolClass> loadedObjs = userContext.getDAOGroup().getSchoolClassDAO().findSchoolClassWithKey(key, options);
-		Map<String, List<SchoolClass>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getClassTeacher().getId()));
+		key.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<ClassDailyHealthSurvey> loadedObjs = userContext.getDAOGroup().getClassDailyHealthSurveyDAO().findClassDailyHealthSurveyWithKey(key, options);
+		Map<String, List<ClassDailyHealthSurvey>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getTeacher().getId()));
 		us.forEach(it->{
 			String id = it.getId();
-			List<SchoolClass> loadedList = loadedMap.get(id);
+			List<ClassDailyHealthSurvey> loadedList = loadedMap.get(id);
 			if (loadedList == null || loadedList.isEmpty()) {
 				return;
 			}
-			SmartList<SchoolClass> loadedSmartList = new SmartList<>();
+			SmartList<ClassDailyHealthSurvey> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
-			it.setSchoolClassList(loadedSmartList);
+			it.setClassDailyHealthSurveyList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
+	
+	// 需要一个加载引用我的对象的enhance方法:StudentHealthSurvey的teacher的StudentHealthSurveyList
+	public SmartList<StudentHealthSurvey> loadOurStudentHealthSurveyList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<StudentHealthSurvey> loadedObjs = userContext.getDAOGroup().getStudentHealthSurveyDAO().findStudentHealthSurveyWithKey(key, options);
+		Map<String, List<StudentHealthSurvey>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getTeacher().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<StudentHealthSurvey> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<StudentHealthSurvey> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setStudentHealthSurveyList(loadedSmartList);
 		});
 		return loadedObjs;
 	}

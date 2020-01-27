@@ -160,7 +160,7 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		
 		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_student_health_survey","transferToAnotherStudentHealthSurvey","transferToAnotherStudentHealthSurvey/"+studentDailyAnswer.getId()+"/","main","primary");
 		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_question","transferToAnotherQuestion","transferToAnotherQuestion/"+studentDailyAnswer.getId()+"/","main","primary");
-		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_cq","transferToAnotherCq","transferToAnotherCq/"+studentDailyAnswer.getId()+"/","main","primary");
+		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+studentDailyAnswer.getId()+"/","main","primary");
 	
 		
 		
@@ -172,8 +172,8 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
  	
  	
 
-	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer,String cqId) throws Exception
-	//public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext,String studentHealthSurveyId, String questionId, String answer, String cqId) throws Exception
+	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer,String changeRequestId) throws Exception
+	//public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext,String studentHealthSurveyId, String questionId, String answer, String changeRequestId) throws Exception
 	{
 
 		
@@ -201,8 +201,8 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		studentDailyAnswer.setCreateTime(userContext.now());
 		studentDailyAnswer.setLastUpdateTime(userContext.now());
 			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		studentDailyAnswer.setCq(cq);
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+		studentDailyAnswer.setChangeRequest(changeRequest);
 		
 		
 
@@ -441,24 +441,24 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherCq(HealthUserContext userContext, String studentDailyAnswerId, String anotherCqId) throws Exception
+ 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String studentDailyAnswerId, String anotherChangeRequestId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherCqId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
 
  	}
- 	public StudentDailyAnswer transferToAnotherCq(HealthUserContext userContext, String studentDailyAnswerId, String anotherCqId) throws Exception
+ 	public StudentDailyAnswer transferToAnotherChangeRequest(HealthUserContext userContext, String studentDailyAnswerId, String anotherChangeRequestId) throws Exception
  	{
- 		checkParamsForTransferingAnotherCq(userContext, studentDailyAnswerId,anotherCqId);
+ 		checkParamsForTransferingAnotherChangeRequest(userContext, studentDailyAnswerId,anotherChangeRequestId);
  
 		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());	
 		synchronized(studentDailyAnswer){
 			//will be good when the studentDailyAnswer loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			ChangeRequest cq = loadChangeRequest(userContext, anotherCqId, emptyOptions());		
-			studentDailyAnswer.updateCq(cq);		
+			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
+			studentDailyAnswer.updateChangeRequest(changeRequest);		
 			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, emptyOptions());
 			
 			return present(userContext,studentDailyAnswer, allTokens());
@@ -470,7 +470,7 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 	
 
 
-	public CandidateChangeRequest requestCandidateCq(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
 		CandidateChangeRequest result = new CandidateChangeRequest();
 		result.setOwnerClass(ownerClass);
@@ -493,6 +493,16 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
  //--------------------------------------------------------------
 	
 
+ 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
+ 	{
+
+ 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
+ 	}
+ 	
+
+
+	
+
  	protected StudentHealthSurvey loadStudentHealthSurvey(HealthUserContext userContext, String newStudentHealthSurveyId, Map<String,Object> options) throws Exception
  	{
 
@@ -507,16 +517,6 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
  	{
 
  		return dailySurveyQuestionDaoOf(userContext).load(newQuestionId, options);
- 	}
- 	
-
-
-	
-
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newCqId, Map<String,Object> options) throws Exception
- 	{
-
- 		return changeRequestDaoOf(userContext).load(newCqId, options);
  	}
  	
 

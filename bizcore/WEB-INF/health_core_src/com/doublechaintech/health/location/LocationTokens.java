@@ -74,8 +74,8 @@ public class LocationTokens extends CommonTokens{
 		return start()
 			.withDistrict()
 			.withProvince()
-			.withGuardianList()
-			.withWechatUserList();
+			.withStudentList()
+			.withUserList();
 	
 	}
 	public static LocationTokens withoutListsTokens(){
@@ -121,141 +121,141 @@ public class LocationTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String GUARDIAN_LIST = "guardianList";
-	public String getGuardianList(){
-		return GUARDIAN_LIST;
+	protected static final String STUDENT_LIST = "studentList";
+	public String getStudentList(){
+		return STUDENT_LIST;
 	}
-	public LocationTokens withGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST);
+	public LocationTokens withStudentList(){		
+		addSimpleOptions(STUDENT_LIST);
 		return this;
 	}
-	public LocationTokens analyzeGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST+".anaylze");
+	public LocationTokens analyzeStudentList(){		
+		addSimpleOptions(STUDENT_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeGuardianListEnabled(){		
+	public boolean analyzeStudentListEnabled(){		
 		
-		if(checkOptions(this.options(), GUARDIAN_LIST+".anaylze")){
+		if(checkOptions(this.options(), STUDENT_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public LocationTokens extractMoreFromGuardianList(String idsSeperatedWithComma){		
-		addSimpleOptions(GUARDIAN_LIST+".extractIds", idsSeperatedWithComma);
+	public LocationTokens extractMoreFromStudentList(String idsSeperatedWithComma){		
+		addSimpleOptions(STUDENT_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int guardianListSortCounter = 0;
-	public LocationTokens sortGuardianListWith(String field, String descOrAsc){		
-		addSortMoreOptions(GUARDIAN_LIST,guardianListSortCounter++, field, descOrAsc);
+	private int studentListSortCounter = 0;
+	public LocationTokens sortStudentListWith(String field, String descOrAsc){		
+		addSortMoreOptions(STUDENT_LIST,studentListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int guardianListSearchCounter = 0;
-	public LocationTokens searchGuardianListWith(String field, String verb, String value){		
+	private int studentListSearchCounter = 0;
+	public LocationTokens searchStudentListWith(String field, String verb, String value){		
 		
-		withGuardianList();
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+		withStudentList();
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public LocationTokens searchAllTextOfGuardianList(String verb, String value){	
-		String field = "id|name|mobile";
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+	public LocationTokens searchAllTextOfStudentList(String verb, String value){	
+		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public LocationTokens rowsPerPageOfGuardianList(int rowsPerPage){		
-		addSimpleOptions(GUARDIAN_LIST+"RowsPerPage",rowsPerPage);
+	public LocationTokens rowsPerPageOfStudentList(int rowsPerPage){		
+		addSimpleOptions(STUDENT_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public LocationTokens currentPageNumberOfGuardianList(int currentPageNumber){		
-		addSimpleOptions(GUARDIAN_LIST+"CurrentPage",currentPageNumber);
+	public LocationTokens currentPageNumberOfStudentList(int currentPageNumber){		
+		addSimpleOptions(STUDENT_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public LocationTokens retainColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"RetainColumns",columns);
+	public LocationTokens retainColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public LocationTokens excludeColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"ExcludeColumns",columns);
+	public LocationTokens excludeColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
 	
 		
-	protected static final String WECHAT_USER_LIST = "wechatUserList";
-	public String getWechatUserList(){
-		return WECHAT_USER_LIST;
+	protected static final String USER_LIST = "userList";
+	public String getUserList(){
+		return USER_LIST;
 	}
-	public LocationTokens withWechatUserList(){		
-		addSimpleOptions(WECHAT_USER_LIST);
+	public LocationTokens withUserList(){		
+		addSimpleOptions(USER_LIST);
 		return this;
 	}
-	public LocationTokens analyzeWechatUserList(){		
-		addSimpleOptions(WECHAT_USER_LIST+".anaylze");
+	public LocationTokens analyzeUserList(){		
+		addSimpleOptions(USER_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeWechatUserListEnabled(){		
+	public boolean analyzeUserListEnabled(){		
 		
-		if(checkOptions(this.options(), WECHAT_USER_LIST+".anaylze")){
+		if(checkOptions(this.options(), USER_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public LocationTokens extractMoreFromWechatUserList(String idsSeperatedWithComma){		
-		addSimpleOptions(WECHAT_USER_LIST+".extractIds", idsSeperatedWithComma);
+	public LocationTokens extractMoreFromUserList(String idsSeperatedWithComma){		
+		addSimpleOptions(USER_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int wechatUserListSortCounter = 0;
-	public LocationTokens sortWechatUserListWith(String field, String descOrAsc){		
-		addSortMoreOptions(WECHAT_USER_LIST,wechatUserListSortCounter++, field, descOrAsc);
+	private int userListSortCounter = 0;
+	public LocationTokens sortUserListWith(String field, String descOrAsc){		
+		addSortMoreOptions(USER_LIST,userListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int wechatUserListSearchCounter = 0;
-	public LocationTokens searchWechatUserListWith(String field, String verb, String value){		
+	private int userListSearchCounter = 0;
+	public LocationTokens searchUserListWith(String field, String verb, String value){		
 		
-		withWechatUserList();
-		addSearchMoreOptions(WECHAT_USER_LIST,wechatUserListSearchCounter++, field, verb, value);
+		withUserList();
+		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public LocationTokens searchAllTextOfWechatUserList(String verb, String value){	
+	public LocationTokens searchAllTextOfUserList(String verb, String value){	
 		String field = "id|name";
-		addSearchMoreOptions(WECHAT_USER_LIST,wechatUserListSearchCounter++, field, verb, value);
+		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public LocationTokens rowsPerPageOfWechatUserList(int rowsPerPage){		
-		addSimpleOptions(WECHAT_USER_LIST+"RowsPerPage",rowsPerPage);
+	public LocationTokens rowsPerPageOfUserList(int rowsPerPage){		
+		addSimpleOptions(USER_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public LocationTokens currentPageNumberOfWechatUserList(int currentPageNumber){		
-		addSimpleOptions(WECHAT_USER_LIST+"CurrentPage",currentPageNumber);
+	public LocationTokens currentPageNumberOfUserList(int currentPageNumber){		
+		addSimpleOptions(USER_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public LocationTokens retainColumnsOfWechatUserList(String[] columns){		
-		addSimpleOptions(WECHAT_USER_LIST+"RetainColumns",columns);
+	public LocationTokens retainColumnsOfUserList(String[] columns){		
+		addSimpleOptions(USER_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public LocationTokens excludeColumnsOfWechatUserList(String[] columns){		
-		addSimpleOptions(WECHAT_USER_LIST+"ExcludeColumns",columns);
+	public LocationTokens excludeColumnsOfUserList(String[] columns){		
+		addSimpleOptions(USER_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -264,8 +264,8 @@ public class LocationTokens extends CommonTokens{
 	
 	public  LocationTokens searchEntireObjectText(String verb, String value){
 		
-		searchAllTextOfGuardianList(verb, value);	
-		searchAllTextOfWechatUserList(verb, value);	
+		searchAllTextOfStudentList(verb, value);	
+		searchAllTextOfUserList(verb, value);	
 		return this;
 	}
 }

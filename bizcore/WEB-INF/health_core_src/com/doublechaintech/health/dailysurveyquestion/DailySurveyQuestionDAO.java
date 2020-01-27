@@ -12,12 +12,12 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.question.Question;
 
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
-import com.doublechaintech.health.classquestion.ClassQuestionDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
+import com.doublechaintech.health.question.QuestionDAO;
 
 
 public interface DailySurveyQuestionDAO extends BaseDAO{
@@ -61,9 +61,9 @@ public interface DailySurveyQuestionDAO extends BaseDAO{
 	public DailySurveyQuestion planToRemoveStudentDailyAnswerListWithStudentHealthSurvey(DailySurveyQuestion dailySurveyQuestion, String studentHealthSurveyId, Map<String,Object> options)throws Exception;
 	public int countStudentDailyAnswerListWithStudentHealthSurvey(String dailySurveyQuestionId, String studentHealthSurveyId, Map<String,Object> options)throws Exception;
 	
-	//disconnect DailySurveyQuestion with cq in StudentDailyAnswer
-	public DailySurveyQuestion planToRemoveStudentDailyAnswerListWithCq(DailySurveyQuestion dailySurveyQuestion, String cqId, Map<String,Object> options)throws Exception;
-	public int countStudentDailyAnswerListWithCq(String dailySurveyQuestionId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect DailySurveyQuestion with change_request in StudentDailyAnswer
+	public DailySurveyQuestion planToRemoveStudentDailyAnswerListWithChangeRequest(DailySurveyQuestion dailySurveyQuestion, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countStudentDailyAnswerListWithChangeRequest(String dailySurveyQuestionId, String changeRequestId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<DailySurveyQuestion> queryList(String sql, Object ... parmeters);
@@ -85,11 +85,11 @@ public interface DailySurveyQuestionDAO extends BaseDAO{
 
  
   
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId, Map<String,Object> options);
- 	public int countDailySurveyQuestionByClassQuestion(String classQuestionId, Map<String,Object> options);
- 	public Map<String, Integer> countDailySurveyQuestionByClassQuestionIds(String[] ids, Map<String,Object> options);
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId, int start, int count, Map<String,Object> options);
- 	public void analyzeDailySurveyQuestionByClassQuestion(SmartList<DailySurveyQuestion> resultList, String classQuestionId, Map<String,Object> options);
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId, Map<String,Object> options);
+ 	public int countDailySurveyQuestionBySurveyQuestion(String questionId, Map<String,Object> options);
+ 	public Map<String, Integer> countDailySurveyQuestionBySurveyQuestionIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId, int start, int count, Map<String,Object> options);
+ 	public void analyzeDailySurveyQuestionBySurveyQuestion(SmartList<DailySurveyQuestion> resultList, String questionId, Map<String,Object> options);
 
  
  

@@ -26,7 +26,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	public static final String ANSWER_PROPERTY                = "answer"            ;
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String LAST_UPDATE_TIME_PROPERTY      = "lastUpdateTime"    ;
-	public static final String CQ_PROPERTY                    = "cq"                ;
+	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 
@@ -55,7 +55,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	protected		String              	mAnswer             ;
 	protected		DateTime            	mCreateTime         ;
 	protected		DateTime            	mLastUpdateTime     ;
-	protected		ChangeRequest       	mCq                 ;
+	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
@@ -78,7 +78,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	public 	void clearFromAll(){
 		setStudentHealthSurvey( null );
 		setQuestion( null );
-		setCq( null );
+		setChangeRequest( null );
 
 		this.changed = true;
 	}
@@ -167,8 +167,8 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		if(LAST_UPDATE_TIME_PROPERTY.equals(property)){
 			return getLastUpdateTime();
 		}
-		if(CQ_PROPERTY.equals(property)){
-			return getCq();
+		if(CHANGE_REQUEST_PROPERTY.equals(property)){
+			return getChangeRequest();
 		}
 
     		//other property not include here
@@ -287,24 +287,24 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	}
 	
 	
-	public void setCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public void setChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 	}
-	public ChangeRequest getCq(){
-		return this.mCq;
+	public ChangeRequest getChangeRequest(){
+		return this.mChangeRequest;
 	}
-	public StudentDailyAnswer updateCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public StudentDailyAnswer updateChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeCq(ChangeRequest cq){
-		if(cq != null) { setCq(cq);}
+	public void mergeChangeRequest(ChangeRequest changeRequest){
+		if(changeRequest != null) { setChangeRequest(changeRequest);}
 	}
 	
 	
-	public void clearCq(){
-		setCq ( null );
+	public void clearChangeRequest(){
+		setChangeRequest ( null );
 		this.changed = true;
 	}
 	
@@ -329,7 +329,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 
 		addToEntityList(this, entityList, getStudentHealthSurvey(), internalType);
 		addToEntityList(this, entityList, getQuestion(), internalType);
-		addToEntityList(this, entityList, getCq(), internalType);
+		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
 	}
@@ -359,7 +359,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		appendKeyValuePair(result, ANSWER_PROPERTY, getAnswer());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, LAST_UPDATE_TIME_PROPERTY, getLastUpdateTime());
-		appendKeyValuePair(result, CQ_PROPERTY, getCq());
+		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 
 		
@@ -381,7 +381,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 			dest.setAnswer(getAnswer());
 			dest.setCreateTime(getCreateTime());
 			dest.setLastUpdateTime(getLastUpdateTime());
-			dest.setCq(getCq());
+			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 
 		}
@@ -402,7 +402,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 			dest.mergeAnswer(getAnswer());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergeLastUpdateTime(getLastUpdateTime());
-			dest.mergeCq(getCq());
+			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 
 		}
@@ -428,7 +428,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getStudentHealthSurvey(), getQuestion(), getAnswer(), getCreateTime(), getLastUpdateTime(), getCq(), getVersion()};
+		return new Object[]{getId(), getStudentHealthSurvey(), getQuestion(), getAnswer(), getCreateTime(), getLastUpdateTime(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -444,8 +444,8 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		stringBuilder.append("\tanswer='"+getAnswer()+"';");
 		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
 		stringBuilder.append("\tlastUpdateTime='"+getLastUpdateTime()+"';");
-		if(getCq() != null ){
- 			stringBuilder.append("\tcq='ChangeRequest("+getCq().getId()+")';");
+		if(getChangeRequest() != null ){
+ 			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

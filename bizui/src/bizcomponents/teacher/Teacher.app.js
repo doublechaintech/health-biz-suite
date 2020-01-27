@@ -182,56 +182,108 @@ constructor(props) {
 
 
 
-  getSchoolClassSearch = () => {
-    const {SchoolClassSearch} = GlobalComponents;
+  getClassDailyHealthSurveySearch = () => {
+    const {ClassDailyHealthSurveySearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('school_class','teacher.school_class_list',false),
-      role: "schoolClass",
-      data: state._teacher.schoolClassList,
-      metaInfo: state._teacher.schoolClassListMetaInfo,
-      count: state._teacher.schoolClassCount,
+      name: window.mtrans('class_daily_health_survey','teacher.class_daily_health_survey_list',false),
+      role: "classDailyHealthSurvey",
+      data: state._teacher.classDailyHealthSurveyList,
+      metaInfo: state._teacher.classDailyHealthSurveyListMetaInfo,
+      count: state._teacher.classDailyHealthSurveyCount,
       returnURL: `/teacher/${state._teacher.id}/dashboard`,
-      currentPage: state._teacher.schoolClassCurrentPageNumber,
-      searchFormParameters: state._teacher.schoolClassSearchFormParameters,
+      currentPage: state._teacher.classDailyHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._teacher.classDailyHealthSurveySearchFormParameters,
       searchParameters: {...state._teacher.searchParameters},
       expandForm: state._teacher.expandForm,
       loading: state._teacher.loading,
       partialList: state._teacher.partialList,
       owner: { type: '_teacher', id: state._teacher.id, 
-      referenceName: 'classTeacher', 
-      listName: 'schoolClassList', ref:state._teacher, 
+      referenceName: 'teacher', 
+      listName: 'classDailyHealthSurveyList', ref:state._teacher, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassSearch)
+    }))(ClassDailyHealthSurveySearch)
   }
   
-  getSchoolClassCreateForm = () => {
-   	const {SchoolClassCreateForm} = GlobalComponents;
+  getClassDailyHealthSurveyCreateForm = () => {
+   	const {ClassDailyHealthSurveyCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "schoolClass",
-      data: state._teacher.schoolClassList,
-      metaInfo: state._teacher.schoolClassListMetaInfo,
-      count: state._teacher.schoolClassCount,
+      role: "classDailyHealthSurvey",
+      data: state._teacher.classDailyHealthSurveyList,
+      metaInfo: state._teacher.classDailyHealthSurveyListMetaInfo,
+      count: state._teacher.classDailyHealthSurveyCount,
       returnURL: `/teacher/${state._teacher.id}/list`,
-      currentPage: state._teacher.schoolClassCurrentPageNumber,
-      searchFormParameters: state._teacher.schoolClassSearchFormParameters,
+      currentPage: state._teacher.classDailyHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._teacher.classDailyHealthSurveySearchFormParameters,
       loading: state._teacher.loading,
-      owner: { type: '_teacher', id: state._teacher.id, referenceName: 'classTeacher', listName: 'schoolClassList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(SchoolClassCreateForm)
+      owner: { type: '_teacher', id: state._teacher.id, referenceName: 'teacher', listName: 'classDailyHealthSurveyList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(ClassDailyHealthSurveyCreateForm)
   }
   
-  getSchoolClassUpdateForm = () => {
+  getClassDailyHealthSurveyUpdateForm = () => {
     const userContext = null
-  	const {SchoolClassUpdateForm} = GlobalComponents;
+  	const {ClassDailyHealthSurveyUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._teacher.selectedRows,
-      role: "schoolClass",
+      role: "classDailyHealthSurvey",
       currentUpdateIndex: state._teacher.currentUpdateIndex,
-      owner: { type: '_teacher', id: state._teacher.id, listName: 'schoolClassList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassUpdateForm)
+      owner: { type: '_teacher', id: state._teacher.id, listName: 'classDailyHealthSurveyList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(ClassDailyHealthSurveyUpdateForm)
+  }
+
+  getStudentHealthSurveySearch = () => {
+    const {StudentHealthSurveySearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('student_health_survey','teacher.student_health_survey_list',false),
+      role: "studentHealthSurvey",
+      data: state._teacher.studentHealthSurveyList,
+      metaInfo: state._teacher.studentHealthSurveyListMetaInfo,
+      count: state._teacher.studentHealthSurveyCount,
+      returnURL: `/teacher/${state._teacher.id}/dashboard`,
+      currentPage: state._teacher.studentHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._teacher.studentHealthSurveySearchFormParameters,
+      searchParameters: {...state._teacher.searchParameters},
+      expandForm: state._teacher.expandForm,
+      loading: state._teacher.loading,
+      partialList: state._teacher.partialList,
+      owner: { type: '_teacher', id: state._teacher.id, 
+      referenceName: 'teacher', 
+      listName: 'studentHealthSurveyList', ref:state._teacher, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(StudentHealthSurveySearch)
+  }
+  
+  getStudentHealthSurveyCreateForm = () => {
+   	const {StudentHealthSurveyCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "studentHealthSurvey",
+      data: state._teacher.studentHealthSurveyList,
+      metaInfo: state._teacher.studentHealthSurveyListMetaInfo,
+      count: state._teacher.studentHealthSurveyCount,
+      returnURL: `/teacher/${state._teacher.id}/list`,
+      currentPage: state._teacher.studentHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._teacher.studentHealthSurveySearchFormParameters,
+      loading: state._teacher.loading,
+      owner: { type: '_teacher', id: state._teacher.id, referenceName: 'teacher', listName: 'studentHealthSurveyList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(StudentHealthSurveyCreateForm)
+  }
+  
+  getStudentHealthSurveyUpdateForm = () => {
+    const userContext = null
+  	const {StudentHealthSurveyUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._teacher.selectedRows,
+      role: "studentHealthSurvey",
+      currentUpdateIndex: state._teacher.currentUpdateIndex,
+      owner: { type: '_teacher', id: state._teacher.id, listName: 'studentHealthSurveyList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(StudentHealthSurveyUpdateForm)
   }
 
 
@@ -259,9 +311,13 @@ constructor(props) {
   	
   	
   	
-  	{path:"/teacher/:id/list/schoolClassList", component: this.getSchoolClassSearch()},
-  	{path:"/teacher/:id/list/schoolClassCreateForm", component: this.getSchoolClassCreateForm()},
-  	{path:"/teacher/:id/list/schoolClassUpdateForm", component: this.getSchoolClassUpdateForm()},
+  	{path:"/teacher/:id/list/classDailyHealthSurveyList", component: this.getClassDailyHealthSurveySearch()},
+  	{path:"/teacher/:id/list/classDailyHealthSurveyCreateForm", component: this.getClassDailyHealthSurveyCreateForm()},
+  	{path:"/teacher/:id/list/classDailyHealthSurveyUpdateForm", component: this.getClassDailyHealthSurveyUpdateForm()},
+   	
+  	{path:"/teacher/:id/list/studentHealthSurveyList", component: this.getStudentHealthSurveySearch()},
+  	{path:"/teacher/:id/list/studentHealthSurveyCreateForm", component: this.getStudentHealthSurveyCreateForm()},
+  	{path:"/teacher/:id/list/studentHealthSurveyUpdateForm", component: this.getStudentHealthSurveyUpdateForm()},
    	{path:"/teacher/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

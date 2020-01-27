@@ -55,7 +55,7 @@ const fieldLabels = {
   answer: window.trans('student_daily_answer.answer'),
   createTime: window.trans('student_daily_answer.create_time'),
   lastUpdateTime: window.trans('student_daily_answer.last_update_time'),
-  cq: window.trans('student_daily_answer.cq'),
+  changeRequest: window.trans('student_daily_answer.change_request'),
 
 }
 
@@ -66,7 +66,7 @@ const displayColumns = [
   { title: fieldLabels.answer, debugtype: 'string', dataIndex: 'answer', width: '5',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.createTime, dataIndex: 'createTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.lastUpdateTime, dataIndex: 'lastUpdateTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
-  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -88,7 +88,7 @@ const renderItemOfList=(studentDailyAnswer, targetComponent, columCount)=>{
         <Description term={fieldLabels.answer} style={{wordBreak: 'break-all'}}>{studentDailyAnswer.answer}</Description> 
         <Description term={fieldLabels.createTime}><div>{ moment(studentDailyAnswer.createTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
         <Description term={fieldLabels.lastUpdateTime}><div>{ moment(studentDailyAnswer.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
-        <Description term={fieldLabels.cq}><div>{studentDailyAnswer.cq==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.cq.displayName}(${studentDailyAnswer.cq.id})`}
+        <Description term={fieldLabels.changeRequest}><div>{studentDailyAnswer.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.changeRequest.displayName}(${studentDailyAnswer.changeRequest.id})`}
         </div></Description>
 	
         
@@ -100,19 +100,19 @@ const renderItemOfList=(studentDailyAnswer, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {answer, studentHealthSurveyId, questionId, cqId} = formValuesToPack
+	const {answer, studentHealthSurveyId, questionId, changeRequestId} = formValuesToPack
 	const studentHealthSurvey = {id: studentHealthSurveyId, version: 2^31}
 	const question = {id: questionId, version: 2^31}
-	const cq = {id: cqId, version: 2^31}
-	const data = {answer, studentHealthSurvey, question, cq}
+	const changeRequest = {id: changeRequestId, version: 2^31}
+	const data = {answer, studentHealthSurvey, question, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {answer, studentHealthSurvey, question, cq} = objectToUnpack
+	const {answer, studentHealthSurvey, question, changeRequest} = objectToUnpack
 	const studentHealthSurveyId = studentHealthSurvey ? studentHealthSurvey.id : null
 	const questionId = question ? question.id : null
-	const cqId = cq ? cq.id : null
-	const data = {answer, studentHealthSurveyId, questionId, cqId}
+	const changeRequestId = changeRequest ? changeRequest.id : null
+	const data = {answer, studentHealthSurveyId, questionId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

@@ -107,8 +107,8 @@
 <c:if test="${param.referName ne 'surveyStatus'}">
 	<th>${userContext.localeMap['student_health_survey.survey_status']}</th>
 </c:if>
-<c:if test="${param.referName ne 'schoolClass'}">
-	<th>${userContext.localeMap['student_health_survey.school_class']}</th>
+<c:if test="${param.referName ne 'teacher'}">
+	<th>${userContext.localeMap['student_health_survey.teacher']}</th>
 </c:if>
 <c:if test="${param.referName ne 'classDailyHealthSurvey'}">
 	<th>${userContext.localeMap['student_health_survey.class_daily_health_survey']}</th>
@@ -119,8 +119,8 @@
 <c:if test="${param.referName ne 'lastUpdateTime'}">
 	<th>${userContext.localeMap['student_health_survey.last_update_time']}</th>
 </c:if>
-<c:if test="${param.referName ne 'cq'}">
-	<th>${userContext.localeMap['student_health_survey.cq']}</th>
+<c:if test="${param.referName ne 'changeRequest'}">
+	<th>${userContext.localeMap['student_health_survey.change_request']}</th>
 </c:if>
 <th>${userContext.localeMap['@action']}</th>
 		</tr></thead>
@@ -167,16 +167,16 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'schoolClass'}">
+<c:if test="${param.referName ne 'teacher'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./studentHealthSurveyManager/requestCandidateSchoolClass/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentHealthSurveyManager/transferToAnotherSchoolClass/${item.id}/"
-			data-link-template="./schoolClassManager/view/${'$'}{ID}/">
+			data-candidate-method="./studentHealthSurveyManager/requestCandidateTeacher/${ownerBeanName}/${item.id}/"
+			data-switch-method="./studentHealthSurveyManager/transferToAnotherTeacher/${item.id}/"
+			data-link-template="./teacherManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.schoolClass}">
-			<a href='./schoolClassManager/view/${item.schoolClass.id}/'>${item.schoolClass.displayName}</a>
+			<c:if test="${not empty  item.teacher}">
+			<a href='./teacherManager/view/${item.teacher.id}/'>${item.teacher.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.schoolClass}">
+			<c:if test="${empty  item.teacher}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>
@@ -207,16 +207,16 @@
 </c:if>
 <c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateStudentHealthSurvey/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
 </c:if><c:if test="${param.referName ne 'lastUpdateTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='lastUpdateTime' storedCellValue='${item.lastUpdateTime}' prefix='${ownerBeanName}Manager/updateStudentHealthSurvey/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.lastUpdateTime}" /></td>
-</c:if><c:if test="${param.referName ne 'cq'}">
+</c:if><c:if test="${param.referName ne 'changeRequest'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./studentHealthSurveyManager/requestCandidateCq/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentHealthSurveyManager/transferToAnotherCq/${item.id}/"
+			data-candidate-method="./studentHealthSurveyManager/requestCandidateChangeRequest/${ownerBeanName}/${item.id}/"
+			data-switch-method="./studentHealthSurveyManager/transferToAnotherChangeRequest/${item.id}/"
 			data-link-template="./changeRequestManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.cq}">
-			<a href='./changeRequestManager/view/${item.cq.id}/'>${item.cq.displayName}</a>
+			<c:if test="${not empty  item.changeRequest}">
+			<a href='./changeRequestManager/view/${item.changeRequest.id}/'>${item.changeRequest.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.cq}">
+			<c:if test="${empty  item.changeRequest}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>

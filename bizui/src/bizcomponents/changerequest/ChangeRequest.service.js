@@ -52,37 +52,15 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 
-const addSchoolClass = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addSchoolClass/changeRequestId/name/classTeacherId/platformId/schoole/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const updateSchoolClass = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateSchoolClassProperties/changeRequestId/id/name/schoole/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const removeSchoolClassList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeSchoolClassList/changeRequestId/schoolClassIds/tokensExpr/`
-  const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-
-
 const addTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addTeacher/changeRequestId/name/mobile/schoole/platformId/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/addTeacher/changeRequestId/name/mobile/school/schoolClass/platformId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateTeacherProperties/changeRequestId/id/name/mobile/schoole/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/updateTeacherProperties/changeRequestId/id/name/mobile/school/schoolClass/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -96,44 +74,44 @@ const removeTeacherList = (targetObjectId, parameters) => {
 
 
 
-const addGuardian = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addGuardian/changeRequestId/name/mobile/addressId/wechatUserId/platformId/tokensExpr/`
+const addStudent = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/addStudent/changeRequestId/studentName/studentId/guardianName/guardianMobile/addressId/userId/platformId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateGuardian = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateGuardianProperties/changeRequestId/id/name/mobile/tokensExpr/`
+const updateStudent = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/updateStudentProperties/changeRequestId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeGuardianList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeGuardianList/changeRequestId/guardianIds/tokensExpr/`
+const removeStudentList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/removeStudentList/changeRequestId/studentIds/tokensExpr/`
   const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 
 
-const addClassQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addClassQuestion/changeRequestId/topic/questionTypeId/optionA/optionB/optionC/optionD/questionSourceId/creatorId/tokensExpr/`
+const addQuestion = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/addQuestion/changeRequestId/topic/questionTypeId/optionA/optionB/optionC/optionD/platformId/creatorId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateClassQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateClassQuestionProperties/changeRequestId/id/topic/optionA/optionB/optionC/optionD/tokensExpr/`
+const updateQuestion = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/updateQuestionProperties/changeRequestId/id/topic/optionA/optionB/optionC/optionD/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeClassQuestionList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeClassQuestionList/changeRequestId/classQuestionIds/tokensExpr/`
+const removeQuestionList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}changeRequestManager/removeQuestionList/changeRequestId/questionIds/tokensExpr/`
   const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -141,7 +119,7 @@ const removeClassQuestionList = (targetObjectId, parameters) => {
 
 
 const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addClassDailyHealthSurvey/changeRequestId/name/schoolClassId/surveyTime/creatorId/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/addClassDailyHealthSurvey/changeRequestId/name/teacherId/surveyTime/creatorId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -162,30 +140,8 @@ const removeClassDailyHealthSurveyList = (targetObjectId, parameters) => {
 
 
 
-const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addStudent/changeRequestId/name/gender/guardianId/schoolClassId/studentId/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateStudentProperties/changeRequestId/id/name/gender/studentId/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const removeStudentList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeStudentList/changeRequestId/studentIds/tokensExpr/`
-  const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-
-
 const addStudentHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addStudentHealthSurvey/changeRequestId/studentId/answerTime/surveyStatusId/schoolClassId/classDailyHealthSurveyId/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/addStudentHealthSurvey/changeRequestId/studentId/answerTime/surveyStatusId/teacherId/classDailyHealthSurveyId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -256,28 +212,22 @@ const  processRequest = (data) => {
 
 const ChangeRequestService = { view,
   load,
-  addSchoolClass,
   addTeacher,
-  addGuardian,
-  addClassQuestion,
-  addClassDailyHealthSurvey,
   addStudent,
+  addQuestion,
+  addClassDailyHealthSurvey,
   addStudentHealthSurvey,
   addStudentDailyAnswer,
-  updateSchoolClass,
   updateTeacher,
-  updateGuardian,
-  updateClassQuestion,
-  updateClassDailyHealthSurvey,
   updateStudent,
+  updateQuestion,
+  updateClassDailyHealthSurvey,
   updateStudentHealthSurvey,
   updateStudentDailyAnswer,
-  removeSchoolClassList,
   removeTeacherList,
-  removeGuardianList,
-  removeClassQuestionList,
-  removeClassDailyHealthSurveyList,
   removeStudentList,
+  removeQuestionList,
+  removeClassDailyHealthSurveyList,
   removeStudentHealthSurveyList,
   removeStudentDailyAnswerList,
   requestCandidateRequestType,

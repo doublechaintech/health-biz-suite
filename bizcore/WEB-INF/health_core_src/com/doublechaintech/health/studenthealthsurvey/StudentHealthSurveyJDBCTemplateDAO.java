@@ -21,16 +21,16 @@ import com.doublechaintech.health.HealthUserContext;
 
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
 
@@ -53,6 +53,15 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	}
  
  	
+ 	private  ChangeRequestDAO  changeRequestDAO;
+ 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
+	 	this.changeRequestDAO = changeRequestDAO;
+ 	}
+ 	public ChangeRequestDAO getChangeRequestDAO(){
+	 	return this.changeRequestDAO;
+ 	}
+ 
+ 	
  	private  ClassDailyHealthSurveyDAO  classDailyHealthSurveyDAO;
  	public void setClassDailyHealthSurveyDAO(ClassDailyHealthSurveyDAO classDailyHealthSurveyDAO){
 	 	this.classDailyHealthSurveyDAO = classDailyHealthSurveyDAO;
@@ -62,12 +71,12 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	}
  
  	
- 	private  SchoolClassDAO  schoolClassDAO;
- 	public void setSchoolClassDAO(SchoolClassDAO schoolClassDAO){
-	 	this.schoolClassDAO = schoolClassDAO;
+ 	private  TeacherDAO  teacherDAO;
+ 	public void setTeacherDAO(TeacherDAO teacherDAO){
+	 	this.teacherDAO = teacherDAO;
  	}
- 	public SchoolClassDAO getSchoolClassDAO(){
-	 	return this.schoolClassDAO;
+ 	public TeacherDAO getTeacherDAO(){
+	 	return this.teacherDAO;
  	}
  
  	
@@ -77,15 +86,6 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	}
  	public StudentDAO getStudentDAO(){
 	 	return this.studentDAO;
- 	}
- 
- 	
- 	private  ChangeRequestDAO  changeRequestDAO;
- 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
-	 	this.changeRequestDAO = changeRequestDAO;
- 	}
- 	public ChangeRequestDAO getChangeRequestDAO(){
-	 	return this.changeRequestDAO;
  	}
 
 
@@ -285,14 +285,14 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	
   
 
- 	protected boolean isExtractSchoolClassEnabled(Map<String,Object> options){
+ 	protected boolean isExtractTeacherEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentHealthSurveyTokens.SCHOOLCLASS);
+	 	return checkOptions(options, StudentHealthSurveyTokens.TEACHER);
  	}
 
- 	protected boolean isSaveSchoolClassEnabled(Map<String,Object> options){
+ 	protected boolean isSaveTeacherEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentHealthSurveyTokens.SCHOOLCLASS);
+ 		return checkOptions(options, StudentHealthSurveyTokens.TEACHER);
  	}
  	
 
@@ -313,14 +313,14 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	
   
 
- 	protected boolean isExtractCqEnabled(Map<String,Object> options){
+ 	protected boolean isExtractChangeRequestEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentHealthSurveyTokens.CQ);
+	 	return checkOptions(options, StudentHealthSurveyTokens.CHANGEREQUEST);
  	}
 
- 	protected boolean isSaveCqEnabled(Map<String,Object> options){
+ 	protected boolean isSaveChangeRequestEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentHealthSurveyTokens.CQ);
+ 		return checkOptions(options, StudentHealthSurveyTokens.CHANGEREQUEST);
  	}
  	
 
@@ -375,16 +375,16 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	 		extractSurveyStatus(studentHealthSurvey, loadOptions);
  		}
   	
- 		if(isExtractSchoolClassEnabled(loadOptions)){
-	 		extractSchoolClass(studentHealthSurvey, loadOptions);
+ 		if(isExtractTeacherEnabled(loadOptions)){
+	 		extractTeacher(studentHealthSurvey, loadOptions);
  		}
   	
  		if(isExtractClassDailyHealthSurveyEnabled(loadOptions)){
 	 		extractClassDailyHealthSurvey(studentHealthSurvey, loadOptions);
  		}
   	
- 		if(isExtractCqEnabled(loadOptions)){
-	 		extractCq(studentHealthSurvey, loadOptions);
+ 		if(isExtractChangeRequestEnabled(loadOptions)){
+	 		extractChangeRequest(studentHealthSurvey, loadOptions);
  		}
  
 		
@@ -442,18 +442,18 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
   
 
- 	protected StudentHealthSurvey extractSchoolClass(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options) throws Exception{
+ 	protected StudentHealthSurvey extractTeacher(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options) throws Exception{
 
-		if(studentHealthSurvey.getSchoolClass() == null){
+		if(studentHealthSurvey.getTeacher() == null){
 			return studentHealthSurvey;
 		}
-		String schoolClassId = studentHealthSurvey.getSchoolClass().getId();
-		if( schoolClassId == null){
+		String teacherId = studentHealthSurvey.getTeacher().getId();
+		if( teacherId == null){
 			return studentHealthSurvey;
 		}
-		SchoolClass schoolClass = getSchoolClassDAO().load(schoolClassId,options);
-		if(schoolClass != null){
-			studentHealthSurvey.setSchoolClass(schoolClass);
+		Teacher teacher = getTeacherDAO().load(teacherId,options);
+		if(teacher != null){
+			studentHealthSurvey.setTeacher(teacher);
 		}
 		
  		
@@ -482,18 +482,18 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
   
 
- 	protected StudentHealthSurvey extractCq(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options) throws Exception{
+ 	protected StudentHealthSurvey extractChangeRequest(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options) throws Exception{
 
-		if(studentHealthSurvey.getCq() == null){
+		if(studentHealthSurvey.getChangeRequest() == null){
 			return studentHealthSurvey;
 		}
-		String cqId = studentHealthSurvey.getCq().getId();
-		if( cqId == null){
+		String changeRequestId = studentHealthSurvey.getChangeRequest().getId();
+		if( changeRequestId == null){
 			return studentHealthSurvey;
 		}
-		ChangeRequest cq = getChangeRequestDAO().load(cqId,options);
-		if(cq != null){
-			studentHealthSurvey.setCq(cq);
+		ChangeRequest changeRequest = getChangeRequestDAO().load(changeRequestId,options);
+		if(changeRequest != null){
+			studentHealthSurvey.setChangeRequest(changeRequest);
 		}
 		
  		
@@ -654,28 +654,28 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	}
  	
   	
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId,Map<String,Object> options){
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId,Map<String,Object> options){
  	
-  		SmartList<StudentHealthSurvey> resultList = queryWith(StudentHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getStudentHealthSurveyMapper());
-		// analyzeStudentHealthSurveyBySchoolClass(resultList, schoolClassId, options);
+  		SmartList<StudentHealthSurvey> resultList = queryWith(StudentHealthSurveyTable.COLUMN_TEACHER, teacherId, options, getStudentHealthSurveyMapper());
+		// analyzeStudentHealthSurveyByTeacher(resultList, teacherId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId, int start, int count,Map<String,Object> options){
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<StudentHealthSurvey> resultList =  queryWithRange(StudentHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getStudentHealthSurveyMapper(), start, count);
- 		//analyzeStudentHealthSurveyBySchoolClass(resultList, schoolClassId, options);
+ 		SmartList<StudentHealthSurvey> resultList =  queryWithRange(StudentHealthSurveyTable.COLUMN_TEACHER, teacherId, options, getStudentHealthSurveyMapper(), start, count);
+ 		//analyzeStudentHealthSurveyByTeacher(resultList, teacherId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentHealthSurveyBySchoolClass(SmartList<StudentHealthSurvey> resultList, String schoolClassId, Map<String,Object> options){
+ 	public void analyzeStudentHealthSurveyByTeacher(SmartList<StudentHealthSurvey> resultList, String teacherId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
+ 		filterKey.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -694,13 +694,13 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  	}
  	@Override
- 	public int countStudentHealthSurveyBySchoolClass(String schoolClassId,Map<String,Object> options){
+ 	public int countStudentHealthSurveyByTeacher(String teacherId,Map<String,Object> options){
 
- 		return countWith(StudentHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options);
+ 		return countWith(StudentHealthSurveyTable.COLUMN_TEACHER, teacherId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentHealthSurveyBySchoolClassIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentHealthSurveyTable.COLUMN_SCHOOL_CLASS, ids, options);
+	public Map<String, Integer> countStudentHealthSurveyByTeacherIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentHealthSurveyTable.COLUMN_TEACHER, ids, options);
 	}
  	
   	
@@ -754,28 +754,28 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	}
  	
   	
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByCq(String changeRequestId,Map<String,Object> options){
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByChangeRequest(String changeRequestId,Map<String,Object> options){
  	
-  		SmartList<StudentHealthSurvey> resultList = queryWith(StudentHealthSurveyTable.COLUMN_CQ, changeRequestId, options, getStudentHealthSurveyMapper());
-		// analyzeStudentHealthSurveyByCq(resultList, changeRequestId, options);
+  		SmartList<StudentHealthSurvey> resultList = queryWith(StudentHealthSurveyTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentHealthSurveyMapper());
+		// analyzeStudentHealthSurveyByChangeRequest(resultList, changeRequestId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByCq(String changeRequestId, int start, int count,Map<String,Object> options){
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByChangeRequest(String changeRequestId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<StudentHealthSurvey> resultList =  queryWithRange(StudentHealthSurveyTable.COLUMN_CQ, changeRequestId, options, getStudentHealthSurveyMapper(), start, count);
- 		//analyzeStudentHealthSurveyByCq(resultList, changeRequestId, options);
+ 		SmartList<StudentHealthSurvey> resultList =  queryWithRange(StudentHealthSurveyTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentHealthSurveyMapper(), start, count);
+ 		//analyzeStudentHealthSurveyByChangeRequest(resultList, changeRequestId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentHealthSurveyByCq(SmartList<StudentHealthSurvey> resultList, String changeRequestId, Map<String,Object> options){
+ 	public void analyzeStudentHealthSurveyByChangeRequest(SmartList<StudentHealthSurvey> resultList, String changeRequestId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(StudentHealthSurvey.CQ_PROPERTY, changeRequestId);
+ 		filterKey.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -794,13 +794,13 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  	}
  	@Override
- 	public int countStudentHealthSurveyByCq(String changeRequestId,Map<String,Object> options){
+ 	public int countStudentHealthSurveyByChangeRequest(String changeRequestId,Map<String,Object> options){
 
- 		return countWith(StudentHealthSurveyTable.COLUMN_CQ, changeRequestId, options);
+ 		return countWith(StudentHealthSurveyTable.COLUMN_CHANGE_REQUEST, changeRequestId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentHealthSurveyByCqIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentHealthSurveyTable.COLUMN_CQ, ids, options);
+	public Map<String, Integer> countStudentHealthSurveyByChangeRequestIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentHealthSurveyTable.COLUMN_CHANGE_REQUEST, ids, options);
 	}
  	
  	
@@ -956,8 +956,8 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  			parameters[2] = studentHealthSurvey.getSurveyStatus().getId();
  		}
   	
- 		if(studentHealthSurvey.getSchoolClass() != null){
- 			parameters[3] = studentHealthSurvey.getSchoolClass().getId();
+ 		if(studentHealthSurvey.getTeacher() != null){
+ 			parameters[3] = studentHealthSurvey.getTeacher().getId();
  		}
   	
  		if(studentHealthSurvey.getClassDailyHealthSurvey() != null){
@@ -966,8 +966,8 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  
  		parameters[5] = studentHealthSurvey.getCreateTime();
  		parameters[6] = studentHealthSurvey.getLastUpdateTime(); 	
- 		if(studentHealthSurvey.getCq() != null){
- 			parameters[7] = studentHealthSurvey.getCq().getId();
+ 		if(studentHealthSurvey.getChangeRequest() != null){
+ 			parameters[7] = studentHealthSurvey.getChangeRequest().getId();
  		}
  		
  		parameters[8] = studentHealthSurvey.nextVersion();
@@ -993,8 +993,8 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  		}
  		 	
- 		if(studentHealthSurvey.getSchoolClass() != null){
- 			parameters[4] = studentHealthSurvey.getSchoolClass().getId();
+ 		if(studentHealthSurvey.getTeacher() != null){
+ 			parameters[4] = studentHealthSurvey.getTeacher().getId();
  		
  		}
  		 	
@@ -1005,8 +1005,8 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  		parameters[6] = studentHealthSurvey.getCreateTime();
  		parameters[7] = studentHealthSurvey.getLastUpdateTime(); 	
- 		if(studentHealthSurvey.getCq() != null){
- 			parameters[8] = studentHealthSurvey.getCq().getId();
+ 		if(studentHealthSurvey.getChangeRequest() != null){
+ 			parameters[8] = studentHealthSurvey.getChangeRequest().getId();
  		
  		}
  				
@@ -1026,16 +1026,16 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	 		saveSurveyStatus(studentHealthSurvey, options);
  		}
   	
- 		if(isSaveSchoolClassEnabled(options)){
-	 		saveSchoolClass(studentHealthSurvey, options);
+ 		if(isSaveTeacherEnabled(options)){
+	 		saveTeacher(studentHealthSurvey, options);
  		}
   	
  		if(isSaveClassDailyHealthSurveyEnabled(options)){
 	 		saveClassDailyHealthSurvey(studentHealthSurvey, options);
  		}
   	
- 		if(isSaveCqEnabled(options)){
-	 		saveCq(studentHealthSurvey, options);
+ 		if(isSaveChangeRequestEnabled(options)){
+	 		saveChangeRequest(studentHealthSurvey, options);
  		}
  
 		
@@ -1089,13 +1089,13 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	
   
  
- 	protected StudentHealthSurvey saveSchoolClass(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options){
+ 	protected StudentHealthSurvey saveTeacher(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(studentHealthSurvey.getSchoolClass() == null){
+ 		if(studentHealthSurvey.getTeacher() == null){
  			return studentHealthSurvey;//do nothing when it is null
  		}
  		
- 		getSchoolClassDAO().save(studentHealthSurvey.getSchoolClass(),options);
+ 		getTeacherDAO().save(studentHealthSurvey.getTeacher(),options);
  		return studentHealthSurvey;
  		
  	}
@@ -1123,13 +1123,13 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	
   
  
- 	protected StudentHealthSurvey saveCq(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options){
+ 	protected StudentHealthSurvey saveChangeRequest(StudentHealthSurvey studentHealthSurvey, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(studentHealthSurvey.getCq() == null){
+ 		if(studentHealthSurvey.getChangeRequest() == null){
  			return studentHealthSurvey;//do nothing when it is null
  		}
  		
- 		getChangeRequestDAO().save(studentHealthSurvey.getCq(),options);
+ 		getChangeRequestDAO().save(studentHealthSurvey.getChangeRequest(),options);
  		return studentHealthSurvey;
  		
  	}
@@ -1213,15 +1213,15 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		return count;
 	}
 	
-	//disconnect StudentHealthSurvey with cq in StudentDailyAnswer
-	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithCq(StudentHealthSurvey studentHealthSurvey, String cqId, Map<String,Object> options)throws Exception{
+	//disconnect StudentHealthSurvey with change_request in StudentDailyAnswer
+	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithChangeRequest(StudentHealthSurvey studentHealthSurvey, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurvey.getId());
-		key.put(StudentDailyAnswer.CQ_PROPERTY, cqId);
+		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		SmartList<StudentDailyAnswer> externalStudentDailyAnswerList = getStudentDailyAnswerDAO().
 				findStudentDailyAnswerWithKey(key, options);
@@ -1233,7 +1233,7 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		}
 		
 		for(StudentDailyAnswer studentDailyAnswerItem: externalStudentDailyAnswerList){
-			studentDailyAnswerItem.clearCq();
+			studentDailyAnswerItem.clearChangeRequest();
 			studentDailyAnswerItem.clearStudentHealthSurvey();
 			
 		}
@@ -1244,14 +1244,14 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		return studentHealthSurvey;
 	}
 	
-	public int countStudentDailyAnswerListWithCq(String studentHealthSurveyId, String cqId, Map<String,Object> options)throws Exception{
+	public int countStudentDailyAnswerListWithChangeRequest(String studentHealthSurveyId, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurveyId);
-		key.put(StudentDailyAnswer.CQ_PROPERTY, cqId);
+		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentDailyAnswerDAO().countStudentDailyAnswerWithKey(key, options);
 		return count;

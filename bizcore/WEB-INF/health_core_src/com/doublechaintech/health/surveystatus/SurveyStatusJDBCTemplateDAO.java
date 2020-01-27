@@ -689,15 +689,15 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		return count;
 	}
 	
-	//disconnect SurveyStatus with school_class in StudentHealthSurvey
-	public SurveyStatus planToRemoveStudentHealthSurveyListWithSchoolClass(SurveyStatus surveyStatus, String schoolClassId, Map<String,Object> options)throws Exception{
+	//disconnect SurveyStatus with teacher in StudentHealthSurvey
+	public SurveyStatus planToRemoveStudentHealthSurveyListWithTeacher(SurveyStatus surveyStatus, String teacherId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatus.getId());
-		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
 		
 		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
 				findStudentHealthSurveyWithKey(key, options);
@@ -709,7 +709,7 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		}
 		
 		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
-			studentHealthSurveyItem.clearSchoolClass();
+			studentHealthSurveyItem.clearTeacher();
 			studentHealthSurveyItem.clearSurveyStatus();
 			
 		}
@@ -720,14 +720,14 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		return surveyStatus;
 	}
 	
-	public int countStudentHealthSurveyListWithSchoolClass(String surveyStatusId, String schoolClassId, Map<String,Object> options)throws Exception{
+	public int countStudentHealthSurveyListWithTeacher(String surveyStatusId, String teacherId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatusId);
-		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
 		
 		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;
@@ -777,15 +777,15 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		return count;
 	}
 	
-	//disconnect SurveyStatus with cq in StudentHealthSurvey
-	public SurveyStatus planToRemoveStudentHealthSurveyListWithCq(SurveyStatus surveyStatus, String cqId, Map<String,Object> options)throws Exception{
+	//disconnect SurveyStatus with change_request in StudentHealthSurvey
+	public SurveyStatus planToRemoveStudentHealthSurveyListWithChangeRequest(SurveyStatus surveyStatus, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatus.getId());
-		key.put(StudentHealthSurvey.CQ_PROPERTY, cqId);
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
 				findStudentHealthSurveyWithKey(key, options);
@@ -797,7 +797,7 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		}
 		
 		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
-			studentHealthSurveyItem.clearCq();
+			studentHealthSurveyItem.clearChangeRequest();
 			studentHealthSurveyItem.clearSurveyStatus();
 			
 		}
@@ -808,14 +808,14 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		return surveyStatus;
 	}
 	
-	public int countStudentHealthSurveyListWithCq(String surveyStatusId, String cqId, Map<String,Object> options)throws Exception{
+	public int countStudentHealthSurveyListWithChangeRequest(String surveyStatusId, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, surveyStatusId);
-		key.put(StudentHealthSurvey.CQ_PROPERTY, cqId);
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;

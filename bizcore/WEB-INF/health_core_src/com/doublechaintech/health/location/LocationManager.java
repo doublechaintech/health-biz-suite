@@ -30,21 +30,21 @@ public interface LocationManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  GuardianManager getGuardianManager(HealthUserContext userContext, String locationId, String name, String mobile, String wechatUserId, String platformId, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Location addGuardian(HealthUserContext userContext, String locationId, String name, String mobile, String wechatUserId, String platformId, String cqId , String [] tokensExpr)  throws Exception;
-	public  Location removeGuardian(HealthUserContext userContext, String locationId, String guardianId, int guardianVersion,String [] tokensExpr)  throws Exception;
-	public  Location updateGuardian(HealthUserContext userContext, String locationId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Location removeStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
+	public  Location updateStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 
 	*/
 
-	//public  WechatUserManager getWechatUserManager(HealthUserContext userContext, String locationId, String name, String avatar, String userTypeId, String platformId ,String [] tokensExpr)  throws Exception;
+	//public  UserManager getUserManager(HealthUserContext userContext, String locationId, String name, String avatar, String platformId ,String [] tokensExpr)  throws Exception;
 	
-	public  Location addWechatUser(HealthUserContext userContext, String locationId, String name, String avatar, String userTypeId, String platformId , String [] tokensExpr)  throws Exception;
-	public  Location removeWechatUser(HealthUserContext userContext, String locationId, String wechatUserId, int wechatUserVersion,String [] tokensExpr)  throws Exception;
-	public  Location updateWechatUser(HealthUserContext userContext, String locationId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+	public  Location addUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId , String [] tokensExpr)  throws Exception;
+	public  Location removeUser(HealthUserContext userContext, String locationId, String userId, int userVersion,String [] tokensExpr)  throws Exception;
+	public  Location updateUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 

@@ -34,7 +34,8 @@ const internalSummaryOf = (teacher,targetComponent) =>{
 <Description term="ID">{teacher.id}</Description> 
 <Description term="名称">{teacher.name}</Description> 
 <Description term="手机号码">{teacher.mobile}</Description> 
-<Description term="Schoole">{teacher.schoole}</Description> 
+<Description term="学校">{teacher.school}</Description> 
+<Description term="学校类">{teacher.schoolClass}</Description> 
 <Description term="创建时间">{ moment(teacher.createTime).format('YYYY-MM-DD')}</Description> 
 	
       </DescriptionList>
@@ -60,7 +61,7 @@ class TeacherPermission extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  teacher = this.props.teacher
-    const { id,displayName, schoolClassCount } = teacher
+    const { id,displayName, classDailyHealthSurveyCount, studentHealthSurveyCount } = teacher
     const  returnURL = `/teacher/${id}/dashboard`
     const cardsData = {cardsName:"老师",cardsFor: "teacher",cardsSource: teacher,displayName,returnURL,
   		subItems: [

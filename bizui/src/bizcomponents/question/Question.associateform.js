@@ -25,6 +25,8 @@ const testValues = {
   optionD: '不知道',
   questionTypeId: 'OptionSelect',
   platformId: 'P000001',
+  creatorId: 'U000001',
+  cqId: 'CR000001',
 }
 */
 
@@ -78,6 +80,7 @@ class QuestionAssociateForm extends Component {
     const {QuestionService} = GlobalComponents
     const userContext = null
     
+ const {DailySurveyQuestionModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -235,6 +238,36 @@ class QuestionAssociateForm extends Component {
                 </Form.Item>
               </Col>
 
+              <Col lg={12} md={12} sm={24}>
+                <Form.Item label={fieldLabels.creator} {...formItemLayout}>
+                  {getFieldDecorator('creatorId', {
+                  	initialValue: tryinit('creator'),
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                <SelectObject 
+                    disabled={!availableForEdit('creator')}
+                    targetType={"creator"} 
+                    requestFunction={QuestionService.requestCandidateCreator}/>
+  
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} md={12} sm={24}>
+                <Form.Item label={fieldLabels.cq} {...formItemLayout}>
+                  {getFieldDecorator('cqId', {
+                  	initialValue: tryinit('cq'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                <SelectObject 
+                    disabled={!availableForEdit('cq')}
+                    targetType={"cq"} 
+                    requestFunction={QuestionService.requestCandidateCq}/>
+  
+                  )}
+                </Form.Item>
+              </Col>
+
             </Row>
          
        
@@ -246,6 +279,7 @@ class QuestionAssociateForm extends Component {
 			
         </Card>
         
+	<DailySurveyQuestionModalTable data={data.dailySurveyQuestionList} owner={owner} />
         
         
         

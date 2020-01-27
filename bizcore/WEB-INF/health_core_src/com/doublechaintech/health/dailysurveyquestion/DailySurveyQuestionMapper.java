@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.question.Question;
 
 public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion>{
 	
@@ -22,7 +22,7 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
  		setOptionC(dailySurveyQuestion, rs, rowNumber); 		
  		setOptionD(dailySurveyQuestion, rs, rowNumber); 		
  		setClassDailyHealthSurvey(dailySurveyQuestion, rs, rowNumber); 		
- 		setClassQuestion(dailySurveyQuestion, rs, rowNumber); 		
+ 		setSurveyQuestion(dailySurveyQuestion, rs, rowNumber); 		
  		setVersion(dailySurveyQuestion, rs, rowNumber);
 
 		return dailySurveyQuestion;
@@ -140,22 +140,22 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
  		dailySurveyQuestion.setClassDailyHealthSurvey(createEmptyClassDailyHealthSurvey(classDailyHealthSurveyId));
  	}
  	 		
- 	protected void setClassQuestion(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
- 		String classQuestionId = rs.getString(DailySurveyQuestionTable.COLUMN_CLASS_QUESTION);
- 		if( classQuestionId == null){
+ 	protected void setSurveyQuestion(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
+ 		String questionId = rs.getString(DailySurveyQuestionTable.COLUMN_SURVEY_QUESTION);
+ 		if( questionId == null){
  			return;
  		}
- 		if( classQuestionId.isEmpty()){
+ 		if( questionId.isEmpty()){
  			return;
  		}
- 		ClassQuestion classQuestion = dailySurveyQuestion.getClassQuestion();
- 		if( classQuestion != null ){
+ 		Question question = dailySurveyQuestion.getSurveyQuestion();
+ 		if( question != null ){
  			//if the root object 'dailySurveyQuestion' already have the property, just set the id for it;
- 			classQuestion.setId(classQuestionId);
+ 			question.setId(questionId);
  			
  			return;
  		}
- 		dailySurveyQuestion.setClassQuestion(createEmptyClassQuestion(classQuestionId));
+ 		dailySurveyQuestion.setSurveyQuestion(createEmptySurveyQuestion(questionId));
  	}
  	
 	protected void setVersion(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
@@ -186,11 +186,11 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
  		return classDailyHealthSurvey;
  	}
  	
- 	protected ClassQuestion  createEmptyClassQuestion(String classQuestionId){
- 		ClassQuestion classQuestion = new ClassQuestion();
- 		classQuestion.setId(classQuestionId);
- 		classQuestion.setVersion(Integer.MAX_VALUE);
- 		return classQuestion;
+ 	protected Question  createEmptySurveyQuestion(String questionId){
+ 		Question question = new Question();
+ 		question.setId(questionId);
+ 		question.setVersion(Integer.MAX_VALUE);
+ 		return question;
  	}
  	
 }

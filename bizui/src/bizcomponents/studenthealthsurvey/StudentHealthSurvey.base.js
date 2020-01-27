@@ -54,11 +54,11 @@ const fieldLabels = {
   student: window.trans('student_health_survey.student'),
   answerTime: window.trans('student_health_survey.answer_time'),
   surveyStatus: window.trans('student_health_survey.survey_status'),
-  schoolClass: window.trans('student_health_survey.school_class'),
+  teacher: window.trans('student_health_survey.teacher'),
   classDailyHealthSurvey: window.trans('student_health_survey.class_daily_health_survey'),
   createTime: window.trans('student_health_survey.create_time'),
   lastUpdateTime: window.trans('student_health_survey.last_update_time'),
-  cq: window.trans('student_health_survey.cq'),
+  changeRequest: window.trans('student_health_survey.change_request'),
 
 }
 
@@ -67,11 +67,11 @@ const displayColumns = [
   { title: fieldLabels.student, dataIndex: 'student', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.answerTime, dataIndex: 'answerTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.surveyStatus, dataIndex: 'surveyStatus', render: (text, record) => renderReferenceCell(text, record), sorter:true},
-  { title: fieldLabels.schoolClass, dataIndex: 'schoolClass', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.teacher, dataIndex: 'teacher', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.classDailyHealthSurvey, dataIndex: 'classDailyHealthSurvey', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.createTime, dataIndex: 'createTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.lastUpdateTime, dataIndex: 'lastUpdateTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
-  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -91,13 +91,13 @@ const renderItemOfList=(studentHealthSurvey, targetComponent, columCount)=>{
         <Description term={fieldLabels.answerTime}><div>{ moment(studentHealthSurvey.answerTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
         <Description term={fieldLabels.surveyStatus}><div>{studentHealthSurvey.surveyStatus==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.surveyStatus.displayName}(${studentHealthSurvey.surveyStatus.id})`}
         </div></Description>
-        <Description term={fieldLabels.schoolClass}><div>{studentHealthSurvey.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.schoolClass.displayName}(${studentHealthSurvey.schoolClass.id})`}
+        <Description term={fieldLabels.teacher}><div>{studentHealthSurvey.teacher==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.teacher.displayName}(${studentHealthSurvey.teacher.id})`}
         </div></Description>
         <Description term={fieldLabels.classDailyHealthSurvey}><div>{studentHealthSurvey.classDailyHealthSurvey==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.classDailyHealthSurvey.displayName}(${studentHealthSurvey.classDailyHealthSurvey.id})`}
         </div></Description>
         <Description term={fieldLabels.createTime}><div>{ moment(studentHealthSurvey.createTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
         <Description term={fieldLabels.lastUpdateTime}><div>{ moment(studentHealthSurvey.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
-        <Description term={fieldLabels.cq}><div>{studentHealthSurvey.cq==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.cq.displayName}(${studentHealthSurvey.cq.id})`}
+        <Description term={fieldLabels.changeRequest}><div>{studentHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${studentHealthSurvey.changeRequest.displayName}(${studentHealthSurvey.changeRequest.id})`}
         </div></Description>
 	
         
@@ -109,23 +109,23 @@ const renderItemOfList=(studentHealthSurvey, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {answerTime, studentId, surveyStatusId, schoolClassId, classDailyHealthSurveyId, cqId} = formValuesToPack
+	const {answerTime, studentId, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId} = formValuesToPack
 	const student = {id: studentId, version: 2^31}
 	const surveyStatus = {id: surveyStatusId, version: 2^31}
-	const schoolClass = {id: schoolClassId, version: 2^31}
+	const teacher = {id: teacherId, version: 2^31}
 	const classDailyHealthSurvey = {id: classDailyHealthSurveyId, version: 2^31}
-	const cq = {id: cqId, version: 2^31}
-	const data = {answerTime, student, surveyStatus, schoolClass, classDailyHealthSurvey, cq}
+	const changeRequest = {id: changeRequestId, version: 2^31}
+	const data = {answerTime, student, surveyStatus, teacher, classDailyHealthSurvey, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {answerTime, student, surveyStatus, schoolClass, classDailyHealthSurvey, cq} = objectToUnpack
+	const {answerTime, student, surveyStatus, teacher, classDailyHealthSurvey, changeRequest} = objectToUnpack
 	const studentId = student ? student.id : null
 	const surveyStatusId = surveyStatus ? surveyStatus.id : null
-	const schoolClassId = schoolClass ? schoolClass.id : null
+	const teacherId = teacher ? teacher.id : null
 	const classDailyHealthSurveyId = classDailyHealthSurvey ? classDailyHealthSurvey.id : null
-	const cqId = cq ? cq.id : null
-	const data = {answerTime, studentId, surveyStatusId, schoolClassId, classDailyHealthSurveyId, cqId}
+	const changeRequestId = changeRequest ? changeRequest.id : null
+	const data = {answerTime, studentId, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

@@ -72,18 +72,20 @@ public class StudentTokens extends CommonTokens{
 	protected static StudentTokens allTokens(){
 		
 		return start()
-			.withGuardian()
-			.withSchoolClass()
-			.withCq()
+			.withAddress()
+			.withUser()
+			.withPlatform()
+			.withChangeRequest()
 			.withStudentHealthSurveyList();
 	
 	}
 	public static StudentTokens withoutListsTokens(){
 		
 		return start()
-			.withGuardian()
-			.withSchoolClass()
-			.withCq();
+			.withAddress()
+			.withUser()
+			.withPlatform()
+			.withChangeRequest();
 	
 	}
 	
@@ -102,32 +104,42 @@ public class StudentTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String GUARDIAN = "guardian";
-	public String getGuardian(){
-		return GUARDIAN;
+	protected static final String ADDRESS = "address";
+	public String getAddress(){
+		return ADDRESS;
 	}
-	public StudentTokens withGuardian(){		
-		addSimpleOptions(GUARDIAN);
+	public StudentTokens withAddress(){		
+		addSimpleOptions(ADDRESS);
 		return this;
 	}
 	
 	
-	protected static final String SCHOOLCLASS = "schoolClass";
-	public String getSchoolClass(){
-		return SCHOOLCLASS;
+	protected static final String USER = "user";
+	public String getUser(){
+		return USER;
 	}
-	public StudentTokens withSchoolClass(){		
-		addSimpleOptions(SCHOOLCLASS);
+	public StudentTokens withUser(){		
+		addSimpleOptions(USER);
 		return this;
 	}
 	
 	
-	protected static final String CQ = "cq";
-	public String getCq(){
-		return CQ;
+	protected static final String PLATFORM = "platform";
+	public String getPlatform(){
+		return PLATFORM;
 	}
-	public StudentTokens withCq(){		
-		addSimpleOptions(CQ);
+	public StudentTokens withPlatform(){		
+		addSimpleOptions(PLATFORM);
+		return this;
+	}
+	
+	
+	protected static final String CHANGEREQUEST = "changeRequest";
+	public String getChangeRequest(){
+		return CHANGEREQUEST;
+	}
+	public StudentTokens withChangeRequest(){		
+		addSimpleOptions(CHANGEREQUEST);
 		return this;
 	}
 	

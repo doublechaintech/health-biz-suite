@@ -19,17 +19,19 @@ import com.doublechaintech.health.userapp.UserApp;
 import com.terapico.uccaf.BaseUserContext;
 
 
+import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.user.User;
 
+import com.doublechaintech.health.platform.CandidatePlatform;
 import com.doublechaintech.health.changerequest.CandidateChangeRequest;
-import com.doublechaintech.health.schoolclass.CandidateSchoolClass;
-import com.doublechaintech.health.guardian.CandidateGuardian;
+import com.doublechaintech.health.location.CandidateLocation;
+import com.doublechaintech.health.user.CandidateUser;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
@@ -164,9 +166,10 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		addAction(userContext, student, tokens,"@update","updateStudent","updateStudent/"+student.getId()+"/","main","primary");
 		addAction(userContext, student, tokens,"@copy","cloneStudent","cloneStudent/"+student.getId()+"/","main","primary");
 		
-		addAction(userContext, student, tokens,"student.transfer_to_guardian","transferToAnotherGuardian","transferToAnotherGuardian/"+student.getId()+"/","main","primary");
-		addAction(userContext, student, tokens,"student.transfer_to_school_class","transferToAnotherSchoolClass","transferToAnotherSchoolClass/"+student.getId()+"/","main","primary");
-		addAction(userContext, student, tokens,"student.transfer_to_cq","transferToAnotherCq","transferToAnotherCq/"+student.getId()+"/","main","primary");
+		addAction(userContext, student, tokens,"student.transfer_to_address","transferToAnotherAddress","transferToAnotherAddress/"+student.getId()+"/","main","primary");
+		addAction(userContext, student, tokens,"student.transfer_to_user","transferToAnotherUser","transferToAnotherUser/"+student.getId()+"/","main","primary");
+		addAction(userContext, student, tokens,"student.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+student.getId()+"/","main","primary");
+		addAction(userContext, student, tokens,"student.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+student.getId()+"/","main","primary");
 		addAction(userContext, student, tokens,"student.addStudentHealthSurvey","addStudentHealthSurvey","addStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, student, tokens,"student.removeStudentHealthSurvey","removeStudentHealthSurvey","removeStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, student, tokens,"student.updateStudentHealthSurvey","updateStudentHealthSurvey","updateStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
@@ -182,39 +185,47 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
  	
  	
 
-	public Student createStudent(HealthUserContext userContext, String name,String gender,String guardianId,String schoolClassId,String studentId,String cqId) throws Exception
-	//public Student createStudent(HealthUserContext userContext,String name, String gender, String guardianId, String schoolClassId, String studentId, String cqId) throws Exception
+	public Student createStudent(HealthUserContext userContext, String studentName,String studentId,String guardianName,String guardianMobile,String addressId,String userId,String platformId,String changeRequestId) throws Exception
+	//public Student createStudent(HealthUserContext userContext,String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId, String changeRequestId) throws Exception
 	{
 
 		
 
 		
 
-		checkerOf(userContext).checkNameOfStudent(name);
-		checkerOf(userContext).checkGenderOfStudent(gender);
+		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
+		checkerOf(userContext).checkGuardianMobileOfStudent(guardianMobile);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
 
 
 		Student student=createNewStudent();	
 
-		student.setName(name);
-		student.setGender(gender);
-			
-		Guardian guardian = loadGuardian(userContext, guardianId,emptyOptions());
-		student.setGuardian(guardian);
-		
-		
-			
-		SchoolClass schoolClass = loadSchoolClass(userContext, schoolClassId,emptyOptions());
-		student.setSchoolClass(schoolClass);
-		
-		
+		student.setStudentName(studentName);
 		student.setStudentId(studentId);
+		student.setGuardianName(guardianName);
+		student.setGuardianMobile(guardianMobile);
 			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		student.setCq(cq);
+		Location address = loadLocation(userContext, addressId,emptyOptions());
+		student.setAddress(address);
+		
+		
+			
+		User user = loadUser(userContext, userId,emptyOptions());
+		student.setUser(user);
+		
+		
+		student.setCreateTime(userContext.now());
+			
+		Platform platform = loadPlatform(userContext, platformId,emptyOptions());
+		student.setPlatform(platform);
+		
+		
+			
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+		student.setChangeRequest(changeRequest);
 		
 		
 
@@ -241,19 +252,24 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		checkerOf(userContext).checkVersionOfStudent( studentVersion);
 		
 
-		if(Student.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
-		if(Student.GENDER_PROPERTY.equals(property)){
-			checkerOf(userContext).checkGenderOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_ID_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		}
+		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
+		}
+		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
 		}		
 
 				
 
-		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
-		}		
+				
+
+				
 
 		
 	
@@ -362,24 +378,24 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		return StudentTokens.mergeAll(tokens).done();
 	}
 	
-	protected void checkParamsForTransferingAnotherGuardian(HealthUserContext userContext, String studentId, String anotherGuardianId) throws Exception
+	protected void checkParamsForTransferingAnotherAddress(HealthUserContext userContext, String studentId, String anotherAddressId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfStudent(studentId);
- 		checkerOf(userContext).checkIdOfGuardian(anotherGuardianId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfLocation(anotherAddressId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
 
  	}
- 	public Student transferToAnotherGuardian(HealthUserContext userContext, String studentId, String anotherGuardianId) throws Exception
+ 	public Student transferToAnotherAddress(HealthUserContext userContext, String studentId, String anotherAddressId) throws Exception
  	{
- 		checkParamsForTransferingAnotherGuardian(userContext, studentId,anotherGuardianId);
+ 		checkParamsForTransferingAnotherAddress(userContext, studentId,anotherAddressId);
  
 		Student student = loadStudent(userContext, studentId, allTokens());	
 		synchronized(student){
 			//will be good when the student loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			Guardian guardian = loadGuardian(userContext, anotherGuardianId, emptyOptions());		
-			student.updateGuardian(guardian);		
+			Location address = loadLocation(userContext, anotherAddressId, emptyOptions());		
+			student.updateAddress(address);		
 			student = saveStudent(userContext, student, emptyOptions());
 			
 			return present(userContext,student, allTokens());
@@ -391,9 +407,9 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 	
 
 
-	public CandidateGuardian requestCandidateGuardian(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateLocation requestCandidateAddress(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateGuardian result = new CandidateGuardian();
+		CandidateLocation result = new CandidateLocation();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -404,31 +420,31 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<Guardian> candidateList = guardianDaoOf(userContext).requestCandidateGuardianForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<Location> candidateList = locationDaoOf(userContext).requestCandidateLocationForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherSchoolClass(HealthUserContext userContext, String studentId, String anotherSchoolClassId) throws Exception
+ 	protected void checkParamsForTransferingAnotherUser(HealthUserContext userContext, String studentId, String anotherUserId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfStudent(studentId);
- 		checkerOf(userContext).checkIdOfSchoolClass(anotherSchoolClassId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfUser(anotherUserId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
 
  	}
- 	public Student transferToAnotherSchoolClass(HealthUserContext userContext, String studentId, String anotherSchoolClassId) throws Exception
+ 	public Student transferToAnotherUser(HealthUserContext userContext, String studentId, String anotherUserId) throws Exception
  	{
- 		checkParamsForTransferingAnotherSchoolClass(userContext, studentId,anotherSchoolClassId);
+ 		checkParamsForTransferingAnotherUser(userContext, studentId,anotherUserId);
  
 		Student student = loadStudent(userContext, studentId, allTokens());	
 		synchronized(student){
 			//will be good when the student loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			SchoolClass schoolClass = loadSchoolClass(userContext, anotherSchoolClassId, emptyOptions());		
-			student.updateSchoolClass(schoolClass);		
+			User user = loadUser(userContext, anotherUserId, emptyOptions());		
+			student.updateUser(user);		
 			student = saveStudent(userContext, student, emptyOptions());
 			
 			return present(userContext,student, allTokens());
@@ -440,9 +456,9 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 	
 
 
-	public CandidateSchoolClass requestCandidateSchoolClass(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateUser requestCandidateUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateSchoolClass result = new CandidateSchoolClass();
+		CandidateUser result = new CandidateUser();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -453,31 +469,31 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<SchoolClass> candidateList = schoolClassDaoOf(userContext).requestCandidateSchoolClassForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<User> candidateList = userDaoOf(userContext).requestCandidateUserForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherCq(HealthUserContext userContext, String studentId, String anotherCqId) throws Exception
+ 	protected void checkParamsForTransferingAnotherPlatform(HealthUserContext userContext, String studentId, String anotherPlatformId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfStudent(studentId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherCqId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfPlatform(anotherPlatformId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
 
  	}
- 	public Student transferToAnotherCq(HealthUserContext userContext, String studentId, String anotherCqId) throws Exception
+ 	public Student transferToAnotherPlatform(HealthUserContext userContext, String studentId, String anotherPlatformId) throws Exception
  	{
- 		checkParamsForTransferingAnotherCq(userContext, studentId,anotherCqId);
+ 		checkParamsForTransferingAnotherPlatform(userContext, studentId,anotherPlatformId);
  
 		Student student = loadStudent(userContext, studentId, allTokens());	
 		synchronized(student){
 			//will be good when the student loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			ChangeRequest cq = loadChangeRequest(userContext, anotherCqId, emptyOptions());		
-			student.updateCq(cq);		
+			Platform platform = loadPlatform(userContext, anotherPlatformId, emptyOptions());		
+			student.updatePlatform(platform);		
 			student = saveStudent(userContext, student, emptyOptions());
 			
 			return present(userContext,student, allTokens());
@@ -489,7 +505,56 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 	
 
 
-	public CandidateChangeRequest requestCandidateCq(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidatePlatform requestCandidatePlatform(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+
+		CandidatePlatform result = new CandidatePlatform();
+		result.setOwnerClass(ownerClass);
+		result.setOwnerId(id);
+		result.setFilterKey(filterKey==null?"":filterKey.trim());
+		result.setPageNo(pageNo);
+		result.setValueFieldName("id");
+		result.setDisplayFieldName("name");
+
+		pageNo = Math.max(1, pageNo);
+		int pageSize = 20;
+		//requestCandidateProductForSkuAsOwner
+		SmartList<Platform> candidateList = platformDaoOf(userContext).requestCandidatePlatformForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		result.setCandidates(candidateList);
+		int totalCount = candidateList.getTotalCount();
+		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
+		return result;
+	}
+
+ 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String studentId, String anotherChangeRequestId) throws Exception
+ 	{
+
+ 		checkerOf(userContext).checkIdOfStudent(studentId);
+ 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
+ 		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
+
+ 	}
+ 	public Student transferToAnotherChangeRequest(HealthUserContext userContext, String studentId, String anotherChangeRequestId) throws Exception
+ 	{
+ 		checkParamsForTransferingAnotherChangeRequest(userContext, studentId,anotherChangeRequestId);
+ 
+		Student student = loadStudent(userContext, studentId, allTokens());	
+		synchronized(student){
+			//will be good when the student loaded from this JVM process cache.
+			//also good when there is a ram based DAO implementation
+			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
+			student.updateChangeRequest(changeRequest);		
+			student = saveStudent(userContext, student, emptyOptions());
+			
+			return present(userContext,student, allTokens());
+			
+		}
+
+ 	}
+
+	
+
+
+	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
 		CandidateChangeRequest result = new CandidateChangeRequest();
 		result.setOwnerClass(ownerClass);
@@ -512,30 +577,40 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
  //--------------------------------------------------------------
 	
 
- 	protected SchoolClass loadSchoolClass(HealthUserContext userContext, String newSchoolClassId, Map<String,Object> options) throws Exception
+ 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
  	{
 
- 		return schoolClassDaoOf(userContext).load(newSchoolClassId, options);
+ 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
  	}
  	
 
 
 	
 
- 	protected Guardian loadGuardian(HealthUserContext userContext, String newGuardianId, Map<String,Object> options) throws Exception
+ 	protected User loadUser(HealthUserContext userContext, String newUserId, Map<String,Object> options) throws Exception
  	{
 
- 		return guardianDaoOf(userContext).load(newGuardianId, options);
+ 		return userDaoOf(userContext).load(newUserId, options);
  	}
  	
 
 
 	
 
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newCqId, Map<String,Object> options) throws Exception
+ 	protected Location loadLocation(HealthUserContext userContext, String newAddressId, Map<String,Object> options) throws Exception
  	{
 
- 		return changeRequestDaoOf(userContext).load(newCqId, options);
+ 		return locationDaoOf(userContext).load(newAddressId, options);
+ 	}
+ 	
+
+
+	
+
+ 	protected Platform loadPlatform(HealthUserContext userContext, String newPlatformId, Map<String,Object> options) throws Exception
+ 	{
+
+ 		return platformDaoOf(userContext).load(newPlatformId, options);
  	}
  	
 
@@ -599,8 +674,8 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 				return student;
 			}
 	}
-	//disconnect Student with school_class in StudentHealthSurvey
-	protected Student breakWithStudentHealthSurveyBySchoolClass(HealthUserContext userContext, String studentId, String schoolClassId,  String [] tokensExpr)
+	//disconnect Student with teacher in StudentHealthSurvey
+	protected Student breakWithStudentHealthSurveyByTeacher(HealthUserContext userContext, String studentId, String teacherId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -611,7 +686,7 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				studentDaoOf(userContext).planToRemoveStudentHealthSurveyListWithSchoolClass(student, schoolClassId, this.emptyOptions());
+				studentDaoOf(userContext).planToRemoveStudentHealthSurveyListWithTeacher(student, teacherId, this.emptyOptions());
 
 				student = saveStudent(userContext, student, tokens().withStudentHealthSurveyList().done());
 				return student;
@@ -635,8 +710,8 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 				return student;
 			}
 	}
-	//disconnect Student with cq in StudentHealthSurvey
-	protected Student breakWithStudentHealthSurveyByCq(HealthUserContext userContext, String studentId, String cqId,  String [] tokensExpr)
+	//disconnect Student with change_request in StudentHealthSurvey
+	protected Student breakWithStudentHealthSurveyByChangeRequest(HealthUserContext userContext, String studentId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -647,7 +722,7 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				studentDaoOf(userContext).planToRemoveStudentHealthSurveyListWithCq(student, cqId, this.emptyOptions());
+				studentDaoOf(userContext).planToRemoveStudentHealthSurveyListWithChangeRequest(student, changeRequestId, this.emptyOptions());
 
 				student = saveStudent(userContext, student, tokens().withStudentHealthSurveyList().done());
 				return student;
@@ -659,7 +734,7 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 
 
 
-	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String classDailyHealthSurveyId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfStudent(studentId);
 
@@ -668,22 +743,22 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		
 		checkerOf(userContext).checkSurveyStatusIdOfStudentHealthSurvey(surveyStatusId);
 		
-		checkerOf(userContext).checkSchoolClassIdOfStudentHealthSurvey(schoolClassId);
+		checkerOf(userContext).checkTeacherIdOfStudentHealthSurvey(teacherId);
 		
 		checkerOf(userContext).checkClassDailyHealthSurveyIdOfStudentHealthSurvey(classDailyHealthSurveyId);
 		
-		checkerOf(userContext).checkCqIdOfStudentHealthSurvey(cqId);
+		checkerOf(userContext).checkChangeRequestIdOfStudentHealthSurvey(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
 
 
 	}
-	public  Student addStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String classDailyHealthSurveyId, String cqId, String [] tokensExpr) throws Exception
+	public  Student addStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudentHealthSurvey(userContext,studentId,answerTime, surveyStatusId, schoolClassId, classDailyHealthSurveyId, cqId,tokensExpr);
+		checkParamsForAddingStudentHealthSurvey(userContext,studentId,answerTime, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId,tokensExpr);
 
-		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,answerTime, surveyStatusId, schoolClassId, classDailyHealthSurveyId, cqId);
+		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,answerTime, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId);
 
 		Student student = loadStudent(userContext, studentId, emptyOptions());
 		synchronized(student){
@@ -734,7 +809,7 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 	}
 
 
-	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, DateTime answerTime, String surveyStatusId, String schoolClassId, String classDailyHealthSurveyId, String cqId) throws Exception{
+	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId, String changeRequestId) throws Exception{
 
 		StudentHealthSurvey studentHealthSurvey = new StudentHealthSurvey();
 		
@@ -743,17 +818,17 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		SurveyStatus  surveyStatus = new SurveyStatus();
 		surveyStatus.setId(surveyStatusId);		
 		studentHealthSurvey.setSurveyStatus(surveyStatus);		
-		SchoolClass  schoolClass = new SchoolClass();
-		schoolClass.setId(schoolClassId);		
-		studentHealthSurvey.setSchoolClass(schoolClass);		
+		Teacher  teacher = new Teacher();
+		teacher.setId(teacherId);		
+		studentHealthSurvey.setTeacher(teacher);		
 		ClassDailyHealthSurvey  classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		classDailyHealthSurvey.setId(classDailyHealthSurveyId);		
 		studentHealthSurvey.setClassDailyHealthSurvey(classDailyHealthSurvey);		
 		studentHealthSurvey.setCreateTime(userContext.now());		
 		studentHealthSurvey.setLastUpdateTime(userContext.now());		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		studentHealthSurvey.setCq(cq);
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		studentHealthSurvey.setChangeRequest(changeRequest);
 	
 		
 		return studentHealthSurvey;

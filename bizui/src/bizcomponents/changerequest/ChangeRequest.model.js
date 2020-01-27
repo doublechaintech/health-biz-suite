@@ -117,75 +117,6 @@ export default {
 
 
 
-    *addSchoolClass({ payload }, { call, put }) {
-      const userContext = null
-      const {ChangeRequestService} = GlobalComponents;
-
-      const { id, role, parameters, continueNext } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.addSchoolClass, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const newPlayload = { ...payload, ...data }
-      yield put({ type: 'updateState', payload: newPlayload })
-      // yield put(routerRedux.push(`/changeRequest/${id}/list/${role}CreateForm'))
-      notifySuccess(userContext)
-      if (continueNext) {
-        return
-      }
-      const partialList = true
-      const newState = {...data, partialList}
-      const location = { pathname: `/changeRequest/${id}/list/SchoolClassList/学校类+${appLocaleName(userContext,'List')}`, state: newState }
-      yield put(routerRedux.push(location))
-    },
-    *updateSchoolClass({ payload }, { call, put }) {
-      const userContext = null
-      const {ChangeRequestService} = GlobalComponents;      
-      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.updateSchoolClass, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const partialList = true
-      
-      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
-      yield put({ type: 'updateState', payload: newPlayload })
-      notifySuccess(userContext)
-      
-      if (continueNext) {
-        return
-      }
-      const location = { pathname: `/changeRequest/${id}/list/SchoolClassList/学校类列表`, state: newPlayload }
-      yield put(routerRedux.push(location))
-    },
-    *gotoNextSchoolClassUpdateRow({ payload }, { call, put }) {
-      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
-      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
-      yield put({ type: 'updateState', payload: newPlayload })
-    },
-    *removeSchoolClassList({ payload }, { call, put }) {
-     const userContext = null
-      const {ChangeRequestService} = GlobalComponents; 
-      const { id, role, parameters, continueNext } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.removeSchoolClassList, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const newPlayload = { ...payload, ...data }
-
-      yield put({ type: 'updateState', payload: newPlayload })
-      notifySuccess(userContext)
-    },
-
-
-
-
     *addTeacher({ payload }, { call, put }) {
       const userContext = null
       const {ChangeRequestService} = GlobalComponents;
@@ -255,13 +186,13 @@ export default {
 
 
 
-    *addGuardian({ payload }, { call, put }) {
+    *addStudent({ payload }, { call, put }) {
       const userContext = null
       const {ChangeRequestService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.addGuardian, id, parameters)
+      const data = yield call(ChangeRequestService.addStudent, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -275,15 +206,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/changeRequest/${id}/list/GuardianList/《卫报》+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/changeRequest/${id}/list/StudentList/学生+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateGuardian({ payload }, { call, put }) {
+    *updateStudent({ payload }, { call, put }) {
       const userContext = null
       const {ChangeRequestService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.updateGuardian, id, parameters)
+      const data = yield call(ChangeRequestService.updateStudent, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -297,20 +228,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/changeRequest/${id}/list/GuardianList/《卫报》列表`, state: newPlayload }
+      const location = { pathname: `/changeRequest/${id}/list/StudentList/学生列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextGuardianUpdateRow({ payload }, { call, put }) {
+    *gotoNextStudentUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeGuardianList({ payload }, { call, put }) {
+    *removeStudentList({ payload }, { call, put }) {
      const userContext = null
       const {ChangeRequestService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.removeGuardianList, id, parameters)
+      const data = yield call(ChangeRequestService.removeStudentList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -324,13 +255,13 @@ export default {
 
 
 
-    *addClassQuestion({ payload }, { call, put }) {
+    *addQuestion({ payload }, { call, put }) {
       const userContext = null
       const {ChangeRequestService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.addClassQuestion, id, parameters)
+      const data = yield call(ChangeRequestService.addQuestion, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -344,15 +275,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/changeRequest/${id}/list/ClassQuestionList/类问题+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/changeRequest/${id}/list/QuestionList/检查问题+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateClassQuestion({ payload }, { call, put }) {
+    *updateQuestion({ payload }, { call, put }) {
       const userContext = null
       const {ChangeRequestService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.updateClassQuestion, id, parameters)
+      const data = yield call(ChangeRequestService.updateQuestion, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -366,20 +297,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/changeRequest/${id}/list/ClassQuestionList/类问题列表`, state: newPlayload }
+      const location = { pathname: `/changeRequest/${id}/list/QuestionList/检查问题列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextClassQuestionUpdateRow({ payload }, { call, put }) {
+    *gotoNextQuestionUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeClassQuestionList({ payload }, { call, put }) {
+    *removeQuestionList({ payload }, { call, put }) {
      const userContext = null
       const {ChangeRequestService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.removeClassQuestionList, id, parameters)
+      const data = yield call(ChangeRequestService.removeQuestionList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -449,75 +380,6 @@ export default {
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
       const data = yield call(ChangeRequestService.removeClassDailyHealthSurveyList, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const newPlayload = { ...payload, ...data }
-
-      yield put({ type: 'updateState', payload: newPlayload })
-      notifySuccess(userContext)
-    },
-
-
-
-
-    *addStudent({ payload }, { call, put }) {
-      const userContext = null
-      const {ChangeRequestService} = GlobalComponents;
-
-      const { id, role, parameters, continueNext } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.addStudent, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const newPlayload = { ...payload, ...data }
-      yield put({ type: 'updateState', payload: newPlayload })
-      // yield put(routerRedux.push(`/changeRequest/${id}/list/${role}CreateForm'))
-      notifySuccess(userContext)
-      if (continueNext) {
-        return
-      }
-      const partialList = true
-      const newState = {...data, partialList}
-      const location = { pathname: `/changeRequest/${id}/list/StudentList/学生+${appLocaleName(userContext,'List')}`, state: newState }
-      yield put(routerRedux.push(location))
-    },
-    *updateStudent({ payload }, { call, put }) {
-      const userContext = null
-      const {ChangeRequestService} = GlobalComponents;      
-      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.updateStudent, id, parameters)
-      if (hasError(data)) {
-        handleServerError(data)
-        return
-      }
-      const partialList = true
-      
-      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
-      yield put({ type: 'updateState', payload: newPlayload })
-      notifySuccess(userContext)
-      
-      if (continueNext) {
-        return
-      }
-      const location = { pathname: `/changeRequest/${id}/list/StudentList/学生列表`, state: newPlayload }
-      yield put(routerRedux.push(location))
-    },
-    *gotoNextStudentUpdateRow({ payload }, { call, put }) {
-      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
-      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
-      yield put({ type: 'updateState', payload: newPlayload })
-    },
-    *removeStudentList({ payload }, { call, put }) {
-     const userContext = null
-      const {ChangeRequestService} = GlobalComponents; 
-      const { id, role, parameters, continueNext } = payload
-      console.log('get form parameters', parameters)
-      const data = yield call(ChangeRequestService.removeStudentList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return

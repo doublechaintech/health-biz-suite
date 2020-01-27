@@ -74,7 +74,6 @@ public class QuestionTypeTokens extends CommonTokens{
 		return start()
 			.withPlatform()
 			.withQuestionList()
-			.withClassQuestionList()
 			.withDailySurveyQuestionList();
 	
 	}
@@ -180,76 +179,6 @@ public class QuestionTypeTokens extends CommonTokens{
 	
 	
 		
-	protected static final String CLASS_QUESTION_LIST = "classQuestionList";
-	public String getClassQuestionList(){
-		return CLASS_QUESTION_LIST;
-	}
-	public QuestionTypeTokens withClassQuestionList(){		
-		addSimpleOptions(CLASS_QUESTION_LIST);
-		return this;
-	}
-	public QuestionTypeTokens analyzeClassQuestionList(){		
-		addSimpleOptions(CLASS_QUESTION_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeClassQuestionListEnabled(){		
-		
-		if(checkOptions(this.options(), CLASS_QUESTION_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public QuestionTypeTokens extractMoreFromClassQuestionList(String idsSeperatedWithComma){		
-		addSimpleOptions(CLASS_QUESTION_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int classQuestionListSortCounter = 0;
-	public QuestionTypeTokens sortClassQuestionListWith(String field, String descOrAsc){		
-		addSortMoreOptions(CLASS_QUESTION_LIST,classQuestionListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int classQuestionListSearchCounter = 0;
-	public QuestionTypeTokens searchClassQuestionListWith(String field, String verb, String value){		
-		
-		withClassQuestionList();
-		addSearchMoreOptions(CLASS_QUESTION_LIST,classQuestionListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public QuestionTypeTokens searchAllTextOfClassQuestionList(String verb, String value){	
-		String field = "id|topic|optionA|optionB|optionC|optionD";
-		addSearchMoreOptions(CLASS_QUESTION_LIST,classQuestionListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public QuestionTypeTokens rowsPerPageOfClassQuestionList(int rowsPerPage){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public QuestionTypeTokens currentPageNumberOfClassQuestionList(int currentPageNumber){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public QuestionTypeTokens retainColumnsOfClassQuestionList(String[] columns){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public QuestionTypeTokens excludeColumnsOfClassQuestionList(String[] columns){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	protected static final String DAILY_SURVEY_QUESTION_LIST = "dailySurveyQuestionList";
 	public String getDailySurveyQuestionList(){
 		return DAILY_SURVEY_QUESTION_LIST;
@@ -324,7 +253,6 @@ public class QuestionTypeTokens extends CommonTokens{
 	public  QuestionTypeTokens searchEntireObjectText(String verb, String value){
 		
 		searchAllTextOfQuestionList(verb, value);	
-		searchAllTextOfClassQuestionList(verb, value);	
 		searchAllTextOfDailySurveyQuestionList(verb, value);	
 		return this;
 	}

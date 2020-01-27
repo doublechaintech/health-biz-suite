@@ -12,22 +12,26 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.user.User;
 
 @JsonSerialize(using = StudentSerializer.class)
 public class Student extends BaseEntity implements  java.io.Serializable{
 
 	
 	public static final String ID_PROPERTY                    = "id"                ;
-	public static final String NAME_PROPERTY                  = "name"              ;
-	public static final String GENDER_PROPERTY                = "gender"            ;
-	public static final String GUARDIAN_PROPERTY              = "guardian"          ;
-	public static final String SCHOOL_CLASS_PROPERTY          = "schoolClass"       ;
+	public static final String STUDENT_NAME_PROPERTY          = "studentName"       ;
 	public static final String STUDENT_ID_PROPERTY            = "studentId"         ;
-	public static final String CQ_PROPERTY                    = "cq"                ;
+	public static final String GUARDIAN_NAME_PROPERTY         = "guardianName"      ;
+	public static final String GUARDIAN_MOBILE_PROPERTY       = "guardianMobile"    ;
+	public static final String ADDRESS_PROPERTY               = "address"           ;
+	public static final String USER_PROPERTY                  = "user"              ;
+	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
+	public static final String PLATFORM_PROPERTY              = "platform"          ;
+	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
@@ -39,7 +43,7 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	
 	public String getDisplayName(){
 	
-		String displayName = getName();
+		String displayName = getStudentName();
 		if(displayName!=null){
 			return displayName;
 		}
@@ -52,12 +56,15 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	
 
 	protected		String              	mId                 ;
-	protected		String              	mName               ;
-	protected		String              	mGender             ;
-	protected		Guardian            	mGuardian           ;
-	protected		SchoolClass         	mSchoolClass        ;
+	protected		String              	mStudentName        ;
 	protected		String              	mStudentId          ;
-	protected		ChangeRequest       	mCq                 ;
+	protected		String              	mGuardianName       ;
+	protected		String              	mGuardianMobile     ;
+	protected		Location            	mAddress            ;
+	protected		User                	mUser               ;
+	protected		DateTime            	mCreateTime         ;
+	protected		Platform            	mPlatform           ;
+	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
@@ -79,9 +86,10 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
-		setGuardian( null );
-		setSchoolClass( null );
-		setCq( null );
+		setAddress( null );
+		setUser( null );
+		setPlatform( null );
+		setChangeRequest( null );
 
 		this.changed = true;
 	}
@@ -91,44 +99,35 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	
 	public void changeProperty(String property, String newValueExpr) {
      	
-		if(NAME_PROPERTY.equals(property)){
-			changeNameProperty(newValueExpr);
-		}
-		if(GENDER_PROPERTY.equals(property)){
-			changeGenderProperty(newValueExpr);
+		if(STUDENT_NAME_PROPERTY.equals(property)){
+			changeStudentNameProperty(newValueExpr);
 		}
 		if(STUDENT_ID_PROPERTY.equals(property)){
 			changeStudentIdProperty(newValueExpr);
+		}
+		if(GUARDIAN_NAME_PROPERTY.equals(property)){
+			changeGuardianNameProperty(newValueExpr);
+		}
+		if(GUARDIAN_MOBILE_PROPERTY.equals(property)){
+			changeGuardianMobileProperty(newValueExpr);
+		}
+		if(CREATE_TIME_PROPERTY.equals(property)){
+			changeCreateTimeProperty(newValueExpr);
 		}
 
       
 	}
     
     
-	protected void changeNameProperty(String newValueExpr){
-		String oldValue = getName();
+	protected void changeStudentNameProperty(String newValueExpr){
+		String oldValue = getStudentName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
 			return;//they can be both null, or exact the same object, this is much faster than equals function
 		}
 		//they are surely different each other
-		updateName(newValue);
-		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
-		return;
-  
-	}
-			
-			
-			
-	protected void changeGenderProperty(String newValueExpr){
-		String oldValue = getGender();
-		String newValue = parseString(newValueExpr);
-		if(equalsString(oldValue , newValue)){
-			return;//they can be both null, or exact the same object, this is much faster than equals function
-		}
-		//they are surely different each other
-		updateGender(newValue);
-		this.onChangeProperty(GENDER_PROPERTY, oldValue, newValue);
+		updateStudentName(newValue);
+		this.onChangeProperty(STUDENT_NAME_PROPERTY, oldValue, newValue);
 		return;
   
 	}
@@ -150,28 +149,82 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			
 			
 			
+	protected void changeGuardianNameProperty(String newValueExpr){
+		String oldValue = getGuardianName();
+		String newValue = parseString(newValueExpr);
+		if(equalsString(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateGuardianName(newValue);
+		this.onChangeProperty(GUARDIAN_NAME_PROPERTY, oldValue, newValue);
+		return;
+  
+	}
+			
+			
+			
+	protected void changeGuardianMobileProperty(String newValueExpr){
+		String oldValue = getGuardianMobile();
+		String newValue = parseString(newValueExpr);
+		if(equalsString(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateGuardianMobile(newValue);
+		this.onChangeProperty(GUARDIAN_MOBILE_PROPERTY, oldValue, newValue);
+		return;
+  
+	}
+			
+			
+			
+	protected void changeCreateTimeProperty(String newValueExpr){
+		DateTime oldValue = getCreateTime();
+		DateTime newValue = parseTimestamp(newValueExpr);
+		if(equalsTimestamp(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateCreateTime(newValue);
+		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
+		return;
+  
+	}
+			
+			
+			
 
 
 	
 	public Object propertyOf(String property) {
      	
-		if(NAME_PROPERTY.equals(property)){
-			return getName();
-		}
-		if(GENDER_PROPERTY.equals(property)){
-			return getGender();
-		}
-		if(GUARDIAN_PROPERTY.equals(property)){
-			return getGuardian();
-		}
-		if(SCHOOL_CLASS_PROPERTY.equals(property)){
-			return getSchoolClass();
+		if(STUDENT_NAME_PROPERTY.equals(property)){
+			return getStudentName();
 		}
 		if(STUDENT_ID_PROPERTY.equals(property)){
 			return getStudentId();
 		}
-		if(CQ_PROPERTY.equals(property)){
-			return getCq();
+		if(GUARDIAN_NAME_PROPERTY.equals(property)){
+			return getGuardianName();
+		}
+		if(GUARDIAN_MOBILE_PROPERTY.equals(property)){
+			return getGuardianMobile();
+		}
+		if(ADDRESS_PROPERTY.equals(property)){
+			return getAddress();
+		}
+		if(USER_PROPERTY.equals(property)){
+			return getUser();
+		}
+		if(CREATE_TIME_PROPERTY.equals(property)){
+			return getCreateTime();
+		}
+		if(PLATFORM_PROPERTY.equals(property)){
+			return getPlatform();
+		}
+		if(CHANGE_REQUEST_PROPERTY.equals(property)){
+			return getChangeRequest();
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
@@ -204,79 +257,21 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	}
 	
 	
-	public void setName(String name){
-		this.mName = trimString(name);;
+	public void setStudentName(String studentName){
+		this.mStudentName = trimString(studentName);;
 	}
-	public String getName(){
-		return this.mName;
+	public String getStudentName(){
+		return this.mStudentName;
 	}
-	public Student updateName(String name){
-		this.mName = trimString(name);;
+	public Student updateStudentName(String studentName){
+		this.mStudentName = trimString(studentName);;
 		this.changed = true;
 		return this;
 	}
-	public void mergeName(String name){
-		if(name != null) { setName(name);}
+	public void mergeStudentName(String studentName){
+		if(studentName != null) { setStudentName(studentName);}
 	}
 	
-	
-	public void setGender(String gender){
-		this.mGender = trimString(gender);;
-	}
-	public String getGender(){
-		return this.mGender;
-	}
-	public Student updateGender(String gender){
-		this.mGender = trimString(gender);;
-		this.changed = true;
-		return this;
-	}
-	public void mergeGender(String gender){
-		if(gender != null) { setGender(gender);}
-	}
-	
-	
-	public void setGuardian(Guardian guardian){
-		this.mGuardian = guardian;;
-	}
-	public Guardian getGuardian(){
-		return this.mGuardian;
-	}
-	public Student updateGuardian(Guardian guardian){
-		this.mGuardian = guardian;;
-		this.changed = true;
-		return this;
-	}
-	public void mergeGuardian(Guardian guardian){
-		if(guardian != null) { setGuardian(guardian);}
-	}
-	
-	
-	public void clearGuardian(){
-		setGuardian ( null );
-		this.changed = true;
-	}
-	
-	public void setSchoolClass(SchoolClass schoolClass){
-		this.mSchoolClass = schoolClass;;
-	}
-	public SchoolClass getSchoolClass(){
-		return this.mSchoolClass;
-	}
-	public Student updateSchoolClass(SchoolClass schoolClass){
-		this.mSchoolClass = schoolClass;;
-		this.changed = true;
-		return this;
-	}
-	public void mergeSchoolClass(SchoolClass schoolClass){
-		if(schoolClass != null) { setSchoolClass(schoolClass);}
-	}
-	
-	
-	public void clearSchoolClass(){
-		setSchoolClass ( null );
-		this.changed = true;
-	}
 	
 	public void setStudentId(String studentId){
 		this.mStudentId = trimString(studentId);;
@@ -299,24 +294,142 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		this.changed = true;
 	}
 	
-	public void setCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public void setGuardianName(String guardianName){
+		this.mGuardianName = trimString(guardianName);;
 	}
-	public ChangeRequest getCq(){
-		return this.mCq;
+	public String getGuardianName(){
+		return this.mGuardianName;
 	}
-	public Student updateCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public Student updateGuardianName(String guardianName){
+		this.mGuardianName = trimString(guardianName);;
 		this.changed = true;
 		return this;
 	}
-	public void mergeCq(ChangeRequest cq){
-		if(cq != null) { setCq(cq);}
+	public void mergeGuardianName(String guardianName){
+		if(guardianName != null) { setGuardianName(guardianName);}
 	}
 	
 	
-	public void clearCq(){
-		setCq ( null );
+	public void setGuardianMobile(String guardianMobile){
+		this.mGuardianMobile = trimString(guardianMobile);;
+	}
+	public String getGuardianMobile(){
+		return this.mGuardianMobile;
+	}
+	public Student updateGuardianMobile(String guardianMobile){
+		this.mGuardianMobile = trimString(guardianMobile);;
+		this.changed = true;
+		return this;
+	}
+	public void mergeGuardianMobile(String guardianMobile){
+		if(guardianMobile != null) { setGuardianMobile(guardianMobile);}
+	}
+	
+	
+	
+	public String getMaskedGuardianMobile(){
+		String mobilePhoneNumber = getGuardianMobile();
+		return maskChinaMobileNumber(mobilePhoneNumber);
+	}
+	
+		
+	public void setAddress(Location address){
+		this.mAddress = address;;
+	}
+	public Location getAddress(){
+		return this.mAddress;
+	}
+	public Student updateAddress(Location address){
+		this.mAddress = address;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeAddress(Location address){
+		if(address != null) { setAddress(address);}
+	}
+	
+	
+	public void clearAddress(){
+		setAddress ( null );
+		this.changed = true;
+	}
+	
+	public void setUser(User user){
+		this.mUser = user;;
+	}
+	public User getUser(){
+		return this.mUser;
+	}
+	public Student updateUser(User user){
+		this.mUser = user;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeUser(User user){
+		if(user != null) { setUser(user);}
+	}
+	
+	
+	public void clearUser(){
+		setUser ( null );
+		this.changed = true;
+	}
+	
+	public void setCreateTime(DateTime createTime){
+		this.mCreateTime = createTime;;
+	}
+	public DateTime getCreateTime(){
+		return this.mCreateTime;
+	}
+	public Student updateCreateTime(DateTime createTime){
+		this.mCreateTime = createTime;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeCreateTime(DateTime createTime){
+		setCreateTime(createTime);
+	}
+	
+	
+	public void setPlatform(Platform platform){
+		this.mPlatform = platform;;
+	}
+	public Platform getPlatform(){
+		return this.mPlatform;
+	}
+	public Student updatePlatform(Platform platform){
+		this.mPlatform = platform;;
+		this.changed = true;
+		return this;
+	}
+	public void mergePlatform(Platform platform){
+		if(platform != null) { setPlatform(platform);}
+	}
+	
+	
+	public void clearPlatform(){
+		setPlatform ( null );
+		this.changed = true;
+	}
+	
+	public void setChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
+	}
+	public ChangeRequest getChangeRequest(){
+		return this.mChangeRequest;
+	}
+	public Student updateChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeChangeRequest(ChangeRequest changeRequest){
+		if(changeRequest != null) { setChangeRequest(changeRequest);}
+	}
+	
+	
+	public void clearChangeRequest(){
+		setChangeRequest ( null );
 		this.changed = true;
 	}
 	
@@ -446,9 +559,10 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
-		addToEntityList(this, entityList, getGuardian(), internalType);
-		addToEntityList(this, entityList, getSchoolClass(), internalType);
-		addToEntityList(this, entityList, getCq(), internalType);
+		addToEntityList(this, entityList, getAddress(), internalType);
+		addToEntityList(this, entityList, getUser(), internalType);
+		addToEntityList(this, entityList, getPlatform(), internalType);
+		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
 	}
@@ -475,12 +589,15 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		List<KeyValuePair> result =  super.keyValuePairOf();
 
 		appendKeyValuePair(result, ID_PROPERTY, getId());
-		appendKeyValuePair(result, NAME_PROPERTY, getName());
-		appendKeyValuePair(result, GENDER_PROPERTY, getGender());
-		appendKeyValuePair(result, GUARDIAN_PROPERTY, getGuardian());
-		appendKeyValuePair(result, SCHOOL_CLASS_PROPERTY, getSchoolClass());
+		appendKeyValuePair(result, STUDENT_NAME_PROPERTY, getStudentName());
 		appendKeyValuePair(result, STUDENT_ID_PROPERTY, getStudentId());
-		appendKeyValuePair(result, CQ_PROPERTY, getCq());
+		appendKeyValuePair(result, GUARDIAN_NAME_PROPERTY, getGuardianName());
+		appendKeyValuePair(result, GUARDIAN_MOBILE_PROPERTY, getMaskedGuardianMobile());
+		appendKeyValuePair(result, ADDRESS_PROPERTY, getAddress());
+		appendKeyValuePair(result, USER_PROPERTY, getUser());
+		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
+		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
+		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyList());
 		if(!getStudentHealthSurveyList().isEmpty()){
@@ -502,12 +619,15 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			Student dest =(Student)baseDest;
 		
 			dest.setId(getId());
-			dest.setName(getName());
-			dest.setGender(getGender());
-			dest.setGuardian(getGuardian());
-			dest.setSchoolClass(getSchoolClass());
+			dest.setStudentName(getStudentName());
 			dest.setStudentId(getStudentId());
-			dest.setCq(getCq());
+			dest.setGuardianName(getGuardianName());
+			dest.setGuardianMobile(getGuardianMobile());
+			dest.setAddress(getAddress());
+			dest.setUser(getUser());
+			dest.setCreateTime(getCreateTime());
+			dest.setPlatform(getPlatform());
+			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
 
@@ -524,12 +644,15 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			Student dest =(Student)baseDest;
 		
 			dest.mergeId(getId());
-			dest.mergeName(getName());
-			dest.mergeGender(getGender());
-			dest.mergeGuardian(getGuardian());
-			dest.mergeSchoolClass(getSchoolClass());
+			dest.mergeStudentName(getStudentName());
 			dest.mergeStudentId(getStudentId());
-			dest.mergeCq(getCq());
+			dest.mergeGuardianName(getGuardianName());
+			dest.mergeGuardianMobile(getGuardianMobile());
+			dest.mergeAddress(getAddress());
+			dest.mergeUser(getUser());
+			dest.mergeCreateTime(getCreateTime());
+			dest.mergePlatform(getPlatform());
+			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
 
@@ -547,33 +670,40 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			Student dest =(Student)baseDest;
 		
 			dest.mergeId(getId());
-			dest.mergeName(getName());
-			dest.mergeGender(getGender());
+			dest.mergeStudentName(getStudentName());
 			dest.mergeStudentId(getStudentId());
+			dest.mergeGuardianName(getGuardianName());
+			dest.mergeGuardianMobile(getGuardianMobile());
+			dest.mergeCreateTime(getCreateTime());
 			dest.mergeVersion(getVersion());
 
 		}
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getGender(), getGuardian(), getSchoolClass(), getStudentId(), getCq(), getVersion()};
+		return new Object[]{getId(), getStudentName(), getStudentId(), getGuardianName(), getGuardianMobile(), getAddress(), getUser(), getCreateTime(), getPlatform(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
 
 		stringBuilder.append("Student{");
 		stringBuilder.append("\tid='"+getId()+"';");
-		stringBuilder.append("\tname='"+getName()+"';");
-		stringBuilder.append("\tgender='"+getGender()+"';");
-		if(getGuardian() != null ){
- 			stringBuilder.append("\tguardian='Guardian("+getGuardian().getId()+")';");
- 		}
-		if(getSchoolClass() != null ){
- 			stringBuilder.append("\tschoolClass='SchoolClass("+getSchoolClass().getId()+")';");
- 		}
+		stringBuilder.append("\tstudentName='"+getStudentName()+"';");
 		stringBuilder.append("\tstudentId='"+getStudentId()+"';");
-		if(getCq() != null ){
- 			stringBuilder.append("\tcq='ChangeRequest("+getCq().getId()+")';");
+		stringBuilder.append("\tguardianName='"+getGuardianName()+"';");
+		stringBuilder.append("\tguardianMobile='"+getGuardianMobile()+"';");
+		if(getAddress() != null ){
+ 			stringBuilder.append("\taddress='Location("+getAddress().getId()+")';");
+ 		}
+		if(getUser() != null ){
+ 			stringBuilder.append("\tuser='User("+getUser().getId()+")';");
+ 		}
+		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
+		if(getPlatform() != null ){
+ 			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");
+ 		}
+		if(getChangeRequest() != null ){
+ 			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

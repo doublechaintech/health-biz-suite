@@ -117,13 +117,13 @@ export default {
 
 
 
-    *addGuardian({ payload }, { call, put }) {
+    *addStudent({ payload }, { call, put }) {
       const userContext = null
       const {LocationService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.addGuardian, id, parameters)
+      const data = yield call(LocationService.addStudent, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -137,15 +137,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/location/${id}/list/GuardianList/《卫报》+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/location/${id}/list/StudentList/学生+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateGuardian({ payload }, { call, put }) {
+    *updateStudent({ payload }, { call, put }) {
       const userContext = null
       const {LocationService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.updateGuardian, id, parameters)
+      const data = yield call(LocationService.updateStudent, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -159,20 +159,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/location/${id}/list/GuardianList/《卫报》列表`, state: newPlayload }
+      const location = { pathname: `/location/${id}/list/StudentList/学生列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextGuardianUpdateRow({ payload }, { call, put }) {
+    *gotoNextStudentUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeGuardianList({ payload }, { call, put }) {
+    *removeStudentList({ payload }, { call, put }) {
      const userContext = null
       const {LocationService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.removeGuardianList, id, parameters)
+      const data = yield call(LocationService.removeStudentList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -186,13 +186,13 @@ export default {
 
 
 
-    *addWechatUser({ payload }, { call, put }) {
+    *addUser({ payload }, { call, put }) {
       const userContext = null
       const {LocationService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.addWechatUser, id, parameters)
+      const data = yield call(LocationService.addUser, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -206,15 +206,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/location/${id}/list/WechatUserList/微信用户+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/location/${id}/list/UserList/用户+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateWechatUser({ payload }, { call, put }) {
+    *updateUser({ payload }, { call, put }) {
       const userContext = null
       const {LocationService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.updateWechatUser, id, parameters)
+      const data = yield call(LocationService.updateUser, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -228,20 +228,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/location/${id}/list/WechatUserList/微信用户列表`, state: newPlayload }
+      const location = { pathname: `/location/${id}/list/UserList/用户列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextWechatUserUpdateRow({ payload }, { call, put }) {
+    *gotoNextUserUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeWechatUserList({ payload }, { call, put }) {
+    *removeUserList({ payload }, { call, put }) {
      const userContext = null
       const {LocationService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(LocationService.removeWechatUserList, id, parameters)
+      const data = yield call(LocationService.removeUserList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return

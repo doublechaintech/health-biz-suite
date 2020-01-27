@@ -22,7 +22,8 @@
 	<li><span>ID</span><a class="link-action-removed" href="./teacherManager/view/${teacher.id}/"> ${teacher.id}</a></li>
 <li><span>${userContext.localeMap['teacher.name']}</span> ${teacher.name}</li>
 <li><span>${userContext.localeMap['teacher.mobile']}</span> ${teacher.maskedMobile}</li>
-<li><span>${userContext.localeMap['teacher.schoole']}</span> ${teacher.schoole}</li>
+<li><span>${userContext.localeMap['teacher.school']}</span> ${teacher.school}</li>
+<li><span>${userContext.localeMap['teacher.school_class']}</span> ${teacher.schoolClass}</li>
 <li><span>${userContext.localeMap['teacher.create_time']}</span> <fmt:formatDate pattern="yyyy-MM-dd" value="${teacher.createTime}" /></li>
 
 	

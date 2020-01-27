@@ -37,6 +37,7 @@ const renderReferenceCell=defaultRenderReferenceCell
 
 const menuData = {menuName: window.trans('question'), menuFor: "question",
   		subItems: [
+  {name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','question.daily_survey_question_list',false), type:'dailySurveyQuestion',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],
 }
@@ -57,6 +58,8 @@ const fieldLabels = {
   optionC: window.trans('question.option_c'),
   optionD: window.trans('question.option_d'),
   platform: window.trans('question.platform'),
+  creator: window.trans('question.creator'),
+  cq: window.trans('question.cq'),
 
 }
 
@@ -69,6 +72,8 @@ const displayColumns = [
   { title: fieldLabels.optionC, debugtype: 'string', dataIndex: 'optionC', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.optionD, debugtype: 'string', dataIndex: 'optionD', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.platform, dataIndex: 'platform', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.creator, dataIndex: 'creator', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -90,6 +95,10 @@ const renderItemOfList=(question, targetComponent, columCount)=>{
         <Description term={fieldLabels.optionB} style={{wordBreak: 'break-all'}}>{question.optionB}</Description> 
         <Description term={fieldLabels.optionC} style={{wordBreak: 'break-all'}}>{question.optionC}</Description> 
         <Description term={fieldLabels.optionD} style={{wordBreak: 'break-all'}}>{question.optionD}</Description> 
+        <Description term={fieldLabels.creator}><div>{question.creator==null?appLocaleName(userContext,"NotAssigned"):`${question.creator.displayName}(${question.creator.id})`}
+        </div></Description>
+        <Description term={fieldLabels.cq}><div>{question.cq==null?appLocaleName(userContext,"NotAssigned"):`${question.cq.displayName}(${question.cq.id})`}
+        </div></Description>
 	
         
       </DescriptionList>
@@ -100,17 +109,21 @@ const renderItemOfList=(question, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {topic, optionA, optionB, optionC, optionD, questionTypeId, platformId} = formValuesToPack
+	const {topic, optionA, optionB, optionC, optionD, questionTypeId, platformId, creatorId, cqId} = formValuesToPack
 	const questionType = {id: questionTypeId, version: 2^31}
 	const platform = {id: platformId, version: 2^31}
-	const data = {topic, optionA, optionB, optionC, optionD, questionType, platform}
+	const creator = {id: creatorId, version: 2^31}
+	const cq = {id: cqId, version: 2^31}
+	const data = {topic, optionA, optionB, optionC, optionD, questionType, platform, creator, cq}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {topic, optionA, optionB, optionC, optionD, questionType, platform} = objectToUnpack
+	const {topic, optionA, optionB, optionC, optionD, questionType, platform, creator, cq} = objectToUnpack
 	const questionTypeId = questionType ? questionType.id : null
 	const platformId = platform ? platform.id : null
-	const data = {topic, optionA, optionB, optionC, optionD, questionTypeId, platformId}
+	const creatorId = creator ? creator.id : null
+	const cqId = cq ? cq.id : null
+	const data = {topic, optionA, optionB, optionC, optionD, questionTypeId, platformId, creatorId, cqId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

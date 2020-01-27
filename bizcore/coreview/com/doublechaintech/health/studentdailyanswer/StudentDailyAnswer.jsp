@@ -135,8 +135,8 @@
 <c:set var="referName" value="(question)" scope="request" />
 <sky:include page="com/doublechaintech/health/dailysurveyquestion/DailySurveyQuestion$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.cq}" scope="request" />
-<c:set var="referName" value="(cq)" scope="request" />
+<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
+<c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
 
 </div>

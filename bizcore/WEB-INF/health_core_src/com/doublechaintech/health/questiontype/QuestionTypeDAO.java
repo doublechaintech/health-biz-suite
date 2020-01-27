@@ -12,11 +12,9 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.question.Question;
-import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
-import com.doublechaintech.health.classquestion.ClassQuestionDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 
 
@@ -56,14 +54,10 @@ public interface QuestionTypeDAO extends BaseDAO{
 
 	public QuestionDAO getQuestionDAO();
 		
-	public ClassQuestionDAO getClassQuestionDAO();
-		
 	public DailySurveyQuestionDAO getDailySurveyQuestionDAO();
 		
 	
  	public SmartList<QuestionType> requestCandidateQuestionTypeForQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
-		
- 	public SmartList<QuestionType> requestCandidateQuestionTypeForClassQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<QuestionType> requestCandidateQuestionTypeForDailySurveyQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
@@ -75,20 +69,13 @@ public interface QuestionTypeDAO extends BaseDAO{
 	public QuestionType planToRemoveQuestionListWithPlatform(QuestionType questionType, String platformId, Map<String,Object> options)throws Exception;
 	public int countQuestionListWithPlatform(String questionTypeId, String platformId, Map<String,Object> options)throws Exception;
 	
-	public QuestionType planToRemoveClassQuestionList(QuestionType questionType, String classQuestionIds[], Map<String,Object> options)throws Exception;
-
-
-	//disconnect QuestionType with question_source in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithQuestionSource(QuestionType questionType, String questionSourceId, Map<String,Object> options)throws Exception;
-	public int countClassQuestionListWithQuestionSource(String questionTypeId, String questionSourceId, Map<String,Object> options)throws Exception;
+	//disconnect QuestionType with creator in Question
+	public QuestionType planToRemoveQuestionListWithCreator(QuestionType questionType, String creatorId, Map<String,Object> options)throws Exception;
+	public int countQuestionListWithCreator(String questionTypeId, String creatorId, Map<String,Object> options)throws Exception;
 	
-	//disconnect QuestionType with creator in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithCreator(QuestionType questionType, String creatorId, Map<String,Object> options)throws Exception;
-	public int countClassQuestionListWithCreator(String questionTypeId, String creatorId, Map<String,Object> options)throws Exception;
-	
-	//disconnect QuestionType with cq in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithCq(QuestionType questionType, String cqId, Map<String,Object> options)throws Exception;
-	public int countClassQuestionListWithCq(String questionTypeId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect QuestionType with cq in Question
+	public QuestionType planToRemoveQuestionListWithCq(QuestionType questionType, String cqId, Map<String,Object> options)throws Exception;
+	public int countQuestionListWithCq(String questionTypeId, String cqId, Map<String,Object> options)throws Exception;
 	
 	public QuestionType planToRemoveDailySurveyQuestionList(QuestionType questionType, String dailySurveyQuestionIds[], Map<String,Object> options)throws Exception;
 
@@ -97,9 +84,9 @@ public interface QuestionTypeDAO extends BaseDAO{
 	public QuestionType planToRemoveDailySurveyQuestionListWithClassDailyHealthSurvey(QuestionType questionType, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	public int countDailySurveyQuestionListWithClassDailyHealthSurvey(String questionTypeId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	
-	//disconnect QuestionType with class_question in DailySurveyQuestion
-	public QuestionType planToRemoveDailySurveyQuestionListWithClassQuestion(QuestionType questionType, String classQuestionId, Map<String,Object> options)throws Exception;
-	public int countDailySurveyQuestionListWithClassQuestion(String questionTypeId, String classQuestionId, Map<String,Object> options)throws Exception;
+	//disconnect QuestionType with survey_question in DailySurveyQuestion
+	public QuestionType planToRemoveDailySurveyQuestionListWithSurveyQuestion(QuestionType questionType, String surveyQuestionId, Map<String,Object> options)throws Exception;
+	public int countDailySurveyQuestionListWithSurveyQuestion(String questionTypeId, String surveyQuestionId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<QuestionType> queryList(String sql, Object ... parmeters);
@@ -115,9 +102,6 @@ public interface QuestionTypeDAO extends BaseDAO{
  
 	// 需要一个加载引用我的对象的enhance方法:Question的questionType的QuestionList
 	public SmartList<Question> loadOurQuestionList(HealthUserContext userContext, List<QuestionType> us, Map<String,Object> options) throws Exception;
-	
-	// 需要一个加载引用我的对象的enhance方法:ClassQuestion的questionType的ClassQuestionList
-	public SmartList<ClassQuestion> loadOurClassQuestionList(HealthUserContext userContext, List<QuestionType> us, Map<String,Object> options) throws Exception;
 	
 	// 需要一个加载引用我的对象的enhance方法:DailySurveyQuestion的questionType的DailySurveyQuestionList
 	public SmartList<DailySurveyQuestion> loadOurDailySurveyQuestionList(HealthUserContext userContext, List<QuestionType> us, Map<String,Object> options) throws Exception;

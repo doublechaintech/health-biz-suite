@@ -10,16 +10,16 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
 
@@ -65,9 +65,9 @@ public interface StudentHealthSurveyDAO extends BaseDAO{
 	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithQuestion(StudentHealthSurvey studentHealthSurvey, String questionId, Map<String,Object> options)throws Exception;
 	public int countStudentDailyAnswerListWithQuestion(String studentHealthSurveyId, String questionId, Map<String,Object> options)throws Exception;
 	
-	//disconnect StudentHealthSurvey with cq in StudentDailyAnswer
-	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithCq(StudentHealthSurvey studentHealthSurvey, String cqId, Map<String,Object> options)throws Exception;
-	public int countStudentDailyAnswerListWithCq(String studentHealthSurveyId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect StudentHealthSurvey with change_request in StudentDailyAnswer
+	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithChangeRequest(StudentHealthSurvey studentHealthSurvey, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countStudentDailyAnswerListWithChangeRequest(String studentHealthSurveyId, String changeRequestId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<StudentHealthSurvey> queryList(String sql, Object ... parmeters);
@@ -89,11 +89,11 @@ public interface StudentHealthSurveyDAO extends BaseDAO{
 
  
   
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
- 	public int countStudentHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentHealthSurveyBySchoolClassIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentHealthSurveyBySchoolClass(SmartList<StudentHealthSurvey> resultList, String schoolClassId, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
+ 	public int countStudentHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentHealthSurveyByTeacherIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentHealthSurveyByTeacher(SmartList<StudentHealthSurvey> resultList, String teacherId, Map<String,Object> options);
 
  
   
@@ -105,11 +105,11 @@ public interface StudentHealthSurveyDAO extends BaseDAO{
 
  
   
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByCq(String changeRequestId, Map<String,Object> options);
- 	public int countStudentHealthSurveyByCq(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentHealthSurveyByCqIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByCq(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentHealthSurveyByCq(SmartList<StudentHealthSurvey> resultList, String changeRequestId, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public int countStudentHealthSurveyByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentHealthSurveyByChangeRequestIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentHealthSurveyByChangeRequest(SmartList<StudentHealthSurvey> resultList, String changeRequestId, Map<String,Object> options);
 
  
  

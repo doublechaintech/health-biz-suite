@@ -9,15 +9,17 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
+import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.user.User;
 
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
+import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
-import com.doublechaintech.health.guardian.GuardianDAO;
+import com.doublechaintech.health.platform.PlatformDAO;
+import com.doublechaintech.health.user.UserDAO;
 
 
 public interface StudentDAO extends BaseDAO{
@@ -61,43 +63,51 @@ public interface StudentDAO extends BaseDAO{
 	public Student planToRemoveStudentHealthSurveyListWithSurveyStatus(Student student, String surveyStatusId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithSurveyStatus(String studentId, String surveyStatusId, Map<String,Object> options)throws Exception;
 	
-	//disconnect Student with school_class in StudentHealthSurvey
-	public Student planToRemoveStudentHealthSurveyListWithSchoolClass(Student student, String schoolClassId, Map<String,Object> options)throws Exception;
-	public int countStudentHealthSurveyListWithSchoolClass(String studentId, String schoolClassId, Map<String,Object> options)throws Exception;
+	//disconnect Student with teacher in StudentHealthSurvey
+	public Student planToRemoveStudentHealthSurveyListWithTeacher(Student student, String teacherId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithTeacher(String studentId, String teacherId, Map<String,Object> options)throws Exception;
 	
 	//disconnect Student with class_daily_health_survey in StudentHealthSurvey
 	public Student planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(Student student, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithClassDailyHealthSurvey(String studentId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	
-	//disconnect Student with cq in StudentHealthSurvey
-	public Student planToRemoveStudentHealthSurveyListWithCq(Student student, String cqId, Map<String,Object> options)throws Exception;
-	public int countStudentHealthSurveyListWithCq(String studentId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect Student with change_request in StudentHealthSurvey
+	public Student planToRemoveStudentHealthSurveyListWithChangeRequest(Student student, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithChangeRequest(String studentId, String changeRequestId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<Student> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);
  
- 	public SmartList<Student> findStudentByGuardian(String guardianId, Map<String,Object> options);
- 	public int countStudentByGuardian(String guardianId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentByGuardianIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Student> findStudentByGuardian(String guardianId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentByGuardian(SmartList<Student> resultList, String guardianId, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByAddress(String locationId, Map<String,Object> options);
+ 	public int countStudentByAddress(String locationId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentByAddressIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByAddress(String locationId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentByAddress(SmartList<Student> resultList, String locationId, Map<String,Object> options);
 
  
   
- 	public SmartList<Student> findStudentBySchoolClass(String schoolClassId, Map<String,Object> options);
- 	public int countStudentBySchoolClass(String schoolClassId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentBySchoolClassIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Student> findStudentBySchoolClass(String schoolClassId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentBySchoolClass(SmartList<Student> resultList, String schoolClassId, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByUser(String userId, Map<String,Object> options);
+ 	public int countStudentByUser(String userId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentByUserIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByUser(String userId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentByUser(SmartList<Student> resultList, String userId, Map<String,Object> options);
 
  
   
- 	public SmartList<Student> findStudentByCq(String changeRequestId, Map<String,Object> options);
- 	public int countStudentByCq(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentByCqIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Student> findStudentByCq(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentByCq(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByPlatform(String platformId, Map<String,Object> options);
+ 	public int countStudentByPlatform(String platformId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentByPlatformIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByPlatform(String platformId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentByPlatform(SmartList<Student> resultList, String platformId, Map<String,Object> options);
+
+ 
+  
+ 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public int countStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentByChangeRequestIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentByChangeRequest(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options);
 
  
  

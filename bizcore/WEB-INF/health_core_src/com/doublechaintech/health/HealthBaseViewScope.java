@@ -8,21 +8,16 @@ import com.doublechaintech.health.province.Province;
 import com.doublechaintech.health.city.City;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.location.Location;
-import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.question.Question;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.questionsource.QuestionSource;
-import com.doublechaintech.health.classquestion.ClassQuestion;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
-import com.doublechaintech.health.wechatuser.WechatUser;
-import com.doublechaintech.health.usertype.UserType;
+import com.doublechaintech.health.user.User;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
@@ -104,24 +99,13 @@ public class HealthBaseViewScope {
 		return LocationBaseSummaryScope;
 	}
 
-	protected static SerializeScope SchoolClassBaseSummaryScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(SchoolClass.ID_PROPERTY)
-		.field(SchoolClass.NAME_PROPERTY)
-		.field(SchoolClass.CREATE_TIME_PROPERTY)
-		.field(SchoolClass.SCHOOLE_PROPERTY)
-		;
-	/** 用于SchoolClass的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getSchoolClassSummaryScope() {
-		return SchoolClassBaseSummaryScope;
-	}
-
 	protected static SerializeScope TeacherBaseSummaryScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(Teacher.ID_PROPERTY)
 		.field(Teacher.NAME_PROPERTY)
 		.field(Teacher.MOBILE_PROPERTY)
-		.field(Teacher.SCHOOLE_PROPERTY)
+		.field(Teacher.SCHOOL_PROPERTY)
+		.field(Teacher.SCHOOL_CLASS_PROPERTY)
 		.field(Teacher.CREATE_TIME_PROPERTY)
 		;
 	/** 用于Teacher的子对象的详情页时需要序列化的属性列表 */
@@ -129,16 +113,18 @@ public class HealthBaseViewScope {
 		return TeacherBaseSummaryScope;
 	}
 
-	protected static SerializeScope GuardianBaseSummaryScope = SerializeScope.INCLUDE()
+	protected static SerializeScope StudentBaseSummaryScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Guardian.ID_PROPERTY)
-		.field(Guardian.NAME_PROPERTY)
-		.field(Guardian.MOBILE_PROPERTY)
-		.field(Guardian.CREATE_TIME_PROPERTY)
+		.field(Student.ID_PROPERTY)
+		.field(Student.STUDENT_NAME_PROPERTY)
+		.field(Student.STUDENT_ID_PROPERTY)
+		.field(Student.GUARDIAN_NAME_PROPERTY)
+		.field(Student.GUARDIAN_MOBILE_PROPERTY)
+		.field(Student.CREATE_TIME_PROPERTY)
 		;
-	/** 用于Guardian的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getGuardianSummaryScope() {
-		return GuardianBaseSummaryScope;
+	/** 用于Student的子对象的详情页时需要序列化的属性列表 */
+	public static SerializeScope getStudentSummaryScope() {
+		return StudentBaseSummaryScope;
 	}
 
 	protected static SerializeScope QuestionBaseSummaryScope = SerializeScope.INCLUDE()
@@ -166,31 +152,6 @@ public class HealthBaseViewScope {
 		return QuestionTypeBaseSummaryScope;
 	}
 
-	protected static SerializeScope QuestionSourceBaseSummaryScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(QuestionSource.ID_PROPERTY)
-		.field(QuestionSource.NAME_PROPERTY)
-		.field(QuestionSource.CODE_PROPERTY)
-		;
-	/** 用于QuestionSource的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getQuestionSourceSummaryScope() {
-		return QuestionSourceBaseSummaryScope;
-	}
-
-	protected static SerializeScope ClassQuestionBaseSummaryScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(ClassQuestion.ID_PROPERTY)
-		.field(ClassQuestion.TOPIC_PROPERTY)
-		.field(ClassQuestion.OPTION_A_PROPERTY)
-		.field(ClassQuestion.OPTION_B_PROPERTY)
-		.field(ClassQuestion.OPTION_C_PROPERTY)
-		.field(ClassQuestion.OPTION_D_PROPERTY)
-		;
-	/** 用于ClassQuestion的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getClassQuestionSummaryScope() {
-		return ClassQuestionBaseSummaryScope;
-	}
-
 	protected static SerializeScope ClassDailyHealthSurveyBaseSummaryScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
@@ -214,18 +175,6 @@ public class HealthBaseViewScope {
 	/** 用于DailySurveyQuestion的子对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getDailySurveyQuestionSummaryScope() {
 		return DailySurveyQuestionBaseSummaryScope;
-	}
-
-	protected static SerializeScope StudentBaseSummaryScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Student.ID_PROPERTY)
-		.field(Student.NAME_PROPERTY)
-		.field(Student.GENDER_PROPERTY)
-		.field(Student.STUDENT_ID_PROPERTY)
-		;
-	/** 用于Student的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getStudentSummaryScope() {
-		return StudentBaseSummaryScope;
 	}
 
 	protected static SerializeScope StudentHealthSurveyBaseSummaryScope = SerializeScope.INCLUDE()
@@ -263,27 +212,16 @@ public class HealthBaseViewScope {
 		return SurveyStatusBaseSummaryScope;
 	}
 
-	protected static SerializeScope WechatUserBaseSummaryScope = SerializeScope.INCLUDE()
+	protected static SerializeScope UserBaseSummaryScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(WechatUser.ID_PROPERTY)
-		.field(WechatUser.NAME_PROPERTY)
-		.field(WechatUser.AVATAR_PROPERTY)
-		.field(WechatUser.CREATE_TIME_PROPERTY)
+		.field(User.ID_PROPERTY)
+		.field(User.NAME_PROPERTY)
+		.field(User.AVATAR_PROPERTY)
+		.field(User.CREATE_TIME_PROPERTY)
 		;
-	/** 用于WechatUser的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getWechatUserSummaryScope() {
-		return WechatUserBaseSummaryScope;
-	}
-
-	protected static SerializeScope UserTypeBaseSummaryScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(UserType.ID_PROPERTY)
-		.field(UserType.NAME_PROPERTY)
-		.field(UserType.CODE_PROPERTY)
-		;
-	/** 用于UserType的子对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getUserTypeSummaryScope() {
-		return UserTypeBaseSummaryScope;
+	/** 用于User的子对象的详情页时需要序列化的属性列表 */
+	public static SerializeScope getUserSummaryScope() {
+		return UserBaseSummaryScope;
 	}
 
 	protected static SerializeScope WechatLoginInfoBaseSummaryScope = SerializeScope.INCLUDE()
@@ -621,24 +559,13 @@ public class HealthBaseViewScope {
 		return LocationBaseSecondaryListItemScope;
 	}
 
-	protected static SerializeScope SchoolClassBaseSecondaryListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(SchoolClass.ID_PROPERTY)
-		.field(SchoolClass.NAME_PROPERTY)
-		.field(SchoolClass.CREATE_TIME_PROPERTY)
-		.field(SchoolClass.SCHOOLE_PROPERTY)
-		;
-	/** 用于SchoolClass的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getSchoolClassSecondaryListItemScope() {
-		return SchoolClassBaseSecondaryListItemScope;
-	}
-
 	protected static SerializeScope TeacherBaseSecondaryListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(Teacher.ID_PROPERTY)
 		.field(Teacher.NAME_PROPERTY)
 		.field(Teacher.MOBILE_PROPERTY)
-		.field(Teacher.SCHOOLE_PROPERTY)
+		.field(Teacher.SCHOOL_PROPERTY)
+		.field(Teacher.SCHOOL_CLASS_PROPERTY)
 		.field(Teacher.CREATE_TIME_PROPERTY)
 		;
 	/** 用于Teacher的父对象的列表时需要序列化的属性列表 */
@@ -646,16 +573,18 @@ public class HealthBaseViewScope {
 		return TeacherBaseSecondaryListItemScope;
 	}
 
-	protected static SerializeScope GuardianBaseSecondaryListItemScope = SerializeScope.INCLUDE()
+	protected static SerializeScope StudentBaseSecondaryListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Guardian.ID_PROPERTY)
-		.field(Guardian.NAME_PROPERTY)
-		.field(Guardian.MOBILE_PROPERTY)
-		.field(Guardian.CREATE_TIME_PROPERTY)
+		.field(Student.ID_PROPERTY)
+		.field(Student.STUDENT_NAME_PROPERTY)
+		.field(Student.STUDENT_ID_PROPERTY)
+		.field(Student.GUARDIAN_NAME_PROPERTY)
+		.field(Student.GUARDIAN_MOBILE_PROPERTY)
+		.field(Student.CREATE_TIME_PROPERTY)
 		;
-	/** 用于Guardian的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getGuardianSecondaryListItemScope() {
-		return GuardianBaseSecondaryListItemScope;
+	/** 用于Student的父对象的列表时需要序列化的属性列表 */
+	public static SerializeScope getStudentSecondaryListItemScope() {
+		return StudentBaseSecondaryListItemScope;
 	}
 
 	protected static SerializeScope QuestionBaseSecondaryListItemScope = SerializeScope.INCLUDE()
@@ -683,31 +612,6 @@ public class HealthBaseViewScope {
 		return QuestionTypeBaseSecondaryListItemScope;
 	}
 
-	protected static SerializeScope QuestionSourceBaseSecondaryListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(QuestionSource.ID_PROPERTY)
-		.field(QuestionSource.NAME_PROPERTY)
-		.field(QuestionSource.CODE_PROPERTY)
-		;
-	/** 用于QuestionSource的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getQuestionSourceSecondaryListItemScope() {
-		return QuestionSourceBaseSecondaryListItemScope;
-	}
-
-	protected static SerializeScope ClassQuestionBaseSecondaryListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(ClassQuestion.ID_PROPERTY)
-		.field(ClassQuestion.TOPIC_PROPERTY)
-		.field(ClassQuestion.OPTION_A_PROPERTY)
-		.field(ClassQuestion.OPTION_B_PROPERTY)
-		.field(ClassQuestion.OPTION_C_PROPERTY)
-		.field(ClassQuestion.OPTION_D_PROPERTY)
-		;
-	/** 用于ClassQuestion的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getClassQuestionSecondaryListItemScope() {
-		return ClassQuestionBaseSecondaryListItemScope;
-	}
-
 	protected static SerializeScope ClassDailyHealthSurveyBaseSecondaryListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
@@ -731,18 +635,6 @@ public class HealthBaseViewScope {
 	/** 用于DailySurveyQuestion的父对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getDailySurveyQuestionSecondaryListItemScope() {
 		return DailySurveyQuestionBaseSecondaryListItemScope;
-	}
-
-	protected static SerializeScope StudentBaseSecondaryListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Student.ID_PROPERTY)
-		.field(Student.NAME_PROPERTY)
-		.field(Student.GENDER_PROPERTY)
-		.field(Student.STUDENT_ID_PROPERTY)
-		;
-	/** 用于Student的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getStudentSecondaryListItemScope() {
-		return StudentBaseSecondaryListItemScope;
 	}
 
 	protected static SerializeScope StudentHealthSurveyBaseSecondaryListItemScope = SerializeScope.INCLUDE()
@@ -780,27 +672,16 @@ public class HealthBaseViewScope {
 		return SurveyStatusBaseSecondaryListItemScope;
 	}
 
-	protected static SerializeScope WechatUserBaseSecondaryListItemScope = SerializeScope.INCLUDE()
+	protected static SerializeScope UserBaseSecondaryListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(WechatUser.ID_PROPERTY)
-		.field(WechatUser.NAME_PROPERTY)
-		.field(WechatUser.AVATAR_PROPERTY)
-		.field(WechatUser.CREATE_TIME_PROPERTY)
+		.field(User.ID_PROPERTY)
+		.field(User.NAME_PROPERTY)
+		.field(User.AVATAR_PROPERTY)
+		.field(User.CREATE_TIME_PROPERTY)
 		;
-	/** 用于WechatUser的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getWechatUserSecondaryListItemScope() {
-		return WechatUserBaseSecondaryListItemScope;
-	}
-
-	protected static SerializeScope UserTypeBaseSecondaryListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(UserType.ID_PROPERTY)
-		.field(UserType.NAME_PROPERTY)
-		.field(UserType.CODE_PROPERTY)
-		;
-	/** 用于UserType的父对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getUserTypeSecondaryListItemScope() {
-		return UserTypeBaseSecondaryListItemScope;
+	/** 用于User的父对象的列表时需要序列化的属性列表 */
+	public static SerializeScope getUserSecondaryListItemScope() {
+		return UserBaseSecondaryListItemScope;
 	}
 
 	protected static SerializeScope WechatLoginInfoBaseSecondaryListItemScope = SerializeScope.INCLUDE()
@@ -1089,15 +970,12 @@ public class HealthBaseViewScope {
 		.field(Platform.PROVINCE_LIST, getProvinceSecondaryListItemScope())
 		.field(Platform.CITY_LIST, getCitySecondaryListItemScope())
 		.field(Platform.DISTRICT_LIST, getDistrictSecondaryListItemScope())
-		.field(Platform.SCHOOL_CLASS_LIST, getSchoolClassSecondaryListItemScope())
 		.field(Platform.TEACHER_LIST, getTeacherSecondaryListItemScope())
-		.field(Platform.GUARDIAN_LIST, getGuardianSecondaryListItemScope())
+		.field(Platform.STUDENT_LIST, getStudentSecondaryListItemScope())
 		.field(Platform.QUESTION_LIST, getQuestionSecondaryListItemScope())
 		.field(Platform.QUESTION_TYPE_LIST, getQuestionTypeSecondaryListItemScope())
-		.field(Platform.QUESTION_SOURCE_LIST, getQuestionSourceSecondaryListItemScope())
 		.field(Platform.SURVEY_STATUS_LIST, getSurveyStatusSecondaryListItemScope())
-		.field(Platform.WECHAT_USER_LIST, getWechatUserSecondaryListItemScope())
-		.field(Platform.USER_TYPE_LIST, getUserTypeSecondaryListItemScope())
+		.field(Platform.USER_LIST, getUserSecondaryListItemScope())
 		.field(Platform.CHANGE_REQUEST_LIST, getChangeRequestSecondaryListItemScope())
 		.field(Platform.CHANGE_REQUEST_TYPE_LIST, getChangeRequestTypeSecondaryListItemScope())
 		;
@@ -1157,30 +1035,12 @@ public class HealthBaseViewScope {
 		.field(Location.PROVINCE_PROPERTY, getProvinceSummaryScope())
 		.field(Location.LATITUDE_PROPERTY)
 		.field(Location.LONGITUDE_PROPERTY)
-		.field(Location.GUARDIAN_LIST, getGuardianSecondaryListItemScope())
-		.field(Location.WECHAT_USER_LIST, getWechatUserSecondaryListItemScope())
+		.field(Location.STUDENT_LIST, getStudentSecondaryListItemScope())
+		.field(Location.USER_LIST, getUserSecondaryListItemScope())
 		;
 	/** 用于Location对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getLocationListItemScope() {
 		return LocationBaseListItemScope;
-	}
-
-	protected static SerializeScope SchoolClassBaseListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(SchoolClass.ID_PROPERTY)
-		.field(SchoolClass.NAME_PROPERTY)
-		.field(SchoolClass.CLASS_TEACHER_PROPERTY, getTeacherSummaryScope())
-		.field(SchoolClass.CREATE_TIME_PROPERTY)
-		.field(SchoolClass.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(SchoolClass.SCHOOLE_PROPERTY)
-		.field(SchoolClass.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(SchoolClass.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
-		.field(SchoolClass.STUDENT_LIST, getStudentSecondaryListItemScope())
-		.field(SchoolClass.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
-		;
-	/** 用于SchoolClass对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getSchoolClassListItemScope() {
-		return SchoolClassBaseListItemScope;
 	}
 
 	protected static SerializeScope TeacherBaseListItemScope = SerializeScope.INCLUDE()
@@ -1188,32 +1048,36 @@ public class HealthBaseViewScope {
 		.field(Teacher.ID_PROPERTY)
 		.field(Teacher.NAME_PROPERTY)
 		.field(Teacher.MOBILE_PROPERTY)
-		.field(Teacher.SCHOOLE_PROPERTY)
+		.field(Teacher.SCHOOL_PROPERTY)
+		.field(Teacher.SCHOOL_CLASS_PROPERTY)
 		.field(Teacher.CREATE_TIME_PROPERTY)
 		.field(Teacher.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Teacher.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Teacher.SCHOOL_CLASS_LIST, getSchoolClassSecondaryListItemScope())
+		.field(Teacher.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
+		.field(Teacher.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
+		.field(Teacher.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
 		;
 	/** 用于Teacher对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getTeacherListItemScope() {
 		return TeacherBaseListItemScope;
 	}
 
-	protected static SerializeScope GuardianBaseListItemScope = SerializeScope.INCLUDE()
+	protected static SerializeScope StudentBaseListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Guardian.ID_PROPERTY)
-		.field(Guardian.NAME_PROPERTY)
-		.field(Guardian.MOBILE_PROPERTY)
-		.field(Guardian.ADDRESS_PROPERTY, getLocationSummaryScope())
-		.field(Guardian.WECHAT_USER_PROPERTY, getWechatUserSummaryScope())
-		.field(Guardian.CREATE_TIME_PROPERTY)
-		.field(Guardian.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Guardian.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Guardian.STUDENT_LIST, getStudentSecondaryListItemScope())
+		.field(Student.ID_PROPERTY)
+		.field(Student.STUDENT_NAME_PROPERTY)
+		.field(Student.STUDENT_ID_PROPERTY)
+		.field(Student.GUARDIAN_NAME_PROPERTY)
+		.field(Student.GUARDIAN_MOBILE_PROPERTY)
+		.field(Student.ADDRESS_PROPERTY, getLocationSummaryScope())
+		.field(Student.USER_PROPERTY, getUserSummaryScope())
+		.field(Student.CREATE_TIME_PROPERTY)
+		.field(Student.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(Student.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
+		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
 		;
-	/** 用于Guardian对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getGuardianListItemScope() {
-		return GuardianBaseListItemScope;
+	/** 用于Student对象的列表时需要序列化的属性列表 */
+	public static SerializeScope getStudentListItemScope() {
+		return StudentBaseListItemScope;
 	}
 
 	protected static SerializeScope QuestionBaseListItemScope = SerializeScope.INCLUDE()
@@ -1226,6 +1090,9 @@ public class HealthBaseViewScope {
 		.field(Question.OPTION_C_PROPERTY)
 		.field(Question.OPTION_D_PROPERTY)
 		.field(Question.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(Question.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(Question.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(Question.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionSecondaryListItemScope())
 		;
 	/** 用于Question对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getQuestionListItemScope() {
@@ -1239,7 +1106,6 @@ public class HealthBaseViewScope {
 		.field(QuestionType.CODE_PROPERTY)
 		.field(QuestionType.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(QuestionType.QUESTION_LIST, getQuestionSecondaryListItemScope())
-		.field(QuestionType.CLASS_QUESTION_LIST, getClassQuestionSecondaryListItemScope())
 		.field(QuestionType.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionSecondaryListItemScope())
 		;
 	/** 用于QuestionType对象的列表时需要序列化的属性列表 */
@@ -1247,46 +1113,14 @@ public class HealthBaseViewScope {
 		return QuestionTypeBaseListItemScope;
 	}
 
-	protected static SerializeScope QuestionSourceBaseListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(QuestionSource.ID_PROPERTY)
-		.field(QuestionSource.NAME_PROPERTY)
-		.field(QuestionSource.CODE_PROPERTY)
-		.field(QuestionSource.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(QuestionSource.CLASS_QUESTION_LIST, getClassQuestionSecondaryListItemScope())
-		;
-	/** 用于QuestionSource对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getQuestionSourceListItemScope() {
-		return QuestionSourceBaseListItemScope;
-	}
-
-	protected static SerializeScope ClassQuestionBaseListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(ClassQuestion.ID_PROPERTY)
-		.field(ClassQuestion.TOPIC_PROPERTY)
-		.field(ClassQuestion.QUESTION_TYPE_PROPERTY, getQuestionTypeSummaryScope())
-		.field(ClassQuestion.OPTION_A_PROPERTY)
-		.field(ClassQuestion.OPTION_B_PROPERTY)
-		.field(ClassQuestion.OPTION_C_PROPERTY)
-		.field(ClassQuestion.OPTION_D_PROPERTY)
-		.field(ClassQuestion.QUESTION_SOURCE_PROPERTY, getQuestionSourceSummaryScope())
-		.field(ClassQuestion.CREATOR_PROPERTY, getWechatUserSummaryScope())
-		.field(ClassQuestion.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(ClassQuestion.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionSecondaryListItemScope())
-		;
-	/** 用于ClassQuestion对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getClassQuestionListItemScope() {
-		return ClassQuestionBaseListItemScope;
-	}
-
 	protected static SerializeScope ClassDailyHealthSurveyBaseListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
 		.field(ClassDailyHealthSurvey.NAME_PROPERTY)
-		.field(ClassDailyHealthSurvey.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
+		.field(ClassDailyHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
-		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getWechatUserSummaryScope())
-		.field(ClassDailyHealthSurvey.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(ClassDailyHealthSurvey.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionSecondaryListItemScope())
 		.field(ClassDailyHealthSurvey.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
 		;
@@ -1305,28 +1139,12 @@ public class HealthBaseViewScope {
 		.field(DailySurveyQuestion.OPTION_C_PROPERTY)
 		.field(DailySurveyQuestion.OPTION_D_PROPERTY)
 		.field(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurveySummaryScope())
-		.field(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, getClassQuestionSummaryScope())
+		.field(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, getQuestionSummaryScope())
 		.field(DailySurveyQuestion.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerSecondaryListItemScope())
 		;
 	/** 用于DailySurveyQuestion对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getDailySurveyQuestionListItemScope() {
 		return DailySurveyQuestionBaseListItemScope;
-	}
-
-	protected static SerializeScope StudentBaseListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Student.ID_PROPERTY)
-		.field(Student.NAME_PROPERTY)
-		.field(Student.GENDER_PROPERTY)
-		.field(Student.GUARDIAN_PROPERTY, getGuardianSummaryScope())
-		.field(Student.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
-		.field(Student.STUDENT_ID_PROPERTY)
-		.field(Student.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
-		;
-	/** 用于Student对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getStudentListItemScope() {
-		return StudentBaseListItemScope;
 	}
 
 	protected static SerializeScope StudentHealthSurveyBaseListItemScope = SerializeScope.INCLUDE()
@@ -1335,11 +1153,11 @@ public class HealthBaseViewScope {
 		.field(StudentHealthSurvey.STUDENT_PROPERTY, getStudentSummaryScope())
 		.field(StudentHealthSurvey.ANSWER_TIME_PROPERTY)
 		.field(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, getSurveyStatusSummaryScope())
-		.field(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
+		.field(StudentHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurveySummaryScope())
 		.field(StudentHealthSurvey.CREATE_TIME_PROPERTY)
 		.field(StudentHealthSurvey.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentHealthSurvey.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(StudentHealthSurvey.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerSecondaryListItemScope())
 		;
 	/** 用于StudentHealthSurvey对象的列表时需要序列化的属性列表 */
@@ -1355,7 +1173,7 @@ public class HealthBaseViewScope {
 		.field(StudentDailyAnswer.ANSWER_PROPERTY)
 		.field(StudentDailyAnswer.CREATE_TIME_PROPERTY)
 		.field(StudentDailyAnswer.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentDailyAnswer.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		;
 	/** 用于StudentDailyAnswer对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getStudentDailyAnswerListItemScope() {
@@ -1375,42 +1193,28 @@ public class HealthBaseViewScope {
 		return SurveyStatusBaseListItemScope;
 	}
 
-	protected static SerializeScope WechatUserBaseListItemScope = SerializeScope.INCLUDE()
+	protected static SerializeScope UserBaseListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(WechatUser.ID_PROPERTY)
-		.field(WechatUser.NAME_PROPERTY)
-		.field(WechatUser.AVATAR_PROPERTY)
-		.field(WechatUser.ADDRESS_PROPERTY, getLocationSummaryScope())
-		.field(WechatUser.USER_TYPE_PROPERTY, getUserTypeSummaryScope())
-		.field(WechatUser.CREATE_TIME_PROPERTY)
-		.field(WechatUser.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(WechatUser.GUARDIAN_LIST, getGuardianSecondaryListItemScope())
-		.field(WechatUser.CLASS_QUESTION_LIST, getClassQuestionSecondaryListItemScope())
-		.field(WechatUser.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
-		.field(WechatUser.WECHAT_LOGIN_INFO_LIST, getWechatLoginInfoSecondaryListItemScope())
+		.field(User.ID_PROPERTY)
+		.field(User.NAME_PROPERTY)
+		.field(User.AVATAR_PROPERTY)
+		.field(User.ADDRESS_PROPERTY, getLocationSummaryScope())
+		.field(User.CREATE_TIME_PROPERTY)
+		.field(User.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(User.STUDENT_LIST, getStudentSecondaryListItemScope())
+		.field(User.QUESTION_LIST, getQuestionSecondaryListItemScope())
+		.field(User.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
+		.field(User.WECHAT_LOGIN_INFO_LIST, getWechatLoginInfoSecondaryListItemScope())
 		;
-	/** 用于WechatUser对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getWechatUserListItemScope() {
-		return WechatUserBaseListItemScope;
-	}
-
-	protected static SerializeScope UserTypeBaseListItemScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(UserType.ID_PROPERTY)
-		.field(UserType.NAME_PROPERTY)
-		.field(UserType.CODE_PROPERTY)
-		.field(UserType.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(UserType.WECHAT_USER_LIST, getWechatUserSecondaryListItemScope())
-		;
-	/** 用于UserType对象的列表时需要序列化的属性列表 */
-	public static SerializeScope getUserTypeListItemScope() {
-		return UserTypeBaseListItemScope;
+	/** 用于User对象的列表时需要序列化的属性列表 */
+	public static SerializeScope getUserListItemScope() {
+		return UserBaseListItemScope;
 	}
 
 	protected static SerializeScope WechatLoginInfoBaseListItemScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(WechatLoginInfo.ID_PROPERTY)
-		.field(WechatLoginInfo.WECHAT_USER_PROPERTY, getWechatUserSummaryScope())
+		.field(WechatLoginInfo.USER_PROPERTY, getUserSummaryScope())
 		.field(WechatLoginInfo.APP_ID_PROPERTY)
 		.field(WechatLoginInfo.OPEN_ID_PROPERTY)
 		.field(WechatLoginInfo.SESSION_KEY_PROPERTY)
@@ -1429,12 +1233,10 @@ public class HealthBaseViewScope {
 		.field(ChangeRequest.REMOTE_IP_PROPERTY)
 		.field(ChangeRequest.REQUEST_TYPE_PROPERTY, getChangeRequestTypeSummaryScope())
 		.field(ChangeRequest.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(ChangeRequest.SCHOOL_CLASS_LIST, getSchoolClassSecondaryListItemScope())
 		.field(ChangeRequest.TEACHER_LIST, getTeacherSecondaryListItemScope())
-		.field(ChangeRequest.GUARDIAN_LIST, getGuardianSecondaryListItemScope())
-		.field(ChangeRequest.CLASS_QUESTION_LIST, getClassQuestionSecondaryListItemScope())
-		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
 		.field(ChangeRequest.STUDENT_LIST, getStudentSecondaryListItemScope())
+		.field(ChangeRequest.QUESTION_LIST, getQuestionSecondaryListItemScope())
+		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
 		.field(ChangeRequest.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
 		.field(ChangeRequest.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerSecondaryListItemScope())
 		;
@@ -1734,15 +1536,12 @@ public class HealthBaseViewScope {
 		.field(Platform.PROVINCE_LIST, getProvinceListItemScope())
 		.field(Platform.CITY_LIST, getCityListItemScope())
 		.field(Platform.DISTRICT_LIST, getDistrictListItemScope())
-		.field(Platform.SCHOOL_CLASS_LIST, getSchoolClassListItemScope())
 		.field(Platform.TEACHER_LIST, getTeacherListItemScope())
-		.field(Platform.GUARDIAN_LIST, getGuardianListItemScope())
+		.field(Platform.STUDENT_LIST, getStudentListItemScope())
 		.field(Platform.QUESTION_LIST, getQuestionListItemScope())
 		.field(Platform.QUESTION_TYPE_LIST, getQuestionTypeListItemScope())
-		.field(Platform.QUESTION_SOURCE_LIST, getQuestionSourceListItemScope())
 		.field(Platform.SURVEY_STATUS_LIST, getSurveyStatusListItemScope())
-		.field(Platform.WECHAT_USER_LIST, getWechatUserListItemScope())
-		.field(Platform.USER_TYPE_LIST, getUserTypeListItemScope())
+		.field(Platform.USER_LIST, getUserListItemScope())
 		.field(Platform.CHANGE_REQUEST_LIST, getChangeRequestListItemScope())
 		.field(Platform.CHANGE_REQUEST_TYPE_LIST, getChangeRequestTypeListItemScope())
 		;
@@ -1802,30 +1601,12 @@ public class HealthBaseViewScope {
 		.field(Location.PROVINCE_PROPERTY, getProvinceSummaryScope())
 		.field(Location.LATITUDE_PROPERTY)
 		.field(Location.LONGITUDE_PROPERTY)
-		.field(Location.GUARDIAN_LIST, getGuardianListItemScope())
-		.field(Location.WECHAT_USER_LIST, getWechatUserListItemScope())
+		.field(Location.STUDENT_LIST, getStudentListItemScope())
+		.field(Location.USER_LIST, getUserListItemScope())
 		;
 	/** 用于Location对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getLocationDetailScope() {
 		return LocationBaseDetailScope;
-	}
-
-	protected static SerializeScope SchoolClassBaseDetailScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(SchoolClass.ID_PROPERTY)
-		.field(SchoolClass.NAME_PROPERTY)
-		.field(SchoolClass.CLASS_TEACHER_PROPERTY, getTeacherSummaryScope())
-		.field(SchoolClass.CREATE_TIME_PROPERTY)
-		.field(SchoolClass.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(SchoolClass.SCHOOLE_PROPERTY)
-		.field(SchoolClass.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(SchoolClass.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
-		.field(SchoolClass.STUDENT_LIST, getStudentListItemScope())
-		.field(SchoolClass.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
-		;
-	/** 用于SchoolClass对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getSchoolClassDetailScope() {
-		return SchoolClassBaseDetailScope;
 	}
 
 	protected static SerializeScope TeacherBaseDetailScope = SerializeScope.INCLUDE()
@@ -1833,32 +1614,36 @@ public class HealthBaseViewScope {
 		.field(Teacher.ID_PROPERTY)
 		.field(Teacher.NAME_PROPERTY)
 		.field(Teacher.MOBILE_PROPERTY)
-		.field(Teacher.SCHOOLE_PROPERTY)
+		.field(Teacher.SCHOOL_PROPERTY)
+		.field(Teacher.SCHOOL_CLASS_PROPERTY)
 		.field(Teacher.CREATE_TIME_PROPERTY)
 		.field(Teacher.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Teacher.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Teacher.SCHOOL_CLASS_LIST, getSchoolClassListItemScope())
+		.field(Teacher.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
+		.field(Teacher.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
+		.field(Teacher.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
 		;
 	/** 用于Teacher对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getTeacherDetailScope() {
 		return TeacherBaseDetailScope;
 	}
 
-	protected static SerializeScope GuardianBaseDetailScope = SerializeScope.INCLUDE()
+	protected static SerializeScope StudentBaseDetailScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Guardian.ID_PROPERTY)
-		.field(Guardian.NAME_PROPERTY)
-		.field(Guardian.MOBILE_PROPERTY)
-		.field(Guardian.ADDRESS_PROPERTY, getLocationSummaryScope())
-		.field(Guardian.WECHAT_USER_PROPERTY, getWechatUserSummaryScope())
-		.field(Guardian.CREATE_TIME_PROPERTY)
-		.field(Guardian.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Guardian.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Guardian.STUDENT_LIST, getStudentListItemScope())
+		.field(Student.ID_PROPERTY)
+		.field(Student.STUDENT_NAME_PROPERTY)
+		.field(Student.STUDENT_ID_PROPERTY)
+		.field(Student.GUARDIAN_NAME_PROPERTY)
+		.field(Student.GUARDIAN_MOBILE_PROPERTY)
+		.field(Student.ADDRESS_PROPERTY, getLocationSummaryScope())
+		.field(Student.USER_PROPERTY, getUserSummaryScope())
+		.field(Student.CREATE_TIME_PROPERTY)
+		.field(Student.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(Student.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
+		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
 		;
-	/** 用于Guardian对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getGuardianDetailScope() {
-		return GuardianBaseDetailScope;
+	/** 用于Student对象的详情页时需要序列化的属性列表 */
+	public static SerializeScope getStudentDetailScope() {
+		return StudentBaseDetailScope;
 	}
 
 	protected static SerializeScope QuestionBaseDetailScope = SerializeScope.INCLUDE()
@@ -1871,6 +1656,9 @@ public class HealthBaseViewScope {
 		.field(Question.OPTION_C_PROPERTY)
 		.field(Question.OPTION_D_PROPERTY)
 		.field(Question.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(Question.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(Question.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(Question.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionListItemScope())
 		;
 	/** 用于Question对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getQuestionDetailScope() {
@@ -1884,7 +1672,6 @@ public class HealthBaseViewScope {
 		.field(QuestionType.CODE_PROPERTY)
 		.field(QuestionType.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(QuestionType.QUESTION_LIST, getQuestionListItemScope())
-		.field(QuestionType.CLASS_QUESTION_LIST, getClassQuestionListItemScope())
 		.field(QuestionType.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionListItemScope())
 		;
 	/** 用于QuestionType对象的详情页时需要序列化的属性列表 */
@@ -1892,46 +1679,14 @@ public class HealthBaseViewScope {
 		return QuestionTypeBaseDetailScope;
 	}
 
-	protected static SerializeScope QuestionSourceBaseDetailScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(QuestionSource.ID_PROPERTY)
-		.field(QuestionSource.NAME_PROPERTY)
-		.field(QuestionSource.CODE_PROPERTY)
-		.field(QuestionSource.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(QuestionSource.CLASS_QUESTION_LIST, getClassQuestionListItemScope())
-		;
-	/** 用于QuestionSource对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getQuestionSourceDetailScope() {
-		return QuestionSourceBaseDetailScope;
-	}
-
-	protected static SerializeScope ClassQuestionBaseDetailScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(ClassQuestion.ID_PROPERTY)
-		.field(ClassQuestion.TOPIC_PROPERTY)
-		.field(ClassQuestion.QUESTION_TYPE_PROPERTY, getQuestionTypeSummaryScope())
-		.field(ClassQuestion.OPTION_A_PROPERTY)
-		.field(ClassQuestion.OPTION_B_PROPERTY)
-		.field(ClassQuestion.OPTION_C_PROPERTY)
-		.field(ClassQuestion.OPTION_D_PROPERTY)
-		.field(ClassQuestion.QUESTION_SOURCE_PROPERTY, getQuestionSourceSummaryScope())
-		.field(ClassQuestion.CREATOR_PROPERTY, getWechatUserSummaryScope())
-		.field(ClassQuestion.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(ClassQuestion.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionListItemScope())
-		;
-	/** 用于ClassQuestion对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getClassQuestionDetailScope() {
-		return ClassQuestionBaseDetailScope;
-	}
-
 	protected static SerializeScope ClassDailyHealthSurveyBaseDetailScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
 		.field(ClassDailyHealthSurvey.NAME_PROPERTY)
-		.field(ClassDailyHealthSurvey.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
+		.field(ClassDailyHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
-		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getWechatUserSummaryScope())
-		.field(ClassDailyHealthSurvey.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(ClassDailyHealthSurvey.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionListItemScope())
 		.field(ClassDailyHealthSurvey.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
 		;
@@ -1950,28 +1705,12 @@ public class HealthBaseViewScope {
 		.field(DailySurveyQuestion.OPTION_C_PROPERTY)
 		.field(DailySurveyQuestion.OPTION_D_PROPERTY)
 		.field(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurveySummaryScope())
-		.field(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, getClassQuestionSummaryScope())
+		.field(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, getQuestionSummaryScope())
 		.field(DailySurveyQuestion.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerListItemScope())
 		;
 	/** 用于DailySurveyQuestion对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getDailySurveyQuestionDetailScope() {
 		return DailySurveyQuestionBaseDetailScope;
-	}
-
-	protected static SerializeScope StudentBaseDetailScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(Student.ID_PROPERTY)
-		.field(Student.NAME_PROPERTY)
-		.field(Student.GENDER_PROPERTY)
-		.field(Student.GUARDIAN_PROPERTY, getGuardianSummaryScope())
-		.field(Student.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
-		.field(Student.STUDENT_ID_PROPERTY)
-		.field(Student.CQ_PROPERTY, getChangeRequestSummaryScope())
-		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
-		;
-	/** 用于Student对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getStudentDetailScope() {
-		return StudentBaseDetailScope;
 	}
 
 	protected static SerializeScope StudentHealthSurveyBaseDetailScope = SerializeScope.INCLUDE()
@@ -1980,11 +1719,11 @@ public class HealthBaseViewScope {
 		.field(StudentHealthSurvey.STUDENT_PROPERTY, getStudentSummaryScope())
 		.field(StudentHealthSurvey.ANSWER_TIME_PROPERTY)
 		.field(StudentHealthSurvey.SURVEY_STATUS_PROPERTY, getSurveyStatusSummaryScope())
-		.field(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, getSchoolClassSummaryScope())
+		.field(StudentHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurveySummaryScope())
 		.field(StudentHealthSurvey.CREATE_TIME_PROPERTY)
 		.field(StudentHealthSurvey.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentHealthSurvey.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(StudentHealthSurvey.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerListItemScope())
 		;
 	/** 用于StudentHealthSurvey对象的详情页时需要序列化的属性列表 */
@@ -2000,7 +1739,7 @@ public class HealthBaseViewScope {
 		.field(StudentDailyAnswer.ANSWER_PROPERTY)
 		.field(StudentDailyAnswer.CREATE_TIME_PROPERTY)
 		.field(StudentDailyAnswer.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentDailyAnswer.CQ_PROPERTY, getChangeRequestSummaryScope())
+		.field(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		;
 	/** 用于StudentDailyAnswer对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getStudentDailyAnswerDetailScope() {
@@ -2020,42 +1759,28 @@ public class HealthBaseViewScope {
 		return SurveyStatusBaseDetailScope;
 	}
 
-	protected static SerializeScope WechatUserBaseDetailScope = SerializeScope.INCLUDE()
+	protected static SerializeScope UserBaseDetailScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(WechatUser.ID_PROPERTY)
-		.field(WechatUser.NAME_PROPERTY)
-		.field(WechatUser.AVATAR_PROPERTY)
-		.field(WechatUser.ADDRESS_PROPERTY, getLocationSummaryScope())
-		.field(WechatUser.USER_TYPE_PROPERTY, getUserTypeSummaryScope())
-		.field(WechatUser.CREATE_TIME_PROPERTY)
-		.field(WechatUser.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(WechatUser.GUARDIAN_LIST, getGuardianListItemScope())
-		.field(WechatUser.CLASS_QUESTION_LIST, getClassQuestionListItemScope())
-		.field(WechatUser.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
-		.field(WechatUser.WECHAT_LOGIN_INFO_LIST, getWechatLoginInfoListItemScope())
+		.field(User.ID_PROPERTY)
+		.field(User.NAME_PROPERTY)
+		.field(User.AVATAR_PROPERTY)
+		.field(User.ADDRESS_PROPERTY, getLocationSummaryScope())
+		.field(User.CREATE_TIME_PROPERTY)
+		.field(User.PLATFORM_PROPERTY, getPlatformSummaryScope())
+		.field(User.STUDENT_LIST, getStudentListItemScope())
+		.field(User.QUESTION_LIST, getQuestionListItemScope())
+		.field(User.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
+		.field(User.WECHAT_LOGIN_INFO_LIST, getWechatLoginInfoListItemScope())
 		;
-	/** 用于WechatUser对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getWechatUserDetailScope() {
-		return WechatUserBaseDetailScope;
-	}
-
-	protected static SerializeScope UserTypeBaseDetailScope = SerializeScope.INCLUDE()
-		.field(HealthBaseConstants.X_LINK_TO_URL)
-		.field(UserType.ID_PROPERTY)
-		.field(UserType.NAME_PROPERTY)
-		.field(UserType.CODE_PROPERTY)
-		.field(UserType.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(UserType.WECHAT_USER_LIST, getWechatUserListItemScope())
-		;
-	/** 用于UserType对象的详情页时需要序列化的属性列表 */
-	public static SerializeScope getUserTypeDetailScope() {
-		return UserTypeBaseDetailScope;
+	/** 用于User对象的详情页时需要序列化的属性列表 */
+	public static SerializeScope getUserDetailScope() {
+		return UserBaseDetailScope;
 	}
 
 	protected static SerializeScope WechatLoginInfoBaseDetailScope = SerializeScope.INCLUDE()
 		.field(HealthBaseConstants.X_LINK_TO_URL)
 		.field(WechatLoginInfo.ID_PROPERTY)
-		.field(WechatLoginInfo.WECHAT_USER_PROPERTY, getWechatUserSummaryScope())
+		.field(WechatLoginInfo.USER_PROPERTY, getUserSummaryScope())
 		.field(WechatLoginInfo.APP_ID_PROPERTY)
 		.field(WechatLoginInfo.OPEN_ID_PROPERTY)
 		.field(WechatLoginInfo.SESSION_KEY_PROPERTY)
@@ -2074,12 +1799,10 @@ public class HealthBaseViewScope {
 		.field(ChangeRequest.REMOTE_IP_PROPERTY)
 		.field(ChangeRequest.REQUEST_TYPE_PROPERTY, getChangeRequestTypeSummaryScope())
 		.field(ChangeRequest.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(ChangeRequest.SCHOOL_CLASS_LIST, getSchoolClassListItemScope())
 		.field(ChangeRequest.TEACHER_LIST, getTeacherListItemScope())
-		.field(ChangeRequest.GUARDIAN_LIST, getGuardianListItemScope())
-		.field(ChangeRequest.CLASS_QUESTION_LIST, getClassQuestionListItemScope())
-		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
 		.field(ChangeRequest.STUDENT_LIST, getStudentListItemScope())
+		.field(ChangeRequest.QUESTION_LIST, getQuestionListItemScope())
+		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
 		.field(ChangeRequest.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
 		.field(ChangeRequest.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerListItemScope())
 		;

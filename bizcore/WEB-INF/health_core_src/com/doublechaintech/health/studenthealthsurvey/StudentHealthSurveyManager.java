@@ -13,7 +13,7 @@ public interface StudentHealthSurveyManager extends BaseManager{
 
 		
 
-	public StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId,DateTime answerTime,String surveyStatusId,String schoolClassId,String classDailyHealthSurveyId,String cqId) throws Exception;	
+	public StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId,DateTime answerTime,String surveyStatusId,String teacherId,String classDailyHealthSurveyId,String changeRequestId) throws Exception;	
 	public StudentHealthSurvey updateStudentHealthSurvey(HealthUserContext userContext,String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public StudentHealthSurvey loadStudentHealthSurvey(HealthUserContext userContext, String studentHealthSurveyId, String [] tokensExpr) throws Exception;
 	public StudentHealthSurvey internalSaveStudentHealthSurvey(HealthUserContext userContext, StudentHealthSurvey studentHealthSurvey) throws Exception;
@@ -21,9 +21,9 @@ public interface StudentHealthSurveyManager extends BaseManager{
 	
 	public StudentHealthSurvey transferToAnotherStudent(HealthUserContext userContext, String studentHealthSurveyId, String anotherStudentId)  throws Exception;
  	public StudentHealthSurvey transferToAnotherSurveyStatus(HealthUserContext userContext, String studentHealthSurveyId, String anotherSurveyStatusId)  throws Exception;
- 	public StudentHealthSurvey transferToAnotherSchoolClass(HealthUserContext userContext, String studentHealthSurveyId, String anotherSchoolClassId)  throws Exception;
+ 	public StudentHealthSurvey transferToAnotherTeacher(HealthUserContext userContext, String studentHealthSurveyId, String anotherTeacherId)  throws Exception;
  	public StudentHealthSurvey transferToAnotherClassDailyHealthSurvey(HealthUserContext userContext, String studentHealthSurveyId, String anotherClassDailyHealthSurveyId)  throws Exception;
- 	public StudentHealthSurvey transferToAnotherCq(HealthUserContext userContext, String studentHealthSurveyId, String anotherCqId)  throws Exception;
+ 	public StudentHealthSurvey transferToAnotherChangeRequest(HealthUserContext userContext, String studentHealthSurveyId, String anotherChangeRequestId)  throws Exception;
  
 
 	public void delete(HealthUserContext userContext, String studentHealthSurveyId, int version) throws Exception;
@@ -33,9 +33,9 @@ public interface StudentHealthSurveyManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  StudentHealthSurvey addStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String cqId , String [] tokensExpr)  throws Exception;
+	public  StudentHealthSurvey addStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  StudentHealthSurvey removeStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr)  throws Exception;
 	public  StudentHealthSurvey updateStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

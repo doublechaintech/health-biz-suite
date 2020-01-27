@@ -59,6 +59,7 @@ class StudentUpdateForm extends Component {
     const convertiedValues = selectedRows.map((item) => {
       return {
         ...item,
+        createTime: moment(item.createTime),
 
       }
     })
@@ -273,24 +274,12 @@ class StudentUpdateForm extends Component {
               </Col>
 
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.name} {...formItemLayout}>
-                  {getFieldDecorator('name', {
-                    initialValue: selectedRow.name,
+                <Form.Item label={fieldLabels.studentName} {...formItemLayout}>
+                  {getFieldDecorator('studentName', {
+                    initialValue: selectedRow.studentName,
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.name} />
-                    
-                  )}
-                </Form.Item>
-              </Col>
-
-              <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.gender} {...formItemLayout}>
-                  {getFieldDecorator('gender', {
-                    initialValue: selectedRow.gender,
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                    <Input size="large"  placeHolder={fieldLabels.gender} />
+                    <Input size="large"  placeHolder={fieldLabels.studentName} />
                     
                   )}
                 </Form.Item>
@@ -303,6 +292,30 @@ class StudentUpdateForm extends Component {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                     <Input size="large"  placeHolder={fieldLabels.studentId} />
+                    
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.guardianName} {...formItemLayout}>
+                  {getFieldDecorator('guardianName', {
+                    initialValue: selectedRow.guardianName,
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.guardianName} />
+                    
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.guardianMobile} {...formItemLayout}>
+                  {getFieldDecorator('guardianMobile', {
+                    initialValue: selectedRow.guardianMobile,
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.guardianMobile} />
                     
                   )}
                 </Form.Item>

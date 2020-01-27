@@ -58,7 +58,7 @@ const fieldLabels = {
   optionC: window.trans('daily_survey_question.option_c'),
   optionD: window.trans('daily_survey_question.option_d'),
   classDailyHealthSurvey: window.trans('daily_survey_question.class_daily_health_survey'),
-  classQuestion: window.trans('daily_survey_question.class_question'),
+  surveyQuestion: window.trans('daily_survey_question.survey_question'),
 
 }
 
@@ -71,7 +71,7 @@ const displayColumns = [
   { title: fieldLabels.optionC, debugtype: 'string', dataIndex: 'optionC', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.optionD, debugtype: 'string', dataIndex: 'optionD', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.classDailyHealthSurvey, dataIndex: 'classDailyHealthSurvey', render: (text, record) => renderReferenceCell(text, record), sorter:true},
-  { title: fieldLabels.classQuestion, dataIndex: 'classQuestion', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.surveyQuestion, dataIndex: 'surveyQuestion', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -95,7 +95,7 @@ const renderItemOfList=(dailySurveyQuestion, targetComponent, columCount)=>{
         <Description term={fieldLabels.optionD} style={{wordBreak: 'break-all'}}>{dailySurveyQuestion.optionD}</Description> 
         <Description term={fieldLabels.classDailyHealthSurvey}><div>{dailySurveyQuestion.classDailyHealthSurvey==null?appLocaleName(userContext,"NotAssigned"):`${dailySurveyQuestion.classDailyHealthSurvey.displayName}(${dailySurveyQuestion.classDailyHealthSurvey.id})`}
         </div></Description>
-        <Description term={fieldLabels.classQuestion}><div>{dailySurveyQuestion.classQuestion==null?appLocaleName(userContext,"NotAssigned"):`${dailySurveyQuestion.classQuestion.displayName}(${dailySurveyQuestion.classQuestion.id})`}
+        <Description term={fieldLabels.surveyQuestion}><div>{dailySurveyQuestion.surveyQuestion==null?appLocaleName(userContext,"NotAssigned"):`${dailySurveyQuestion.surveyQuestion.displayName}(${dailySurveyQuestion.surveyQuestion.id})`}
         </div></Description>
 	
         
@@ -107,19 +107,19 @@ const renderItemOfList=(dailySurveyQuestion, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {topic, optionA, optionB, optionC, optionD, questionTypeId, classDailyHealthSurveyId, classQuestionId} = formValuesToPack
+	const {topic, optionA, optionB, optionC, optionD, questionTypeId, classDailyHealthSurveyId, surveyQuestionId} = formValuesToPack
 	const questionType = {id: questionTypeId, version: 2^31}
 	const classDailyHealthSurvey = {id: classDailyHealthSurveyId, version: 2^31}
-	const classQuestion = {id: classQuestionId, version: 2^31}
-	const data = {topic, optionA, optionB, optionC, optionD, questionType, classDailyHealthSurvey, classQuestion}
+	const surveyQuestion = {id: surveyQuestionId, version: 2^31}
+	const data = {topic, optionA, optionB, optionC, optionD, questionType, classDailyHealthSurvey, surveyQuestion}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {topic, optionA, optionB, optionC, optionD, questionType, classDailyHealthSurvey, classQuestion} = objectToUnpack
+	const {topic, optionA, optionB, optionC, optionD, questionType, classDailyHealthSurvey, surveyQuestion} = objectToUnpack
 	const questionTypeId = questionType ? questionType.id : null
 	const classDailyHealthSurveyId = classDailyHealthSurvey ? classDailyHealthSurvey.id : null
-	const classQuestionId = classQuestion ? classQuestion.id : null
-	const data = {topic, optionA, optionB, optionC, optionD, questionTypeId, classDailyHealthSurveyId, classQuestionId}
+	const surveyQuestionId = surveyQuestion ? surveyQuestion.id : null
+	const data = {topic, optionA, optionB, optionC, optionD, questionTypeId, classDailyHealthSurveyId, surveyQuestionId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

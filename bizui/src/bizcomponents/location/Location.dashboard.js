@@ -164,7 +164,7 @@ class LocationDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, guardianListMetaInfo, wechatUserListMetaInfo, guardianCount, wechatUserCount } = this.props.location
+    const { id,displayName, studentListMetaInfo, userListMetaInfo, studentCount, userCount } = this.props.location
     if(!this.props.location.class){
       return null
     }
@@ -173,8 +173,8 @@ class LocationDashboard extends Component {
     const cardsData = {cardsName:"位置",cardsFor: "location",
     	cardsSource: this.props.location,returnURL,displayName,
   		subItems: [
-{name: 'guardianList', displayName: window.mtrans('guardian','location.guardian_list',false) ,viewGroup:'__no_group', type:'guardian',count:guardianCount,addFunction: true, role: 'guardian', metaInfo: guardianListMetaInfo, renderItem: GlobalComponents.GuardianBase.renderItemOfList},
-{name: 'wechatUserList', displayName: window.mtrans('wechat_user','location.wechat_user_list',false) ,viewGroup:'__no_group', type:'wechatUser',count:wechatUserCount,addFunction: true, role: 'wechatUser', metaInfo: wechatUserListMetaInfo, renderItem: GlobalComponents.WechatUserBase.renderItemOfList},
+{name: 'studentList', displayName: window.mtrans('student','location.student_list',false) ,viewGroup:'__no_group', type:'student',count:studentCount,addFunction: true, role: 'student', metaInfo: studentListMetaInfo, renderItem: GlobalComponents.StudentBase.renderItemOfList},
+{name: 'userList', displayName: window.mtrans('user','location.user_list',false) ,viewGroup:'__no_group', type:'user',count:userCount,addFunction: true, role: 'user', metaInfo: userListMetaInfo, renderItem: GlobalComponents.UserBase.renderItemOfList},
     
       	],
    		subSettingItems: [

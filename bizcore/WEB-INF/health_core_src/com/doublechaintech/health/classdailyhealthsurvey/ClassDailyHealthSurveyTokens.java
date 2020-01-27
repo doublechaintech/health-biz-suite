@@ -72,9 +72,9 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 	protected static ClassDailyHealthSurveyTokens allTokens(){
 		
 		return start()
-			.withSchoolClass()
+			.withTeacher()
 			.withCreator()
-			.withCq()
+			.withChangeRequest()
 			.withDailySurveyQuestionList()
 			.withStudentHealthSurveyList();
 	
@@ -82,9 +82,9 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 	public static ClassDailyHealthSurveyTokens withoutListsTokens(){
 		
 		return start()
-			.withSchoolClass()
+			.withTeacher()
 			.withCreator()
-			.withCq();
+			.withChangeRequest();
 	
 	}
 	
@@ -103,12 +103,12 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String SCHOOLCLASS = "schoolClass";
-	public String getSchoolClass(){
-		return SCHOOLCLASS;
+	protected static final String TEACHER = "teacher";
+	public String getTeacher(){
+		return TEACHER;
 	}
-	public ClassDailyHealthSurveyTokens withSchoolClass(){		
-		addSimpleOptions(SCHOOLCLASS);
+	public ClassDailyHealthSurveyTokens withTeacher(){		
+		addSimpleOptions(TEACHER);
 		return this;
 	}
 	
@@ -123,12 +123,12 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String CQ = "cq";
-	public String getCq(){
-		return CQ;
+	protected static final String CHANGEREQUEST = "changeRequest";
+	public String getChangeRequest(){
+		return CHANGEREQUEST;
 	}
-	public ClassDailyHealthSurveyTokens withCq(){		
-		addSimpleOptions(CQ);
+	public ClassDailyHealthSurveyTokens withChangeRequest(){		
+		addSimpleOptions(CHANGEREQUEST);
 		return this;
 	}
 	

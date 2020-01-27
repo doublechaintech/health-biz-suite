@@ -21,21 +21,21 @@ import com.terapico.uccaf.BaseUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.changerequest.CandidateChangeRequest;
-import com.doublechaintech.health.schoolclass.CandidateSchoolClass;
-import com.doublechaintech.health.wechatuser.CandidateWechatUser;
+import com.doublechaintech.health.teacher.CandidateTeacher;
+import com.doublechaintech.health.user.CandidateUser;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.questiontype.QuestionType;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
-import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.question.Question;
 
 
 
@@ -167,9 +167,9 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		addAction(userContext, classDailyHealthSurvey, tokens,"@update","updateClassDailyHealthSurvey","updateClassDailyHealthSurvey/"+classDailyHealthSurvey.getId()+"/","main","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"@copy","cloneClassDailyHealthSurvey","cloneClassDailyHealthSurvey/"+classDailyHealthSurvey.getId()+"/","main","primary");
 		
-		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.transfer_to_school_class","transferToAnotherSchoolClass","transferToAnotherSchoolClass/"+classDailyHealthSurvey.getId()+"/","main","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.transfer_to_teacher","transferToAnotherTeacher","transferToAnotherTeacher/"+classDailyHealthSurvey.getId()+"/","main","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.transfer_to_creator","transferToAnotherCreator","transferToAnotherCreator/"+classDailyHealthSurvey.getId()+"/","main","primary");
-		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.transfer_to_cq","transferToAnotherCq","transferToAnotherCq/"+classDailyHealthSurvey.getId()+"/","main","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+classDailyHealthSurvey.getId()+"/","main","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.addDailySurveyQuestion","addDailySurveyQuestion","addDailySurveyQuestion/"+classDailyHealthSurvey.getId()+"/","dailySurveyQuestionList","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.removeDailySurveyQuestion","removeDailySurveyQuestion","removeDailySurveyQuestion/"+classDailyHealthSurvey.getId()+"/","dailySurveyQuestionList","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.updateDailySurveyQuestion","updateDailySurveyQuestion","updateDailySurveyQuestion/"+classDailyHealthSurvey.getId()+"/","dailySurveyQuestionList","primary");
@@ -189,8 +189,8 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
  	
  	
 
-	public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name,String schoolClassId,DateTime surveyTime,String creatorId,String cqId) throws Exception
-	//public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext,String name, String schoolClassId, DateTime surveyTime, String creatorId, String cqId) throws Exception
+	public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name,String teacherId,DateTime surveyTime,String creatorId,String changeRequestId) throws Exception
+	//public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext,String name, String teacherId, DateTime surveyTime, String creatorId, String changeRequestId) throws Exception
 	{
 
 		
@@ -207,19 +207,19 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 
 		classDailyHealthSurvey.setName(name);
 			
-		SchoolClass schoolClass = loadSchoolClass(userContext, schoolClassId,emptyOptions());
-		classDailyHealthSurvey.setSchoolClass(schoolClass);
+		Teacher teacher = loadTeacher(userContext, teacherId,emptyOptions());
+		classDailyHealthSurvey.setTeacher(teacher);
 		
 		
 		classDailyHealthSurvey.setSurveyTime(surveyTime);
 			
-		WechatUser creator = loadWechatUser(userContext, creatorId,emptyOptions());
+		User creator = loadUser(userContext, creatorId,emptyOptions());
 		classDailyHealthSurvey.setCreator(creator);
 		
 		
 			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		classDailyHealthSurvey.setCq(cq);
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+		classDailyHealthSurvey.setChangeRequest(changeRequest);
 		
 		
 
@@ -365,24 +365,24 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		return ClassDailyHealthSurveyTokens.mergeAll(tokens).done();
 	}
 	
-	protected void checkParamsForTransferingAnotherSchoolClass(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherSchoolClassId) throws Exception
+	protected void checkParamsForTransferingAnotherTeacher(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherTeacherId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
- 		checkerOf(userContext).checkIdOfSchoolClass(anotherSchoolClassId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfTeacher(anotherTeacherId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
  	}
- 	public ClassDailyHealthSurvey transferToAnotherSchoolClass(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherSchoolClassId) throws Exception
+ 	public ClassDailyHealthSurvey transferToAnotherTeacher(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherTeacherId) throws Exception
  	{
- 		checkParamsForTransferingAnotherSchoolClass(userContext, classDailyHealthSurveyId,anotherSchoolClassId);
+ 		checkParamsForTransferingAnotherTeacher(userContext, classDailyHealthSurveyId,anotherTeacherId);
  
 		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());	
 		synchronized(classDailyHealthSurvey){
 			//will be good when the classDailyHealthSurvey loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			SchoolClass schoolClass = loadSchoolClass(userContext, anotherSchoolClassId, emptyOptions());		
-			classDailyHealthSurvey.updateSchoolClass(schoolClass);		
+			Teacher teacher = loadTeacher(userContext, anotherTeacherId, emptyOptions());		
+			classDailyHealthSurvey.updateTeacher(teacher);		
 			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, emptyOptions());
 			
 			return present(userContext,classDailyHealthSurvey, allTokens());
@@ -394,9 +394,9 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 	
 
 
-	public CandidateSchoolClass requestCandidateSchoolClass(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateTeacher requestCandidateTeacher(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateSchoolClass result = new CandidateSchoolClass();
+		CandidateTeacher result = new CandidateTeacher();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -407,7 +407,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<SchoolClass> candidateList = schoolClassDaoOf(userContext).requestCandidateSchoolClassForClassDailyHealthSurvey(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<Teacher> candidateList = teacherDaoOf(userContext).requestCandidateTeacherForClassDailyHealthSurvey(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
@@ -418,7 +418,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
  	{
 
  		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
- 		checkerOf(userContext).checkIdOfWechatUser(anotherCreatorId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfUser(anotherCreatorId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
  	}
@@ -430,7 +430,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		synchronized(classDailyHealthSurvey){
 			//will be good when the classDailyHealthSurvey loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			WechatUser creator = loadWechatUser(userContext, anotherCreatorId, emptyOptions());		
+			User creator = loadUser(userContext, anotherCreatorId, emptyOptions());		
 			classDailyHealthSurvey.updateCreator(creator);		
 			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, emptyOptions());
 			
@@ -443,9 +443,9 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 	
 
 
-	public CandidateWechatUser requestCandidateCreator(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateUser requestCandidateCreator(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateWechatUser result = new CandidateWechatUser();
+		CandidateUser result = new CandidateUser();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -456,31 +456,31 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<WechatUser> candidateList = wechatUserDaoOf(userContext).requestCandidateWechatUserForClassDailyHealthSurvey(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<User> candidateList = userDaoOf(userContext).requestCandidateUserForClassDailyHealthSurvey(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherCq(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherCqId) throws Exception
+ 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherChangeRequestId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherCqId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
  	}
- 	public ClassDailyHealthSurvey transferToAnotherCq(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherCqId) throws Exception
+ 	public ClassDailyHealthSurvey transferToAnotherChangeRequest(HealthUserContext userContext, String classDailyHealthSurveyId, String anotherChangeRequestId) throws Exception
  	{
- 		checkParamsForTransferingAnotherCq(userContext, classDailyHealthSurveyId,anotherCqId);
+ 		checkParamsForTransferingAnotherChangeRequest(userContext, classDailyHealthSurveyId,anotherChangeRequestId);
  
 		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());	
 		synchronized(classDailyHealthSurvey){
 			//will be good when the classDailyHealthSurvey loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			ChangeRequest cq = loadChangeRequest(userContext, anotherCqId, emptyOptions());		
-			classDailyHealthSurvey.updateCq(cq);		
+			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
+			classDailyHealthSurvey.updateChangeRequest(changeRequest);		
 			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, emptyOptions());
 			
 			return present(userContext,classDailyHealthSurvey, allTokens());
@@ -492,7 +492,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 	
 
 
-	public CandidateChangeRequest requestCandidateCq(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
 		CandidateChangeRequest result = new CandidateChangeRequest();
 		result.setOwnerClass(ownerClass);
@@ -515,30 +515,30 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
  //--------------------------------------------------------------
 	
 
- 	protected WechatUser loadWechatUser(HealthUserContext userContext, String newCreatorId, Map<String,Object> options) throws Exception
+ 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
  	{
 
- 		return wechatUserDaoOf(userContext).load(newCreatorId, options);
+ 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
  	}
  	
 
 
 	
 
- 	protected SchoolClass loadSchoolClass(HealthUserContext userContext, String newSchoolClassId, Map<String,Object> options) throws Exception
+ 	protected User loadUser(HealthUserContext userContext, String newCreatorId, Map<String,Object> options) throws Exception
  	{
 
- 		return schoolClassDaoOf(userContext).load(newSchoolClassId, options);
+ 		return userDaoOf(userContext).load(newCreatorId, options);
  	}
  	
 
 
 	
 
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newCqId, Map<String,Object> options) throws Exception
+ 	protected Teacher loadTeacher(HealthUserContext userContext, String newTeacherId, Map<String,Object> options) throws Exception
  	{
 
- 		return changeRequestDaoOf(userContext).load(newCqId, options);
+ 		return teacherDaoOf(userContext).load(newTeacherId, options);
  	}
  	
 
@@ -602,8 +602,8 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				return classDailyHealthSurvey;
 			}
 	}
-	//disconnect ClassDailyHealthSurvey with class_question in DailySurveyQuestion
-	protected ClassDailyHealthSurvey breakWithDailySurveyQuestionByClassQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String classQuestionId,  String [] tokensExpr)
+	//disconnect ClassDailyHealthSurvey with survey_question in DailySurveyQuestion
+	protected ClassDailyHealthSurvey breakWithDailySurveyQuestionBySurveyQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyQuestionId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -614,7 +614,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				classDailyHealthSurveyDaoOf(userContext).planToRemoveDailySurveyQuestionListWithClassQuestion(classDailyHealthSurvey, classQuestionId, this.emptyOptions());
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveDailySurveyQuestionListWithSurveyQuestion(classDailyHealthSurvey, surveyQuestionId, this.emptyOptions());
 
 				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withDailySurveyQuestionList().done());
 				return classDailyHealthSurvey;
@@ -656,8 +656,8 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				return classDailyHealthSurvey;
 			}
 	}
-	//disconnect ClassDailyHealthSurvey with school_class in StudentHealthSurvey
-	protected ClassDailyHealthSurvey breakWithStudentHealthSurveyBySchoolClass(HealthUserContext userContext, String classDailyHealthSurveyId, String schoolClassId,  String [] tokensExpr)
+	//disconnect ClassDailyHealthSurvey with teacher in StudentHealthSurvey
+	protected ClassDailyHealthSurvey breakWithStudentHealthSurveyByTeacher(HealthUserContext userContext, String classDailyHealthSurveyId, String teacherId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -668,14 +668,14 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				classDailyHealthSurveyDaoOf(userContext).planToRemoveStudentHealthSurveyListWithSchoolClass(classDailyHealthSurvey, schoolClassId, this.emptyOptions());
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveStudentHealthSurveyListWithTeacher(classDailyHealthSurvey, teacherId, this.emptyOptions());
 
 				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withStudentHealthSurveyList().done());
 				return classDailyHealthSurvey;
 			}
 	}
-	//disconnect ClassDailyHealthSurvey with cq in StudentHealthSurvey
-	protected ClassDailyHealthSurvey breakWithStudentHealthSurveyByCq(HealthUserContext userContext, String classDailyHealthSurveyId, String cqId,  String [] tokensExpr)
+	//disconnect ClassDailyHealthSurvey with change_request in StudentHealthSurvey
+	protected ClassDailyHealthSurvey breakWithStudentHealthSurveyByChangeRequest(HealthUserContext userContext, String classDailyHealthSurveyId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -686,7 +686,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				classDailyHealthSurveyDaoOf(userContext).planToRemoveStudentHealthSurveyListWithCq(classDailyHealthSurvey, cqId, this.emptyOptions());
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveStudentHealthSurveyListWithChangeRequest(classDailyHealthSurvey, changeRequestId, this.emptyOptions());
 
 				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withStudentHealthSurveyList().done());
 				return classDailyHealthSurvey;
@@ -698,7 +698,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 
 
 
-	protected void checkParamsForAddingDailySurveyQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classQuestionId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingDailySurveyQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String surveyQuestionId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
 
@@ -715,18 +715,18 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 		checkerOf(userContext).checkOptionDOfDailySurveyQuestion(optionD);
 		
-		checkerOf(userContext).checkClassQuestionIdOfDailySurveyQuestion(classQuestionId);
+		checkerOf(userContext).checkSurveyQuestionIdOfDailySurveyQuestion(surveyQuestionId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
 
 	}
-	public  ClassDailyHealthSurvey addDailySurveyQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classQuestionId, String [] tokensExpr) throws Exception
+	public  ClassDailyHealthSurvey addDailySurveyQuestion(HealthUserContext userContext, String classDailyHealthSurveyId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String surveyQuestionId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingDailySurveyQuestion(userContext,classDailyHealthSurveyId,topic, questionTypeId, optionA, optionB, optionC, optionD, classQuestionId,tokensExpr);
+		checkParamsForAddingDailySurveyQuestion(userContext,classDailyHealthSurveyId,topic, questionTypeId, optionA, optionB, optionC, optionD, surveyQuestionId,tokensExpr);
 
-		DailySurveyQuestion dailySurveyQuestion = createDailySurveyQuestion(userContext,topic, questionTypeId, optionA, optionB, optionC, optionD, classQuestionId);
+		DailySurveyQuestion dailySurveyQuestion = createDailySurveyQuestion(userContext,topic, questionTypeId, optionA, optionB, optionC, optionD, surveyQuestionId);
 
 		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, emptyOptions());
 		synchronized(classDailyHealthSurvey){
@@ -785,7 +785,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 	}
 
 
-	protected DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classQuestionId) throws Exception{
+	protected DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String surveyQuestionId) throws Exception{
 
 		DailySurveyQuestion dailySurveyQuestion = new DailySurveyQuestion();
 		
@@ -798,9 +798,9 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		dailySurveyQuestion.setOptionB(optionB);		
 		dailySurveyQuestion.setOptionC(optionC);		
 		dailySurveyQuestion.setOptionD(optionD);		
-		ClassQuestion  classQuestion = new ClassQuestion();
-		classQuestion.setId(classQuestionId);		
-		dailySurveyQuestion.setClassQuestion(classQuestion);
+		Question  surveyQuestion = new Question();
+		surveyQuestion.setId(surveyQuestionId);		
+		dailySurveyQuestion.setSurveyQuestion(surveyQuestion);
 	
 		
 		return dailySurveyQuestion;
@@ -974,7 +974,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 
 
 
-	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String classDailyHealthSurveyId, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String classDailyHealthSurveyId, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
 
@@ -985,20 +985,20 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 		checkerOf(userContext).checkSurveyStatusIdOfStudentHealthSurvey(surveyStatusId);
 		
-		checkerOf(userContext).checkSchoolClassIdOfStudentHealthSurvey(schoolClassId);
+		checkerOf(userContext).checkTeacherIdOfStudentHealthSurvey(teacherId);
 		
-		checkerOf(userContext).checkCqIdOfStudentHealthSurvey(cqId);
+		checkerOf(userContext).checkChangeRequestIdOfStudentHealthSurvey(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
 
 	}
-	public  ClassDailyHealthSurvey addStudentHealthSurvey(HealthUserContext userContext, String classDailyHealthSurveyId, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String cqId, String [] tokensExpr) throws Exception
+	public  ClassDailyHealthSurvey addStudentHealthSurvey(HealthUserContext userContext, String classDailyHealthSurveyId, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudentHealthSurvey(userContext,classDailyHealthSurveyId,studentId, answerTime, surveyStatusId, schoolClassId, cqId,tokensExpr);
+		checkParamsForAddingStudentHealthSurvey(userContext,classDailyHealthSurveyId,studentId, answerTime, surveyStatusId, teacherId, changeRequestId,tokensExpr);
 
-		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,studentId, answerTime, surveyStatusId, schoolClassId, cqId);
+		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,studentId, answerTime, surveyStatusId, teacherId, changeRequestId);
 
 		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, emptyOptions());
 		synchronized(classDailyHealthSurvey){
@@ -1049,7 +1049,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 	}
 
 
-	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String cqId) throws Exception{
+	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String changeRequestId) throws Exception{
 
 		StudentHealthSurvey studentHealthSurvey = new StudentHealthSurvey();
 		
@@ -1061,14 +1061,14 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		SurveyStatus  surveyStatus = new SurveyStatus();
 		surveyStatus.setId(surveyStatusId);		
 		studentHealthSurvey.setSurveyStatus(surveyStatus);		
-		SchoolClass  schoolClass = new SchoolClass();
-		schoolClass.setId(schoolClassId);		
-		studentHealthSurvey.setSchoolClass(schoolClass);		
+		Teacher  teacher = new Teacher();
+		teacher.setId(teacherId);		
+		studentHealthSurvey.setTeacher(teacher);		
 		studentHealthSurvey.setCreateTime(userContext.now());		
 		studentHealthSurvey.setLastUpdateTime(userContext.now());		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		studentHealthSurvey.setCq(cq);
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		studentHealthSurvey.setChangeRequest(changeRequest);
 	
 		
 		return studentHealthSurvey;

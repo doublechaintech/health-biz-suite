@@ -182,58 +182,6 @@ constructor(props) {
 
 
 
-  getSchoolClassSearch = () => {
-    const {SchoolClassSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('school_class','change_request.school_class_list',false),
-      role: "schoolClass",
-      data: state._changeRequest.schoolClassList,
-      metaInfo: state._changeRequest.schoolClassListMetaInfo,
-      count: state._changeRequest.schoolClassCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.schoolClassCurrentPageNumber,
-      searchFormParameters: state._changeRequest.schoolClassSearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
-      listName: 'schoolClassList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassSearch)
-  }
-  
-  getSchoolClassCreateForm = () => {
-   	const {SchoolClassCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "schoolClass",
-      data: state._changeRequest.schoolClassList,
-      metaInfo: state._changeRequest.schoolClassListMetaInfo,
-      count: state._changeRequest.schoolClassCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.schoolClassCurrentPageNumber,
-      searchFormParameters: state._changeRequest.schoolClassSearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'schoolClassList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(SchoolClassCreateForm)
-  }
-  
-  getSchoolClassUpdateForm = () => {
-    const userContext = null
-  	const {SchoolClassUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "schoolClass",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'schoolClassList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassUpdateForm)
-  }
-
   getTeacherSearch = () => {
     const {TeacherSearch} = GlobalComponents;
     const userContext = null
@@ -252,7 +200,7 @@ constructor(props) {
       loading: state._changeRequest.loading,
       partialList: state._changeRequest.partialList,
       owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
+      referenceName: 'changeRequest', 
       listName: 'teacherList', ref:state._changeRequest, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(TeacherSearch)
@@ -271,7 +219,7 @@ constructor(props) {
       currentPage: state._changeRequest.teacherCurrentPageNumber,
       searchFormParameters: state._changeRequest.teacherSearchFormParameters,
       loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'teacherList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'teacherList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
     }))(TeacherCreateForm)
   }
   
@@ -284,162 +232,6 @@ constructor(props) {
       currentUpdateIndex: state._changeRequest.currentUpdateIndex,
       owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'teacherList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(TeacherUpdateForm)
-  }
-
-  getGuardianSearch = () => {
-    const {GuardianSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('guardian','change_request.guardian_list',false),
-      role: "guardian",
-      data: state._changeRequest.guardianList,
-      metaInfo: state._changeRequest.guardianListMetaInfo,
-      count: state._changeRequest.guardianCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.guardianCurrentPageNumber,
-      searchFormParameters: state._changeRequest.guardianSearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
-      listName: 'guardianList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(GuardianSearch)
-  }
-  
-  getGuardianCreateForm = () => {
-   	const {GuardianCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "guardian",
-      data: state._changeRequest.guardianList,
-      metaInfo: state._changeRequest.guardianListMetaInfo,
-      count: state._changeRequest.guardianCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.guardianCurrentPageNumber,
-      searchFormParameters: state._changeRequest.guardianSearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'guardianList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(GuardianCreateForm)
-  }
-  
-  getGuardianUpdateForm = () => {
-    const userContext = null
-  	const {GuardianUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "guardian",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'guardianList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(GuardianUpdateForm)
-  }
-
-  getClassQuestionSearch = () => {
-    const {ClassQuestionSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('class_question','change_request.class_question_list',false),
-      role: "classQuestion",
-      data: state._changeRequest.classQuestionList,
-      metaInfo: state._changeRequest.classQuestionListMetaInfo,
-      count: state._changeRequest.classQuestionCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.classQuestionCurrentPageNumber,
-      searchFormParameters: state._changeRequest.classQuestionSearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
-      listName: 'classQuestionList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassQuestionSearch)
-  }
-  
-  getClassQuestionCreateForm = () => {
-   	const {ClassQuestionCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "classQuestion",
-      data: state._changeRequest.classQuestionList,
-      metaInfo: state._changeRequest.classQuestionListMetaInfo,
-      count: state._changeRequest.classQuestionCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.classQuestionCurrentPageNumber,
-      searchFormParameters: state._changeRequest.classQuestionSearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'classQuestionList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(ClassQuestionCreateForm)
-  }
-  
-  getClassQuestionUpdateForm = () => {
-    const userContext = null
-  	const {ClassQuestionUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "classQuestion",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'classQuestionList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassQuestionUpdateForm)
-  }
-
-  getClassDailyHealthSurveySearch = () => {
-    const {ClassDailyHealthSurveySearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('class_daily_health_survey','change_request.class_daily_health_survey_list',false),
-      role: "classDailyHealthSurvey",
-      data: state._changeRequest.classDailyHealthSurveyList,
-      metaInfo: state._changeRequest.classDailyHealthSurveyListMetaInfo,
-      count: state._changeRequest.classDailyHealthSurveyCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.classDailyHealthSurveyCurrentPageNumber,
-      searchFormParameters: state._changeRequest.classDailyHealthSurveySearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
-      listName: 'classDailyHealthSurveyList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassDailyHealthSurveySearch)
-  }
-  
-  getClassDailyHealthSurveyCreateForm = () => {
-   	const {ClassDailyHealthSurveyCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "classDailyHealthSurvey",
-      data: state._changeRequest.classDailyHealthSurveyList,
-      metaInfo: state._changeRequest.classDailyHealthSurveyListMetaInfo,
-      count: state._changeRequest.classDailyHealthSurveyCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.classDailyHealthSurveyCurrentPageNumber,
-      searchFormParameters: state._changeRequest.classDailyHealthSurveySearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'classDailyHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(ClassDailyHealthSurveyCreateForm)
-  }
-  
-  getClassDailyHealthSurveyUpdateForm = () => {
-    const userContext = null
-  	const {ClassDailyHealthSurveyUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "classDailyHealthSurvey",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'classDailyHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassDailyHealthSurveyUpdateForm)
   }
 
   getStudentSearch = () => {
@@ -460,7 +252,7 @@ constructor(props) {
       loading: state._changeRequest.loading,
       partialList: state._changeRequest.partialList,
       owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
+      referenceName: 'changeRequest', 
       listName: 'studentList', ref:state._changeRequest, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(StudentSearch)
@@ -479,7 +271,7 @@ constructor(props) {
       currentPage: state._changeRequest.studentCurrentPageNumber,
       searchFormParameters: state._changeRequest.studentSearchFormParameters,
       loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'studentList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'studentList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
     }))(StudentCreateForm)
   }
   
@@ -492,6 +284,110 @@ constructor(props) {
       currentUpdateIndex: state._changeRequest.currentUpdateIndex,
       owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'studentList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(StudentUpdateForm)
+  }
+
+  getQuestionSearch = () => {
+    const {QuestionSearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('question','change_request.question_list',false),
+      role: "question",
+      data: state._changeRequest.questionList,
+      metaInfo: state._changeRequest.questionListMetaInfo,
+      count: state._changeRequest.questionCount,
+      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
+      currentPage: state._changeRequest.questionCurrentPageNumber,
+      searchFormParameters: state._changeRequest.questionSearchFormParameters,
+      searchParameters: {...state._changeRequest.searchParameters},
+      expandForm: state._changeRequest.expandForm,
+      loading: state._changeRequest.loading,
+      partialList: state._changeRequest.partialList,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, 
+      referenceName: 'cq', 
+      listName: 'questionList', ref:state._changeRequest, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(QuestionSearch)
+  }
+  
+  getQuestionCreateForm = () => {
+   	const {QuestionCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "question",
+      data: state._changeRequest.questionList,
+      metaInfo: state._changeRequest.questionListMetaInfo,
+      count: state._changeRequest.questionCount,
+      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
+      currentPage: state._changeRequest.questionCurrentPageNumber,
+      searchFormParameters: state._changeRequest.questionSearchFormParameters,
+      loading: state._changeRequest.loading,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'questionList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(QuestionCreateForm)
+  }
+  
+  getQuestionUpdateForm = () => {
+    const userContext = null
+  	const {QuestionUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._changeRequest.selectedRows,
+      role: "question",
+      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'questionList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(QuestionUpdateForm)
+  }
+
+  getClassDailyHealthSurveySearch = () => {
+    const {ClassDailyHealthSurveySearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('class_daily_health_survey','change_request.class_daily_health_survey_list',false),
+      role: "classDailyHealthSurvey",
+      data: state._changeRequest.classDailyHealthSurveyList,
+      metaInfo: state._changeRequest.classDailyHealthSurveyListMetaInfo,
+      count: state._changeRequest.classDailyHealthSurveyCount,
+      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
+      currentPage: state._changeRequest.classDailyHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._changeRequest.classDailyHealthSurveySearchFormParameters,
+      searchParameters: {...state._changeRequest.searchParameters},
+      expandForm: state._changeRequest.expandForm,
+      loading: state._changeRequest.loading,
+      partialList: state._changeRequest.partialList,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, 
+      referenceName: 'changeRequest', 
+      listName: 'classDailyHealthSurveyList', ref:state._changeRequest, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(ClassDailyHealthSurveySearch)
+  }
+  
+  getClassDailyHealthSurveyCreateForm = () => {
+   	const {ClassDailyHealthSurveyCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "classDailyHealthSurvey",
+      data: state._changeRequest.classDailyHealthSurveyList,
+      metaInfo: state._changeRequest.classDailyHealthSurveyListMetaInfo,
+      count: state._changeRequest.classDailyHealthSurveyCount,
+      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
+      currentPage: state._changeRequest.classDailyHealthSurveyCurrentPageNumber,
+      searchFormParameters: state._changeRequest.classDailyHealthSurveySearchFormParameters,
+      loading: state._changeRequest.loading,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'classDailyHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(ClassDailyHealthSurveyCreateForm)
+  }
+  
+  getClassDailyHealthSurveyUpdateForm = () => {
+    const userContext = null
+  	const {ClassDailyHealthSurveyUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._changeRequest.selectedRows,
+      role: "classDailyHealthSurvey",
+      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
+      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'classDailyHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(ClassDailyHealthSurveyUpdateForm)
   }
 
   getStudentHealthSurveySearch = () => {
@@ -512,7 +408,7 @@ constructor(props) {
       loading: state._changeRequest.loading,
       partialList: state._changeRequest.partialList,
       owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
+      referenceName: 'changeRequest', 
       listName: 'studentHealthSurveyList', ref:state._changeRequest, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(StudentHealthSurveySearch)
@@ -531,7 +427,7 @@ constructor(props) {
       currentPage: state._changeRequest.studentHealthSurveyCurrentPageNumber,
       searchFormParameters: state._changeRequest.studentHealthSurveySearchFormParameters,
       loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'studentHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'studentHealthSurveyList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
     }))(StudentHealthSurveyCreateForm)
   }
   
@@ -564,7 +460,7 @@ constructor(props) {
       loading: state._changeRequest.loading,
       partialList: state._changeRequest.partialList,
       owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'cq', 
+      referenceName: 'changeRequest', 
       listName: 'studentDailyAnswerList', ref:state._changeRequest, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
     }))(StudentDailyAnswerSearch)
@@ -583,7 +479,7 @@ constructor(props) {
       currentPage: state._changeRequest.studentDailyAnswerCurrentPageNumber,
       searchFormParameters: state._changeRequest.studentDailyAnswerSearchFormParameters,
       loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'cq', listName: 'studentDailyAnswerList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'studentDailyAnswerList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
     }))(StudentDailyAnswerCreateForm)
   }
   
@@ -623,29 +519,21 @@ constructor(props) {
   	
   	
   	
-  	{path:"/changeRequest/:id/list/schoolClassList", component: this.getSchoolClassSearch()},
-  	{path:"/changeRequest/:id/list/schoolClassCreateForm", component: this.getSchoolClassCreateForm()},
-  	{path:"/changeRequest/:id/list/schoolClassUpdateForm", component: this.getSchoolClassUpdateForm()},
-   	
   	{path:"/changeRequest/:id/list/teacherList", component: this.getTeacherSearch()},
   	{path:"/changeRequest/:id/list/teacherCreateForm", component: this.getTeacherCreateForm()},
   	{path:"/changeRequest/:id/list/teacherUpdateForm", component: this.getTeacherUpdateForm()},
    	
-  	{path:"/changeRequest/:id/list/guardianList", component: this.getGuardianSearch()},
-  	{path:"/changeRequest/:id/list/guardianCreateForm", component: this.getGuardianCreateForm()},
-  	{path:"/changeRequest/:id/list/guardianUpdateForm", component: this.getGuardianUpdateForm()},
+  	{path:"/changeRequest/:id/list/studentList", component: this.getStudentSearch()},
+  	{path:"/changeRequest/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
+  	{path:"/changeRequest/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
    	
-  	{path:"/changeRequest/:id/list/classQuestionList", component: this.getClassQuestionSearch()},
-  	{path:"/changeRequest/:id/list/classQuestionCreateForm", component: this.getClassQuestionCreateForm()},
-  	{path:"/changeRequest/:id/list/classQuestionUpdateForm", component: this.getClassQuestionUpdateForm()},
+  	{path:"/changeRequest/:id/list/questionList", component: this.getQuestionSearch()},
+  	{path:"/changeRequest/:id/list/questionCreateForm", component: this.getQuestionCreateForm()},
+  	{path:"/changeRequest/:id/list/questionUpdateForm", component: this.getQuestionUpdateForm()},
    	
   	{path:"/changeRequest/:id/list/classDailyHealthSurveyList", component: this.getClassDailyHealthSurveySearch()},
   	{path:"/changeRequest/:id/list/classDailyHealthSurveyCreateForm", component: this.getClassDailyHealthSurveyCreateForm()},
   	{path:"/changeRequest/:id/list/classDailyHealthSurveyUpdateForm", component: this.getClassDailyHealthSurveyUpdateForm()},
-   	
-  	{path:"/changeRequest/:id/list/studentList", component: this.getStudentSearch()},
-  	{path:"/changeRequest/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
-  	{path:"/changeRequest/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
    	
   	{path:"/changeRequest/:id/list/studentHealthSurveyList", component: this.getStudentHealthSurveySearch()},
   	{path:"/changeRequest/:id/list/studentHealthSurveyCreateForm", component: this.getStudentHealthSurveyCreateForm()},

@@ -20,8 +20,8 @@ const testValues = {};
 const testValues = {
   name: '公司地址',
   address: '四川省成都市高新区南华路100号',
-  latitude: '30.376713771641974',
-  longitude: '105.28352624748513',
+  latitude: '30.690052666127105',
+  longitude: '105.53030202043132',
   districtId: 'D000001',
   provinceId: 'P000001',
 }
@@ -77,8 +77,8 @@ class LocationAssociateForm extends Component {
     const {LocationService} = GlobalComponents
     const userContext = null
     
- const {GuardianModalTable} = GlobalComponents;
- const {WechatUserModalTable} = GlobalComponents;
+ const {StudentModalTable} = GlobalComponents;
+ const {UserModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -237,8 +237,8 @@ class LocationAssociateForm extends Component {
 			
         </Card>
         
-	<GuardianModalTable data={data.guardianList} owner={owner} />
-	<WechatUserModalTable data={data.wechatUserList} owner={owner} />
+	<StudentModalTable data={data.studentList} owner={owner} />
+	<UserModalTable data={data.userList} owner={owner} />
         
         
         

@@ -104,15 +104,12 @@
 			<li><a data-toggle="tab" href="#provinceList" class="disabled"> ${userContext.localeMap['province']}</a></li>
 			<li><a data-toggle="tab" href="#cityList" class="disabled"> ${userContext.localeMap['city']}</a></li>
 			<li><a data-toggle="tab" href="#districtList" class="disabled"> ${userContext.localeMap['district']}</a></li>
-			<li><a data-toggle="tab" href="#schoolClassList" class="disabled"> ${userContext.localeMap['school_class']}</a></li>
 			<li><a data-toggle="tab" href="#teacherList" class="disabled"> ${userContext.localeMap['teacher']}</a></li>
-			<li><a data-toggle="tab" href="#guardianList" class="disabled"> ${userContext.localeMap['guardian']}</a></li>
+			<li><a data-toggle="tab" href="#studentList" class="disabled"> ${userContext.localeMap['student']}</a></li>
 			<li><a data-toggle="tab" href="#questionList" class="disabled"> ${userContext.localeMap['question']}</a></li>
 			<li><a data-toggle="tab" href="#questionTypeList" class="disabled"> ${userContext.localeMap['question_type']}</a></li>
-			<li><a data-toggle="tab" href="#questionSourceList" class="disabled"> ${userContext.localeMap['question_source']}</a></li>
 			<li><a data-toggle="tab" href="#surveyStatusList" class="disabled"> ${userContext.localeMap['survey_status']}</a></li>
-			<li><a data-toggle="tab" href="#wechatUserList" class="disabled"> ${userContext.localeMap['wechat_user']}</a></li>
-			<li><a data-toggle="tab" href="#userTypeList" class="disabled"> ${userContext.localeMap['user_type']}</a></li>
+			<li><a data-toggle="tab" href="#userList" class="disabled"> ${userContext.localeMap['user']}</a></li>
 			<li><a data-toggle="tab" href="#changeRequestList" class="disabled"> ${userContext.localeMap['change_request']}</a></li>
 			<li><a data-toggle="tab" href="#changeRequestTypeList" class="disabled"> ${userContext.localeMap['change_request_type']}</a></li>
  
@@ -182,14 +179,6 @@
 					referName="platform"/>
 		</div>
 	</c:if>
-	<c:if test='${not empty userContext.accessTokens["schoolClassList"] or ignoreListAccessControl}'>
-		<c:set var="schoolClassList" value="${result.schoolClassList}" scope="request"/>
-		<c:set var="schoolClassListName" value="schoolClassList" scope="request"/>
-		<div id="schoolClassList" class="tab-pane fade sublist" refer-name="platform">
-			<sky:include page="com/doublechaintech/health/schoolclass/SchoolClass$List.jsp"
-					referName="platform"/>
-		</div>
-	</c:if>
 	<c:if test='${not empty userContext.accessTokens["teacherList"] or ignoreListAccessControl}'>
 		<c:set var="teacherList" value="${result.teacherList}" scope="request"/>
 		<c:set var="teacherListName" value="teacherList" scope="request"/>
@@ -198,11 +187,11 @@
 					referName="platform"/>
 		</div>
 	</c:if>
-	<c:if test='${not empty userContext.accessTokens["guardianList"] or ignoreListAccessControl}'>
-		<c:set var="guardianList" value="${result.guardianList}" scope="request"/>
-		<c:set var="guardianListName" value="guardianList" scope="request"/>
-		<div id="guardianList" class="tab-pane fade sublist" refer-name="platform">
-			<sky:include page="com/doublechaintech/health/guardian/Guardian$List.jsp"
+	<c:if test='${not empty userContext.accessTokens["studentList"] or ignoreListAccessControl}'>
+		<c:set var="studentList" value="${result.studentList}" scope="request"/>
+		<c:set var="studentListName" value="studentList" scope="request"/>
+		<div id="studentList" class="tab-pane fade sublist" refer-name="platform">
+			<sky:include page="com/doublechaintech/health/student/Student$List.jsp"
 					referName="platform"/>
 		</div>
 	</c:if>
@@ -222,14 +211,6 @@
 					referName="platform"/>
 		</div>
 	</c:if>
-	<c:if test='${not empty userContext.accessTokens["questionSourceList"] or ignoreListAccessControl}'>
-		<c:set var="questionSourceList" value="${result.questionSourceList}" scope="request"/>
-		<c:set var="questionSourceListName" value="questionSourceList" scope="request"/>
-		<div id="questionSourceList" class="tab-pane fade sublist" refer-name="platform">
-			<sky:include page="com/doublechaintech/health/questionsource/QuestionSource$List.jsp"
-					referName="platform"/>
-		</div>
-	</c:if>
 	<c:if test='${not empty userContext.accessTokens["surveyStatusList"] or ignoreListAccessControl}'>
 		<c:set var="surveyStatusList" value="${result.surveyStatusList}" scope="request"/>
 		<c:set var="surveyStatusListName" value="surveyStatusList" scope="request"/>
@@ -238,19 +219,11 @@
 					referName="platform"/>
 		</div>
 	</c:if>
-	<c:if test='${not empty userContext.accessTokens["wechatUserList"] or ignoreListAccessControl}'>
-		<c:set var="wechatUserList" value="${result.wechatUserList}" scope="request"/>
-		<c:set var="wechatUserListName" value="wechatUserList" scope="request"/>
-		<div id="wechatUserList" class="tab-pane fade sublist" refer-name="platform">
-			<sky:include page="com/doublechaintech/health/wechatuser/WechatUser$List.jsp"
-					referName="platform"/>
-		</div>
-	</c:if>
-	<c:if test='${not empty userContext.accessTokens["userTypeList"] or ignoreListAccessControl}'>
-		<c:set var="userTypeList" value="${result.userTypeList}" scope="request"/>
-		<c:set var="userTypeListName" value="userTypeList" scope="request"/>
-		<div id="userTypeList" class="tab-pane fade sublist" refer-name="platform">
-			<sky:include page="com/doublechaintech/health/usertype/UserType$List.jsp"
+	<c:if test='${not empty userContext.accessTokens["userList"] or ignoreListAccessControl}'>
+		<c:set var="userList" value="${result.userList}" scope="request"/>
+		<c:set var="userListName" value="userList" scope="request"/>
+		<div id="userList" class="tab-pane fade sublist" refer-name="platform">
+			<sky:include page="com/doublechaintech/health/user/User$List.jsp"
 					referName="platform"/>
 		</div>
 	</c:if>

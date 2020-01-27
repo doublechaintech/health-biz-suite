@@ -51,23 +51,29 @@ const settingMenuData = {menuName: window.trans('student'), menuFor: "student",
 
 const fieldLabels = {
   id: window.trans('student.id'),
-  name: window.trans('student.name'),
-  gender: window.trans('student.gender'),
-  guardian: window.trans('student.guardian'),
-  schoolClass: window.trans('student.school_class'),
+  studentName: window.trans('student.student_name'),
   studentId: window.trans('student.student_id'),
-  cq: window.trans('student.cq'),
+  guardianName: window.trans('student.guardian_name'),
+  guardianMobile: window.trans('student.guardian_mobile'),
+  address: window.trans('student.address'),
+  user: window.trans('student.user'),
+  createTime: window.trans('student.create_time'),
+  platform: window.trans('student.platform'),
+  changeRequest: window.trans('student.change_request'),
 
 }
 
 const displayColumns = [
   { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'student') , sorter: true },
-  { title: fieldLabels.name, debugtype: 'string', dataIndex: 'name', width: '7',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.gender, debugtype: 'string_gender', dataIndex: 'gender', width: '10',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.guardian, dataIndex: 'guardian', render: (text, record) => renderReferenceCell(text, record), sorter:true},
-  { title: fieldLabels.schoolClass, dataIndex: 'schoolClass', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.studentName, debugtype: 'string', dataIndex: 'studentName', width: '7',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.studentId, debugtype: 'string', dataIndex: 'studentId', width: '7',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.guardianName, debugtype: 'string', dataIndex: 'guardianName', width: '7',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.guardianMobile, debugtype: 'string_china_mobile_phone', dataIndex: 'guardianMobile', width: '15',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.address, dataIndex: 'address', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.user, dataIndex: 'user', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.createTime, dataIndex: 'createTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
+  { title: fieldLabels.platform, dataIndex: 'platform', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -82,14 +88,16 @@ const renderItemOfList=(student, targetComponent, columCount)=>{
 	
       <DescriptionList  key={student.id} size="small" col="2" >
         <Description term={fieldLabels.id} style={{wordBreak: 'break-all'}}>{student.id}</Description> 
-        <Description term={fieldLabels.name} style={{wordBreak: 'break-all'}}>{student.name}</Description> 
-        <Description term={fieldLabels.gender} style={{wordBreak: 'break-all'}}>{student.gender}</Description> 
-        <Description term={fieldLabels.guardian}><div>{student.guardian==null?appLocaleName(userContext,"NotAssigned"):`${student.guardian.displayName}(${student.guardian.id})`}
-        </div></Description>
-        <Description term={fieldLabels.schoolClass}><div>{student.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${student.schoolClass.displayName}(${student.schoolClass.id})`}
-        </div></Description>
+        <Description term={fieldLabels.studentName} style={{wordBreak: 'break-all'}}>{student.studentName}</Description> 
         <Description term={fieldLabels.studentId} style={{wordBreak: 'break-all'}}>{student.studentId}</Description> 
-        <Description term={fieldLabels.cq}><div>{student.cq==null?appLocaleName(userContext,"NotAssigned"):`${student.cq.displayName}(${student.cq.id})`}
+        <Description term={fieldLabels.guardianName} style={{wordBreak: 'break-all'}}>{student.guardianName}</Description> 
+        <Description term={fieldLabels.guardianMobile} style={{wordBreak: 'break-all'}}>{student.guardianMobile}</Description> 
+        <Description term={fieldLabels.address}><div>{student.address==null?appLocaleName(userContext,"NotAssigned"):`${student.address.displayName}(${student.address.id})`}
+        </div></Description>
+        <Description term={fieldLabels.user}><div>{student.user==null?appLocaleName(userContext,"NotAssigned"):`${student.user.displayName}(${student.user.id})`}
+        </div></Description>
+        <Description term={fieldLabels.createTime}><div>{ moment(student.createTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
+        <Description term={fieldLabels.changeRequest}><div>{student.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${student.changeRequest.displayName}(${student.changeRequest.id})`}
         </div></Description>
 	
         
@@ -101,19 +109,21 @@ const renderItemOfList=(student, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {name, gender, studentId, guardianId, schoolClassId, cqId} = formValuesToPack
-	const guardian = {id: guardianId, version: 2^31}
-	const schoolClass = {id: schoolClassId, version: 2^31}
-	const cq = {id: cqId, version: 2^31}
-	const data = {name, gender, studentId, guardian, schoolClass, cq}
+	const {studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId, changeRequestId} = formValuesToPack
+	const address = {id: addressId, version: 2^31}
+	const user = {id: userId, version: 2^31}
+	const platform = {id: platformId, version: 2^31}
+	const changeRequest = {id: changeRequestId, version: 2^31}
+	const data = {studentName, studentId, guardianName, guardianMobile, address, user, platform, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {name, gender, studentId, guardian, schoolClass, cq} = objectToUnpack
-	const guardianId = guardian ? guardian.id : null
-	const schoolClassId = schoolClass ? schoolClass.id : null
-	const cqId = cq ? cq.id : null
-	const data = {name, gender, studentId, guardianId, schoolClassId, cqId}
+	const {studentName, studentId, guardianName, guardianMobile, address, user, platform, changeRequest} = objectToUnpack
+	const addressId = address ? address.id : null
+	const userId = user ? user.id : null
+	const platformId = platform ? platform.id : null
+	const changeRequestId = changeRequest ? changeRequest.id : null
+	const data = {studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

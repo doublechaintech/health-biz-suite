@@ -20,9 +20,10 @@ const testValues = {};
 const testValues = {
   name: '白山水',
   mobile: '18012341234',
-  schoole: '益州小学',
+  school: '益州小学',
+  schoolClass: '教科院一年级5班',
   platformId: 'P000001',
-  cqId: 'CR000001',
+  changeRequestId: 'CR000001',
 }
 */
 
@@ -76,7 +77,8 @@ class TeacherAssociateForm extends Component {
     const {TeacherService} = GlobalComponents
     const userContext = null
     
- const {SchoolClassModalTable} = GlobalComponents;
+ const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
+ const {StudentHealthSurveyModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -158,11 +160,21 @@ class TeacherAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.schoole} {...formItemLayout}>
-                  {getFieldDecorator('schoole', {
+                <Form.Item label={fieldLabels.school} {...formItemLayout}>
+                  {getFieldDecorator('school', {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.schoole} />
+                    <Input size="large"  placeHolder={fieldLabels.school} />
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} md={12} sm={12}>
+                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
+                  {getFieldDecorator('schoolClass', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.schoolClass} />
                   )}
                 </Form.Item>
               </Col>
@@ -200,15 +212,15 @@ class TeacherAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.cq} {...formItemLayout}>
-                  {getFieldDecorator('cqId', {
-                  	initialValue: tryinit('cq'),
+                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
+                  {getFieldDecorator('changeRequestId', {
+                  	initialValue: tryinit('changeRequest'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('cq')}
-                    targetType={"cq"} 
-                    requestFunction={TeacherService.requestCandidateCq}/>
+                    disabled={!availableForEdit('changeRequest')}
+                    targetType={"changeRequest"} 
+                    requestFunction={TeacherService.requestCandidateChangeRequest}/>
   
                   )}
                 </Form.Item>
@@ -225,7 +237,8 @@ class TeacherAssociateForm extends Component {
 			
         </Card>
         
-	<SchoolClassModalTable data={data.schoolClassList} owner={owner} />
+	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />
+	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
         
         
         

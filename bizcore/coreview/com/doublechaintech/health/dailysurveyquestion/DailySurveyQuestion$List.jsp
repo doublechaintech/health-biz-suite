@@ -119,8 +119,8 @@
 <c:if test="${param.referName ne 'classDailyHealthSurvey'}">
 	<th>${userContext.localeMap['daily_survey_question.class_daily_health_survey']}</th>
 </c:if>
-<c:if test="${param.referName ne 'classQuestion'}">
-	<th>${userContext.localeMap['daily_survey_question.class_question']}</th>
+<c:if test="${param.referName ne 'surveyQuestion'}">
+	<th>${userContext.localeMap['daily_survey_question.survey_question']}</th>
 </c:if>
 <th>${userContext.localeMap['@action']}</th>
 		</tr></thead>
@@ -171,16 +171,16 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'classQuestion'}">
+<c:if test="${param.referName ne 'surveyQuestion'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./dailySurveyQuestionManager/requestCandidateClassQuestion/${ownerBeanName}/${item.id}/"
-			data-switch-method="./dailySurveyQuestionManager/transferToAnotherClassQuestion/${item.id}/"
-			data-link-template="./classQuestionManager/view/${'$'}{ID}/">
+			data-candidate-method="./dailySurveyQuestionManager/requestCandidateSurveyQuestion/${ownerBeanName}/${item.id}/"
+			data-switch-method="./dailySurveyQuestionManager/transferToAnotherSurveyQuestion/${item.id}/"
+			data-link-template="./questionManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.classQuestion}">
-			<a href='./classQuestionManager/view/${item.classQuestion.id}/'>${item.classQuestion.displayName}</a>
+			<c:if test="${not empty  item.surveyQuestion}">
+			<a href='./questionManager/view/${item.surveyQuestion.id}/'>${item.surveyQuestion.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.classQuestion}">
+			<c:if test="${empty  item.surveyQuestion}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>

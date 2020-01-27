@@ -20,15 +20,17 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 
+import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.user.User;
 
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
+import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
-import com.doublechaintech.health.guardian.GuardianDAO;
+import com.doublechaintech.health.platform.PlatformDAO;
+import com.doublechaintech.health.user.UserDAO;
 
 
 
@@ -40,30 +42,39 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements StudentDAO{
  
  	
- 	private  SchoolClassDAO  schoolClassDAO;
- 	public void setSchoolClassDAO(SchoolClassDAO schoolClassDAO){
-	 	this.schoolClassDAO = schoolClassDAO;
- 	}
- 	public SchoolClassDAO getSchoolClassDAO(){
-	 	return this.schoolClassDAO;
- 	}
- 
- 	
- 	private  GuardianDAO  guardianDAO;
- 	public void setGuardianDAO(GuardianDAO guardianDAO){
-	 	this.guardianDAO = guardianDAO;
- 	}
- 	public GuardianDAO getGuardianDAO(){
-	 	return this.guardianDAO;
- 	}
- 
- 	
  	private  ChangeRequestDAO  changeRequestDAO;
  	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
 	 	this.changeRequestDAO = changeRequestDAO;
  	}
  	public ChangeRequestDAO getChangeRequestDAO(){
 	 	return this.changeRequestDAO;
+ 	}
+ 
+ 	
+ 	private  UserDAO  userDAO;
+ 	public void setUserDAO(UserDAO userDAO){
+	 	this.userDAO = userDAO;
+ 	}
+ 	public UserDAO getUserDAO(){
+	 	return this.userDAO;
+ 	}
+ 
+ 	
+ 	private  LocationDAO  locationDAO;
+ 	public void setLocationDAO(LocationDAO locationDAO){
+	 	this.locationDAO = locationDAO;
+ 	}
+ 	public LocationDAO getLocationDAO(){
+	 	return this.locationDAO;
+ 	}
+ 
+ 	
+ 	private  PlatformDAO  platformDAO;
+ 	public void setPlatformDAO(PlatformDAO platformDAO){
+	 	this.platformDAO = platformDAO;
+ 	}
+ 	public PlatformDAO getPlatformDAO(){
+	 	return this.platformDAO;
  	}
 
 
@@ -235,42 +246,56 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 
  
 
- 	protected boolean isExtractGuardianEnabled(Map<String,Object> options){
+ 	protected boolean isExtractAddressEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentTokens.GUARDIAN);
+	 	return checkOptions(options, StudentTokens.ADDRESS);
  	}
 
- 	protected boolean isSaveGuardianEnabled(Map<String,Object> options){
+ 	protected boolean isSaveAddressEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentTokens.GUARDIAN);
+ 		return checkOptions(options, StudentTokens.ADDRESS);
  	}
  	
 
  	
   
 
- 	protected boolean isExtractSchoolClassEnabled(Map<String,Object> options){
+ 	protected boolean isExtractUserEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentTokens.SCHOOLCLASS);
+	 	return checkOptions(options, StudentTokens.USER);
  	}
 
- 	protected boolean isSaveSchoolClassEnabled(Map<String,Object> options){
+ 	protected boolean isSaveUserEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentTokens.SCHOOLCLASS);
+ 		return checkOptions(options, StudentTokens.USER);
  	}
  	
 
  	
   
 
- 	protected boolean isExtractCqEnabled(Map<String,Object> options){
+ 	protected boolean isExtractPlatformEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentTokens.CQ);
+	 	return checkOptions(options, StudentTokens.PLATFORM);
  	}
 
- 	protected boolean isSaveCqEnabled(Map<String,Object> options){
+ 	protected boolean isSavePlatformEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentTokens.CQ);
+ 		return checkOptions(options, StudentTokens.PLATFORM);
+ 	}
+ 	
+
+ 	
+  
+
+ 	protected boolean isExtractChangeRequestEnabled(Map<String,Object> options){
+ 		
+	 	return checkOptions(options, StudentTokens.CHANGEREQUEST);
+ 	}
+
+ 	protected boolean isSaveChangeRequestEnabled(Map<String,Object> options){
+	 	
+ 		return checkOptions(options, StudentTokens.CHANGEREQUEST);
  	}
  	
 
@@ -317,16 +342,20 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		
 		Student student = extractStudent(accessKey, loadOptions);
  	
- 		if(isExtractGuardianEnabled(loadOptions)){
-	 		extractGuardian(student, loadOptions);
+ 		if(isExtractAddressEnabled(loadOptions)){
+	 		extractAddress(student, loadOptions);
  		}
   	
- 		if(isExtractSchoolClassEnabled(loadOptions)){
-	 		extractSchoolClass(student, loadOptions);
+ 		if(isExtractUserEnabled(loadOptions)){
+	 		extractUser(student, loadOptions);
  		}
   	
- 		if(isExtractCqEnabled(loadOptions)){
-	 		extractCq(student, loadOptions);
+ 		if(isExtractPlatformEnabled(loadOptions)){
+	 		extractPlatform(student, loadOptions);
+ 		}
+  	
+ 		if(isExtractChangeRequestEnabled(loadOptions)){
+	 		extractChangeRequest(student, loadOptions);
  		}
  
 		
@@ -344,18 +373,18 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 
 	 
 
- 	protected Student extractGuardian(Student student, Map<String,Object> options) throws Exception{
+ 	protected Student extractAddress(Student student, Map<String,Object> options) throws Exception{
 
-		if(student.getGuardian() == null){
+		if(student.getAddress() == null){
 			return student;
 		}
-		String guardianId = student.getGuardian().getId();
-		if( guardianId == null){
+		String addressId = student.getAddress().getId();
+		if( addressId == null){
 			return student;
 		}
-		Guardian guardian = getGuardianDAO().load(guardianId,options);
-		if(guardian != null){
-			student.setGuardian(guardian);
+		Location address = getLocationDAO().load(addressId,options);
+		if(address != null){
+			student.setAddress(address);
 		}
 		
  		
@@ -364,18 +393,18 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		
   
 
- 	protected Student extractSchoolClass(Student student, Map<String,Object> options) throws Exception{
+ 	protected Student extractUser(Student student, Map<String,Object> options) throws Exception{
 
-		if(student.getSchoolClass() == null){
+		if(student.getUser() == null){
 			return student;
 		}
-		String schoolClassId = student.getSchoolClass().getId();
-		if( schoolClassId == null){
+		String userId = student.getUser().getId();
+		if( userId == null){
 			return student;
 		}
-		SchoolClass schoolClass = getSchoolClassDAO().load(schoolClassId,options);
-		if(schoolClass != null){
-			student.setSchoolClass(schoolClass);
+		User user = getUserDAO().load(userId,options);
+		if(user != null){
+			student.setUser(user);
 		}
 		
  		
@@ -384,18 +413,38 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		
   
 
- 	protected Student extractCq(Student student, Map<String,Object> options) throws Exception{
+ 	protected Student extractPlatform(Student student, Map<String,Object> options) throws Exception{
 
-		if(student.getCq() == null){
+		if(student.getPlatform() == null){
 			return student;
 		}
-		String cqId = student.getCq().getId();
-		if( cqId == null){
+		String platformId = student.getPlatform().getId();
+		if( platformId == null){
 			return student;
 		}
-		ChangeRequest cq = getChangeRequestDAO().load(cqId,options);
-		if(cq != null){
-			student.setCq(cq);
+		Platform platform = getPlatformDAO().load(platformId,options);
+		if(platform != null){
+			student.setPlatform(platform);
+		}
+		
+ 		
+ 		return student;
+ 	}
+ 		
+  
+
+ 	protected Student extractChangeRequest(Student student, Map<String,Object> options) throws Exception{
+
+		if(student.getChangeRequest() == null){
+			return student;
+		}
+		String changeRequestId = student.getChangeRequest().getId();
+		if( changeRequestId == null){
+			return student;
+		}
+		ChangeRequest changeRequest = getChangeRequestDAO().load(changeRequestId,options);
+		if(changeRequest != null){
+			student.setChangeRequest(changeRequest);
 		}
 		
  		
@@ -456,132 +505,203 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		
 		
   	
- 	public SmartList<Student> findStudentByGuardian(String guardianId,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByAddress(String locationId,Map<String,Object> options){
  	
-  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_GUARDIAN, guardianId, options, getStudentMapper());
-		// analyzeStudentByGuardian(resultList, guardianId, options);
+  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_ADDRESS, locationId, options, getStudentMapper());
+		// analyzeStudentByAddress(resultList, locationId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<Student> findStudentByGuardian(String guardianId, int start, int count,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByAddress(String locationId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_GUARDIAN, guardianId, options, getStudentMapper(), start, count);
- 		//analyzeStudentByGuardian(resultList, guardianId, options);
+ 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_ADDRESS, locationId, options, getStudentMapper(), start, count);
+ 		//analyzeStudentByAddress(resultList, locationId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentByGuardian(SmartList<Student> resultList, String guardianId, Map<String,Object> options){
+ 	public void analyzeStudentByAddress(SmartList<Student> resultList, String locationId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(Student.GUARDIAN_PROPERTY, guardianId);
+ 		filterKey.put(Student.ADDRESS_PROPERTY, locationId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
  		
- 		
+ 
+		StatsItem createTimeStatsItem = new StatsItem();
+		//Student.CREATE_TIME_PROPERTY
+		createTimeStatsItem.setDisplayName("学生");
+		createTimeStatsItem.setInternalName(formatKeyForDateLine(Student.CREATE_TIME_PROPERTY));
+		createTimeStatsItem.setResult(statsWithGroup(DateKey.class,wrapWithDate(Student.CREATE_TIME_PROPERTY),filterKey,emptyOptions));
+		info.addItem(createTimeStatsItem);
+ 				
  		resultList.setStatsInfo(info);
 
  	
  		
  	}
  	@Override
- 	public int countStudentByGuardian(String guardianId,Map<String,Object> options){
+ 	public int countStudentByAddress(String locationId,Map<String,Object> options){
 
- 		return countWith(StudentTable.COLUMN_GUARDIAN, guardianId, options);
+ 		return countWith(StudentTable.COLUMN_ADDRESS, locationId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentByGuardianIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentTable.COLUMN_GUARDIAN, ids, options);
+	public Map<String, Integer> countStudentByAddressIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentTable.COLUMN_ADDRESS, ids, options);
 	}
  	
   	
- 	public SmartList<Student> findStudentBySchoolClass(String schoolClassId,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByUser(String userId,Map<String,Object> options){
  	
-  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getStudentMapper());
-		// analyzeStudentBySchoolClass(resultList, schoolClassId, options);
+  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_USER, userId, options, getStudentMapper());
+		// analyzeStudentByUser(resultList, userId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<Student> findStudentBySchoolClass(String schoolClassId, int start, int count,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByUser(String userId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getStudentMapper(), start, count);
- 		//analyzeStudentBySchoolClass(resultList, schoolClassId, options);
+ 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_USER, userId, options, getStudentMapper(), start, count);
+ 		//analyzeStudentByUser(resultList, userId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentBySchoolClass(SmartList<Student> resultList, String schoolClassId, Map<String,Object> options){
+ 	public void analyzeStudentByUser(SmartList<Student> resultList, String userId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(Student.SCHOOL_CLASS_PROPERTY, schoolClassId);
+ 		filterKey.put(Student.USER_PROPERTY, userId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
  		
- 		
+ 
+		StatsItem createTimeStatsItem = new StatsItem();
+		//Student.CREATE_TIME_PROPERTY
+		createTimeStatsItem.setDisplayName("学生");
+		createTimeStatsItem.setInternalName(formatKeyForDateLine(Student.CREATE_TIME_PROPERTY));
+		createTimeStatsItem.setResult(statsWithGroup(DateKey.class,wrapWithDate(Student.CREATE_TIME_PROPERTY),filterKey,emptyOptions));
+		info.addItem(createTimeStatsItem);
+ 				
  		resultList.setStatsInfo(info);
 
  	
  		
  	}
  	@Override
- 	public int countStudentBySchoolClass(String schoolClassId,Map<String,Object> options){
+ 	public int countStudentByUser(String userId,Map<String,Object> options){
 
- 		return countWith(StudentTable.COLUMN_SCHOOL_CLASS, schoolClassId, options);
+ 		return countWith(StudentTable.COLUMN_USER, userId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentBySchoolClassIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentTable.COLUMN_SCHOOL_CLASS, ids, options);
+	public Map<String, Integer> countStudentByUserIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentTable.COLUMN_USER, ids, options);
 	}
  	
   	
- 	public SmartList<Student> findStudentByCq(String changeRequestId,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByPlatform(String platformId,Map<String,Object> options){
  	
-  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_CQ, changeRequestId, options, getStudentMapper());
-		// analyzeStudentByCq(resultList, changeRequestId, options);
+  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_PLATFORM, platformId, options, getStudentMapper());
+		// analyzeStudentByPlatform(resultList, platformId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<Student> findStudentByCq(String changeRequestId, int start, int count,Map<String,Object> options){
+ 	public SmartList<Student> findStudentByPlatform(String platformId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_CQ, changeRequestId, options, getStudentMapper(), start, count);
- 		//analyzeStudentByCq(resultList, changeRequestId, options);
+ 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_PLATFORM, platformId, options, getStudentMapper(), start, count);
+ 		//analyzeStudentByPlatform(resultList, platformId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentByCq(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options){
+ 	public void analyzeStudentByPlatform(SmartList<Student> resultList, String platformId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(Student.CQ_PROPERTY, changeRequestId);
+ 		filterKey.put(Student.PLATFORM_PROPERTY, platformId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
  		
- 		
+ 
+		StatsItem createTimeStatsItem = new StatsItem();
+		//Student.CREATE_TIME_PROPERTY
+		createTimeStatsItem.setDisplayName("学生");
+		createTimeStatsItem.setInternalName(formatKeyForDateLine(Student.CREATE_TIME_PROPERTY));
+		createTimeStatsItem.setResult(statsWithGroup(DateKey.class,wrapWithDate(Student.CREATE_TIME_PROPERTY),filterKey,emptyOptions));
+		info.addItem(createTimeStatsItem);
+ 				
  		resultList.setStatsInfo(info);
 
  	
  		
  	}
  	@Override
- 	public int countStudentByCq(String changeRequestId,Map<String,Object> options){
+ 	public int countStudentByPlatform(String platformId,Map<String,Object> options){
 
- 		return countWith(StudentTable.COLUMN_CQ, changeRequestId, options);
+ 		return countWith(StudentTable.COLUMN_PLATFORM, platformId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentByCqIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentTable.COLUMN_CQ, ids, options);
+	public Map<String, Integer> countStudentByPlatformIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentTable.COLUMN_PLATFORM, ids, options);
+	}
+ 	
+  	
+ 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId,Map<String,Object> options){
+ 	
+  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentMapper());
+		// analyzeStudentByChangeRequest(resultList, changeRequestId, options);
+		return resultList;
+ 	}
+ 	 
+ 
+ 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, int start, int count,Map<String,Object> options){
+ 		
+ 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentMapper(), start, count);
+ 		//analyzeStudentByChangeRequest(resultList, changeRequestId, options);
+ 		return resultList;
+ 		
+ 	}
+ 	public void analyzeStudentByChangeRequest(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options){
+		if(resultList==null){
+			return;//do nothing when the list is null.
+		}
+		
+ 		MultipleAccessKey filterKey = new MultipleAccessKey();
+ 		filterKey.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
+ 		Map<String,Object> emptyOptions = new HashMap<String,Object>();
+ 		
+ 		StatsInfo info = new StatsInfo();
+ 		
+ 
+		StatsItem createTimeStatsItem = new StatsItem();
+		//Student.CREATE_TIME_PROPERTY
+		createTimeStatsItem.setDisplayName("学生");
+		createTimeStatsItem.setInternalName(formatKeyForDateLine(Student.CREATE_TIME_PROPERTY));
+		createTimeStatsItem.setResult(statsWithGroup(DateKey.class,wrapWithDate(Student.CREATE_TIME_PROPERTY),filterKey,emptyOptions));
+		info.addItem(createTimeStatsItem);
+ 				
+ 		resultList.setStatsInfo(info);
+
+ 	
+ 		
+ 	}
+ 	@Override
+ 	public int countStudentByChangeRequest(String changeRequestId,Map<String,Object> options){
+
+ 		return countWith(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options);
+ 	}
+ 	@Override
+	public Map<String, Integer> countStudentByChangeRequestIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentTable.COLUMN_CHANGE_REQUEST, ids, options);
 	}
  	
  	
@@ -726,50 +846,63 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		return prepareStudentCreateParameters(student);
  	}
  	protected Object[] prepareStudentUpdateParameters(Student student){
- 		Object[] parameters = new Object[9];
+ 		Object[] parameters = new Object[12];
  
- 		parameters[0] = student.getName();
- 		parameters[1] = student.getGender(); 	
- 		if(student.getGuardian() != null){
- 			parameters[2] = student.getGuardian().getId();
+ 		parameters[0] = student.getStudentName();
+ 		parameters[1] = student.getStudentId();
+ 		parameters[2] = student.getGuardianName();
+ 		parameters[3] = student.getGuardianMobile(); 	
+ 		if(student.getAddress() != null){
+ 			parameters[4] = student.getAddress().getId();
  		}
   	
- 		if(student.getSchoolClass() != null){
- 			parameters[3] = student.getSchoolClass().getId();
+ 		if(student.getUser() != null){
+ 			parameters[5] = student.getUser().getId();
  		}
  
- 		parameters[4] = student.getStudentId(); 	
- 		if(student.getCq() != null){
- 			parameters[5] = student.getCq().getId();
+ 		parameters[6] = student.getCreateTime(); 	
+ 		if(student.getPlatform() != null){
+ 			parameters[7] = student.getPlatform().getId();
+ 		}
+  	
+ 		if(student.getChangeRequest() != null){
+ 			parameters[8] = student.getChangeRequest().getId();
  		}
  		
- 		parameters[6] = student.nextVersion();
- 		parameters[7] = student.getId();
- 		parameters[8] = student.getVersion();
+ 		parameters[9] = student.nextVersion();
+ 		parameters[10] = student.getId();
+ 		parameters[11] = student.getVersion();
  				
  		return parameters;
  	}
  	protected Object[] prepareStudentCreateParameters(Student student){
-		Object[] parameters = new Object[7];
+		Object[] parameters = new Object[10];
 		String newStudentId=getNextId();
 		student.setId(newStudentId);
 		parameters[0] =  student.getId();
  
- 		parameters[1] = student.getName();
- 		parameters[2] = student.getGender(); 	
- 		if(student.getGuardian() != null){
- 			parameters[3] = student.getGuardian().getId();
+ 		parameters[1] = student.getStudentName();
+ 		parameters[2] = student.getStudentId();
+ 		parameters[3] = student.getGuardianName();
+ 		parameters[4] = student.getGuardianMobile(); 	
+ 		if(student.getAddress() != null){
+ 			parameters[5] = student.getAddress().getId();
  		
  		}
  		 	
- 		if(student.getSchoolClass() != null){
- 			parameters[4] = student.getSchoolClass().getId();
+ 		if(student.getUser() != null){
+ 			parameters[6] = student.getUser().getId();
  		
  		}
  		
- 		parameters[5] = student.getStudentId(); 	
- 		if(student.getCq() != null){
- 			parameters[6] = student.getCq().getId();
+ 		parameters[7] = student.getCreateTime(); 	
+ 		if(student.getPlatform() != null){
+ 			parameters[8] = student.getPlatform().getId();
+ 		
+ 		}
+ 		 	
+ 		if(student.getChangeRequest() != null){
+ 			parameters[9] = student.getChangeRequest().getId();
  		
  		}
  				
@@ -781,16 +914,20 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		
 		saveStudent(student);
  	
- 		if(isSaveGuardianEnabled(options)){
-	 		saveGuardian(student, options);
+ 		if(isSaveAddressEnabled(options)){
+	 		saveAddress(student, options);
  		}
   	
- 		if(isSaveSchoolClassEnabled(options)){
-	 		saveSchoolClass(student, options);
+ 		if(isSaveUserEnabled(options)){
+	 		saveUser(student, options);
  		}
   	
- 		if(isSaveCqEnabled(options)){
-	 		saveCq(student, options);
+ 		if(isSavePlatformEnabled(options)){
+	 		savePlatform(student, options);
+ 		}
+  	
+ 		if(isSaveChangeRequestEnabled(options)){
+	 		saveChangeRequest(student, options);
  		}
  
 		
@@ -810,13 +947,13 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 	//======================================================================================
 	 
  
- 	protected Student saveGuardian(Student student, Map<String,Object> options){
+ 	protected Student saveAddress(Student student, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(student.getGuardian() == null){
+ 		if(student.getAddress() == null){
  			return student;//do nothing when it is null
  		}
  		
- 		getGuardianDAO().save(student.getGuardian(),options);
+ 		getLocationDAO().save(student.getAddress(),options);
  		return student;
  		
  	}
@@ -827,13 +964,13 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 	
   
  
- 	protected Student saveSchoolClass(Student student, Map<String,Object> options){
+ 	protected Student saveUser(Student student, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(student.getSchoolClass() == null){
+ 		if(student.getUser() == null){
  			return student;//do nothing when it is null
  		}
  		
- 		getSchoolClassDAO().save(student.getSchoolClass(),options);
+ 		getUserDAO().save(student.getUser(),options);
  		return student;
  		
  	}
@@ -844,13 +981,30 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 	
   
  
- 	protected Student saveCq(Student student, Map<String,Object> options){
+ 	protected Student savePlatform(Student student, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(student.getCq() == null){
+ 		if(student.getPlatform() == null){
  			return student;//do nothing when it is null
  		}
  		
- 		getChangeRequestDAO().save(student.getCq(),options);
+ 		getPlatformDAO().save(student.getPlatform(),options);
+ 		return student;
+ 		
+ 	}
+ 	
+ 	
+ 	
+ 	 
+	
+  
+ 
+ 	protected Student saveChangeRequest(Student student, Map<String,Object> options){
+ 		//Call inject DAO to execute this method
+ 		if(student.getChangeRequest() == null){
+ 			return student;//do nothing when it is null
+ 		}
+ 		
+ 		getChangeRequestDAO().save(student.getChangeRequest(),options);
  		return student;
  		
  	}
@@ -934,15 +1088,15 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		return count;
 	}
 	
-	//disconnect Student with school_class in StudentHealthSurvey
-	public Student planToRemoveStudentHealthSurveyListWithSchoolClass(Student student, String schoolClassId, Map<String,Object> options)throws Exception{
+	//disconnect Student with teacher in StudentHealthSurvey
+	public Student planToRemoveStudentHealthSurveyListWithTeacher(Student student, String teacherId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.STUDENT_PROPERTY, student.getId());
-		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
 		
 		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
 				findStudentHealthSurveyWithKey(key, options);
@@ -954,7 +1108,7 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		}
 		
 		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
-			studentHealthSurveyItem.clearSchoolClass();
+			studentHealthSurveyItem.clearTeacher();
 			studentHealthSurveyItem.clearStudent();
 			
 		}
@@ -965,14 +1119,14 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		return student;
 	}
 	
-	public int countStudentHealthSurveyListWithSchoolClass(String studentId, String schoolClassId, Map<String,Object> options)throws Exception{
+	public int countStudentHealthSurveyListWithTeacher(String studentId, String teacherId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.STUDENT_PROPERTY, studentId);
-		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
+		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
 		
 		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;
@@ -1022,15 +1176,15 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		return count;
 	}
 	
-	//disconnect Student with cq in StudentHealthSurvey
-	public Student planToRemoveStudentHealthSurveyListWithCq(Student student, String cqId, Map<String,Object> options)throws Exception{
+	//disconnect Student with change_request in StudentHealthSurvey
+	public Student planToRemoveStudentHealthSurveyListWithChangeRequest(Student student, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.STUDENT_PROPERTY, student.getId());
-		key.put(StudentHealthSurvey.CQ_PROPERTY, cqId);
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
 				findStudentHealthSurveyWithKey(key, options);
@@ -1042,7 +1196,7 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		}
 		
 		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
-			studentHealthSurveyItem.clearCq();
+			studentHealthSurveyItem.clearChangeRequest();
 			studentHealthSurveyItem.clearStudent();
 			
 		}
@@ -1053,14 +1207,14 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		return student;
 	}
 	
-	public int countStudentHealthSurveyListWithCq(String studentId, String cqId, Map<String,Object> options)throws Exception{
+	public int countStudentHealthSurveyListWithChangeRequest(String studentId, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.STUDENT_PROPERTY, studentId);
-		key.put(StudentHealthSurvey.CQ_PROPERTY, cqId);
+		key.put(StudentHealthSurvey.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;
@@ -1168,7 +1322,7 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
     public SmartList<Student> requestCandidateStudentForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
-		return findAllCandidateByFilter(StudentTable.COLUMN_NAME, filterKey, pageNo, pageSize, getStudentMapper());
+		return findAllCandidateByFilter(StudentTable.COLUMN_STUDENT_NAME, filterKey, pageNo, pageSize, getStudentMapper());
     }
 		
 

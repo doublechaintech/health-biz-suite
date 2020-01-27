@@ -58,19 +58,9 @@ public interface PlatformManager extends BaseManager{
 
 	*/
 
-	//public  SchoolClassManager getSchoolClassManager(HealthUserContext userContext, String platformId, String name, String classTeacherId, String schoole, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addSchoolClass(HealthUserContext userContext, String platformId, String name, String classTeacherId, String schoole, String cqId , String [] tokensExpr)  throws Exception;
-	public  Platform removeSchoolClass(HealthUserContext userContext, String platformId, String schoolClassId, int schoolClassVersion,String [] tokensExpr)  throws Exception;
-	public  Platform updateSchoolClass(HealthUserContext userContext, String platformId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String platformId, String name, String mobile, String schoole, String cqId ,String [] tokensExpr)  throws Exception;
-	
-	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String schoole, String cqId , String [] tokensExpr)  throws Exception;
+	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  Platform removeTeacher(HealthUserContext userContext, String platformId, String teacherId, int teacherVersion,String [] tokensExpr)  throws Exception;
 	public  Platform updateTeacher(HealthUserContext userContext, String platformId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
@@ -78,23 +68,25 @@ public interface PlatformManager extends BaseManager{
 
 	*/
 
-	//public  GuardianManager getGuardianManager(HealthUserContext userContext, String platformId, String name, String mobile, String addressId, String wechatUserId, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addGuardian(HealthUserContext userContext, String platformId, String name, String mobile, String addressId, String wechatUserId, String cqId , String [] tokensExpr)  throws Exception;
-	public  Platform removeGuardian(HealthUserContext userContext, String platformId, String guardianId, int guardianVersion,String [] tokensExpr)  throws Exception;
-	public  Platform updateGuardian(HealthUserContext userContext, String platformId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Platform removeStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
+	public  Platform updateStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 
 	*/
 
-	//public  QuestionManager getQuestionManager(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD ,String [] tokensExpr)  throws Exception;
+	//public  QuestionManager getQuestionManager(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD , String [] tokensExpr)  throws Exception;
+	public  Platform addQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId , String [] tokensExpr)  throws Exception;
 	public  Platform removeQuestion(HealthUserContext userContext, String platformId, String questionId, int questionVersion,String [] tokensExpr)  throws Exception;
 	public  Platform updateQuestion(HealthUserContext userContext, String platformId, String questionId, int questionVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  Platform associateQuestionListToNewCreator(HealthUserContext userContext, String platformId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception ;
+	public  Platform associateQuestionListToCreator(HealthUserContext userContext, String platformId, String  questionIds[],String creatorId, String [] tokensExpr) throws Exception ;
 
 	*/
 
@@ -103,16 +95,6 @@ public interface PlatformManager extends BaseManager{
 	public  Platform addQuestionType(HealthUserContext userContext, String platformId, String name, String code , String [] tokensExpr)  throws Exception;
 	public  Platform removeQuestionType(HealthUserContext userContext, String platformId, String questionTypeId, int questionTypeVersion,String [] tokensExpr)  throws Exception;
 	public  Platform updateQuestionType(HealthUserContext userContext, String platformId, String questionTypeId, int questionTypeVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  QuestionSourceManager getQuestionSourceManager(HealthUserContext userContext, String platformId, String name, String code ,String [] tokensExpr)  throws Exception;
-	
-	public  Platform addQuestionSource(HealthUserContext userContext, String platformId, String name, String code , String [] tokensExpr)  throws Exception;
-	public  Platform removeQuestionSource(HealthUserContext userContext, String platformId, String questionSourceId, int questionSourceVersion,String [] tokensExpr)  throws Exception;
-	public  Platform updateQuestionSource(HealthUserContext userContext, String platformId, String questionSourceId, int questionSourceVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 
@@ -128,21 +110,11 @@ public interface PlatformManager extends BaseManager{
 
 	*/
 
-	//public  WechatUserManager getWechatUserManager(HealthUserContext userContext, String platformId, String name, String avatar, String addressId, String userTypeId ,String [] tokensExpr)  throws Exception;
+	//public  UserManager getUserManager(HealthUserContext userContext, String platformId, String name, String avatar, String addressId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addWechatUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId, String userTypeId , String [] tokensExpr)  throws Exception;
-	public  Platform removeWechatUser(HealthUserContext userContext, String platformId, String wechatUserId, int wechatUserVersion,String [] tokensExpr)  throws Exception;
-	public  Platform updateWechatUser(HealthUserContext userContext, String platformId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  UserTypeManager getUserTypeManager(HealthUserContext userContext, String platformId, String name, String code ,String [] tokensExpr)  throws Exception;
-	
-	public  Platform addUserType(HealthUserContext userContext, String platformId, String name, String code , String [] tokensExpr)  throws Exception;
-	public  Platform removeUserType(HealthUserContext userContext, String platformId, String userTypeId, int userTypeVersion,String [] tokensExpr)  throws Exception;
-	public  Platform updateUserType(HealthUserContext userContext, String platformId, String userTypeId, int userTypeVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+	public  Platform addUser(HealthUserContext userContext, String platformId, String name, String avatar, String addressId , String [] tokensExpr)  throws Exception;
+	public  Platform removeUser(HealthUserContext userContext, String platformId, String userId, int userVersion,String [] tokensExpr)  throws Exception;
+	public  Platform updateUser(HealthUserContext userContext, String platformId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 

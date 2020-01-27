@@ -18,21 +18,16 @@ function RouterConfig({ history }) {
 	const {CityBizApp} = GlobalComponents
 	const {DistrictBizApp} = GlobalComponents
 	const {LocationBizApp} = GlobalComponents
-	const {SchoolClassBizApp} = GlobalComponents
 	const {TeacherBizApp} = GlobalComponents
-	const {GuardianBizApp} = GlobalComponents
+	const {StudentBizApp} = GlobalComponents
 	const {QuestionBizApp} = GlobalComponents
 	const {QuestionTypeBizApp} = GlobalComponents
-	const {QuestionSourceBizApp} = GlobalComponents
-	const {ClassQuestionBizApp} = GlobalComponents
 	const {ClassDailyHealthSurveyBizApp} = GlobalComponents
 	const {DailySurveyQuestionBizApp} = GlobalComponents
-	const {StudentBizApp} = GlobalComponents
 	const {StudentHealthSurveyBizApp} = GlobalComponents
 	const {StudentDailyAnswerBizApp} = GlobalComponents
 	const {SurveyStatusBizApp} = GlobalComponents
-	const {WechatUserBizApp} = GlobalComponents
-	const {UserTypeBizApp} = GlobalComponents
+	const {UserBizApp} = GlobalComponents
 	const {WechatLoginInfoBizApp} = GlobalComponents
 	const {ChangeRequestBizApp} = GlobalComponents
 	const {ChangeRequestTypeBizApp} = GlobalComponents
@@ -67,21 +62,16 @@ function RouterConfig({ history }) {
           <Route path="/city/" component={CityBizApp} />
           <Route path="/district/" component={DistrictBizApp} />
           <Route path="/location/" component={LocationBizApp} />
-          <Route path="/schoolClass/" component={SchoolClassBizApp} />
           <Route path="/teacher/" component={TeacherBizApp} />
-          <Route path="/guardian/" component={GuardianBizApp} />
+          <Route path="/student/" component={StudentBizApp} />
           <Route path="/question/" component={QuestionBizApp} />
           <Route path="/questionType/" component={QuestionTypeBizApp} />
-          <Route path="/questionSource/" component={QuestionSourceBizApp} />
-          <Route path="/classQuestion/" component={ClassQuestionBizApp} />
           <Route path="/classDailyHealthSurvey/" component={ClassDailyHealthSurveyBizApp} />
           <Route path="/dailySurveyQuestion/" component={DailySurveyQuestionBizApp} />
-          <Route path="/student/" component={StudentBizApp} />
           <Route path="/studentHealthSurvey/" component={StudentHealthSurveyBizApp} />
           <Route path="/studentDailyAnswer/" component={StudentDailyAnswerBizApp} />
           <Route path="/surveyStatus/" component={SurveyStatusBizApp} />
-          <Route path="/wechatUser/" component={WechatUserBizApp} />
-          <Route path="/userType/" component={UserTypeBizApp} />
+          <Route path="/user/" component={UserBizApp} />
           <Route path="/wechatLoginInfo/" component={WechatLoginInfoBizApp} />
           <Route path="/changeRequest/" component={ChangeRequestBizApp} />
           <Route path="/changeRequestType/" component={ChangeRequestTypeBizApp} />

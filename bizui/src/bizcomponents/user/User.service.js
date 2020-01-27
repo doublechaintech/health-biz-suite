@@ -53,7 +53,7 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/addStudent/userId/studentName/studentId/guardianName/guardianMobile/addressId/platformId/cqId/tokensExpr/`
+  const url = `${PREFIX}userManager/addStudent/userId/studentName/studentId/guardianName/guardianMobile/addressId/platformId/changeRequestId/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -97,7 +97,7 @@ const removeQuestionList = (targetObjectId, parameters) => {
 
 
 const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/addClassDailyHealthSurvey/userId/name/teacherId/surveyTime/cqId/tokensExpr/`
+  const url = `${PREFIX}userManager/addClassDailyHealthSurvey/userId/name/teacherId/surveyTime/changeRequestId/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})

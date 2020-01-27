@@ -118,23 +118,23 @@ const internalSummaryOf = (classDailyHealthSurvey,targetComponent) =>{
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID" style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.id}</Description> 
 <Description term="名称" style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.name}</Description> 
-<Description term="学校类">{classDailyHealthSurvey.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.schoolClass.displayName}(${classDailyHealthSurvey.schoolClass.id})`}
+<Description term="老师">{classDailyHealthSurvey.teacher==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.teacher.displayName}(${classDailyHealthSurvey.teacher.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"学校类","schoolClass",ClassDailyHealthSurveyService.requestCandidateSchoolClass,
-	      ClassDailyHealthSurveyService.transferToAnotherSchoolClass,"anotherSchoolClassId",classDailyHealthSurvey.schoolClass?classDailyHealthSurvey.schoolClass.id:"")} 
+  showTransferModel(targetComponent,"老师","teacher",ClassDailyHealthSurveyService.requestCandidateTeacher,
+	      ClassDailyHealthSurveyService.transferToAnotherTeacher,"anotherTeacherId",classDailyHealthSurvey.teacher?classDailyHealthSurvey.teacher.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 <Description term="调查的时间">{ moment(classDailyHealthSurvey.surveyTime).format('YYYY-MM-DD HH:mm')}</Description> 
 <Description term="创建人名称">{classDailyHealthSurvey.creator==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.creator.displayName}(${classDailyHealthSurvey.creator.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"创建人名称","wechatUser",ClassDailyHealthSurveyService.requestCandidateCreator,
+  showTransferModel(targetComponent,"创建人名称","user",ClassDailyHealthSurveyService.requestCandidateCreator,
 	      ClassDailyHealthSurveyService.transferToAnotherCreator,"anotherCreatorId",classDailyHealthSurvey.creator?classDailyHealthSurvey.creator.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
-<Description term="Cq">{classDailyHealthSurvey.cq==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.cq.displayName}(${classDailyHealthSurvey.cq.id})`}
+<Description term="变更请求">{classDailyHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.changeRequest.displayName}(${classDailyHealthSurvey.changeRequest.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"Cq","changeRequest",ClassDailyHealthSurveyService.requestCandidateCq,
-	      ClassDailyHealthSurveyService.transferToAnotherCq,"anotherCqId",classDailyHealthSurvey.cq?classDailyHealthSurvey.cq.id:"")} 
+  showTransferModel(targetComponent,"变更请求","changeRequest",ClassDailyHealthSurveyService.requestCandidateChangeRequest,
+	      ClassDailyHealthSurveyService.transferToAnotherChangeRequest,"anotherChangeRequestId",classDailyHealthSurvey.changeRequest?classDailyHealthSurvey.changeRequest.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 	

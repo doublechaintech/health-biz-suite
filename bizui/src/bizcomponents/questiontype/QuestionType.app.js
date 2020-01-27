@@ -234,58 +234,6 @@ constructor(props) {
     }))(QuestionUpdateForm)
   }
 
-  getClassQuestionSearch = () => {
-    const {ClassQuestionSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('class_question','question_type.class_question_list',false),
-      role: "classQuestion",
-      data: state._questionType.classQuestionList,
-      metaInfo: state._questionType.classQuestionListMetaInfo,
-      count: state._questionType.classQuestionCount,
-      returnURL: `/questionType/${state._questionType.id}/dashboard`,
-      currentPage: state._questionType.classQuestionCurrentPageNumber,
-      searchFormParameters: state._questionType.classQuestionSearchFormParameters,
-      searchParameters: {...state._questionType.searchParameters},
-      expandForm: state._questionType.expandForm,
-      loading: state._questionType.loading,
-      partialList: state._questionType.partialList,
-      owner: { type: '_questionType', id: state._questionType.id, 
-      referenceName: 'questionType', 
-      listName: 'classQuestionList', ref:state._questionType, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassQuestionSearch)
-  }
-  
-  getClassQuestionCreateForm = () => {
-   	const {ClassQuestionCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "classQuestion",
-      data: state._questionType.classQuestionList,
-      metaInfo: state._questionType.classQuestionListMetaInfo,
-      count: state._questionType.classQuestionCount,
-      returnURL: `/questionType/${state._questionType.id}/list`,
-      currentPage: state._questionType.classQuestionCurrentPageNumber,
-      searchFormParameters: state._questionType.classQuestionSearchFormParameters,
-      loading: state._questionType.loading,
-      owner: { type: '_questionType', id: state._questionType.id, referenceName: 'questionType', listName: 'classQuestionList', ref:state._questionType, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(ClassQuestionCreateForm)
-  }
-  
-  getClassQuestionUpdateForm = () => {
-    const userContext = null
-  	const {ClassQuestionUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._questionType.selectedRows,
-      role: "classQuestion",
-      currentUpdateIndex: state._questionType.currentUpdateIndex,
-      owner: { type: '_questionType', id: state._questionType.id, listName: 'classQuestionList', ref:state._questionType, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ClassQuestionUpdateForm)
-  }
-
   getDailySurveyQuestionSearch = () => {
     const {DailySurveyQuestionSearch} = GlobalComponents;
     const userContext = null
@@ -366,10 +314,6 @@ constructor(props) {
   	{path:"/questionType/:id/list/questionList", component: this.getQuestionSearch()},
   	{path:"/questionType/:id/list/questionCreateForm", component: this.getQuestionCreateForm()},
   	{path:"/questionType/:id/list/questionUpdateForm", component: this.getQuestionUpdateForm()},
-   	
-  	{path:"/questionType/:id/list/classQuestionList", component: this.getClassQuestionSearch()},
-  	{path:"/questionType/:id/list/classQuestionCreateForm", component: this.getClassQuestionCreateForm()},
-  	{path:"/questionType/:id/list/classQuestionUpdateForm", component: this.getClassQuestionUpdateForm()},
    	
   	{path:"/questionType/:id/list/dailySurveyQuestionList", component: this.getDailySurveyQuestionSearch()},
   	{path:"/questionType/:id/list/dailySurveyQuestionCreateForm", component: this.getDailySurveyQuestionCreateForm()},

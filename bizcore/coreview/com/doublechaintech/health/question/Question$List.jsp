@@ -119,6 +119,12 @@
 <c:if test="${param.referName ne 'platform'}">
 	<th>${userContext.localeMap['question.platform']}</th>
 </c:if>
+<c:if test="${param.referName ne 'creator'}">
+	<th>${userContext.localeMap['question.creator']}</th>
+</c:if>
+<c:if test="${param.referName ne 'cq'}">
+	<th>${userContext.localeMap['question.cq']}</th>
+</c:if>
 <th>${userContext.localeMap['@action']}</th>
 		</tr></thead>
 		<tbody>
@@ -159,6 +165,44 @@
 			<a href='./platformManager/view/${item.platform.id}/'>${item.platform.displayName}</a>
 			</c:if>
 			<c:if test="${empty  item.platform}">
+			<a href='#'></a>
+			</c:if>
+			<button class="btn btn-link candidate-action">...</button>
+		</span>
+		<div class="candidate_span" style="display:none;">
+			<input type="text" data-provide="typeahead" class="input-sm form-control candidate-filter-input" autocomplete="off" />
+		</div>
+	</td>
+</c:if>
+<c:if test="${param.referName ne 'creator'}">
+	<td class="select_candidate_td"
+			data-candidate-method="./questionManager/requestCandidateCreator/${ownerBeanName}/${item.id}/"
+			data-switch-method="./questionManager/transferToAnotherCreator/${item.id}/"
+			data-link-template="./userManager/view/${'$'}{ID}/">
+		<span class="display_span">
+			<c:if test="${not empty  item.creator}">
+			<a href='./userManager/view/${item.creator.id}/'>${item.creator.displayName}</a>
+			</c:if>
+			<c:if test="${empty  item.creator}">
+			<a href='#'></a>
+			</c:if>
+			<button class="btn btn-link candidate-action">...</button>
+		</span>
+		<div class="candidate_span" style="display:none;">
+			<input type="text" data-provide="typeahead" class="input-sm form-control candidate-filter-input" autocomplete="off" />
+		</div>
+	</td>
+</c:if>
+<c:if test="${param.referName ne 'cq'}">
+	<td class="select_candidate_td"
+			data-candidate-method="./questionManager/requestCandidateCq/${ownerBeanName}/${item.id}/"
+			data-switch-method="./questionManager/transferToAnotherCq/${item.id}/"
+			data-link-template="./changeRequestManager/view/${'$'}{ID}/">
+		<span class="display_span">
+			<c:if test="${not empty  item.cq}">
+			<a href='./changeRequestManager/view/${item.cq.id}/'>${item.cq.displayName}</a>
+			</c:if>
+			<c:if test="${empty  item.cq}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>

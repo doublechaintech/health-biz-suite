@@ -18,10 +18,10 @@ const testValues = {};
 /*
 const testValues = {
   name: '2020年1月25日益州小学学生健康调查问卷',
-  surveyTime: '2020-01-11 00:09:40',
-  schoolClassId: 'SC000001',
-  creatorId: 'WU000001',
-  cqId: 'CR000001',
+  surveyTime: '2020-01-18 13:46:35',
+  teacherId: 'T000001',
+  creatorId: 'U000001',
+  changeRequestId: 'CR000001',
 }
 */
 
@@ -153,16 +153,16 @@ class ClassDailyHealthSurveyCreateFormBody extends Component {
        
  
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
-                  {getFieldDecorator('schoolClassId', {
-                  	initialValue: tryinit('schoolClass'),
+                <Form.Item label={fieldLabels.teacher} {...formItemLayout}>
+                  {getFieldDecorator('teacherId', {
+                  	initialValue: tryinit('teacher'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('schoolClass')}
-                    targetType={"schoolClass"} 
-                    requestFunction={ClassDailyHealthSurveyService.requestCandidateSchoolClass}/>
+                    disabled={!availableForEdit('teacher')}
+                    targetType={"teacher"} 
+                    requestFunction={ClassDailyHealthSurveyService.requestCandidateTeacher}/>
                   
                  
                   )}
@@ -191,16 +191,16 @@ class ClassDailyHealthSurveyCreateFormBody extends Component {
            
 
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.cq} {...formItemLayout}>
-                  {getFieldDecorator('cqId', {
-                  	initialValue: tryinit('cq'),
+                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
+                  {getFieldDecorator('changeRequestId', {
+                  	initialValue: tryinit('changeRequest'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('cq')}
-                    targetType={"cq"} 
-                    requestFunction={ClassDailyHealthSurveyService.requestCandidateCq}/>
+                    disabled={!availableForEdit('changeRequest')}
+                    targetType={"changeRequest"} 
+                    requestFunction={ClassDailyHealthSurveyService.requestCandidateChangeRequest}/>
                   
                  
                   )}

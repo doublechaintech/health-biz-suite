@@ -48,15 +48,15 @@ const transferToAnotherClassDailyHealthSurvey = (id, parameters) => {
 
 
 
-const requestCandidateClassQuestion = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateSurveyQuestion = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}dailySurveyQuestionManager/requestCandidateClassQuestion/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}dailySurveyQuestionManager/requestCandidateSurveyQuestion/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherClassQuestion = (id, parameters) => {
-  const url = `${PREFIX}dailySurveyQuestionManager/transferToAnotherClassQuestion/id/anotherClassQuestionId/`
+const transferToAnotherSurveyQuestion = (id, parameters) => {
+  const url = `${PREFIX}dailySurveyQuestionManager/transferToAnotherSurveyQuestion/id/anotherSurveyQuestionId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -68,7 +68,7 @@ const transferToAnotherClassQuestion = (id, parameters) => {
 
 
 const addStudentDailyAnswer = (targetObjectId, parameters) => {
-  const url = `${PREFIX}dailySurveyQuestionManager/addStudentDailyAnswer/dailySurveyQuestionId/studentHealthSurveyId/answer/cqId/tokensExpr/`
+  const url = `${PREFIX}dailySurveyQuestionManager/addStudentDailyAnswer/dailySurveyQuestionId/studentHealthSurveyId/answer/changeRequestId/tokensExpr/`
   const dailySurveyQuestionId = targetObjectId
   const requestParameters = { ...parameters, dailySurveyQuestionId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -122,9 +122,9 @@ const DailySurveyQuestionService = { view,
   removeStudentDailyAnswerList,
   requestCandidateQuestionType,
   requestCandidateClassDailyHealthSurvey,
-  requestCandidateClassQuestion,
+  requestCandidateSurveyQuestion,
   transferToAnotherQuestionType,
   transferToAnotherClassDailyHealthSurvey,
-  transferToAnotherClassQuestion, listFunctions, saveRequest, processRequest}
+  transferToAnotherSurveyQuestion, listFunctions, saveRequest, processRequest}
 export default DailySurveyQuestionService
 

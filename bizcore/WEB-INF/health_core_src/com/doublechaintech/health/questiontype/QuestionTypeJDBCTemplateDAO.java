@@ -23,11 +23,9 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.question.Question;
-import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
-import com.doublechaintech.health.classquestion.ClassQuestionDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 
 
@@ -66,25 +64,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
  		}
  		
 	 	return this.questionDAO;
- 	}	
- 	
-			
-		
-	
-  	private  ClassQuestionDAO  classQuestionDAO;
- 	public void setClassQuestionDAO(ClassQuestionDAO pClassQuestionDAO){
- 	
- 		if(pClassQuestionDAO == null){
- 			throw new IllegalStateException("Do not try to set classQuestionDAO to null.");
- 		}
-	 	this.classQuestionDAO = pClassQuestionDAO;
- 	}
- 	public ClassQuestionDAO getClassQuestionDAO(){
- 		if(this.classQuestionDAO == null){
- 			throw new IllegalStateException("The classQuestionDAO is not configured yet, please config it some where.");
- 		}
- 		
-	 	return this.classQuestionDAO;
  	}	
  	
 			
@@ -165,13 +144,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
  		
  		if(isSaveQuestionListEnabled(options)){
  			for(Question item: newQuestionType.getQuestionList()){
- 				item.setVersion(0);
- 			}
- 		}
-		
- 		
- 		if(isSaveClassQuestionListEnabled(options)){
- 			for(ClassQuestion item: newQuestionType.getClassQuestionList()){
  				item.setVersion(0);
  			}
  		}
@@ -308,20 +280,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
  	
 		
 	
-	protected boolean isExtractClassQuestionListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,QuestionTypeTokens.CLASS_QUESTION_LIST);
- 	}
- 	protected boolean isAnalyzeClassQuestionListEnabled(Map<String,Object> options){		 		
- 		return QuestionTypeTokens.of(options).analyzeClassQuestionListEnabled();
- 	}
-	
-	protected boolean isSaveClassQuestionListEnabled(Map<String,Object> options){
-		return checkOptions(options, QuestionTypeTokens.CLASS_QUESTION_LIST);
-		
- 	}
- 	
-		
-	
 	protected boolean isExtractDailySurveyQuestionListEnabled(Map<String,Object> options){		
  		return checkOptions(options,QuestionTypeTokens.DAILY_SURVEY_QUESTION_LIST);
  	}
@@ -371,14 +329,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
  		}	
  		if(isAnalyzeQuestionListEnabled(loadOptions)){
 	 		analyzeQuestionList(questionType, loadOptions);
- 		}
- 		
-		
-		if(isExtractClassQuestionListEnabled(loadOptions)){
-	 		extractClassQuestionList(questionType, loadOptions);
- 		}	
- 		if(isAnalyzeClassQuestionListEnabled(loadOptions)){
-	 		analyzeClassQuestionList(questionType, loadOptions);
  		}
  		
 		
@@ -458,56 +408,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		SmartList<Question> questionList = questionType.getQuestionList();
 		if(questionList != null){
 			getQuestionDAO().analyzeQuestionByQuestionType(questionList, questionType.getId(), options);
-			
-		}
-		
-		return questionType;
-	
-	}	
-	
-		
-	protected void enhanceClassQuestionList(SmartList<ClassQuestion> classQuestionList,Map<String,Object> options){
-		//extract multiple list from difference sources
-		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
-	}
-	
-	protected QuestionType extractClassQuestionList(QuestionType questionType, Map<String,Object> options){
-		
-		
-		if(questionType == null){
-			return null;
-		}
-		if(questionType.getId() == null){
-			return questionType;
-		}
-
-		
-		
-		SmartList<ClassQuestion> classQuestionList = getClassQuestionDAO().findClassQuestionByQuestionType(questionType.getId(),options);
-		if(classQuestionList != null){
-			enhanceClassQuestionList(classQuestionList,options);
-			questionType.setClassQuestionList(classQuestionList);
-		}
-		
-		return questionType;
-	
-	}	
-	
-	protected QuestionType analyzeClassQuestionList(QuestionType questionType, Map<String,Object> options){
-		
-		
-		if(questionType == null){
-			return null;
-		}
-		if(questionType.getId() == null){
-			return questionType;
-		}
-
-		
-		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();
-		if(classQuestionList != null){
-			getClassQuestionDAO().analyzeClassQuestionByQuestionType(classQuestionList, questionType.getId(), options);
 			
 		}
 		
@@ -790,13 +690,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 	 		
  		}		
 		
-		if(isSaveClassQuestionListEnabled(options)){
-	 		saveClassQuestionList(questionType, options);
-	 		//removeClassQuestionList(questionType, options);
-	 		//Not delete the record
-	 		
- 		}		
-		
 		if(isSaveDailySurveyQuestionListEnabled(options)){
 	 		saveDailySurveyQuestionList(questionType, options);
 	 		//removeDailySurveyQuestionList(questionType, options);
@@ -903,163 +796,91 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		return count;
 	}
 	
-	public QuestionType planToRemoveClassQuestionList(QuestionType questionType, String classQuestionIds[], Map<String,Object> options)throws Exception{
-	
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionType.getId());
-		key.put(ClassQuestion.ID_PROPERTY, classQuestionIds);
-		
-		SmartList<ClassQuestion> externalClassQuestionList = getClassQuestionDAO().
-				findClassQuestionWithKey(key, options);
-		if(externalClassQuestionList == null){
-			return questionType;
-		}
-		if(externalClassQuestionList.isEmpty()){
-			return questionType;
-		}
-		
-		for(ClassQuestion classQuestionItem: externalClassQuestionList){
-
-			classQuestionItem.clearFromAll();
-		}
-		
-		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();		
-		classQuestionList.addAllToRemoveList(externalClassQuestionList);
-		return questionType;	
-	
-	}
-
-
-	//disconnect QuestionType with question_source in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithQuestionSource(QuestionType questionType, String questionSourceId, Map<String,Object> options)throws Exception{
+	//disconnect QuestionType with creator in Question
+	public QuestionType planToRemoveQuestionListWithCreator(QuestionType questionType, String creatorId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionType.getId());
-		key.put(ClassQuestion.QUESTION_SOURCE_PROPERTY, questionSourceId);
+		key.put(Question.QUESTION_TYPE_PROPERTY, questionType.getId());
+		key.put(Question.CREATOR_PROPERTY, creatorId);
 		
-		SmartList<ClassQuestion> externalClassQuestionList = getClassQuestionDAO().
-				findClassQuestionWithKey(key, options);
-		if(externalClassQuestionList == null){
+		SmartList<Question> externalQuestionList = getQuestionDAO().
+				findQuestionWithKey(key, options);
+		if(externalQuestionList == null){
 			return questionType;
 		}
-		if(externalClassQuestionList.isEmpty()){
+		if(externalQuestionList.isEmpty()){
 			return questionType;
 		}
 		
-		for(ClassQuestion classQuestionItem: externalClassQuestionList){
-			classQuestionItem.clearQuestionSource();
-			classQuestionItem.clearQuestionType();
+		for(Question questionItem: externalQuestionList){
+			questionItem.clearCreator();
+			questionItem.clearQuestionType();
 			
 		}
 		
 		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();		
-		classQuestionList.addAllToRemoveList(externalClassQuestionList);
+		SmartList<Question> questionList = questionType.getQuestionList();		
+		questionList.addAllToRemoveList(externalQuestionList);
 		return questionType;
 	}
 	
-	public int countClassQuestionListWithQuestionSource(String questionTypeId, String questionSourceId, Map<String,Object> options)throws Exception{
+	public int countQuestionListWithCreator(String questionTypeId, String creatorId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
-		key.put(ClassQuestion.QUESTION_SOURCE_PROPERTY, questionSourceId);
+		key.put(Question.QUESTION_TYPE_PROPERTY, questionTypeId);
+		key.put(Question.CREATOR_PROPERTY, creatorId);
 		
-		int count = getClassQuestionDAO().countClassQuestionWithKey(key, options);
+		int count = getQuestionDAO().countQuestionWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect QuestionType with creator in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithCreator(QuestionType questionType, String creatorId, Map<String,Object> options)throws Exception{
+	//disconnect QuestionType with cq in Question
+	public QuestionType planToRemoveQuestionListWithCq(QuestionType questionType, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionType.getId());
-		key.put(ClassQuestion.CREATOR_PROPERTY, creatorId);
+		key.put(Question.QUESTION_TYPE_PROPERTY, questionType.getId());
+		key.put(Question.CQ_PROPERTY, cqId);
 		
-		SmartList<ClassQuestion> externalClassQuestionList = getClassQuestionDAO().
-				findClassQuestionWithKey(key, options);
-		if(externalClassQuestionList == null){
+		SmartList<Question> externalQuestionList = getQuestionDAO().
+				findQuestionWithKey(key, options);
+		if(externalQuestionList == null){
 			return questionType;
 		}
-		if(externalClassQuestionList.isEmpty()){
+		if(externalQuestionList.isEmpty()){
 			return questionType;
 		}
 		
-		for(ClassQuestion classQuestionItem: externalClassQuestionList){
-			classQuestionItem.clearCreator();
-			classQuestionItem.clearQuestionType();
+		for(Question questionItem: externalQuestionList){
+			questionItem.clearCq();
+			questionItem.clearQuestionType();
 			
 		}
 		
 		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();		
-		classQuestionList.addAllToRemoveList(externalClassQuestionList);
+		SmartList<Question> questionList = questionType.getQuestionList();		
+		questionList.addAllToRemoveList(externalQuestionList);
 		return questionType;
 	}
 	
-	public int countClassQuestionListWithCreator(String questionTypeId, String creatorId, Map<String,Object> options)throws Exception{
+	public int countQuestionListWithCq(String questionTypeId, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
-		key.put(ClassQuestion.CREATOR_PROPERTY, creatorId);
+		key.put(Question.QUESTION_TYPE_PROPERTY, questionTypeId);
+		key.put(Question.CQ_PROPERTY, cqId);
 		
-		int count = getClassQuestionDAO().countClassQuestionWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect QuestionType with cq in ClassQuestion
-	public QuestionType planToRemoveClassQuestionListWithCq(QuestionType questionType, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionType.getId());
-		key.put(ClassQuestion.CQ_PROPERTY, cqId);
-		
-		SmartList<ClassQuestion> externalClassQuestionList = getClassQuestionDAO().
-				findClassQuestionWithKey(key, options);
-		if(externalClassQuestionList == null){
-			return questionType;
-		}
-		if(externalClassQuestionList.isEmpty()){
-			return questionType;
-		}
-		
-		for(ClassQuestion classQuestionItem: externalClassQuestionList){
-			classQuestionItem.clearCq();
-			classQuestionItem.clearQuestionType();
-			
-		}
-		
-		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();		
-		classQuestionList.addAllToRemoveList(externalClassQuestionList);
-		return questionType;
-	}
-	
-	public int countClassQuestionListWithCq(String questionTypeId, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
-		key.put(ClassQuestion.CQ_PROPERTY, cqId);
-		
-		int count = getClassQuestionDAO().countClassQuestionWithKey(key, options);
+		int count = getQuestionDAO().countQuestionWithKey(key, options);
 		return count;
 	}
 	
@@ -1135,15 +956,15 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		return count;
 	}
 	
-	//disconnect QuestionType with class_question in DailySurveyQuestion
-	public QuestionType planToRemoveDailySurveyQuestionListWithClassQuestion(QuestionType questionType, String classQuestionId, Map<String,Object> options)throws Exception{
+	//disconnect QuestionType with survey_question in DailySurveyQuestion
+	public QuestionType planToRemoveDailySurveyQuestionListWithSurveyQuestion(QuestionType questionType, String surveyQuestionId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(DailySurveyQuestion.QUESTION_TYPE_PROPERTY, questionType.getId());
-		key.put(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, classQuestionId);
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, surveyQuestionId);
 		
 		SmartList<DailySurveyQuestion> externalDailySurveyQuestionList = getDailySurveyQuestionDAO().
 				findDailySurveyQuestionWithKey(key, options);
@@ -1155,7 +976,7 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		}
 		
 		for(DailySurveyQuestion dailySurveyQuestionItem: externalDailySurveyQuestionList){
-			dailySurveyQuestionItem.clearClassQuestion();
+			dailySurveyQuestionItem.clearSurveyQuestion();
 			dailySurveyQuestionItem.clearQuestionType();
 			
 		}
@@ -1166,14 +987,14 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		return questionType;
 	}
 	
-	public int countDailySurveyQuestionListWithClassQuestion(String questionTypeId, String classQuestionId, Map<String,Object> options)throws Exception{
+	public int countDailySurveyQuestionListWithSurveyQuestion(String questionTypeId, String surveyQuestionId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(DailySurveyQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
-		key.put(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, classQuestionId);
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, surveyQuestionId);
 		
 		int count = getDailySurveyQuestionDAO().countDailySurveyQuestionWithKey(key, options);
 		return count;
@@ -1234,72 +1055,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		//Call DAO to remove the list
 		
 		getQuestionDAO().removeQuestionList(toRemoveQuestionList,options);
-		
-		return questionType;
-	
-	}
-	
-	
-
- 	
- 	
-	
-	
-	
-		
-	protected QuestionType saveClassQuestionList(QuestionType questionType, Map<String,Object> options){
-		
-		
-		
-		
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();
-		if(classQuestionList == null){
-			//null list means nothing
-			return questionType;
-		}
-		SmartList<ClassQuestion> mergedUpdateClassQuestionList = new SmartList<ClassQuestion>();
-		
-		
-		mergedUpdateClassQuestionList.addAll(classQuestionList); 
-		if(classQuestionList.getToRemoveList() != null){
-			//ensures the toRemoveList is not null
-			mergedUpdateClassQuestionList.addAll(classQuestionList.getToRemoveList());
-			classQuestionList.removeAll(classQuestionList.getToRemoveList());
-			//OK for now, need fix later
-		}
-
-		//adding new size can improve performance
-	
-		getClassQuestionDAO().saveClassQuestionList(mergedUpdateClassQuestionList,options);
-		
-		if(classQuestionList.getToRemoveList() != null){
-			classQuestionList.removeAll(classQuestionList.getToRemoveList());
-		}
-		
-		
-		return questionType;
-	
-	}
-	
-	protected QuestionType removeClassQuestionList(QuestionType questionType, Map<String,Object> options){
-	
-	
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();
-		if(classQuestionList == null){
-			return questionType;
-		}	
-	
-		SmartList<ClassQuestion> toRemoveClassQuestionList = classQuestionList.getToRemoveList();
-		
-		if(toRemoveClassQuestionList == null){
-			return questionType;
-		}
-		if(toRemoveClassQuestionList.isEmpty()){
-			return questionType;// Does this mean delete all from the parent object?
-		}
-		//Call DAO to remove the list
-		
-		getClassQuestionDAO().removeClassQuestionList(toRemoveClassQuestionList,options);
 		
 		return questionType;
 	
@@ -1383,7 +1138,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 	public QuestionType present(QuestionType questionType,Map<String, Object> options){
 	
 		presentQuestionList(questionType,options);
-		presentClassQuestionList(questionType,options);
 		presentDailySurveyQuestionList(questionType,options);
 
 		return questionType;
@@ -1405,26 +1159,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 
 		
 		questionType.setQuestionList(newList);
-		
-
-		return questionType;
-	}			
-		
-	//Using java8 feature to reduce the code significantly
- 	protected QuestionType presentClassQuestionList(
-			QuestionType questionType,
-			Map<String, Object> options) {
-
-		SmartList<ClassQuestion> classQuestionList = questionType.getClassQuestionList();		
-				SmartList<ClassQuestion> newList= presentSubList(questionType.getId(),
-				classQuestionList,
-				options,
-				getClassQuestionDAO()::countClassQuestionByQuestionType,
-				getClassQuestionDAO()::findClassQuestionByQuestionType
-				);
-
-		
-		questionType.setClassQuestionList(newList);
 		
 
 		return questionType;
@@ -1453,12 +1187,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 
 	
     public SmartList<QuestionType> requestCandidateQuestionTypeForQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
-        // NOTE: by default, ignore owner info, just return all by filter key.
-		// You need override this method if you have different candidate-logic
-		return findAllCandidateByFilter(QuestionTypeTable.COLUMN_NAME, filterKey, pageNo, pageSize, getQuestionTypeMapper());
-    }
-		
-    public SmartList<QuestionType> requestCandidateQuestionTypeForClassQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(QuestionTypeTable.COLUMN_NAME, filterKey, pageNo, pageSize, getQuestionTypeMapper());
@@ -1501,29 +1229,6 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 			SmartList<Question> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
 			it.setQuestionList(loadedSmartList);
-		});
-		return loadedObjs;
-	}
-	
-	// 需要一个加载引用我的对象的enhance方法:ClassQuestion的questionType的ClassQuestionList
-	public SmartList<ClassQuestion> loadOurClassQuestionList(HealthUserContext userContext, List<QuestionType> us, Map<String,Object> options) throws Exception{
-		if (us == null || us.isEmpty()){
-			return new SmartList<>();
-		}
-		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(ClassQuestion.QUESTION_TYPE_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<ClassQuestion> loadedObjs = userContext.getDAOGroup().getClassQuestionDAO().findClassQuestionWithKey(key, options);
-		Map<String, List<ClassQuestion>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getQuestionType().getId()));
-		us.forEach(it->{
-			String id = it.getId();
-			List<ClassQuestion> loadedList = loadedMap.get(id);
-			if (loadedList == null || loadedList.isEmpty()) {
-				return;
-			}
-			SmartList<ClassQuestion> loadedSmartList = new SmartList<>();
-			loadedSmartList.addAll(loadedList);
-			it.setClassQuestionList(loadedSmartList);
 		});
 		return loadedObjs;
 	}

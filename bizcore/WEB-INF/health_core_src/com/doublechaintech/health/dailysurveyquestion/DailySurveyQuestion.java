@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.question.Question;
 
 @JsonSerialize(using = DailySurveyQuestionSerializer.class)
 public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializable{
@@ -29,7 +29,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 	public static final String OPTION_C_PROPERTY              = "optionC"           ;
 	public static final String OPTION_D_PROPERTY              = "optionD"           ;
 	public static final String CLASS_DAILY_HEALTH_SURVEY_PROPERTY = "classDailyHealthSurvey";
-	public static final String CLASS_QUESTION_PROPERTY        = "classQuestion"     ;
+	public static final String SURVEY_QUESTION_PROPERTY       = "surveyQuestion"    ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String STUDENT_DAILY_ANSWER_LIST                = "studentDailyAnswerList";
@@ -61,7 +61,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 	protected		String              	mOptionC            ;
 	protected		String              	mOptionD            ;
 	protected		ClassDailyHealthSurvey	mClassDailyHealthSurvey;
-	protected		ClassQuestion       	mClassQuestion      ;
+	protected		Question            	mSurveyQuestion     ;
 	protected		int                 	mVersion            ;
 	
 	
@@ -85,7 +85,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 	public 	void clearFromAll(){
 		setQuestionType( null );
 		setClassDailyHealthSurvey( null );
-		setClassQuestion( null );
+		setSurveyQuestion( null );
 
 		this.changed = true;
 	}
@@ -216,8 +216,8 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		if(CLASS_DAILY_HEALTH_SURVEY_PROPERTY.equals(property)){
 			return getClassDailyHealthSurvey();
 		}
-		if(CLASS_QUESTION_PROPERTY.equals(property)){
-			return getClassQuestion();
+		if(SURVEY_QUESTION_PROPERTY.equals(property)){
+			return getSurveyQuestion();
 		}
 		if(STUDENT_DAILY_ANSWER_LIST.equals(property)){
 			List<BaseEntity> list = getStudentDailyAnswerList().stream().map(item->item).collect(Collectors.toList());
@@ -372,24 +372,24 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		this.changed = true;
 	}
 	
-	public void setClassQuestion(ClassQuestion classQuestion){
-		this.mClassQuestion = classQuestion;;
+	public void setSurveyQuestion(Question surveyQuestion){
+		this.mSurveyQuestion = surveyQuestion;;
 	}
-	public ClassQuestion getClassQuestion(){
-		return this.mClassQuestion;
+	public Question getSurveyQuestion(){
+		return this.mSurveyQuestion;
 	}
-	public DailySurveyQuestion updateClassQuestion(ClassQuestion classQuestion){
-		this.mClassQuestion = classQuestion;;
+	public DailySurveyQuestion updateSurveyQuestion(Question surveyQuestion){
+		this.mSurveyQuestion = surveyQuestion;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeClassQuestion(ClassQuestion classQuestion){
-		if(classQuestion != null) { setClassQuestion(classQuestion);}
+	public void mergeSurveyQuestion(Question surveyQuestion){
+		if(surveyQuestion != null) { setSurveyQuestion(surveyQuestion);}
 	}
 	
 	
-	public void clearClassQuestion(){
-		setClassQuestion ( null );
+	public void clearSurveyQuestion(){
+		setSurveyQuestion ( null );
 		this.changed = true;
 	}
 	
@@ -521,7 +521,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 
 		addToEntityList(this, entityList, getQuestionType(), internalType);
 		addToEntityList(this, entityList, getClassDailyHealthSurvey(), internalType);
-		addToEntityList(this, entityList, getClassQuestion(), internalType);
+		addToEntityList(this, entityList, getSurveyQuestion(), internalType);
 
 		
 	}
@@ -555,7 +555,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		appendKeyValuePair(result, OPTION_C_PROPERTY, getOptionC());
 		appendKeyValuePair(result, OPTION_D_PROPERTY, getOptionD());
 		appendKeyValuePair(result, CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurvey());
-		appendKeyValuePair(result, CLASS_QUESTION_PROPERTY, getClassQuestion());
+		appendKeyValuePair(result, SURVEY_QUESTION_PROPERTY, getSurveyQuestion());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerList());
 		if(!getStudentDailyAnswerList().isEmpty()){
@@ -584,7 +584,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 			dest.setOptionC(getOptionC());
 			dest.setOptionD(getOptionD());
 			dest.setClassDailyHealthSurvey(getClassDailyHealthSurvey());
-			dest.setClassQuestion(getClassQuestion());
+			dest.setSurveyQuestion(getSurveyQuestion());
 			dest.setVersion(getVersion());
 			dest.setStudentDailyAnswerList(getStudentDailyAnswerList());
 
@@ -608,7 +608,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 			dest.mergeOptionC(getOptionC());
 			dest.mergeOptionD(getOptionD());
 			dest.mergeClassDailyHealthSurvey(getClassDailyHealthSurvey());
-			dest.mergeClassQuestion(getClassQuestion());
+			dest.mergeSurveyQuestion(getSurveyQuestion());
 			dest.mergeVersion(getVersion());
 			dest.mergeStudentDailyAnswerList(getStudentDailyAnswerList());
 
@@ -637,7 +637,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getTopic(), getQuestionType(), getOptionA(), getOptionB(), getOptionC(), getOptionD(), getClassDailyHealthSurvey(), getClassQuestion(), getVersion()};
+		return new Object[]{getId(), getTopic(), getQuestionType(), getOptionA(), getOptionB(), getOptionC(), getOptionD(), getClassDailyHealthSurvey(), getSurveyQuestion(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -655,8 +655,8 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		if(getClassDailyHealthSurvey() != null ){
  			stringBuilder.append("\tclassDailyHealthSurvey='ClassDailyHealthSurvey("+getClassDailyHealthSurvey().getId()+")';");
  		}
-		if(getClassQuestion() != null ){
- 			stringBuilder.append("\tclassQuestion='ClassQuestion("+getClassQuestion().getId()+")';");
+		if(getSurveyQuestion() != null ){
+ 			stringBuilder.append("\tsurveyQuestion='Question("+getSurveyQuestion().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

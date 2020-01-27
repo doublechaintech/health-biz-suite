@@ -76,15 +76,12 @@ class PlatformAssociateForm extends Component {
  const {ProvinceModalTable} = GlobalComponents;
  const {CityModalTable} = GlobalComponents;
  const {DistrictModalTable} = GlobalComponents;
- const {SchoolClassModalTable} = GlobalComponents;
  const {TeacherModalTable} = GlobalComponents;
- const {GuardianModalTable} = GlobalComponents;
+ const {StudentModalTable} = GlobalComponents;
  const {QuestionModalTable} = GlobalComponents;
  const {QuestionTypeModalTable} = GlobalComponents;
- const {QuestionSourceModalTable} = GlobalComponents;
  const {SurveyStatusModalTable} = GlobalComponents;
- const {WechatUserModalTable} = GlobalComponents;
- const {UserTypeModalTable} = GlobalComponents;
+ const {UserModalTable} = GlobalComponents;
  const {ChangeRequestModalTable} = GlobalComponents;
  const {ChangeRequestTypeModalTable} = GlobalComponents;
 
@@ -195,15 +192,12 @@ class PlatformAssociateForm extends Component {
 	<ProvinceModalTable data={data.provinceList} owner={owner} />
 	<CityModalTable data={data.cityList} owner={owner} />
 	<DistrictModalTable data={data.districtList} owner={owner} />
-	<SchoolClassModalTable data={data.schoolClassList} owner={owner} />
 	<TeacherModalTable data={data.teacherList} owner={owner} />
-	<GuardianModalTable data={data.guardianList} owner={owner} />
+	<StudentModalTable data={data.studentList} owner={owner} />
 	<QuestionModalTable data={data.questionList} owner={owner} />
 	<QuestionTypeModalTable data={data.questionTypeList} owner={owner} />
-	<QuestionSourceModalTable data={data.questionSourceList} owner={owner} />
 	<SurveyStatusModalTable data={data.surveyStatusList} owner={owner} />
-	<WechatUserModalTable data={data.wechatUserList} owner={owner} />
-	<UserTypeModalTable data={data.userTypeList} owner={owner} />
+	<UserModalTable data={data.userList} owner={owner} />
 	<ChangeRequestModalTable data={data.changeRequestList} owner={owner} />
 	<ChangeRequestTypeModalTable data={data.changeRequestTypeList} owner={owner} />
         

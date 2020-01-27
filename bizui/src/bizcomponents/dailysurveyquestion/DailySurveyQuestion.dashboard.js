@@ -134,10 +134,10 @@ const internalSummaryOf = (dailySurveyQuestion,targetComponent) =>{
 	      DailySurveyQuestionService.transferToAnotherClassDailyHealthSurvey,"anotherClassDailyHealthSurveyId",dailySurveyQuestion.classDailyHealthSurvey?dailySurveyQuestion.classDailyHealthSurvey.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
-<Description term="类问题">{dailySurveyQuestion.classQuestion==null?appLocaleName(userContext,"NotAssigned"):`${dailySurveyQuestion.classQuestion.displayName}(${dailySurveyQuestion.classQuestion.id})`}
+<Description term="调查的问题">{dailySurveyQuestion.surveyQuestion==null?appLocaleName(userContext,"NotAssigned"):`${dailySurveyQuestion.surveyQuestion.displayName}(${dailySurveyQuestion.surveyQuestion.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"类问题","classQuestion",DailySurveyQuestionService.requestCandidateClassQuestion,
-	      DailySurveyQuestionService.transferToAnotherClassQuestion,"anotherClassQuestionId",dailySurveyQuestion.classQuestion?dailySurveyQuestion.classQuestion.id:"")} 
+  showTransferModel(targetComponent,"调查的问题","question",DailySurveyQuestionService.requestCandidateSurveyQuestion,
+	      DailySurveyQuestionService.transferToAnotherSurveyQuestion,"anotherSurveyQuestionId",dailySurveyQuestion.surveyQuestion?dailySurveyQuestion.surveyQuestion.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 	

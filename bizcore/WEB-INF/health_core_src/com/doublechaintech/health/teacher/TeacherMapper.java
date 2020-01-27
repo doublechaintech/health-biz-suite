@@ -16,10 +16,11 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		setId(teacher, rs, rowNumber); 		
  		setName(teacher, rs, rowNumber); 		
  		setMobile(teacher, rs, rowNumber); 		
- 		setSchoole(teacher, rs, rowNumber); 		
+ 		setSchool(teacher, rs, rowNumber); 		
+ 		setSchoolClass(teacher, rs, rowNumber); 		
  		setCreateTime(teacher, rs, rowNumber); 		
  		setPlatform(teacher, rs, rowNumber); 		
- 		setCq(teacher, rs, rowNumber); 		
+ 		setChangeRequest(teacher, rs, rowNumber); 		
  		setVersion(teacher, rs, rowNumber);
 
 		return teacher;
@@ -65,16 +66,28 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 		teacher.setMobile(mobile);
 	}
 		
-	protected void setSchoole(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+	protected void setSchool(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
-		String schoole = rs.getString(TeacherTable.COLUMN_SCHOOLE);
-		if(schoole == null){
+		String school = rs.getString(TeacherTable.COLUMN_SCHOOL);
+		if(school == null){
 			//do nothing when nothing found in database
 			return;
 		}
 		
-		teacher.setSchoole(schoole);
+		teacher.setSchool(school);
+	}
+		
+	protected void setSchoolClass(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+	
+		//there will be issue when the type is double/int/long
+		String schoolClass = rs.getString(TeacherTable.COLUMN_SCHOOL_CLASS);
+		if(schoolClass == null){
+			//do nothing when nothing found in database
+			return;
+		}
+		
+		teacher.setSchoolClass(schoolClass);
 	}
 		
 	protected void setCreateTime(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
@@ -107,22 +120,22 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		teacher.setPlatform(createEmptyPlatform(platformId));
  	}
  	 		
- 	protected void setCq(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
- 		String changeRequestId = rs.getString(TeacherTable.COLUMN_CQ);
+ 	protected void setChangeRequest(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+ 		String changeRequestId = rs.getString(TeacherTable.COLUMN_CHANGE_REQUEST);
  		if( changeRequestId == null){
  			return;
  		}
  		if( changeRequestId.isEmpty()){
  			return;
  		}
- 		ChangeRequest changeRequest = teacher.getCq();
+ 		ChangeRequest changeRequest = teacher.getChangeRequest();
  		if( changeRequest != null ){
  			//if the root object 'teacher' already have the property, just set the id for it;
  			changeRequest.setId(changeRequestId);
  			
  			return;
  		}
- 		teacher.setCq(createEmptyCq(changeRequestId));
+ 		teacher.setChangeRequest(createEmptyChangeRequest(changeRequestId));
  	}
  	
 	protected void setVersion(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
@@ -146,7 +159,7 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		return platform;
  	}
  	
- 	protected ChangeRequest  createEmptyCq(String changeRequestId){
+ 	protected ChangeRequest  createEmptyChangeRequest(String changeRequestId){
  		ChangeRequest changeRequest = new ChangeRequest();
  		changeRequest.setId(changeRequestId);
  		changeRequest.setVersion(Integer.MAX_VALUE);

@@ -48,15 +48,15 @@ const transferToAnotherQuestion = (id, parameters) => {
 
 
 
-const requestCandidateCq = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateChangeRequest = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}studentDailyAnswerManager/requestCandidateCq/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}studentDailyAnswerManager/requestCandidateChangeRequest/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherCq = (id, parameters) => {
-  const url = `${PREFIX}studentDailyAnswerManager/transferToAnotherCq/id/anotherCqId/`
+const transferToAnotherChangeRequest = (id, parameters) => {
+  const url = `${PREFIX}studentDailyAnswerManager/transferToAnotherChangeRequest/id/anotherChangeRequestId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -97,9 +97,9 @@ const StudentDailyAnswerService = { view,
   load,
   requestCandidateStudentHealthSurvey,
   requestCandidateQuestion,
-  requestCandidateCq,
+  requestCandidateChangeRequest,
   transferToAnotherStudentHealthSurvey,
   transferToAnotherQuestion,
-  transferToAnotherCq, listFunctions, saveRequest, processRequest}
+  transferToAnotherChangeRequest, listFunctions, saveRequest, processRequest}
 export default StudentDailyAnswerService
 

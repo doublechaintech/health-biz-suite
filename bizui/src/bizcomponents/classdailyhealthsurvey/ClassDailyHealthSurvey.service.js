@@ -18,15 +18,15 @@ const load = (targetObjectId, parameters) => {
 
 
 
-const requestCandidateSchoolClass = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateTeacher = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateSchoolClass/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateTeacher/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherSchoolClass = (id, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherSchoolClass/id/anotherSchoolClassId/`
+const transferToAnotherTeacher = (id, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherTeacher/id/anotherTeacherId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -48,15 +48,15 @@ const transferToAnotherCreator = (id, parameters) => {
 
 
 
-const requestCandidateCq = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateChangeRequest = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateCq/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateChangeRequest/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherCq = (id, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherCq/id/anotherCqId/`
+const transferToAnotherChangeRequest = (id, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherChangeRequest/id/anotherChangeRequestId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -68,7 +68,7 @@ const transferToAnotherCq = (id, parameters) => {
 
 
 const addDailySurveyQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/addDailySurveyQuestion/classDailyHealthSurveyId/topic/questionTypeId/optionA/optionB/optionC/optionD/classQuestionId/tokensExpr/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/addDailySurveyQuestion/classDailyHealthSurveyId/topic/questionTypeId/optionA/optionB/optionC/optionD/surveyQuestionId/tokensExpr/`
   const classDailyHealthSurveyId = targetObjectId
   const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -90,7 +90,7 @@ const removeDailySurveyQuestionList = (targetObjectId, parameters) => {
 
 
 const addStudentHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/addStudentHealthSurvey/classDailyHealthSurveyId/studentId/answerTime/surveyStatusId/schoolClassId/cqId/tokensExpr/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/addStudentHealthSurvey/classDailyHealthSurveyId/studentId/answerTime/surveyStatusId/teacherId/changeRequestId/tokensExpr/`
   const classDailyHealthSurveyId = targetObjectId
   const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -145,11 +145,11 @@ const ClassDailyHealthSurveyService = { view,
   updateStudentHealthSurvey,
   removeDailySurveyQuestionList,
   removeStudentHealthSurveyList,
-  requestCandidateSchoolClass,
+  requestCandidateTeacher,
   requestCandidateCreator,
-  requestCandidateCq,
-  transferToAnotherSchoolClass,
+  requestCandidateChangeRequest,
+  transferToAnotherTeacher,
   transferToAnotherCreator,
-  transferToAnotherCq, listFunctions, saveRequest, processRequest}
+  transferToAnotherChangeRequest, listFunctions, saveRequest, processRequest}
 export default ClassDailyHealthSurveyService
 

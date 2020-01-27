@@ -33,15 +33,15 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 
-const requestCandidateCq = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateChangeRequest = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}teacherManager/requestCandidateCq/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}teacherManager/requestCandidateChangeRequest/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherCq = (id, parameters) => {
-  const url = `${PREFIX}teacherManager/transferToAnotherCq/id/anotherCqId/`
+const transferToAnotherChangeRequest = (id, parameters) => {
+  const url = `${PREFIX}teacherManager/transferToAnotherChangeRequest/id/anotherChangeRequestId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -52,22 +52,44 @@ const transferToAnotherCq = (id, parameters) => {
 
 
 
-const addSchoolClass = (targetObjectId, parameters) => {
-  const url = `${PREFIX}teacherManager/addSchoolClass/teacherId/name/platformId/schoole/cqId/tokensExpr/`
+const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/addClassDailyHealthSurvey/teacherId/name/surveyTime/creatorId/changeRequestId/tokensExpr/`
   const teacherId = targetObjectId
   const requestParameters = { ...parameters, teacherId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateSchoolClass = (targetObjectId, parameters) => {
-  const url = `${PREFIX}teacherManager/updateSchoolClassProperties/teacherId/id/name/schoole/tokensExpr/`
+const updateClassDailyHealthSurvey = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/updateClassDailyHealthSurveyProperties/teacherId/id/name/surveyTime/tokensExpr/`
   const teacherId = targetObjectId
   const requestParameters = { ...parameters, teacherId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeSchoolClassList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}teacherManager/removeSchoolClassList/teacherId/schoolClassIds/tokensExpr/`
+const removeClassDailyHealthSurveyList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/removeClassDailyHealthSurveyList/teacherId/classDailyHealthSurveyIds/tokensExpr/`
+  const requestParameters = { ...parameters, teacherId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
+const addStudentHealthSurvey = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/addStudentHealthSurvey/teacherId/studentId/answerTime/surveyStatusId/classDailyHealthSurveyId/changeRequestId/tokensExpr/`
+  const teacherId = targetObjectId
+  const requestParameters = { ...parameters, teacherId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateStudentHealthSurvey = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/updateStudentHealthSurveyProperties/teacherId/id/answerTime/tokensExpr/`
+  const teacherId = targetObjectId
+  const requestParameters = { ...parameters, teacherId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeStudentHealthSurveyList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}teacherManager/removeStudentHealthSurveyList/teacherId/studentHealthSurveyIds/tokensExpr/`
   const requestParameters = { ...parameters, teacherId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -102,12 +124,15 @@ const  processRequest = (data) => {
 
 const TeacherService = { view,
   load,
-  addSchoolClass,
-  updateSchoolClass,
-  removeSchoolClassList,
+  addClassDailyHealthSurvey,
+  addStudentHealthSurvey,
+  updateClassDailyHealthSurvey,
+  updateStudentHealthSurvey,
+  removeClassDailyHealthSurveyList,
+  removeStudentHealthSurveyList,
   requestCandidatePlatform,
-  requestCandidateCq,
+  requestCandidateChangeRequest,
   transferToAnotherPlatform,
-  transferToAnotherCq, listFunctions, saveRequest, processRequest}
+  transferToAnotherChangeRequest, listFunctions, saveRequest, processRequest}
 export default TeacherService
 

@@ -9,15 +9,15 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
+import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.guardian.Guardian;
-import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.province.ProvinceDAO;
-import com.doublechaintech.health.guardian.GuardianDAO;
-import com.doublechaintech.health.wechatuser.WechatUserDAO;
+import com.doublechaintech.health.student.StudentDAO;
 import com.doublechaintech.health.district.DistrictDAO;
+import com.doublechaintech.health.user.UserDAO;
 
 
 public interface LocationDAO extends BaseDAO{
@@ -48,41 +48,41 @@ public interface LocationDAO extends BaseDAO{
 	public Location disconnectFromAll(String locationId, int version) throws Exception;
 	public int deleteAll() throws Exception;
 
-	public GuardianDAO getGuardianDAO();
+	public StudentDAO getStudentDAO();
 		
-	public WechatUserDAO getWechatUserDAO();
-		
-	
- 	public SmartList<Location> requestCandidateLocationForGuardian(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
-		
- 	public SmartList<Location> requestCandidateLocationForWechatUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+	public UserDAO getUserDAO();
 		
 	
-	public Location planToRemoveGuardianList(Location location, String guardianIds[], Map<String,Object> options)throws Exception;
+ 	public SmartList<Location> requestCandidateLocationForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+ 	public SmartList<Location> requestCandidateLocationForUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+	
+	public Location planToRemoveStudentList(Location location, String studentIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect Location with wechat_user in Guardian
-	public Location planToRemoveGuardianListWithWechatUser(Location location, String wechatUserId, Map<String,Object> options)throws Exception;
-	public int countGuardianListWithWechatUser(String locationId, String wechatUserId, Map<String,Object> options)throws Exception;
+	//disconnect Location with student_id in Student
+	public Location planToRemoveStudentListWithStudentId(Location location, String studentIdId, Map<String,Object> options)throws Exception;
+	public int countStudentListWithStudentId(String locationId, String studentIdId, Map<String,Object> options)throws Exception;
 	
-	//disconnect Location with platform in Guardian
-	public Location planToRemoveGuardianListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
-	public int countGuardianListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
+	//disconnect Location with user in Student
+	public Location planToRemoveStudentListWithUser(Location location, String userId, Map<String,Object> options)throws Exception;
+	public int countStudentListWithUser(String locationId, String userId, Map<String,Object> options)throws Exception;
 	
-	//disconnect Location with cq in Guardian
-	public Location planToRemoveGuardianListWithCq(Location location, String cqId, Map<String,Object> options)throws Exception;
-	public int countGuardianListWithCq(String locationId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect Location with platform in Student
+	public Location planToRemoveStudentListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
+	public int countStudentListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
 	
-	public Location planToRemoveWechatUserList(Location location, String wechatUserIds[], Map<String,Object> options)throws Exception;
+	//disconnect Location with change_request in Student
+	public Location planToRemoveStudentListWithChangeRequest(Location location, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countStudentListWithChangeRequest(String locationId, String changeRequestId, Map<String,Object> options)throws Exception;
+	
+	public Location planToRemoveUserList(Location location, String userIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect Location with user_type in WechatUser
-	public Location planToRemoveWechatUserListWithUserType(Location location, String userTypeId, Map<String,Object> options)throws Exception;
-	public int countWechatUserListWithUserType(String locationId, String userTypeId, Map<String,Object> options)throws Exception;
-	
-	//disconnect Location with platform in WechatUser
-	public Location planToRemoveWechatUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
-	public int countWechatUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
+	//disconnect Location with platform in User
+	public Location planToRemoveUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
+	public int countUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<Location> queryList(String sql, Object ... parmeters);
@@ -104,11 +104,11 @@ public interface LocationDAO extends BaseDAO{
 
  
  
-	// 需要一个加载引用我的对象的enhance方法:Guardian的address的GuardianList
-	public SmartList<Guardian> loadOurGuardianList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
+	// 需要一个加载引用我的对象的enhance方法:Student的address的StudentList
+	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
 	
-	// 需要一个加载引用我的对象的enhance方法:WechatUser的address的WechatUserList
-	public SmartList<WechatUser> loadOurWechatUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
+	// 需要一个加载引用我的对象的enhance方法:User的address的UserList
+	public SmartList<User> loadOurUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
 	
 }
 

@@ -19,36 +19,24 @@ import com.doublechaintech.health.district.DistrictTokens;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.location.LocationTokens;
-import com.doublechaintech.health.schoolclass.SchoolClass;
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
-import com.doublechaintech.health.schoolclass.SchoolClassTokens;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.teacher.TeacherTokens;
-import com.doublechaintech.health.guardian.Guardian;
-import com.doublechaintech.health.guardian.GuardianDAO;
-import com.doublechaintech.health.guardian.GuardianTokens;
+import com.doublechaintech.health.student.Student;
+import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.student.StudentTokens;
 import com.doublechaintech.health.question.Question;
 import com.doublechaintech.health.question.QuestionDAO;
 import com.doublechaintech.health.question.QuestionTokens;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
 import com.doublechaintech.health.questiontype.QuestionTypeTokens;
-import com.doublechaintech.health.questionsource.QuestionSource;
-import com.doublechaintech.health.questionsource.QuestionSourceDAO;
-import com.doublechaintech.health.questionsource.QuestionSourceTokens;
-import com.doublechaintech.health.classquestion.ClassQuestion;
-import com.doublechaintech.health.classquestion.ClassQuestionDAO;
-import com.doublechaintech.health.classquestion.ClassQuestionTokens;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyTokens;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionTokens;
-import com.doublechaintech.health.student.Student;
-import com.doublechaintech.health.student.StudentDAO;
-import com.doublechaintech.health.student.StudentTokens;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyTokens;
@@ -58,12 +46,9 @@ import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerTokens;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusTokens;
-import com.doublechaintech.health.wechatuser.WechatUser;
-import com.doublechaintech.health.wechatuser.WechatUserDAO;
-import com.doublechaintech.health.wechatuser.WechatUserTokens;
-import com.doublechaintech.health.usertype.UserType;
-import com.doublechaintech.health.usertype.UserTypeDAO;
-import com.doublechaintech.health.usertype.UserTypeTokens;
+import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.user.UserDAO;
+import com.doublechaintech.health.user.UserTokens;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoDAO;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoTokens;
@@ -137,25 +122,17 @@ public class DAOGroup {
 
 	protected LocationDAO locationDAO;
 
-	protected SchoolClassDAO schoolClassDAO;
-
 	protected TeacherDAO teacherDAO;
 
-	protected GuardianDAO guardianDAO;
+	protected StudentDAO studentDAO;
 
 	protected QuestionDAO questionDAO;
 
 	protected QuestionTypeDAO questionTypeDAO;
 
-	protected QuestionSourceDAO questionSourceDAO;
-
-	protected ClassQuestionDAO classQuestionDAO;
-
 	protected ClassDailyHealthSurveyDAO classDailyHealthSurveyDAO;
 
 	protected DailySurveyQuestionDAO dailySurveyQuestionDAO;
-
-	protected StudentDAO studentDAO;
 
 	protected StudentHealthSurveyDAO studentHealthSurveyDAO;
 
@@ -163,9 +140,7 @@ public class DAOGroup {
 
 	protected SurveyStatusDAO surveyStatusDAO;
 
-	protected WechatUserDAO wechatUserDAO;
-
-	protected UserTypeDAO userTypeDAO;
+	protected UserDAO userDAO;
 
 	protected WechatLoginInfoDAO wechatLoginInfoDAO;
 
@@ -249,14 +224,6 @@ public class DAOGroup {
 	}
 
 
-	public SchoolClassDAO getSchoolClassDAO(){
-		return this.schoolClassDAO;
-	}
-	public void setSchoolClassDAO(SchoolClassDAO dao){
-		this.schoolClassDAO = dao;
-	}
-
-
 	public TeacherDAO getTeacherDAO(){
 		return this.teacherDAO;
 	}
@@ -265,11 +232,11 @@ public class DAOGroup {
 	}
 
 
-	public GuardianDAO getGuardianDAO(){
-		return this.guardianDAO;
+	public StudentDAO getStudentDAO(){
+		return this.studentDAO;
 	}
-	public void setGuardianDAO(GuardianDAO dao){
-		this.guardianDAO = dao;
+	public void setStudentDAO(StudentDAO dao){
+		this.studentDAO = dao;
 	}
 
 
@@ -289,22 +256,6 @@ public class DAOGroup {
 	}
 
 
-	public QuestionSourceDAO getQuestionSourceDAO(){
-		return this.questionSourceDAO;
-	}
-	public void setQuestionSourceDAO(QuestionSourceDAO dao){
-		this.questionSourceDAO = dao;
-	}
-
-
-	public ClassQuestionDAO getClassQuestionDAO(){
-		return this.classQuestionDAO;
-	}
-	public void setClassQuestionDAO(ClassQuestionDAO dao){
-		this.classQuestionDAO = dao;
-	}
-
-
 	public ClassDailyHealthSurveyDAO getClassDailyHealthSurveyDAO(){
 		return this.classDailyHealthSurveyDAO;
 	}
@@ -318,14 +269,6 @@ public class DAOGroup {
 	}
 	public void setDailySurveyQuestionDAO(DailySurveyQuestionDAO dao){
 		this.dailySurveyQuestionDAO = dao;
-	}
-
-
-	public StudentDAO getStudentDAO(){
-		return this.studentDAO;
-	}
-	public void setStudentDAO(StudentDAO dao){
-		this.studentDAO = dao;
 	}
 
 
@@ -353,19 +296,11 @@ public class DAOGroup {
 	}
 
 
-	public WechatUserDAO getWechatUserDAO(){
-		return this.wechatUserDAO;
+	public UserDAO getUserDAO(){
+		return this.userDAO;
 	}
-	public void setWechatUserDAO(WechatUserDAO dao){
-		this.wechatUserDAO = dao;
-	}
-
-
-	public UserTypeDAO getUserTypeDAO(){
-		return this.userTypeDAO;
-	}
-	public void setUserTypeDAO(UserTypeDAO dao){
-		this.userTypeDAO = dao;
+	public void setUserDAO(UserDAO dao){
+		this.userDAO = dao;
 	}
 
 
@@ -634,25 +569,6 @@ public class DAOGroup {
 			}
 		});
 
-		internalLoaderMap.put("SchoolClass", new BasicLoader() {
-			@Override
-			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getSchoolClassDAO().load(id, SchoolClassTokens.withoutLists());
-			}
-			@Override
-			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getSchoolClassDAO().enhanceList((List<SchoolClass>)list);
-			}
-			@Override
-			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getSchoolClassDAO().load(id, tokens);
-			}
-			@Override
-			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getSchoolClassDAO().present((SchoolClass)data, tokens);
-			}
-		});
-
 		internalLoaderMap.put("Teacher", new BasicLoader() {
 			@Override
 			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
@@ -672,22 +588,22 @@ public class DAOGroup {
 			}
 		});
 
-		internalLoaderMap.put("Guardian", new BasicLoader() {
+		internalLoaderMap.put("Student", new BasicLoader() {
 			@Override
 			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getGuardianDAO().load(id, GuardianTokens.withoutLists());
+				return daoGoup.getStudentDAO().load(id, StudentTokens.withoutLists());
 			}
 			@Override
 			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getGuardianDAO().enhanceList((List<Guardian>)list);
+				daoGoup.getStudentDAO().enhanceList((List<Student>)list);
 			}
 			@Override
 			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getGuardianDAO().load(id, tokens);
+				return daoGoup.getStudentDAO().load(id, tokens);
 			}
 			@Override
 			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getGuardianDAO().present((Guardian)data, tokens);
+				return daoGoup.getStudentDAO().present((Student)data, tokens);
 			}
 		});
 
@@ -729,44 +645,6 @@ public class DAOGroup {
 			}
 		});
 
-		internalLoaderMap.put("QuestionSource", new BasicLoader() {
-			@Override
-			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getQuestionSourceDAO().load(id, QuestionSourceTokens.withoutLists());
-			}
-			@Override
-			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getQuestionSourceDAO().enhanceList((List<QuestionSource>)list);
-			}
-			@Override
-			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getQuestionSourceDAO().load(id, tokens);
-			}
-			@Override
-			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getQuestionSourceDAO().present((QuestionSource)data, tokens);
-			}
-		});
-
-		internalLoaderMap.put("ClassQuestion", new BasicLoader() {
-			@Override
-			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getClassQuestionDAO().load(id, ClassQuestionTokens.withoutLists());
-			}
-			@Override
-			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getClassQuestionDAO().enhanceList((List<ClassQuestion>)list);
-			}
-			@Override
-			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getClassQuestionDAO().load(id, tokens);
-			}
-			@Override
-			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getClassQuestionDAO().present((ClassQuestion)data, tokens);
-			}
-		});
-
 		internalLoaderMap.put("ClassDailyHealthSurvey", new BasicLoader() {
 			@Override
 			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
@@ -802,25 +680,6 @@ public class DAOGroup {
 			@Override
 			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
 				return daoGoup.getDailySurveyQuestionDAO().present((DailySurveyQuestion)data, tokens);
-			}
-		});
-
-		internalLoaderMap.put("Student", new BasicLoader() {
-			@Override
-			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getStudentDAO().load(id, StudentTokens.withoutLists());
-			}
-			@Override
-			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getStudentDAO().enhanceList((List<Student>)list);
-			}
-			@Override
-			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getStudentDAO().load(id, tokens);
-			}
-			@Override
-			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getStudentDAO().present((Student)data, tokens);
 			}
 		});
 
@@ -881,41 +740,22 @@ public class DAOGroup {
 			}
 		});
 
-		internalLoaderMap.put("WechatUser", new BasicLoader() {
+		internalLoaderMap.put("User", new BasicLoader() {
 			@Override
 			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getWechatUserDAO().load(id, WechatUserTokens.withoutLists());
+				return daoGoup.getUserDAO().load(id, UserTokens.withoutLists());
 			}
 			@Override
 			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getWechatUserDAO().enhanceList((List<WechatUser>)list);
+				daoGoup.getUserDAO().enhanceList((List<User>)list);
 			}
 			@Override
 			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getWechatUserDAO().load(id, tokens);
+				return daoGoup.getUserDAO().load(id, tokens);
 			}
 			@Override
 			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getWechatUserDAO().present((WechatUser)data, tokens);
-			}
-		});
-
-		internalLoaderMap.put("UserType", new BasicLoader() {
-			@Override
-			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
-				return daoGoup.getUserTypeDAO().load(id, UserTypeTokens.withoutLists());
-			}
-			@Override
-			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
-				daoGoup.getUserTypeDAO().enhanceList((List<UserType>)list);
-			}
-			@Override
-			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getUserTypeDAO().load(id, tokens);
-			}
-			@Override
-			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
-				return daoGoup.getUserTypeDAO().present((UserType)data, tokens);
+				return daoGoup.getUserDAO().present((User)data, tokens);
 			}
 		});
 

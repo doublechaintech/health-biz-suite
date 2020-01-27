@@ -68,11 +68,11 @@ public interface StudentDailyAnswerDAO extends BaseDAO{
 
  
   
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByCq(String changeRequestId, Map<String,Object> options);
- 	public int countStudentDailyAnswerByCq(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentDailyAnswerByCqIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByCq(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentDailyAnswerByCq(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options);
+ 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public int countStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentDailyAnswerByChangeRequestIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentDailyAnswerByChangeRequest(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options);
 
  
  

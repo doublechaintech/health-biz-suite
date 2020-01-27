@@ -117,10 +117,10 @@ const internalSummaryOf = (wechatLoginInfo,targetComponent) =>{
 	return (
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID" style={{wordBreak: 'break-all'}}>{wechatLoginInfo.id}</Description> 
-<Description term="微信用户">{wechatLoginInfo.wechatUser==null?appLocaleName(userContext,"NotAssigned"):`${wechatLoginInfo.wechatUser.displayName}(${wechatLoginInfo.wechatUser.id})`}
+<Description term="用户">{wechatLoginInfo.user==null?appLocaleName(userContext,"NotAssigned"):`${wechatLoginInfo.user.displayName}(${wechatLoginInfo.user.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"微信用户","wechatUser",WechatLoginInfoService.requestCandidateWechatUser,
-	      WechatLoginInfoService.transferToAnotherWechatUser,"anotherWechatUserId",wechatLoginInfo.wechatUser?wechatLoginInfo.wechatUser.id:"")} 
+  showTransferModel(targetComponent,"用户","user",WechatLoginInfoService.requestCandidateUser,
+	      WechatLoginInfoService.transferToAnotherUser,"anotherUserId",wechatLoginInfo.user?wechatLoginInfo.user.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 <Description term="应用程序Id" style={{wordBreak: 'break-all'}}>{wechatLoginInfo.appId}</Description> 

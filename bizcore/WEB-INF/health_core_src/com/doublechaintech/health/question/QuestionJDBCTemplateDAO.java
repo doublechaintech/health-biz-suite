@@ -21,10 +21,16 @@ import com.doublechaintech.health.HealthUserContext;
 
 
 import com.doublechaintech.health.platform.Platform;
+import com.doublechaintech.health.changerequest.ChangeRequest;
+import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.questiontype.QuestionType;
+import com.doublechaintech.health.user.User;
 
+import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
+import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
+import com.doublechaintech.health.user.UserDAO;
 
 
 
@@ -36,12 +42,30 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements QuestionDAO{
  
  	
+ 	private  UserDAO  userDAO;
+ 	public void setUserDAO(UserDAO userDAO){
+	 	this.userDAO = userDAO;
+ 	}
+ 	public UserDAO getUserDAO(){
+	 	return this.userDAO;
+ 	}
+ 
+ 	
  	private  QuestionTypeDAO  questionTypeDAO;
  	public void setQuestionTypeDAO(QuestionTypeDAO questionTypeDAO){
 	 	this.questionTypeDAO = questionTypeDAO;
  	}
  	public QuestionTypeDAO getQuestionTypeDAO(){
 	 	return this.questionTypeDAO;
+ 	}
+ 
+ 	
+ 	private  ChangeRequestDAO  changeRequestDAO;
+ 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
+	 	this.changeRequestDAO = changeRequestDAO;
+ 	}
+ 	public ChangeRequestDAO getChangeRequestDAO(){
+	 	return this.changeRequestDAO;
  	}
  
  	
@@ -54,6 +78,25 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  	}
 
 
+			
+		
+	
+  	private  DailySurveyQuestionDAO  dailySurveyQuestionDAO;
+ 	public void setDailySurveyQuestionDAO(DailySurveyQuestionDAO pDailySurveyQuestionDAO){
+ 	
+ 		if(pDailySurveyQuestionDAO == null){
+ 			throw new IllegalStateException("Do not try to set dailySurveyQuestionDAO to null.");
+ 		}
+	 	this.dailySurveyQuestionDAO = pDailySurveyQuestionDAO;
+ 	}
+ 	public DailySurveyQuestionDAO getDailySurveyQuestionDAO(){
+ 		if(this.dailySurveyQuestionDAO == null){
+ 			throw new IllegalStateException("The dailySurveyQuestionDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.dailySurveyQuestionDAO;
+ 	}	
+ 	
 			
 		
 
@@ -104,6 +147,13 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
 		Question newQuestion = loadInternalQuestion(accessKey, options);
 		newQuestion.setVersion(0);
 		
+		
+ 		
+ 		if(isSaveDailySurveyQuestionListEnabled(options)){
+ 			for(DailySurveyQuestion item: newQuestion.getDailySurveyQuestionList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
 		
 
 		
@@ -222,7 +272,49 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  	
 
  	
+  
+
+ 	protected boolean isExtractCreatorEnabled(Map<String,Object> options){
+ 		
+	 	return checkOptions(options, QuestionTokens.CREATOR);
+ 	}
+
+ 	protected boolean isSaveCreatorEnabled(Map<String,Object> options){
+	 	
+ 		return checkOptions(options, QuestionTokens.CREATOR);
+ 	}
+ 	
+
+ 	
+  
+
+ 	protected boolean isExtractCqEnabled(Map<String,Object> options){
+ 		
+	 	return checkOptions(options, QuestionTokens.CQ);
+ 	}
+
+ 	protected boolean isSaveCqEnabled(Map<String,Object> options){
+	 	
+ 		return checkOptions(options, QuestionTokens.CQ);
+ 	}
+ 	
+
+ 	
  
+		
+	
+	protected boolean isExtractDailySurveyQuestionListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,QuestionTokens.DAILY_SURVEY_QUESTION_LIST);
+ 	}
+ 	protected boolean isAnalyzeDailySurveyQuestionListEnabled(Map<String,Object> options){		 		
+ 		return QuestionTokens.of(options).analyzeDailySurveyQuestionListEnabled();
+ 	}
+	
+	protected boolean isSaveDailySurveyQuestionListEnabled(Map<String,Object> options){
+		return checkOptions(options, QuestionTokens.DAILY_SURVEY_QUESTION_LIST);
+		
+ 	}
+ 	
 		
 
 	
@@ -257,7 +349,23 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  		if(isExtractPlatformEnabled(loadOptions)){
 	 		extractPlatform(question, loadOptions);
  		}
+  	
+ 		if(isExtractCreatorEnabled(loadOptions)){
+	 		extractCreator(question, loadOptions);
+ 		}
+  	
+ 		if(isExtractCqEnabled(loadOptions)){
+	 		extractCq(question, loadOptions);
+ 		}
  
+		
+		if(isExtractDailySurveyQuestionListEnabled(loadOptions)){
+	 		extractDailySurveyQuestionList(question, loadOptions);
+ 		}	
+ 		if(isAnalyzeDailySurveyQuestionListEnabled(loadOptions)){
+	 		analyzeDailySurveyQuestionList(question, loadOptions);
+ 		}
+ 		
 		
 		return question;
 		
@@ -303,7 +411,97 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  		return question;
  	}
  		
+  
+
+ 	protected Question extractCreator(Question question, Map<String,Object> options) throws Exception{
+
+		if(question.getCreator() == null){
+			return question;
+		}
+		String creatorId = question.getCreator().getId();
+		if( creatorId == null){
+			return question;
+		}
+		User creator = getUserDAO().load(creatorId,options);
+		if(creator != null){
+			question.setCreator(creator);
+		}
+		
+ 		
+ 		return question;
+ 	}
+ 		
+  
+
+ 	protected Question extractCq(Question question, Map<String,Object> options) throws Exception{
+
+		if(question.getCq() == null){
+			return question;
+		}
+		String cqId = question.getCq().getId();
+		if( cqId == null){
+			return question;
+		}
+		ChangeRequest cq = getChangeRequestDAO().load(cqId,options);
+		if(cq != null){
+			question.setCq(cq);
+		}
+		
+ 		
+ 		return question;
+ 	}
+ 		
  
+		
+	protected void enhanceDailySurveyQuestionList(SmartList<DailySurveyQuestion> dailySurveyQuestionList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected Question extractDailySurveyQuestionList(Question question, Map<String,Object> options){
+		
+		
+		if(question == null){
+			return null;
+		}
+		if(question.getId() == null){
+			return question;
+		}
+
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = getDailySurveyQuestionDAO().findDailySurveyQuestionBySurveyQuestion(question.getId(),options);
+		if(dailySurveyQuestionList != null){
+			enhanceDailySurveyQuestionList(dailySurveyQuestionList,options);
+			question.setDailySurveyQuestionList(dailySurveyQuestionList);
+		}
+		
+		return question;
+	
+	}	
+	
+	protected Question analyzeDailySurveyQuestionList(Question question, Map<String,Object> options){
+		
+		
+		if(question == null){
+			return null;
+		}
+		if(question.getId() == null){
+			return question;
+		}
+
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();
+		if(dailySurveyQuestionList != null){
+			getDailySurveyQuestionDAO().analyzeDailySurveyQuestionBySurveyQuestion(dailySurveyQuestionList, question.getId(), options);
+			
+		}
+		
+		return question;
+	
+	}	
+	
 		
 		
   	
@@ -390,6 +588,92 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  	@Override
 	public Map<String, Integer> countQuestionByPlatformIds(String[] ids, Map<String, Object> options) {
 		return countWithIds(QuestionTable.COLUMN_PLATFORM, ids, options);
+	}
+ 	
+  	
+ 	public SmartList<Question> findQuestionByCreator(String userId,Map<String,Object> options){
+ 	
+  		SmartList<Question> resultList = queryWith(QuestionTable.COLUMN_CREATOR, userId, options, getQuestionMapper());
+		// analyzeQuestionByCreator(resultList, userId, options);
+		return resultList;
+ 	}
+ 	 
+ 
+ 	public SmartList<Question> findQuestionByCreator(String userId, int start, int count,Map<String,Object> options){
+ 		
+ 		SmartList<Question> resultList =  queryWithRange(QuestionTable.COLUMN_CREATOR, userId, options, getQuestionMapper(), start, count);
+ 		//analyzeQuestionByCreator(resultList, userId, options);
+ 		return resultList;
+ 		
+ 	}
+ 	public void analyzeQuestionByCreator(SmartList<Question> resultList, String userId, Map<String,Object> options){
+		if(resultList==null){
+			return;//do nothing when the list is null.
+		}
+		
+ 		MultipleAccessKey filterKey = new MultipleAccessKey();
+ 		filterKey.put(Question.CREATOR_PROPERTY, userId);
+ 		Map<String,Object> emptyOptions = new HashMap<String,Object>();
+ 		
+ 		StatsInfo info = new StatsInfo();
+ 		
+ 		
+ 		resultList.setStatsInfo(info);
+
+ 	
+ 		
+ 	}
+ 	@Override
+ 	public int countQuestionByCreator(String userId,Map<String,Object> options){
+
+ 		return countWith(QuestionTable.COLUMN_CREATOR, userId, options);
+ 	}
+ 	@Override
+	public Map<String, Integer> countQuestionByCreatorIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(QuestionTable.COLUMN_CREATOR, ids, options);
+	}
+ 	
+  	
+ 	public SmartList<Question> findQuestionByCq(String changeRequestId,Map<String,Object> options){
+ 	
+  		SmartList<Question> resultList = queryWith(QuestionTable.COLUMN_CQ, changeRequestId, options, getQuestionMapper());
+		// analyzeQuestionByCq(resultList, changeRequestId, options);
+		return resultList;
+ 	}
+ 	 
+ 
+ 	public SmartList<Question> findQuestionByCq(String changeRequestId, int start, int count,Map<String,Object> options){
+ 		
+ 		SmartList<Question> resultList =  queryWithRange(QuestionTable.COLUMN_CQ, changeRequestId, options, getQuestionMapper(), start, count);
+ 		//analyzeQuestionByCq(resultList, changeRequestId, options);
+ 		return resultList;
+ 		
+ 	}
+ 	public void analyzeQuestionByCq(SmartList<Question> resultList, String changeRequestId, Map<String,Object> options){
+		if(resultList==null){
+			return;//do nothing when the list is null.
+		}
+		
+ 		MultipleAccessKey filterKey = new MultipleAccessKey();
+ 		filterKey.put(Question.CQ_PROPERTY, changeRequestId);
+ 		Map<String,Object> emptyOptions = new HashMap<String,Object>();
+ 		
+ 		StatsInfo info = new StatsInfo();
+ 		
+ 		
+ 		resultList.setStatsInfo(info);
+
+ 	
+ 		
+ 	}
+ 	@Override
+ 	public int countQuestionByCq(String changeRequestId,Map<String,Object> options){
+
+ 		return countWith(QuestionTable.COLUMN_CQ, changeRequestId, options);
+ 	}
+ 	@Override
+	public Map<String, Integer> countQuestionByCqIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(QuestionTable.COLUMN_CQ, ids, options);
 	}
  	
  	
@@ -534,7 +818,7 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  		return prepareQuestionCreateParameters(question);
  	}
  	protected Object[] prepareQuestionUpdateParameters(Question question){
- 		Object[] parameters = new Object[10];
+ 		Object[] parameters = new Object[12];
  
  		parameters[0] = question.getTopic(); 	
  		if(question.getQuestionType() != null){
@@ -548,15 +832,23 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  		if(question.getPlatform() != null){
  			parameters[6] = question.getPlatform().getId();
  		}
+  	
+ 		if(question.getCreator() != null){
+ 			parameters[7] = question.getCreator().getId();
+ 		}
+  	
+ 		if(question.getCq() != null){
+ 			parameters[8] = question.getCq().getId();
+ 		}
  		
- 		parameters[7] = question.nextVersion();
- 		parameters[8] = question.getId();
- 		parameters[9] = question.getVersion();
+ 		parameters[9] = question.nextVersion();
+ 		parameters[10] = question.getId();
+ 		parameters[11] = question.getVersion();
  				
  		return parameters;
  	}
  	protected Object[] prepareQuestionCreateParameters(Question question){
-		Object[] parameters = new Object[8];
+		Object[] parameters = new Object[10];
 		String newQuestionId=getNextId();
 		question.setId(newQuestionId);
 		parameters[0] =  question.getId();
@@ -575,6 +867,16 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  			parameters[7] = question.getPlatform().getId();
  		
  		}
+ 		 	
+ 		if(question.getCreator() != null){
+ 			parameters[8] = question.getCreator().getId();
+ 		
+ 		}
+ 		 	
+ 		if(question.getCq() != null){
+ 			parameters[9] = question.getCq().getId();
+ 		
+ 		}
  				
  				
  		return parameters;
@@ -591,7 +893,22 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  		if(isSavePlatformEnabled(options)){
 	 		savePlatform(question, options);
  		}
+  	
+ 		if(isSaveCreatorEnabled(options)){
+	 		saveCreator(question, options);
+ 		}
+  	
+ 		if(isSaveCqEnabled(options)){
+	 		saveCq(question, options);
+ 		}
  
+		
+		if(isSaveDailySurveyQuestionListEnabled(options)){
+	 		saveDailySurveyQuestionList(question, options);
+	 		//removeDailySurveyQuestionList(question, options);
+	 		//Not delete the record
+	 		
+ 		}		
 		
 		return question;
 		
@@ -634,21 +951,264 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  	
  	 
 	
+  
+ 
+ 	protected Question saveCreator(Question question, Map<String,Object> options){
+ 		//Call inject DAO to execute this method
+ 		if(question.getCreator() == null){
+ 			return question;//do nothing when it is null
+ 		}
+ 		
+ 		getUserDAO().save(question.getCreator(),options);
+ 		return question;
+ 		
+ 	}
+ 	
+ 	
+ 	
+ 	 
+	
+  
+ 
+ 	protected Question saveCq(Question question, Map<String,Object> options){
+ 		//Call inject DAO to execute this method
+ 		if(question.getCq() == null){
+ 			return question;//do nothing when it is null
+ 		}
+ 		
+ 		getChangeRequestDAO().save(question.getCq(),options);
+ 		return question;
+ 		
+ 	}
+ 	
+ 	
+ 	
+ 	 
+	
  
 
 	
+	public Question planToRemoveDailySurveyQuestionList(Question question, String dailySurveyQuestionIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, question.getId());
+		key.put(DailySurveyQuestion.ID_PROPERTY, dailySurveyQuestionIds);
+		
+		SmartList<DailySurveyQuestion> externalDailySurveyQuestionList = getDailySurveyQuestionDAO().
+				findDailySurveyQuestionWithKey(key, options);
+		if(externalDailySurveyQuestionList == null){
+			return question;
+		}
+		if(externalDailySurveyQuestionList.isEmpty()){
+			return question;
+		}
+		
+		for(DailySurveyQuestion dailySurveyQuestionItem: externalDailySurveyQuestionList){
 
+			dailySurveyQuestionItem.clearFromAll();
+		}
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();		
+		dailySurveyQuestionList.addAllToRemoveList(externalDailySurveyQuestionList);
+		return question;	
+	
+	}
+
+
+	//disconnect Question with question_type in DailySurveyQuestion
+	public Question planToRemoveDailySurveyQuestionListWithQuestionType(Question question, String questionTypeId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, question.getId());
+		key.put(DailySurveyQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
+		
+		SmartList<DailySurveyQuestion> externalDailySurveyQuestionList = getDailySurveyQuestionDAO().
+				findDailySurveyQuestionWithKey(key, options);
+		if(externalDailySurveyQuestionList == null){
+			return question;
+		}
+		if(externalDailySurveyQuestionList.isEmpty()){
+			return question;
+		}
+		
+		for(DailySurveyQuestion dailySurveyQuestionItem: externalDailySurveyQuestionList){
+			dailySurveyQuestionItem.clearQuestionType();
+			dailySurveyQuestionItem.clearSurveyQuestion();
+			
+		}
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();		
+		dailySurveyQuestionList.addAllToRemoveList(externalDailySurveyQuestionList);
+		return question;
+	}
+	
+	public int countDailySurveyQuestionListWithQuestionType(String questionId, String questionTypeId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, questionId);
+		key.put(DailySurveyQuestion.QUESTION_TYPE_PROPERTY, questionTypeId);
+		
+		int count = getDailySurveyQuestionDAO().countDailySurveyQuestionWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Question with class_daily_health_survey in DailySurveyQuestion
+	public Question planToRemoveDailySurveyQuestionListWithClassDailyHealthSurvey(Question question, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, question.getId());
+		key.put(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
+		
+		SmartList<DailySurveyQuestion> externalDailySurveyQuestionList = getDailySurveyQuestionDAO().
+				findDailySurveyQuestionWithKey(key, options);
+		if(externalDailySurveyQuestionList == null){
+			return question;
+		}
+		if(externalDailySurveyQuestionList.isEmpty()){
+			return question;
+		}
+		
+		for(DailySurveyQuestion dailySurveyQuestionItem: externalDailySurveyQuestionList){
+			dailySurveyQuestionItem.clearClassDailyHealthSurvey();
+			dailySurveyQuestionItem.clearSurveyQuestion();
+			
+		}
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();		
+		dailySurveyQuestionList.addAllToRemoveList(externalDailySurveyQuestionList);
+		return question;
+	}
+	
+	public int countDailySurveyQuestionListWithClassDailyHealthSurvey(String questionId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, questionId);
+		key.put(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
+		
+		int count = getDailySurveyQuestionDAO().countDailySurveyQuestionWithKey(key, options);
+		return count;
+	}
+	
+
+		
+	protected Question saveDailySurveyQuestionList(Question question, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();
+		if(dailySurveyQuestionList == null){
+			//null list means nothing
+			return question;
+		}
+		SmartList<DailySurveyQuestion> mergedUpdateDailySurveyQuestionList = new SmartList<DailySurveyQuestion>();
+		
+		
+		mergedUpdateDailySurveyQuestionList.addAll(dailySurveyQuestionList); 
+		if(dailySurveyQuestionList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateDailySurveyQuestionList.addAll(dailySurveyQuestionList.getToRemoveList());
+			dailySurveyQuestionList.removeAll(dailySurveyQuestionList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getDailySurveyQuestionDAO().saveDailySurveyQuestionList(mergedUpdateDailySurveyQuestionList,options);
+		
+		if(dailySurveyQuestionList.getToRemoveList() != null){
+			dailySurveyQuestionList.removeAll(dailySurveyQuestionList.getToRemoveList());
+		}
+		
+		
+		return question;
+	
+	}
+	
+	protected Question removeDailySurveyQuestionList(Question question, Map<String,Object> options){
+	
+	
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();
+		if(dailySurveyQuestionList == null){
+			return question;
+		}	
+	
+		SmartList<DailySurveyQuestion> toRemoveDailySurveyQuestionList = dailySurveyQuestionList.getToRemoveList();
+		
+		if(toRemoveDailySurveyQuestionList == null){
+			return question;
+		}
+		if(toRemoveDailySurveyQuestionList.isEmpty()){
+			return question;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getDailySurveyQuestionDAO().removeDailySurveyQuestionList(toRemoveDailySurveyQuestionList,options);
+		
+		return question;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
 		
 
 	public Question present(Question question,Map<String, Object> options){
 	
+		presentDailySurveyQuestionList(question,options);
 
 		return question;
 	
 	}
 		
+	//Using java8 feature to reduce the code significantly
+ 	protected Question presentDailySurveyQuestionList(
+			Question question,
+			Map<String, Object> options) {
+
+		SmartList<DailySurveyQuestion> dailySurveyQuestionList = question.getDailySurveyQuestionList();		
+				SmartList<DailySurveyQuestion> newList= presentSubList(question.getId(),
+				dailySurveyQuestionList,
+				options,
+				getDailySurveyQuestionDAO()::countDailySurveyQuestionBySurveyQuestion,
+				getDailySurveyQuestionDAO()::findDailySurveyQuestionBySurveyQuestion
+				);
+
+		
+		question.setDailySurveyQuestionList(newList);
+		
+
+		return question;
+	}			
+		
 
 	
+    public SmartList<Question> requestCandidateQuestionForDailySurveyQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(QuestionTable.COLUMN_TOPIC, filterKey, pageNo, pageSize, getQuestionMapper());
+    }
+		
 
 	protected String getTableName(){
 		return QuestionTable.TABLE_NAME;
@@ -660,6 +1220,29 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
 		this.enhanceListInternal(questionList, this.getQuestionMapper());
 	}
 	
+	
+	// 需要一个加载引用我的对象的enhance方法:DailySurveyQuestion的surveyQuestion的DailySurveyQuestionList
+	public SmartList<DailySurveyQuestion> loadOurDailySurveyQuestionList(HealthUserContext userContext, List<Question> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<DailySurveyQuestion> loadedObjs = userContext.getDAOGroup().getDailySurveyQuestionDAO().findDailySurveyQuestionWithKey(key, options);
+		Map<String, List<DailySurveyQuestion>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getSurveyQuestion().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<DailySurveyQuestion> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<DailySurveyQuestion> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setDailySurveyQuestionList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
 	
 	
 	@Override

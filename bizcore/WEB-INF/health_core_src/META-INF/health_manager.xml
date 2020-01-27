@@ -23,14 +23,11 @@
 	<bean id="locationManagerBase" class="com.doublechaintech.health.location.LocationManagerImpl"/>
 	<bean id="locationManager" class="com.doublechaintech.health.location.LocationCustomManagerImpl" parent="locationManagerBase" ></bean>
 	
-	<bean id="schoolClassManagerBase" class="com.doublechaintech.health.schoolclass.SchoolClassManagerImpl"/>
-	<bean id="schoolClassManager" class="com.doublechaintech.health.schoolclass.SchoolClassCustomManagerImpl" parent="schoolClassManagerBase" ></bean>
-	
 	<bean id="teacherManagerBase" class="com.doublechaintech.health.teacher.TeacherManagerImpl"/>
-	<bean id="teacherManager" class="com.doublechaintech.health.teacher.TeacherManagerImpl" parent="teacherManagerBase" ></bean>
+	<bean id="teacherManager" class="com.doublechaintech.health.teacher.TeacherCustomManagerImpl" parent="teacherManagerBase" ></bean>
 	
-	<bean id="guardianManagerBase" class="com.doublechaintech.health.guardian.GuardianManagerImpl"/>
-	<bean id="guardianManager" class="com.doublechaintech.health.guardian.GuardianManagerImpl" parent="guardianManagerBase" ></bean>
+	<bean id="studentManagerBase" class="com.doublechaintech.health.student.StudentManagerImpl"/>
+	<bean id="studentManager" class="com.doublechaintech.health.student.StudentManagerImpl" parent="studentManagerBase" ></bean>
 	
 	<bean id="questionManagerBase" class="com.doublechaintech.health.question.QuestionManagerImpl"/>
 	<bean id="questionManager" class="com.doublechaintech.health.question.QuestionManagerImpl" parent="questionManagerBase" ></bean>
@@ -38,20 +35,11 @@
 	<bean id="questionTypeManagerBase" class="com.doublechaintech.health.questiontype.QuestionTypeManagerImpl"/>
 	<bean id="questionTypeManager" class="com.doublechaintech.health.questiontype.QuestionTypeCustomManagerImpl" parent="questionTypeManagerBase" ></bean>
 	
-	<bean id="questionSourceManagerBase" class="com.doublechaintech.health.questionsource.QuestionSourceManagerImpl"/>
-	<bean id="questionSourceManager" class="com.doublechaintech.health.questionsource.QuestionSourceManagerImpl" parent="questionSourceManagerBase" ></bean>
-	
-	<bean id="classQuestionManagerBase" class="com.doublechaintech.health.classquestion.ClassQuestionManagerImpl"/>
-	<bean id="classQuestionManager" class="com.doublechaintech.health.classquestion.ClassQuestionManagerImpl" parent="classQuestionManagerBase" ></bean>
-	
 	<bean id="classDailyHealthSurveyManagerBase" class="com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyManagerImpl"/>
 	<bean id="classDailyHealthSurveyManager" class="com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyCustomManagerImpl" parent="classDailyHealthSurveyManagerBase" ></bean>
 	
 	<bean id="dailySurveyQuestionManagerBase" class="com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionManagerImpl"/>
 	<bean id="dailySurveyQuestionManager" class="com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionManagerImpl" parent="dailySurveyQuestionManagerBase" ></bean>
-	
-	<bean id="studentManagerBase" class="com.doublechaintech.health.student.StudentManagerImpl"/>
-	<bean id="studentManager" class="com.doublechaintech.health.student.StudentManagerImpl" parent="studentManagerBase" ></bean>
 	
 	<bean id="studentHealthSurveyManagerBase" class="com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyManagerImpl"/>
 	<bean id="studentHealthSurveyManager" class="com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyManagerImpl" parent="studentHealthSurveyManagerBase" ></bean>
@@ -62,11 +50,8 @@
 	<bean id="surveyStatusManagerBase" class="com.doublechaintech.health.surveystatus.SurveyStatusManagerImpl"/>
 	<bean id="surveyStatusManager" class="com.doublechaintech.health.surveystatus.SurveyStatusManagerImpl" parent="surveyStatusManagerBase" ></bean>
 	
-	<bean id="wechatUserManagerBase" class="com.doublechaintech.health.wechatuser.WechatUserManagerImpl"/>
-	<bean id="wechatUserManager" class="com.doublechaintech.health.wechatuser.WechatUserCustomManagerImpl" parent="wechatUserManagerBase" ></bean>
-	
-	<bean id="userTypeManagerBase" class="com.doublechaintech.health.usertype.UserTypeManagerImpl"/>
-	<bean id="userTypeManager" class="com.doublechaintech.health.usertype.UserTypeManagerImpl" parent="userTypeManagerBase" ></bean>
+	<bean id="userManagerBase" class="com.doublechaintech.health.user.UserManagerImpl"/>
+	<bean id="userManager" class="com.doublechaintech.health.user.UserCustomManagerImpl" parent="userManagerBase" ></bean>
 	
 	<bean id="wechatLoginInfoManagerBase" class="com.doublechaintech.health.wechatlogininfo.WechatLoginInfoManagerImpl"/>
 	<bean id="wechatLoginInfoManager" class="com.doublechaintech.health.wechatlogininfo.WechatLoginInfoManagerImpl" parent="wechatLoginInfoManagerBase" ></bean>
@@ -135,21 +120,16 @@
 		<property name="cityManager" ref="cityManager"/>
 		<property name="districtManager" ref="districtManager"/>
 		<property name="locationManager" ref="locationManager"/>
-		<property name="schoolClassManager" ref="schoolClassManager"/>
 		<property name="teacherManager" ref="teacherManager"/>
-		<property name="guardianManager" ref="guardianManager"/>
+		<property name="studentManager" ref="studentManager"/>
 		<property name="questionManager" ref="questionManager"/>
 		<property name="questionTypeManager" ref="questionTypeManager"/>
-		<property name="questionSourceManager" ref="questionSourceManager"/>
-		<property name="classQuestionManager" ref="classQuestionManager"/>
 		<property name="classDailyHealthSurveyManager" ref="classDailyHealthSurveyManager"/>
 		<property name="dailySurveyQuestionManager" ref="dailySurveyQuestionManager"/>
-		<property name="studentManager" ref="studentManager"/>
 		<property name="studentHealthSurveyManager" ref="studentHealthSurveyManager"/>
 		<property name="studentDailyAnswerManager" ref="studentDailyAnswerManager"/>
 		<property name="surveyStatusManager" ref="surveyStatusManager"/>
-		<property name="wechatUserManager" ref="wechatUserManager"/>
-		<property name="userTypeManager" ref="userTypeManager"/>
+		<property name="userManager" ref="userManager"/>
 		<property name="wechatLoginInfoManager" ref="wechatLoginInfoManager"/>
 		<property name="changeRequestManager" ref="changeRequestManager"/>
 		<property name="changeRequestTypeManager" ref="changeRequestTypeManager"/>

@@ -33,33 +33,27 @@ Province|省
 Latitude|纬度
 Longitude|经度
 Version|版本
-School Class|学校类
-Id|ID
-Name|名称
-Class Teacher|班主任
-Create Time|创建时间
-Platform|平台
-Schoole|Schoole
-Cq|Cq
-Version|版本
 Teacher|老师
 Id|ID
 Name|名称
 Mobile|手机号码
-Schoole|Schoole
+School|学校
+School Class|学校类
 Create Time|创建时间
 Platform|平台
-Cq|Cq
+Change Request|变更请求
 Version|版本
-Guardian|《卫报》
+Student|学生
 Id|ID
-Name|名称
-Mobile|手机号码
+Student Name|学生的名字
+Student Id|学生证
+Guardian Name|监护人姓名
+Guardian Mobile|监护人手机
 Address|地址
-Wechat User|微信用户
+User|用户
 Create Time|创建时间
 Platform|平台
-Cq|Cq
+Change Request|变更请求
 Version|版本
 Question|检查问题
 Id|ID
@@ -70,38 +64,22 @@ Option B|B选项
 Option C|C选项
 Option D|D选项
 Platform|平台
-Version|版本
-Question Type|问题类型
-Id|ID
-Name|名称
-Code|编码
-Platform|平台
-Version|版本
-Question Source|问题的来源
-Id|ID
-Name|名称
-Code|编码
-Platform|平台
-Version|版本
-Class Question|类问题
-Id|ID
-Topic|活动主题
-Question Type|问题类型
-Option A|A选项
-Option B|B选项
-Option C|C选项
-Option D|D选项
-Question Source|问题的来源
 Creator|创建人名称
 Cq|Cq
+Version|版本
+Question Type|问题类型
+Id|ID
+Name|名称
+Code|编码
+Platform|平台
 Version|版本
 Class Daily Health Survey|每日健康调查
 Id|ID
 Name|名称
-School Class|学校类
+Teacher|老师
 Survey Time|调查的时间
 Creator|创建人名称
-Cq|Cq
+Change Request|变更请求
 Version|版本
 Daily Survey Question|每日调查问题
 Id|ID
@@ -112,27 +90,18 @@ Option B|B选项
 Option C|C选项
 Option D|D选项
 Class Daily Health Survey|每日健康调查
-Class Question|类问题
-Version|版本
-Student|学生
-Id|ID
-Name|名称
-Gender|性别
-Guardian|《卫报》
-School Class|学校类
-Student Id|学生证
-Cq|Cq
+Survey Question|调查的问题
 Version|版本
 Student Health Survey|学生健康调查
 Id|ID
 Student|学生
 Answer Time|回答时间
 Survey Status|调查现状
-School Class|学校类
+Teacher|老师
 Class Daily Health Survey|每日健康调查
 Create Time|创建时间
 Last Update Time|最后更新时间
-Cq|Cq
+Change Request|变更请求
 Version|版本
 Student Daily Answer|学生每天回答
 Id|ID
@@ -141,7 +110,7 @@ Question|检查问题
 Answer|回答
 Create Time|创建时间
 Last Update Time|最后更新时间
-Cq|Cq
+Change Request|变更请求
 Version|版本
 Survey Status|调查现状
 Id|ID
@@ -149,24 +118,17 @@ Name|名称
 Code|编码
 Platform|平台
 Version|版本
-Wechat User|微信用户
+User|用户
 Id|ID
 Name|名称
 Avatar|头像
 Address|地址
-User Type|用户类型
 Create Time|创建时间
-Platform|平台
-Version|版本
-User Type|用户类型
-Id|ID
-Name|名称
-Code|编码
 Platform|平台
 Version|版本
 Wechat Login Info|微信登录信息
 Id|ID
-Wechat User|微信用户
+User|用户
 App Id|应用程序Id
 Open Id|开放Id
 Session Key|会话密钥
@@ -347,46 +309,35 @@ Transfer to Another City|转移到城市
 Transfer to Another Platform|转到平台
 Transfer to Another District|转移到区
 Transfer to Another Province|转到省
-Transfer to Another Class Teacher|转到班主任
 Transfer to Another Platform|转到平台
-Transfer to Another Cq|转移到Cq
-Transfer to Another Platform|转到平台
-Transfer to Another Cq|转移到Cq
+Transfer to Another Change Request|转换到更改请求
 Transfer to Another Address|转移到地址
-Transfer to Another Wechat User|转移到微信用户
+Transfer to Another User|转移到用户
 Transfer to Another Platform|转到平台
-Transfer to Another Cq|转移到Cq
+Transfer to Another Change Request|转换到更改请求
 Transfer to Another Question Type|转换成问题类型
 Transfer to Another Platform|转到平台
-Transfer to Another Platform|转到平台
-Transfer to Another Platform|转到平台
-Transfer to Another Question Type|转换成问题类型
-Transfer to Another Question Source|转到问题源
 Transfer to Another Creator|转移到创造者
 Transfer to Another Cq|转移到Cq
-Transfer to Another School Class|转班
+Transfer to Another Platform|转到平台
+Transfer to Another Teacher|转移到老师
 Transfer to Another Creator|转移到创造者
-Transfer to Another Cq|转移到Cq
+Transfer to Another Change Request|转换到更改请求
 Transfer to Another Question Type|转换成问题类型
 Transfer to Another Class Daily Health Survey|每日健康调查转班
-Transfer to Another Class Question|转到课堂问题
-Transfer to Another Guardian|转移到监护人
-Transfer to Another School Class|转班
-Transfer to Another Cq|转移到Cq
+Transfer to Another Survey Question|转到调查问题
 Transfer to Another Student|转移到学生
 Transfer to Another Survey Status|转换为调查状态
-Transfer to Another School Class|转班
+Transfer to Another Teacher|转移到老师
 Transfer to Another Class Daily Health Survey|每日健康调查转班
-Transfer to Another Cq|转移到Cq
+Transfer to Another Change Request|转换到更改请求
 Transfer to Another Student Health Survey|转到学生健康调查
 Transfer to Another Question|转移到问题
-Transfer to Another Cq|转移到Cq
+Transfer to Another Change Request|转换到更改请求
 Transfer to Another Platform|转到平台
 Transfer to Another Address|转移到地址
-Transfer to Another User Type|转换为用户类型
 Transfer to Another Platform|转到平台
-Transfer to Another Platform|转到平台
-Transfer to Another Wechat User|转移到微信用户
+Transfer to Another User|转移到用户
 Transfer to Another Request Type|转换为请求类型
 Transfer to Another Platform|转到平台
 Transfer to Another Platform|转到平台

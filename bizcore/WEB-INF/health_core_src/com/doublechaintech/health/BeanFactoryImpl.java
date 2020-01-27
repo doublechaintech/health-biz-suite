@@ -7,21 +7,16 @@ import com.doublechaintech.health.province.Province;
 import com.doublechaintech.health.city.City;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.location.Location;
-import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.question.Question;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.questionsource.QuestionSource;
-import com.doublechaintech.health.classquestion.ClassQuestion;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
-import com.doublechaintech.health.wechatuser.WechatUser;
-import com.doublechaintech.health.usertype.UserType;
+import com.doublechaintech.health.user.User;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
@@ -71,18 +66,13 @@ public class BeanFactoryImpl{
 	}
 
 
-	public SchoolClass createSchoolClass(Map<String,Object> options){
-		return new SchoolClass();
-	}
-
-
 	public Teacher createTeacher(Map<String,Object> options){
 		return new Teacher();
 	}
 
 
-	public Guardian createGuardian(Map<String,Object> options){
-		return new Guardian();
+	public Student createStudent(Map<String,Object> options){
+		return new Student();
 	}
 
 
@@ -96,16 +86,6 @@ public class BeanFactoryImpl{
 	}
 
 
-	public QuestionSource createQuestionSource(Map<String,Object> options){
-		return new QuestionSource();
-	}
-
-
-	public ClassQuestion createClassQuestion(Map<String,Object> options){
-		return new ClassQuestion();
-	}
-
-
 	public ClassDailyHealthSurvey createClassDailyHealthSurvey(Map<String,Object> options){
 		return new ClassDailyHealthSurvey();
 	}
@@ -113,11 +93,6 @@ public class BeanFactoryImpl{
 
 	public DailySurveyQuestion createDailySurveyQuestion(Map<String,Object> options){
 		return new DailySurveyQuestion();
-	}
-
-
-	public Student createStudent(Map<String,Object> options){
-		return new Student();
 	}
 
 
@@ -136,13 +111,8 @@ public class BeanFactoryImpl{
 	}
 
 
-	public WechatUser createWechatUser(Map<String,Object> options){
-		return new WechatUser();
-	}
-
-
-	public UserType createUserType(Map<String,Object> options){
-		return new UserType();
+	public User createUser(Map<String,Object> options){
+		return new User();
 	}
 
 

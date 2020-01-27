@@ -18,12 +18,14 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  name: '刘婵',
-  gender: 'male',
+  studentName: '刘婵',
   studentId: 'A01',
-  guardianId: 'G000001',
-  schoolClassId: 'SC000001',
-  cqId: 'CR000001',
+  guardianName: '刘备',
+  guardianMobile: '18012341234',
+  addressId: 'L000001',
+  userId: 'U000001',
+  platformId: 'P000001',
+  changeRequestId: 'CR000001',
 }
 */
 
@@ -139,21 +141,11 @@ class StudentAssociateForm extends Component {
             <Row gutter={16}>
 
               <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.name} {...formItemLayout}>
-                  {getFieldDecorator('name', {
+                <Form.Item label={fieldLabels.studentName} {...formItemLayout}>
+                  {getFieldDecorator('studentName', {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.name} />
-                  )}
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.gender} {...formItemLayout}>
-                  {getFieldDecorator('gender', {
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                    <Input size="large"  placeHolder={fieldLabels.gender} />
+                    <Input size="large"  placeHolder={fieldLabels.studentName} />
                   )}
                 </Form.Item>
               </Col>
@@ -164,6 +156,26 @@ class StudentAssociateForm extends Component {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                     <Input size="large"  placeHolder={fieldLabels.studentId} />
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} md={12} sm={12}>
+                <Form.Item label={fieldLabels.guardianName} {...formItemLayout}>
+                  {getFieldDecorator('guardianName', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.guardianName} />
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} md={12} sm={12}>
+                <Form.Item label={fieldLabels.guardianMobile} {...formItemLayout}>
+                  {getFieldDecorator('guardianMobile', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.guardianMobile} />
                   )}
                 </Form.Item>
               </Col>
@@ -186,45 +198,60 @@ class StudentAssociateForm extends Component {
             <Row gutter={16}>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.guardian} {...formItemLayout}>
-                  {getFieldDecorator('guardianId', {
-                  	initialValue: tryinit('guardian'),
+                <Form.Item label={fieldLabels.address} {...formItemLayout}>
+                  {getFieldDecorator('addressId', {
+                  	initialValue: tryinit('address'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('guardian')}
-                    targetType={"guardian"} 
-                    requestFunction={StudentService.requestCandidateGuardian}/>
+                    disabled={!availableForEdit('address')}
+                    targetType={"address"} 
+                    requestFunction={StudentService.requestCandidateAddress}/>
   
                   )}
                 </Form.Item>
               </Col>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
-                  {getFieldDecorator('schoolClassId', {
-                  	initialValue: tryinit('schoolClass'),
+                <Form.Item label={fieldLabels.user} {...formItemLayout}>
+                  {getFieldDecorator('userId', {
+                  	initialValue: tryinit('user'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('schoolClass')}
-                    targetType={"schoolClass"} 
-                    requestFunction={StudentService.requestCandidateSchoolClass}/>
+                    disabled={!availableForEdit('user')}
+                    targetType={"user"} 
+                    requestFunction={StudentService.requestCandidateUser}/>
   
                   )}
                 </Form.Item>
               </Col>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.cq} {...formItemLayout}>
-                  {getFieldDecorator('cqId', {
-                  	initialValue: tryinit('cq'),
+                <Form.Item label={fieldLabels.platform} {...formItemLayout}>
+                  {getFieldDecorator('platformId', {
+                  	initialValue: tryinit('platform'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('cq')}
-                    targetType={"cq"} 
-                    requestFunction={StudentService.requestCandidateCq}/>
+                    disabled={!availableForEdit('platform')}
+                    targetType={"platform"} 
+                    requestFunction={StudentService.requestCandidatePlatform}/>
+  
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} md={12} sm={24}>
+                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
+                  {getFieldDecorator('changeRequestId', {
+                  	initialValue: tryinit('changeRequest'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                <SelectObject 
+                    disabled={!availableForEdit('changeRequest')}
+                    targetType={"changeRequest"} 
+                    requestFunction={StudentService.requestCandidateChangeRequest}/>
   
                   )}
                 </Form.Item>

@@ -13,7 +13,7 @@ public interface StudentDailyAnswerManager extends BaseManager{
 
 		
 
-	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer,String cqId) throws Exception;	
+	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer,String changeRequestId) throws Exception;	
 	public StudentDailyAnswer updateStudentDailyAnswer(HealthUserContext userContext,String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public StudentDailyAnswer loadStudentDailyAnswer(HealthUserContext userContext, String studentDailyAnswerId, String [] tokensExpr) throws Exception;
 	public StudentDailyAnswer internalSaveStudentDailyAnswer(HealthUserContext userContext, StudentDailyAnswer studentDailyAnswer) throws Exception;
@@ -21,7 +21,7 @@ public interface StudentDailyAnswerManager extends BaseManager{
 	
 	public StudentDailyAnswer transferToAnotherStudentHealthSurvey(HealthUserContext userContext, String studentDailyAnswerId, String anotherStudentHealthSurveyId)  throws Exception;
  	public StudentDailyAnswer transferToAnotherQuestion(HealthUserContext userContext, String studentDailyAnswerId, String anotherQuestionId)  throws Exception;
- 	public StudentDailyAnswer transferToAnotherCq(HealthUserContext userContext, String studentDailyAnswerId, String anotherCqId)  throws Exception;
+ 	public StudentDailyAnswer transferToAnotherChangeRequest(HealthUserContext userContext, String studentDailyAnswerId, String anotherChangeRequestId)  throws Exception;
  
 
 	public void delete(HealthUserContext userContext, String studentDailyAnswerId, int version) throws Exception;

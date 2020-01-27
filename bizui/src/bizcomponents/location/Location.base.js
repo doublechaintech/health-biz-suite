@@ -37,8 +37,8 @@ const renderReferenceCell=defaultRenderReferenceCell
 
 const menuData = {menuName: window.trans('location'), menuFor: "location",
   		subItems: [
-  {name: 'guardianList', displayName: window.mtrans('guardian','location.guardian_list',false), type:'guardian',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'wechatUserList', displayName: window.mtrans('wechat_user','location.wechat_user_list',false), type:'wechatUser',icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'studentList', displayName: window.mtrans('student','location.student_list',false), type:'student',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'userList', displayName: window.mtrans('user','location.user_list',false), type:'user',icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],
 }

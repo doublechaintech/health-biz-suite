@@ -82,10 +82,10 @@ const showAssociateDialog = (targetComponent) => {
 	data={{studentDailyAnswerList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'question')} 
 	onCreate={()=>toggleAssociateModalVisible(targetComponent,'question')}/> <ChangeRequestAssociateForm 
-	visible={currentAssociateModal==='cq'} 
+	visible={currentAssociateModal==='changeRequest'} 
 	data={{studentDailyAnswerList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'cq')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'cq')}/> 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')}/> 
  
 
 

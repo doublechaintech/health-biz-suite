@@ -37,11 +37,10 @@ const renderReferenceCell=defaultRenderReferenceCell
 
 const menuData = {menuName: window.trans('platform'), menuFor: "platform",
   		subItems: [
-  {name: 'schoolClassList', displayName: window.mtrans('school_class','platform.school_class_list',false), type:'schoolClass',icon:'school',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'teacherList', displayName: window.mtrans('teacher','platform.teacher_list',false), type:'teacher',icon:'chalkboard-teacher',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'guardianList', displayName: window.mtrans('guardian','platform.guardian_list',false), type:'guardian',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'studentList', displayName: window.mtrans('student','platform.student_list',false), type:'student',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'questionList', displayName: window.mtrans('question','platform.question_list',false), type:'question',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'wechatUserList', displayName: window.mtrans('wechat_user','platform.wechat_user_list',false), type:'wechatUser',icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'userList', displayName: window.mtrans('user','platform.user_list',false), type:'user',icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'changeRequestList', displayName: window.mtrans('change_request','platform.change_request_list',false), type:'changeRequest',icon:'exchange-alt',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '变更'},
   
   		],
@@ -54,9 +53,7 @@ const settingMenuData = {menuName: window.trans('platform'), menuFor: "platform"
   {name: 'cityList', displayName: window.mtrans('city','platform.city_list',false), type:'city', icon:'city',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'districtList', displayName: window.mtrans('district','platform.district_list',false), type:'district', icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'questionTypeList', displayName: window.mtrans('question_type','platform.question_type_list',false), type:'questionType', icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'questionSourceList', displayName: window.mtrans('question_source','platform.question_source_list',false), type:'questionSource', icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'surveyStatusList', displayName: window.mtrans('survey_status','platform.survey_status_list',false), type:'surveyStatus', icon:'at',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'userTypeList', displayName: window.mtrans('user_type','platform.user_type_list',false), type:'userType', icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'changeRequestTypeList', displayName: window.mtrans('change_request_type','platform.change_request_type_list',false), type:'changeRequestType', icon:'exchange-alt',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],

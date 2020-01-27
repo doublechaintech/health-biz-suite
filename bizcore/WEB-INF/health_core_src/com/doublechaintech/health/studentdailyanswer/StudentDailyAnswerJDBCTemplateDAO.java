@@ -38,6 +38,15 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl implements StudentDailyAnswerDAO{
  
  	
+ 	private  ChangeRequestDAO  changeRequestDAO;
+ 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
+	 	this.changeRequestDAO = changeRequestDAO;
+ 	}
+ 	public ChangeRequestDAO getChangeRequestDAO(){
+	 	return this.changeRequestDAO;
+ 	}
+ 
+ 	
  	private  StudentHealthSurveyDAO  studentHealthSurveyDAO;
  	public void setStudentHealthSurveyDAO(StudentHealthSurveyDAO studentHealthSurveyDAO){
 	 	this.studentHealthSurveyDAO = studentHealthSurveyDAO;
@@ -53,15 +62,6 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	}
  	public DailySurveyQuestionDAO getDailySurveyQuestionDAO(){
 	 	return this.dailySurveyQuestionDAO;
- 	}
- 
- 	
- 	private  ChangeRequestDAO  changeRequestDAO;
- 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
-	 	this.changeRequestDAO = changeRequestDAO;
- 	}
- 	public ChangeRequestDAO getChangeRequestDAO(){
-	 	return this.changeRequestDAO;
  	}
 
 
@@ -235,14 +235,14 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	
   
 
- 	protected boolean isExtractCqEnabled(Map<String,Object> options){
+ 	protected boolean isExtractChangeRequestEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, StudentDailyAnswerTokens.CQ);
+	 	return checkOptions(options, StudentDailyAnswerTokens.CHANGEREQUEST);
  	}
 
- 	protected boolean isSaveCqEnabled(Map<String,Object> options){
+ 	protected boolean isSaveChangeRequestEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, StudentDailyAnswerTokens.CQ);
+ 		return checkOptions(options, StudentDailyAnswerTokens.CHANGEREQUEST);
  	}
  	
 
@@ -283,8 +283,8 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 	 		extractQuestion(studentDailyAnswer, loadOptions);
  		}
   	
- 		if(isExtractCqEnabled(loadOptions)){
-	 		extractCq(studentDailyAnswer, loadOptions);
+ 		if(isExtractChangeRequestEnabled(loadOptions)){
+	 		extractChangeRequest(studentDailyAnswer, loadOptions);
  		}
  
 		
@@ -334,18 +334,18 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  		
   
 
- 	protected StudentDailyAnswer extractCq(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options) throws Exception{
+ 	protected StudentDailyAnswer extractChangeRequest(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options) throws Exception{
 
-		if(studentDailyAnswer.getCq() == null){
+		if(studentDailyAnswer.getChangeRequest() == null){
 			return studentDailyAnswer;
 		}
-		String cqId = studentDailyAnswer.getCq().getId();
-		if( cqId == null){
+		String changeRequestId = studentDailyAnswer.getChangeRequest().getId();
+		if( changeRequestId == null){
 			return studentDailyAnswer;
 		}
-		ChangeRequest cq = getChangeRequestDAO().load(cqId,options);
-		if(cq != null){
-			studentDailyAnswer.setCq(cq);
+		ChangeRequest changeRequest = getChangeRequestDAO().load(changeRequestId,options);
+		if(changeRequest != null){
+			studentDailyAnswer.setChangeRequest(changeRequest);
 		}
 		
  		
@@ -456,28 +456,28 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 	}
  	
   	
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByCq(String changeRequestId,Map<String,Object> options){
+ 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId,Map<String,Object> options){
  	
-  		SmartList<StudentDailyAnswer> resultList = queryWith(StudentDailyAnswerTable.COLUMN_CQ, changeRequestId, options, getStudentDailyAnswerMapper());
-		// analyzeStudentDailyAnswerByCq(resultList, changeRequestId, options);
+  		SmartList<StudentDailyAnswer> resultList = queryWith(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentDailyAnswerMapper());
+		// analyzeStudentDailyAnswerByChangeRequest(resultList, changeRequestId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByCq(String changeRequestId, int start, int count,Map<String,Object> options){
+ 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<StudentDailyAnswer> resultList =  queryWithRange(StudentDailyAnswerTable.COLUMN_CQ, changeRequestId, options, getStudentDailyAnswerMapper(), start, count);
- 		//analyzeStudentDailyAnswerByCq(resultList, changeRequestId, options);
+ 		SmartList<StudentDailyAnswer> resultList =  queryWithRange(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentDailyAnswerMapper(), start, count);
+ 		//analyzeStudentDailyAnswerByChangeRequest(resultList, changeRequestId, options);
  		return resultList;
  		
  	}
- 	public void analyzeStudentDailyAnswerByCq(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options){
+ 	public void analyzeStudentDailyAnswerByChangeRequest(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(StudentDailyAnswer.CQ_PROPERTY, changeRequestId);
+ 		filterKey.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -496,13 +496,13 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  		
  	}
  	@Override
- 	public int countStudentDailyAnswerByCq(String changeRequestId,Map<String,Object> options){
+ 	public int countStudentDailyAnswerByChangeRequest(String changeRequestId,Map<String,Object> options){
 
- 		return countWith(StudentDailyAnswerTable.COLUMN_CQ, changeRequestId, options);
+ 		return countWith(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST, changeRequestId, options);
  	}
  	@Override
-	public Map<String, Integer> countStudentDailyAnswerByCqIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentDailyAnswerTable.COLUMN_CQ, ids, options);
+	public Map<String, Integer> countStudentDailyAnswerByChangeRequestIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST, ids, options);
 	}
  	
  	
@@ -660,8 +660,8 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  		parameters[2] = studentDailyAnswer.getAnswer();
  		parameters[3] = studentDailyAnswer.getCreateTime();
  		parameters[4] = studentDailyAnswer.getLastUpdateTime(); 	
- 		if(studentDailyAnswer.getCq() != null){
- 			parameters[5] = studentDailyAnswer.getCq().getId();
+ 		if(studentDailyAnswer.getChangeRequest() != null){
+ 			parameters[5] = studentDailyAnswer.getChangeRequest().getId();
  		}
  		
  		parameters[6] = studentDailyAnswer.nextVersion();
@@ -689,8 +689,8 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  		parameters[3] = studentDailyAnswer.getAnswer();
  		parameters[4] = studentDailyAnswer.getCreateTime();
  		parameters[5] = studentDailyAnswer.getLastUpdateTime(); 	
- 		if(studentDailyAnswer.getCq() != null){
- 			parameters[6] = studentDailyAnswer.getCq().getId();
+ 		if(studentDailyAnswer.getChangeRequest() != null){
+ 			parameters[6] = studentDailyAnswer.getChangeRequest().getId();
  		
  		}
  				
@@ -710,8 +710,8 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 	 		saveQuestion(studentDailyAnswer, options);
  		}
   	
- 		if(isSaveCqEnabled(options)){
-	 		saveCq(studentDailyAnswer, options);
+ 		if(isSaveChangeRequestEnabled(options)){
+	 		saveChangeRequest(studentDailyAnswer, options);
  		}
  
 		
@@ -758,13 +758,13 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 	
   
  
- 	protected StudentDailyAnswer saveCq(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
+ 	protected StudentDailyAnswer saveChangeRequest(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(studentDailyAnswer.getCq() == null){
+ 		if(studentDailyAnswer.getChangeRequest() == null){
  			return studentDailyAnswer;//do nothing when it is null
  		}
  		
- 		getChangeRequestDAO().save(studentDailyAnswer.getCq(),options);
+ 		getChangeRequestDAO().save(studentDailyAnswer.getChangeRequest(),options);
  		return studentDailyAnswer;
  		
  	}

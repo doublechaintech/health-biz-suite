@@ -338,58 +338,6 @@ constructor(props) {
     }))(DistrictUpdateForm)
   }
 
-  getSchoolClassSearch = () => {
-    const {SchoolClassSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('school_class','platform.school_class_list',false),
-      role: "schoolClass",
-      data: state._platform.schoolClassList,
-      metaInfo: state._platform.schoolClassListMetaInfo,
-      count: state._platform.schoolClassCount,
-      returnURL: `/platform/${state._platform.id}/dashboard`,
-      currentPage: state._platform.schoolClassCurrentPageNumber,
-      searchFormParameters: state._platform.schoolClassSearchFormParameters,
-      searchParameters: {...state._platform.searchParameters},
-      expandForm: state._platform.expandForm,
-      loading: state._platform.loading,
-      partialList: state._platform.partialList,
-      owner: { type: '_platform', id: state._platform.id, 
-      referenceName: 'platform', 
-      listName: 'schoolClassList', ref:state._platform, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassSearch)
-  }
-  
-  getSchoolClassCreateForm = () => {
-   	const {SchoolClassCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "schoolClass",
-      data: state._platform.schoolClassList,
-      metaInfo: state._platform.schoolClassListMetaInfo,
-      count: state._platform.schoolClassCount,
-      returnURL: `/platform/${state._platform.id}/list`,
-      currentPage: state._platform.schoolClassCurrentPageNumber,
-      searchFormParameters: state._platform.schoolClassSearchFormParameters,
-      loading: state._platform.loading,
-      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'schoolClassList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(SchoolClassCreateForm)
-  }
-  
-  getSchoolClassUpdateForm = () => {
-    const userContext = null
-  	const {SchoolClassUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._platform.selectedRows,
-      role: "schoolClass",
-      currentUpdateIndex: state._platform.currentUpdateIndex,
-      owner: { type: '_platform', id: state._platform.id, listName: 'schoolClassList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(SchoolClassUpdateForm)
-  }
-
   getTeacherSearch = () => {
     const {TeacherSearch} = GlobalComponents;
     const userContext = null
@@ -442,56 +390,56 @@ constructor(props) {
     }))(TeacherUpdateForm)
   }
 
-  getGuardianSearch = () => {
-    const {GuardianSearch} = GlobalComponents;
+  getStudentSearch = () => {
+    const {StudentSearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('guardian','platform.guardian_list',false),
-      role: "guardian",
-      data: state._platform.guardianList,
-      metaInfo: state._platform.guardianListMetaInfo,
-      count: state._platform.guardianCount,
+      name: window.mtrans('student','platform.student_list',false),
+      role: "student",
+      data: state._platform.studentList,
+      metaInfo: state._platform.studentListMetaInfo,
+      count: state._platform.studentCount,
       returnURL: `/platform/${state._platform.id}/dashboard`,
-      currentPage: state._platform.guardianCurrentPageNumber,
-      searchFormParameters: state._platform.guardianSearchFormParameters,
+      currentPage: state._platform.studentCurrentPageNumber,
+      searchFormParameters: state._platform.studentSearchFormParameters,
       searchParameters: {...state._platform.searchParameters},
       expandForm: state._platform.expandForm,
       loading: state._platform.loading,
       partialList: state._platform.partialList,
       owner: { type: '_platform', id: state._platform.id, 
       referenceName: 'platform', 
-      listName: 'guardianList', ref:state._platform, 
+      listName: 'studentList', ref:state._platform, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(GuardianSearch)
+    }))(StudentSearch)
   }
   
-  getGuardianCreateForm = () => {
-   	const {GuardianCreateForm} = GlobalComponents;
+  getStudentCreateForm = () => {
+   	const {StudentCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "guardian",
-      data: state._platform.guardianList,
-      metaInfo: state._platform.guardianListMetaInfo,
-      count: state._platform.guardianCount,
+      role: "student",
+      data: state._platform.studentList,
+      metaInfo: state._platform.studentListMetaInfo,
+      count: state._platform.studentCount,
       returnURL: `/platform/${state._platform.id}/list`,
-      currentPage: state._platform.guardianCurrentPageNumber,
-      searchFormParameters: state._platform.guardianSearchFormParameters,
+      currentPage: state._platform.studentCurrentPageNumber,
+      searchFormParameters: state._platform.studentSearchFormParameters,
       loading: state._platform.loading,
-      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'guardianList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(GuardianCreateForm)
+      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'studentList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(StudentCreateForm)
   }
   
-  getGuardianUpdateForm = () => {
+  getStudentUpdateForm = () => {
     const userContext = null
-  	const {GuardianUpdateForm} = GlobalComponents;
+  	const {StudentUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._platform.selectedRows,
-      role: "guardian",
+      role: "student",
       currentUpdateIndex: state._platform.currentUpdateIndex,
-      owner: { type: '_platform', id: state._platform.id, listName: 'guardianList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(GuardianUpdateForm)
+      owner: { type: '_platform', id: state._platform.id, listName: 'studentList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(StudentUpdateForm)
   }
 
   getQuestionSearch = () => {
@@ -598,58 +546,6 @@ constructor(props) {
     }))(QuestionTypeUpdateForm)
   }
 
-  getQuestionSourceSearch = () => {
-    const {QuestionSourceSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('question_source','platform.question_source_list',false),
-      role: "questionSource",
-      data: state._platform.questionSourceList,
-      metaInfo: state._platform.questionSourceListMetaInfo,
-      count: state._platform.questionSourceCount,
-      returnURL: `/platform/${state._platform.id}/dashboard`,
-      currentPage: state._platform.questionSourceCurrentPageNumber,
-      searchFormParameters: state._platform.questionSourceSearchFormParameters,
-      searchParameters: {...state._platform.searchParameters},
-      expandForm: state._platform.expandForm,
-      loading: state._platform.loading,
-      partialList: state._platform.partialList,
-      owner: { type: '_platform', id: state._platform.id, 
-      referenceName: 'platform', 
-      listName: 'questionSourceList', ref:state._platform, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(QuestionSourceSearch)
-  }
-  
-  getQuestionSourceCreateForm = () => {
-   	const {QuestionSourceCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "questionSource",
-      data: state._platform.questionSourceList,
-      metaInfo: state._platform.questionSourceListMetaInfo,
-      count: state._platform.questionSourceCount,
-      returnURL: `/platform/${state._platform.id}/list`,
-      currentPage: state._platform.questionSourceCurrentPageNumber,
-      searchFormParameters: state._platform.questionSourceSearchFormParameters,
-      loading: state._platform.loading,
-      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'questionSourceList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(QuestionSourceCreateForm)
-  }
-  
-  getQuestionSourceUpdateForm = () => {
-    const userContext = null
-  	const {QuestionSourceUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._platform.selectedRows,
-      role: "questionSource",
-      currentUpdateIndex: state._platform.currentUpdateIndex,
-      owner: { type: '_platform', id: state._platform.id, listName: 'questionSourceList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(QuestionSourceUpdateForm)
-  }
-
   getSurveyStatusSearch = () => {
     const {SurveyStatusSearch} = GlobalComponents;
     const userContext = null
@@ -702,108 +598,56 @@ constructor(props) {
     }))(SurveyStatusUpdateForm)
   }
 
-  getWechatUserSearch = () => {
-    const {WechatUserSearch} = GlobalComponents;
+  getUserSearch = () => {
+    const {UserSearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('wechat_user','platform.wechat_user_list',false),
-      role: "wechatUser",
-      data: state._platform.wechatUserList,
-      metaInfo: state._platform.wechatUserListMetaInfo,
-      count: state._platform.wechatUserCount,
+      name: window.mtrans('user','platform.user_list',false),
+      role: "user",
+      data: state._platform.userList,
+      metaInfo: state._platform.userListMetaInfo,
+      count: state._platform.userCount,
       returnURL: `/platform/${state._platform.id}/dashboard`,
-      currentPage: state._platform.wechatUserCurrentPageNumber,
-      searchFormParameters: state._platform.wechatUserSearchFormParameters,
+      currentPage: state._platform.userCurrentPageNumber,
+      searchFormParameters: state._platform.userSearchFormParameters,
       searchParameters: {...state._platform.searchParameters},
       expandForm: state._platform.expandForm,
       loading: state._platform.loading,
       partialList: state._platform.partialList,
       owner: { type: '_platform', id: state._platform.id, 
       referenceName: 'platform', 
-      listName: 'wechatUserList', ref:state._platform, 
+      listName: 'userList', ref:state._platform, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(WechatUserSearch)
+    }))(UserSearch)
   }
   
-  getWechatUserCreateForm = () => {
-   	const {WechatUserCreateForm} = GlobalComponents;
+  getUserCreateForm = () => {
+   	const {UserCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "wechatUser",
-      data: state._platform.wechatUserList,
-      metaInfo: state._platform.wechatUserListMetaInfo,
-      count: state._platform.wechatUserCount,
+      role: "user",
+      data: state._platform.userList,
+      metaInfo: state._platform.userListMetaInfo,
+      count: state._platform.userCount,
       returnURL: `/platform/${state._platform.id}/list`,
-      currentPage: state._platform.wechatUserCurrentPageNumber,
-      searchFormParameters: state._platform.wechatUserSearchFormParameters,
+      currentPage: state._platform.userCurrentPageNumber,
+      searchFormParameters: state._platform.userSearchFormParameters,
       loading: state._platform.loading,
-      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'wechatUserList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(WechatUserCreateForm)
+      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'userList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(UserCreateForm)
   }
   
-  getWechatUserUpdateForm = () => {
+  getUserUpdateForm = () => {
     const userContext = null
-  	const {WechatUserUpdateForm} = GlobalComponents;
+  	const {UserUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._platform.selectedRows,
-      role: "wechatUser",
+      role: "user",
       currentUpdateIndex: state._platform.currentUpdateIndex,
-      owner: { type: '_platform', id: state._platform.id, listName: 'wechatUserList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(WechatUserUpdateForm)
-  }
-
-  getUserTypeSearch = () => {
-    const {UserTypeSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('user_type','platform.user_type_list',false),
-      role: "userType",
-      data: state._platform.userTypeList,
-      metaInfo: state._platform.userTypeListMetaInfo,
-      count: state._platform.userTypeCount,
-      returnURL: `/platform/${state._platform.id}/dashboard`,
-      currentPage: state._platform.userTypeCurrentPageNumber,
-      searchFormParameters: state._platform.userTypeSearchFormParameters,
-      searchParameters: {...state._platform.searchParameters},
-      expandForm: state._platform.expandForm,
-      loading: state._platform.loading,
-      partialList: state._platform.partialList,
-      owner: { type: '_platform', id: state._platform.id, 
-      referenceName: 'platform', 
-      listName: 'userTypeList', ref:state._platform, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserTypeSearch)
-  }
-  
-  getUserTypeCreateForm = () => {
-   	const {UserTypeCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "userType",
-      data: state._platform.userTypeList,
-      metaInfo: state._platform.userTypeListMetaInfo,
-      count: state._platform.userTypeCount,
-      returnURL: `/platform/${state._platform.id}/list`,
-      currentPage: state._platform.userTypeCurrentPageNumber,
-      searchFormParameters: state._platform.userTypeSearchFormParameters,
-      loading: state._platform.loading,
-      owner: { type: '_platform', id: state._platform.id, referenceName: 'platform', listName: 'userTypeList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(UserTypeCreateForm)
-  }
-  
-  getUserTypeUpdateForm = () => {
-    const userContext = null
-  	const {UserTypeUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._platform.selectedRows,
-      role: "userType",
-      currentUpdateIndex: state._platform.currentUpdateIndex,
-      owner: { type: '_platform', id: state._platform.id, listName: 'userTypeList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserTypeUpdateForm)
+      owner: { type: '_platform', id: state._platform.id, listName: 'userList', ref:state._platform, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(UserUpdateForm)
   }
 
   getChangeRequestSearch = () => {
@@ -947,17 +791,13 @@ constructor(props) {
   	{path:"/platform/:id/list/districtCreateForm", component: this.getDistrictCreateForm()},
   	{path:"/platform/:id/list/districtUpdateForm", component: this.getDistrictUpdateForm()},
    	
-  	{path:"/platform/:id/list/schoolClassList", component: this.getSchoolClassSearch()},
-  	{path:"/platform/:id/list/schoolClassCreateForm", component: this.getSchoolClassCreateForm()},
-  	{path:"/platform/:id/list/schoolClassUpdateForm", component: this.getSchoolClassUpdateForm()},
-   	
   	{path:"/platform/:id/list/teacherList", component: this.getTeacherSearch()},
   	{path:"/platform/:id/list/teacherCreateForm", component: this.getTeacherCreateForm()},
   	{path:"/platform/:id/list/teacherUpdateForm", component: this.getTeacherUpdateForm()},
    	
-  	{path:"/platform/:id/list/guardianList", component: this.getGuardianSearch()},
-  	{path:"/platform/:id/list/guardianCreateForm", component: this.getGuardianCreateForm()},
-  	{path:"/platform/:id/list/guardianUpdateForm", component: this.getGuardianUpdateForm()},
+  	{path:"/platform/:id/list/studentList", component: this.getStudentSearch()},
+  	{path:"/platform/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
+  	{path:"/platform/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
    	
   	{path:"/platform/:id/list/questionList", component: this.getQuestionSearch()},
   	{path:"/platform/:id/list/questionCreateForm", component: this.getQuestionCreateForm()},
@@ -967,21 +807,13 @@ constructor(props) {
   	{path:"/platform/:id/list/questionTypeCreateForm", component: this.getQuestionTypeCreateForm()},
   	{path:"/platform/:id/list/questionTypeUpdateForm", component: this.getQuestionTypeUpdateForm()},
    	
-  	{path:"/platform/:id/list/questionSourceList", component: this.getQuestionSourceSearch()},
-  	{path:"/platform/:id/list/questionSourceCreateForm", component: this.getQuestionSourceCreateForm()},
-  	{path:"/platform/:id/list/questionSourceUpdateForm", component: this.getQuestionSourceUpdateForm()},
-   	
   	{path:"/platform/:id/list/surveyStatusList", component: this.getSurveyStatusSearch()},
   	{path:"/platform/:id/list/surveyStatusCreateForm", component: this.getSurveyStatusCreateForm()},
   	{path:"/platform/:id/list/surveyStatusUpdateForm", component: this.getSurveyStatusUpdateForm()},
    	
-  	{path:"/platform/:id/list/wechatUserList", component: this.getWechatUserSearch()},
-  	{path:"/platform/:id/list/wechatUserCreateForm", component: this.getWechatUserCreateForm()},
-  	{path:"/platform/:id/list/wechatUserUpdateForm", component: this.getWechatUserUpdateForm()},
-   	
-  	{path:"/platform/:id/list/userTypeList", component: this.getUserTypeSearch()},
-  	{path:"/platform/:id/list/userTypeCreateForm", component: this.getUserTypeCreateForm()},
-  	{path:"/platform/:id/list/userTypeUpdateForm", component: this.getUserTypeUpdateForm()},
+  	{path:"/platform/:id/list/userList", component: this.getUserSearch()},
+  	{path:"/platform/:id/list/userCreateForm", component: this.getUserCreateForm()},
+  	{path:"/platform/:id/list/userUpdateForm", component: this.getUserUpdateForm()},
    	
   	{path:"/platform/:id/list/changeRequestList", component: this.getChangeRequestSearch()},
   	{path:"/platform/:id/list/changeRequestCreateForm", component: this.getChangeRequestCreateForm()},

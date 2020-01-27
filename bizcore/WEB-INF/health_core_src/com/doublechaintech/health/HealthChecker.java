@@ -222,62 +222,6 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  ID_OF_SCHOOL_CLASS ="school_class.id";
-	public HealthChecker checkIdOfSchoolClass(String id)
-	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_SCHOOL_CLASS ); 		
-		
-		return this;
-	}	
-
-	public static final String  NAME_OF_SCHOOL_CLASS ="school_class.name";
-	public HealthChecker checkNameOfSchoolClass(String name)
-	{		
-	 	checkStringLengthRange(name,1, 99,NAME_OF_SCHOOL_CLASS ); 		
-		
-		return this;
-	}	
-
-	public static final String  CLASS_TEACHER_OF_SCHOOL_CLASS ="school_class.class_teacher";
-	public HealthChecker checkClassTeacherIdOfSchoolClass(String classTeacherId)
-	{		
-	 	checkIdOfSchoolClass(classTeacherId ); 		
-		
-		return this;
-	}	
-
-	public static final String  PLATFORM_OF_SCHOOL_CLASS ="school_class.platform";
-	public HealthChecker checkPlatformIdOfSchoolClass(String platformId)
-	{		
-	 	checkIdOfSchoolClass(platformId ); 		
-		
-		return this;
-	}	
-
-	public static final String  SCHOOLE_OF_SCHOOL_CLASS ="school_class.schoole";
-	public HealthChecker checkSchooleOfSchoolClass(String schoole)
-	{		
-	 	checkStringLengthRange(schoole,2, 16,SCHOOLE_OF_SCHOOL_CLASS ); 		
-		
-		return this;
-	}	
-
-	public static final String  CQ_OF_SCHOOL_CLASS ="school_class.cq";
-	public HealthChecker checkCqIdOfSchoolClass(String cqId)
-	{		
-	 	checkIdOfSchoolClass(cqId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_SCHOOL_CLASS ="school_class.version";
-	public HealthChecker checkVersionOfSchoolClass(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_SCHOOL_CLASS ); 		
-		
-		return this;
-	}	
-
 	public static final String  ID_OF_TEACHER ="teacher.id";
 	public HealthChecker checkIdOfTeacher(String id)
 	{		
@@ -302,10 +246,18 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  SCHOOLE_OF_TEACHER ="teacher.schoole";
-	public HealthChecker checkSchooleOfTeacher(String schoole)
+	public static final String  SCHOOL_OF_TEACHER ="teacher.school";
+	public HealthChecker checkSchoolOfTeacher(String school)
 	{		
-	 	checkStringLengthRange(schoole,2, 16,SCHOOLE_OF_TEACHER ); 		
+	 	checkStringLengthRange(school,2, 16,SCHOOL_OF_TEACHER ); 		
+		
+		return this;
+	}	
+
+	public static final String  SCHOOL_CLASS_OF_TEACHER ="teacher.school_class";
+	public HealthChecker checkSchoolClassOfTeacher(String schoolClass)
+	{		
+	 	checkStringLengthRange(schoolClass,1, 99,SCHOOL_CLASS_OF_TEACHER ); 		
 		
 		return this;
 	}	
@@ -318,10 +270,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CQ_OF_TEACHER ="teacher.cq";
-	public HealthChecker checkCqIdOfTeacher(String cqId)
+	public static final String  CHANGE_REQUEST_OF_TEACHER ="teacher.change_request";
+	public HealthChecker checkChangeRequestIdOfTeacher(String changeRequestId)
 	{		
-	 	checkIdOfTeacher(cqId ); 		
+	 	checkIdOfTeacher(changeRequestId ); 		
 		
 		return this;
 	}	
@@ -334,66 +286,82 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  ID_OF_GUARDIAN ="guardian.id";
-	public HealthChecker checkIdOfGuardian(String id)
+	public static final String  ID_OF_STUDENT ="student.id";
+	public HealthChecker checkIdOfStudent(String id)
 	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_GUARDIAN ); 		
+	 	checkStringLengthRange(id,2, 64,ID_OF_STUDENT ); 		
 		
 		return this;
 	}	
 
-	public static final String  NAME_OF_GUARDIAN ="guardian.name";
-	public HealthChecker checkNameOfGuardian(String name)
+	public static final String  STUDENT_NAME_OF_STUDENT ="student.student_name";
+	public HealthChecker checkStudentNameOfStudent(String studentName)
 	{		
-	 	checkStringLengthRange(name,1, 20,NAME_OF_GUARDIAN ); 		
+	 	checkStringLengthRange(studentName,1, 20,STUDENT_NAME_OF_STUDENT ); 		
 		
 		return this;
 	}	
 
-	public static final String  MOBILE_OF_GUARDIAN ="guardian.mobile";
-	public HealthChecker checkMobileOfGuardian(String mobile)
+	public static final String  STUDENT_ID_OF_STUDENT ="student.student_id";
+	public HealthChecker checkStudentIdOfStudent(String studentId)
 	{		
-	 	checkChinaMobilePhone(mobile,5, 44,MOBILE_OF_GUARDIAN ); 		
+	 	checkStringLengthRange(studentId,1, 3,STUDENT_ID_OF_STUDENT ); 		
 		
 		return this;
 	}	
 
-	public static final String  ADDRESS_OF_GUARDIAN ="guardian.address";
-	public HealthChecker checkAddressIdOfGuardian(String addressId)
+	public static final String  GUARDIAN_NAME_OF_STUDENT ="student.guardian_name";
+	public HealthChecker checkGuardianNameOfStudent(String guardianName)
 	{		
-	 	checkIdOfGuardian(addressId ); 		
+	 	checkStringLengthRange(guardianName,1, 20,GUARDIAN_NAME_OF_STUDENT ); 		
 		
 		return this;
 	}	
 
-	public static final String  WECHAT_USER_OF_GUARDIAN ="guardian.wechat_user";
-	public HealthChecker checkWechatUserIdOfGuardian(String wechatUserId)
+	public static final String  GUARDIAN_MOBILE_OF_STUDENT ="student.guardian_mobile";
+	public HealthChecker checkGuardianMobileOfStudent(String guardianMobile)
 	{		
-	 	checkIdOfGuardian(wechatUserId ); 		
+	 	checkChinaMobilePhone(guardianMobile,5, 44,GUARDIAN_MOBILE_OF_STUDENT ); 		
 		
 		return this;
 	}	
 
-	public static final String  PLATFORM_OF_GUARDIAN ="guardian.platform";
-	public HealthChecker checkPlatformIdOfGuardian(String platformId)
+	public static final String  ADDRESS_OF_STUDENT ="student.address";
+	public HealthChecker checkAddressIdOfStudent(String addressId)
 	{		
-	 	checkIdOfGuardian(platformId ); 		
+	 	checkIdOfStudent(addressId ); 		
 		
 		return this;
 	}	
 
-	public static final String  CQ_OF_GUARDIAN ="guardian.cq";
-	public HealthChecker checkCqIdOfGuardian(String cqId)
+	public static final String  USER_OF_STUDENT ="student.user";
+	public HealthChecker checkUserIdOfStudent(String userId)
 	{		
-	 	checkIdOfGuardian(cqId ); 		
+	 	checkIdOfStudent(userId ); 		
 		
 		return this;
 	}	
 
-	public static final String  VERSION_OF_GUARDIAN ="guardian.version";
-	public HealthChecker checkVersionOfGuardian(int version)
+	public static final String  PLATFORM_OF_STUDENT ="student.platform";
+	public HealthChecker checkPlatformIdOfStudent(String platformId)
 	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_GUARDIAN ); 		
+	 	checkIdOfStudent(platformId ); 		
+		
+		return this;
+	}	
+
+	public static final String  CHANGE_REQUEST_OF_STUDENT ="student.change_request";
+	public HealthChecker checkChangeRequestIdOfStudent(String changeRequestId)
+	{		
+	 	checkIdOfStudent(changeRequestId ); 		
+		
+		return this;
+	}	
+
+	public static final String  VERSION_OF_STUDENT ="student.version";
+	public HealthChecker checkVersionOfStudent(int version)
+	{		
+	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_STUDENT ); 		
 		
 		return this;
 	}	
@@ -462,6 +430,22 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
+	public static final String  CREATOR_OF_QUESTION ="question.creator";
+	public HealthChecker checkCreatorIdOfQuestion(String creatorId)
+	{		if(isValidIdentifier(creatorId)){
+	 	checkIdOfQuestion(creatorId ); 		
+		}
+		return this;
+	}	
+
+	public static final String  CQ_OF_QUESTION ="question.cq";
+	public HealthChecker checkCqIdOfQuestion(String cqId)
+	{		
+	 	checkIdOfQuestion(cqId ); 		
+		
+		return this;
+	}	
+
 	public static final String  VERSION_OF_QUESTION ="question.version";
 	public HealthChecker checkVersionOfQuestion(int version)
 	{		
@@ -510,134 +494,6 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  ID_OF_QUESTION_SOURCE ="question_source.id";
-	public HealthChecker checkIdOfQuestionSource(String id)
-	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_QUESTION_SOURCE ); 		
-		
-		return this;
-	}	
-
-	public static final String  NAME_OF_QUESTION_SOURCE ="question_source.name";
-	public HealthChecker checkNameOfQuestionSource(String name)
-	{		
-	 	checkStringLengthRange(name,1, 24,NAME_OF_QUESTION_SOURCE ); 		
-		
-		return this;
-	}	
-
-	public static final String  CODE_OF_QUESTION_SOURCE ="question_source.code";
-	public HealthChecker checkCodeOfQuestionSource(String code)
-	{		
-	 	checkStringLengthRange(code,1, 24,CODE_OF_QUESTION_SOURCE ); 		
-		
-		return this;
-	}	
-
-	public static final String  PLATFORM_OF_QUESTION_SOURCE ="question_source.platform";
-	public HealthChecker checkPlatformIdOfQuestionSource(String platformId)
-	{		
-	 	checkIdOfQuestionSource(platformId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_QUESTION_SOURCE ="question_source.version";
-	public HealthChecker checkVersionOfQuestionSource(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_QUESTION_SOURCE ); 		
-		
-		return this;
-	}	
-
-	public static final String  ID_OF_CLASS_QUESTION ="class_question.id";
-	public HealthChecker checkIdOfClassQuestion(String id)
-	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  TOPIC_OF_CLASS_QUESTION ="class_question.topic";
-	public HealthChecker checkTopicOfClassQuestion(String topic)
-	{		
-	 	checkStringLengthRange(topic,1, 50,TOPIC_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  QUESTION_TYPE_OF_CLASS_QUESTION ="class_question.question_type";
-	public HealthChecker checkQuestionTypeIdOfClassQuestion(String questionTypeId)
-	{		
-	 	checkIdOfClassQuestion(questionTypeId ); 		
-		
-		return this;
-	}	
-
-	public static final String  OPTION_A_OF_CLASS_QUESTION ="class_question.option_a";
-	public HealthChecker checkOptionAOfClassQuestion(String optionA)
-	{		
-	 	checkStringLengthRange(optionA,1, 99,OPTION_A_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  OPTION_B_OF_CLASS_QUESTION ="class_question.option_b";
-	public HealthChecker checkOptionBOfClassQuestion(String optionB)
-	{		
-	 	checkStringLengthRange(optionB,1, 99,OPTION_B_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  OPTION_C_OF_CLASS_QUESTION ="class_question.option_c";
-	public HealthChecker checkOptionCOfClassQuestion(String optionC)
-	{		
-	 	checkStringLengthRange(optionC,0, 99,OPTION_C_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  OPTION_D_OF_CLASS_QUESTION ="class_question.option_d";
-	public HealthChecker checkOptionDOfClassQuestion(String optionD)
-	{		
-	 	checkStringLengthRange(optionD,0, 99,OPTION_D_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  QUESTION_SOURCE_OF_CLASS_QUESTION ="class_question.question_source";
-	public HealthChecker checkQuestionSourceIdOfClassQuestion(String questionSourceId)
-	{		
-	 	checkIdOfClassQuestion(questionSourceId ); 		
-		
-		return this;
-	}	
-
-	public static final String  CREATOR_OF_CLASS_QUESTION ="class_question.creator";
-	public HealthChecker checkCreatorIdOfClassQuestion(String creatorId)
-	{		if(isValidIdentifier(creatorId)){
-	 	checkIdOfClassQuestion(creatorId ); 		
-		}
-		return this;
-	}	
-
-	public static final String  CQ_OF_CLASS_QUESTION ="class_question.cq";
-	public HealthChecker checkCqIdOfClassQuestion(String cqId)
-	{		
-	 	checkIdOfClassQuestion(cqId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_CLASS_QUESTION ="class_question.version";
-	public HealthChecker checkVersionOfClassQuestion(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_CLASS_QUESTION ); 		
-		
-		return this;
-	}	
-
 	public static final String  ID_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.id";
 	public HealthChecker checkIdOfClassDailyHealthSurvey(String id)
 	{		
@@ -654,10 +510,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  SCHOOL_CLASS_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.school_class";
-	public HealthChecker checkSchoolClassIdOfClassDailyHealthSurvey(String schoolClassId)
+	public static final String  TEACHER_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.teacher";
+	public HealthChecker checkTeacherIdOfClassDailyHealthSurvey(String teacherId)
 	{		
-	 	checkIdOfClassDailyHealthSurvey(schoolClassId ); 		
+	 	checkIdOfClassDailyHealthSurvey(teacherId ); 		
 		
 		return this;
 	}	
@@ -678,10 +534,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CQ_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.cq";
-	public HealthChecker checkCqIdOfClassDailyHealthSurvey(String cqId)
+	public static final String  CHANGE_REQUEST_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.change_request";
+	public HealthChecker checkChangeRequestIdOfClassDailyHealthSurvey(String changeRequestId)
 	{		
-	 	checkIdOfClassDailyHealthSurvey(cqId ); 		
+	 	checkIdOfClassDailyHealthSurvey(changeRequestId ); 		
 		
 		return this;
 	}	
@@ -758,10 +614,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CLASS_QUESTION_OF_DAILY_SURVEY_QUESTION ="daily_survey_question.class_question";
-	public HealthChecker checkClassQuestionIdOfDailySurveyQuestion(String classQuestionId)
+	public static final String  SURVEY_QUESTION_OF_DAILY_SURVEY_QUESTION ="daily_survey_question.survey_question";
+	public HealthChecker checkSurveyQuestionIdOfDailySurveyQuestion(String surveyQuestionId)
 	{		
-	 	checkIdOfDailySurveyQuestion(classQuestionId ); 		
+	 	checkIdOfDailySurveyQuestion(surveyQuestionId ); 		
 		
 		return this;
 	}	
@@ -770,70 +626,6 @@ public class HealthChecker extends BaseChecker{
 	public HealthChecker checkVersionOfDailySurveyQuestion(int version)
 	{		
 	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_DAILY_SURVEY_QUESTION ); 		
-		
-		return this;
-	}	
-
-	public static final String  ID_OF_STUDENT ="student.id";
-	public HealthChecker checkIdOfStudent(String id)
-	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_STUDENT ); 		
-		
-		return this;
-	}	
-
-	public static final String  NAME_OF_STUDENT ="student.name";
-	public HealthChecker checkNameOfStudent(String name)
-	{		
-	 	checkStringLengthRange(name,1, 20,NAME_OF_STUDENT ); 		
-		
-		return this;
-	}	
-
-	public static final String  GENDER_OF_STUDENT ="student.gender";
-	public HealthChecker checkGenderOfStudent(String gender)
-	{		
-	 	checkGender(gender,2, 24,GENDER_OF_STUDENT ); 		
-		
-		return this;
-	}	
-
-	public static final String  GUARDIAN_OF_STUDENT ="student.guardian";
-	public HealthChecker checkGuardianIdOfStudent(String guardianId)
-	{		
-	 	checkIdOfStudent(guardianId ); 		
-		
-		return this;
-	}	
-
-	public static final String  SCHOOL_CLASS_OF_STUDENT ="student.school_class";
-	public HealthChecker checkSchoolClassIdOfStudent(String schoolClassId)
-	{		
-	 	checkIdOfStudent(schoolClassId ); 		
-		
-		return this;
-	}	
-
-	public static final String  STUDENT_ID_OF_STUDENT ="student.student_id";
-	public HealthChecker checkStudentIdOfStudent(String studentId)
-	{		
-	 	checkStringLengthRange(studentId,1, 3,STUDENT_ID_OF_STUDENT ); 		
-		
-		return this;
-	}	
-
-	public static final String  CQ_OF_STUDENT ="student.cq";
-	public HealthChecker checkCqIdOfStudent(String cqId)
-	{		
-	 	checkIdOfStudent(cqId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_STUDENT ="student.version";
-	public HealthChecker checkVersionOfStudent(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_STUDENT ); 		
 		
 		return this;
 	}	
@@ -870,10 +662,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  SCHOOL_CLASS_OF_STUDENT_HEALTH_SURVEY ="student_health_survey.school_class";
-	public HealthChecker checkSchoolClassIdOfStudentHealthSurvey(String schoolClassId)
+	public static final String  TEACHER_OF_STUDENT_HEALTH_SURVEY ="student_health_survey.teacher";
+	public HealthChecker checkTeacherIdOfStudentHealthSurvey(String teacherId)
 	{		
-	 	checkIdOfStudentHealthSurvey(schoolClassId ); 		
+	 	checkIdOfStudentHealthSurvey(teacherId ); 		
 		
 		return this;
 	}	
@@ -886,10 +678,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CQ_OF_STUDENT_HEALTH_SURVEY ="student_health_survey.cq";
-	public HealthChecker checkCqIdOfStudentHealthSurvey(String cqId)
+	public static final String  CHANGE_REQUEST_OF_STUDENT_HEALTH_SURVEY ="student_health_survey.change_request";
+	public HealthChecker checkChangeRequestIdOfStudentHealthSurvey(String changeRequestId)
 	{		
-	 	checkIdOfStudentHealthSurvey(cqId ); 		
+	 	checkIdOfStudentHealthSurvey(changeRequestId ); 		
 		
 		return this;
 	}	
@@ -934,10 +726,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CQ_OF_STUDENT_DAILY_ANSWER ="student_daily_answer.cq";
-	public HealthChecker checkCqIdOfStudentDailyAnswer(String cqId)
+	public static final String  CHANGE_REQUEST_OF_STUDENT_DAILY_ANSWER ="student_daily_answer.change_request";
+	public HealthChecker checkChangeRequestIdOfStudentDailyAnswer(String changeRequestId)
 	{		
-	 	checkIdOfStudentDailyAnswer(cqId ); 		
+	 	checkIdOfStudentDailyAnswer(changeRequestId ); 		
 		
 		return this;
 	}	
@@ -990,98 +782,50 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  ID_OF_WECHAT_USER ="wechat_user.id";
-	public HealthChecker checkIdOfWechatUser(String id)
+	public static final String  ID_OF_USER ="user.id";
+	public HealthChecker checkIdOfUser(String id)
 	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_WECHAT_USER ); 		
+	 	checkStringLengthRange(id,2, 64,ID_OF_USER ); 		
 		
 		return this;
 	}	
 
-	public static final String  NAME_OF_WECHAT_USER ="wechat_user.name";
-	public HealthChecker checkNameOfWechatUser(String name)
+	public static final String  NAME_OF_USER ="user.name";
+	public HealthChecker checkNameOfUser(String name)
 	{		
-	 	checkStringLengthRange(name,1, 200,NAME_OF_WECHAT_USER ); 		
+	 	checkStringLengthRange(name,1, 200,NAME_OF_USER ); 		
 		
 		return this;
 	}	
 
-	public static final String  AVATAR_OF_WECHAT_USER ="wechat_user.avatar";
-	public HealthChecker checkAvatarOfWechatUser(String avatar)
+	public static final String  AVATAR_OF_USER ="user.avatar";
+	public HealthChecker checkAvatarOfUser(String avatar)
 	{		
-	 	checkImage(avatar,0, 512,AVATAR_OF_WECHAT_USER ); 		
+	 	checkImage(avatar,0, 512,AVATAR_OF_USER ); 		
 		
 		return this;
 	}	
 
-	public static final String  ADDRESS_OF_WECHAT_USER ="wechat_user.address";
-	public HealthChecker checkAddressIdOfWechatUser(String addressId)
+	public static final String  ADDRESS_OF_USER ="user.address";
+	public HealthChecker checkAddressIdOfUser(String addressId)
 	{		
-	 	checkIdOfWechatUser(addressId ); 		
+	 	checkIdOfUser(addressId ); 		
 		
 		return this;
 	}	
 
-	public static final String  USER_TYPE_OF_WECHAT_USER ="wechat_user.user_type";
-	public HealthChecker checkUserTypeIdOfWechatUser(String userTypeId)
+	public static final String  PLATFORM_OF_USER ="user.platform";
+	public HealthChecker checkPlatformIdOfUser(String platformId)
 	{		
-	 	checkIdOfWechatUser(userTypeId ); 		
+	 	checkIdOfUser(platformId ); 		
 		
 		return this;
 	}	
 
-	public static final String  PLATFORM_OF_WECHAT_USER ="wechat_user.platform";
-	public HealthChecker checkPlatformIdOfWechatUser(String platformId)
+	public static final String  VERSION_OF_USER ="user.version";
+	public HealthChecker checkVersionOfUser(int version)
 	{		
-	 	checkIdOfWechatUser(platformId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_WECHAT_USER ="wechat_user.version";
-	public HealthChecker checkVersionOfWechatUser(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_WECHAT_USER ); 		
-		
-		return this;
-	}	
-
-	public static final String  ID_OF_USER_TYPE ="user_type.id";
-	public HealthChecker checkIdOfUserType(String id)
-	{		
-	 	checkStringLengthRange(id,2, 64,ID_OF_USER_TYPE ); 		
-		
-		return this;
-	}	
-
-	public static final String  NAME_OF_USER_TYPE ="user_type.name";
-	public HealthChecker checkNameOfUserType(String name)
-	{		
-	 	checkStringLengthRange(name,1, 8,NAME_OF_USER_TYPE ); 		
-		
-		return this;
-	}	
-
-	public static final String  CODE_OF_USER_TYPE ="user_type.code";
-	public HealthChecker checkCodeOfUserType(String code)
-	{		
-	 	checkStringLengthRange(code,3, 32,CODE_OF_USER_TYPE ); 		
-		
-		return this;
-	}	
-
-	public static final String  PLATFORM_OF_USER_TYPE ="user_type.platform";
-	public HealthChecker checkPlatformIdOfUserType(String platformId)
-	{		
-	 	checkIdOfUserType(platformId ); 		
-		
-		return this;
-	}	
-
-	public static final String  VERSION_OF_USER_TYPE ="user_type.version";
-	public HealthChecker checkVersionOfUserType(int version)
-	{		
-	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_USER_TYPE ); 		
+	 	checkIntegerRange(version,0, Integer.MAX_VALUE,VERSION_OF_USER ); 		
 		
 		return this;
 	}	
@@ -1094,10 +838,10 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  WECHAT_USER_OF_WECHAT_LOGIN_INFO ="wechat_login_info.wechat_user";
-	public HealthChecker checkWechatUserIdOfWechatLoginInfo(String wechatUserId)
+	public static final String  USER_OF_WECHAT_LOGIN_INFO ="wechat_login_info.user";
+	public HealthChecker checkUserIdOfWechatLoginInfo(String userId)
 	{		
-	 	checkIdOfWechatLoginInfo(wechatUserId ); 		
+	 	checkIdOfWechatLoginInfo(userId ); 		
 		
 		return this;
 	}	
@@ -1193,7 +937,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  CODE_OF_CHANGE_REQUEST_TYPE ="change_request_type.code";
 	public HealthChecker checkCodeOfChangeRequestType(String code)
 	{		
-	 	checkStringLengthRange(code,4, 56,CODE_OF_CHANGE_REQUEST_TYPE ); 		
+	 	checkStringLengthRange(code,2, 20,CODE_OF_CHANGE_REQUEST_TYPE ); 		
 		
 		return this;
 	}	

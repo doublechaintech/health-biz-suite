@@ -75,15 +75,12 @@ public class PlatformTokens extends CommonTokens{
 			.withProvinceList()
 			.withCityList()
 			.withDistrictList()
-			.withSchoolClassList()
 			.withTeacherList()
-			.withGuardianList()
+			.withStudentList()
 			.withQuestionList()
 			.withQuestionTypeList()
-			.withQuestionSourceList()
 			.withSurveyStatusList()
-			.withWechatUserList()
-			.withUserTypeList()
+			.withUserList()
 			.withChangeRequestList()
 			.withChangeRequestTypeList();
 	
@@ -319,76 +316,6 @@ public class PlatformTokens extends CommonTokens{
 	
 	
 		
-	protected static final String SCHOOL_CLASS_LIST = "schoolClassList";
-	public String getSchoolClassList(){
-		return SCHOOL_CLASS_LIST;
-	}
-	public PlatformTokens withSchoolClassList(){		
-		addSimpleOptions(SCHOOL_CLASS_LIST);
-		return this;
-	}
-	public PlatformTokens analyzeSchoolClassList(){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeSchoolClassListEnabled(){		
-		
-		if(checkOptions(this.options(), SCHOOL_CLASS_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public PlatformTokens extractMoreFromSchoolClassList(String idsSeperatedWithComma){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int schoolClassListSortCounter = 0;
-	public PlatformTokens sortSchoolClassListWith(String field, String descOrAsc){		
-		addSortMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int schoolClassListSearchCounter = 0;
-	public PlatformTokens searchSchoolClassListWith(String field, String verb, String value){		
-		
-		withSchoolClassList();
-		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens searchAllTextOfSchoolClassList(String verb, String value){	
-		String field = "id|name|schoole";
-		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens rowsPerPageOfSchoolClassList(int rowsPerPage){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public PlatformTokens currentPageNumberOfSchoolClassList(int currentPageNumber){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public PlatformTokens retainColumnsOfSchoolClassList(String[] columns){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public PlatformTokens excludeColumnsOfSchoolClassList(String[] columns){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	protected static final String TEACHER_LIST = "teacherList";
 	public String getTeacherList(){
 		return TEACHER_LIST;
@@ -433,7 +360,7 @@ public class PlatformTokens extends CommonTokens{
 	
 	
 	public PlatformTokens searchAllTextOfTeacherList(String verb, String value){	
-		String field = "id|name|mobile|schoole";
+		String field = "id|name|mobile|school|schoolClass";
 		addSearchMoreOptions(TEACHER_LIST,teacherListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -459,71 +386,71 @@ public class PlatformTokens extends CommonTokens{
 	
 	
 		
-	protected static final String GUARDIAN_LIST = "guardianList";
-	public String getGuardianList(){
-		return GUARDIAN_LIST;
+	protected static final String STUDENT_LIST = "studentList";
+	public String getStudentList(){
+		return STUDENT_LIST;
 	}
-	public PlatformTokens withGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST);
+	public PlatformTokens withStudentList(){		
+		addSimpleOptions(STUDENT_LIST);
 		return this;
 	}
-	public PlatformTokens analyzeGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST+".anaylze");
+	public PlatformTokens analyzeStudentList(){		
+		addSimpleOptions(STUDENT_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeGuardianListEnabled(){		
+	public boolean analyzeStudentListEnabled(){		
 		
-		if(checkOptions(this.options(), GUARDIAN_LIST+".anaylze")){
+		if(checkOptions(this.options(), STUDENT_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public PlatformTokens extractMoreFromGuardianList(String idsSeperatedWithComma){		
-		addSimpleOptions(GUARDIAN_LIST+".extractIds", idsSeperatedWithComma);
+	public PlatformTokens extractMoreFromStudentList(String idsSeperatedWithComma){		
+		addSimpleOptions(STUDENT_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int guardianListSortCounter = 0;
-	public PlatformTokens sortGuardianListWith(String field, String descOrAsc){		
-		addSortMoreOptions(GUARDIAN_LIST,guardianListSortCounter++, field, descOrAsc);
+	private int studentListSortCounter = 0;
+	public PlatformTokens sortStudentListWith(String field, String descOrAsc){		
+		addSortMoreOptions(STUDENT_LIST,studentListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int guardianListSearchCounter = 0;
-	public PlatformTokens searchGuardianListWith(String field, String verb, String value){		
+	private int studentListSearchCounter = 0;
+	public PlatformTokens searchStudentListWith(String field, String verb, String value){		
 		
-		withGuardianList();
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+		withStudentList();
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public PlatformTokens searchAllTextOfGuardianList(String verb, String value){	
-		String field = "id|name|mobile";
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+	public PlatformTokens searchAllTextOfStudentList(String verb, String value){	
+		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public PlatformTokens rowsPerPageOfGuardianList(int rowsPerPage){		
-		addSimpleOptions(GUARDIAN_LIST+"RowsPerPage",rowsPerPage);
+	public PlatformTokens rowsPerPageOfStudentList(int rowsPerPage){		
+		addSimpleOptions(STUDENT_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public PlatformTokens currentPageNumberOfGuardianList(int currentPageNumber){		
-		addSimpleOptions(GUARDIAN_LIST+"CurrentPage",currentPageNumber);
+	public PlatformTokens currentPageNumberOfStudentList(int currentPageNumber){		
+		addSimpleOptions(STUDENT_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public PlatformTokens retainColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"RetainColumns",columns);
+	public PlatformTokens retainColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public PlatformTokens excludeColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"ExcludeColumns",columns);
+	public PlatformTokens excludeColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -669,76 +596,6 @@ public class PlatformTokens extends CommonTokens{
 	
 	
 		
-	protected static final String QUESTION_SOURCE_LIST = "questionSourceList";
-	public String getQuestionSourceList(){
-		return QUESTION_SOURCE_LIST;
-	}
-	public PlatformTokens withQuestionSourceList(){		
-		addSimpleOptions(QUESTION_SOURCE_LIST);
-		return this;
-	}
-	public PlatformTokens analyzeQuestionSourceList(){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeQuestionSourceListEnabled(){		
-		
-		if(checkOptions(this.options(), QUESTION_SOURCE_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public PlatformTokens extractMoreFromQuestionSourceList(String idsSeperatedWithComma){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int questionSourceListSortCounter = 0;
-	public PlatformTokens sortQuestionSourceListWith(String field, String descOrAsc){		
-		addSortMoreOptions(QUESTION_SOURCE_LIST,questionSourceListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int questionSourceListSearchCounter = 0;
-	public PlatformTokens searchQuestionSourceListWith(String field, String verb, String value){		
-		
-		withQuestionSourceList();
-		addSearchMoreOptions(QUESTION_SOURCE_LIST,questionSourceListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens searchAllTextOfQuestionSourceList(String verb, String value){	
-		String field = "id|name|code";
-		addSearchMoreOptions(QUESTION_SOURCE_LIST,questionSourceListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens rowsPerPageOfQuestionSourceList(int rowsPerPage){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public PlatformTokens currentPageNumberOfQuestionSourceList(int currentPageNumber){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public PlatformTokens retainColumnsOfQuestionSourceList(String[] columns){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public PlatformTokens excludeColumnsOfQuestionSourceList(String[] columns){		
-		addSimpleOptions(QUESTION_SOURCE_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	protected static final String SURVEY_STATUS_LIST = "surveyStatusList";
 	public String getSurveyStatusList(){
 		return SURVEY_STATUS_LIST;
@@ -809,141 +666,71 @@ public class PlatformTokens extends CommonTokens{
 	
 	
 		
-	protected static final String WECHAT_USER_LIST = "wechatUserList";
-	public String getWechatUserList(){
-		return WECHAT_USER_LIST;
+	protected static final String USER_LIST = "userList";
+	public String getUserList(){
+		return USER_LIST;
 	}
-	public PlatformTokens withWechatUserList(){		
-		addSimpleOptions(WECHAT_USER_LIST);
+	public PlatformTokens withUserList(){		
+		addSimpleOptions(USER_LIST);
 		return this;
 	}
-	public PlatformTokens analyzeWechatUserList(){		
-		addSimpleOptions(WECHAT_USER_LIST+".anaylze");
+	public PlatformTokens analyzeUserList(){		
+		addSimpleOptions(USER_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeWechatUserListEnabled(){		
+	public boolean analyzeUserListEnabled(){		
 		
-		if(checkOptions(this.options(), WECHAT_USER_LIST+".anaylze")){
+		if(checkOptions(this.options(), USER_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public PlatformTokens extractMoreFromWechatUserList(String idsSeperatedWithComma){		
-		addSimpleOptions(WECHAT_USER_LIST+".extractIds", idsSeperatedWithComma);
+	public PlatformTokens extractMoreFromUserList(String idsSeperatedWithComma){		
+		addSimpleOptions(USER_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int wechatUserListSortCounter = 0;
-	public PlatformTokens sortWechatUserListWith(String field, String descOrAsc){		
-		addSortMoreOptions(WECHAT_USER_LIST,wechatUserListSortCounter++, field, descOrAsc);
+	private int userListSortCounter = 0;
+	public PlatformTokens sortUserListWith(String field, String descOrAsc){		
+		addSortMoreOptions(USER_LIST,userListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int wechatUserListSearchCounter = 0;
-	public PlatformTokens searchWechatUserListWith(String field, String verb, String value){		
+	private int userListSearchCounter = 0;
+	public PlatformTokens searchUserListWith(String field, String verb, String value){		
 		
-		withWechatUserList();
-		addSearchMoreOptions(WECHAT_USER_LIST,wechatUserListSearchCounter++, field, verb, value);
+		withUserList();
+		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public PlatformTokens searchAllTextOfWechatUserList(String verb, String value){	
+	public PlatformTokens searchAllTextOfUserList(String verb, String value){	
 		String field = "id|name";
-		addSearchMoreOptions(WECHAT_USER_LIST,wechatUserListSearchCounter++, field, verb, value);
+		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public PlatformTokens rowsPerPageOfWechatUserList(int rowsPerPage){		
-		addSimpleOptions(WECHAT_USER_LIST+"RowsPerPage",rowsPerPage);
+	public PlatformTokens rowsPerPageOfUserList(int rowsPerPage){		
+		addSimpleOptions(USER_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public PlatformTokens currentPageNumberOfWechatUserList(int currentPageNumber){		
-		addSimpleOptions(WECHAT_USER_LIST+"CurrentPage",currentPageNumber);
+	public PlatformTokens currentPageNumberOfUserList(int currentPageNumber){		
+		addSimpleOptions(USER_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public PlatformTokens retainColumnsOfWechatUserList(String[] columns){		
-		addSimpleOptions(WECHAT_USER_LIST+"RetainColumns",columns);
+	public PlatformTokens retainColumnsOfUserList(String[] columns){		
+		addSimpleOptions(USER_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public PlatformTokens excludeColumnsOfWechatUserList(String[] columns){		
-		addSimpleOptions(WECHAT_USER_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
-	protected static final String USER_TYPE_LIST = "userTypeList";
-	public String getUserTypeList(){
-		return USER_TYPE_LIST;
-	}
-	public PlatformTokens withUserTypeList(){		
-		addSimpleOptions(USER_TYPE_LIST);
-		return this;
-	}
-	public PlatformTokens analyzeUserTypeList(){		
-		addSimpleOptions(USER_TYPE_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeUserTypeListEnabled(){		
-		
-		if(checkOptions(this.options(), USER_TYPE_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public PlatformTokens extractMoreFromUserTypeList(String idsSeperatedWithComma){		
-		addSimpleOptions(USER_TYPE_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int userTypeListSortCounter = 0;
-	public PlatformTokens sortUserTypeListWith(String field, String descOrAsc){		
-		addSortMoreOptions(USER_TYPE_LIST,userTypeListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int userTypeListSearchCounter = 0;
-	public PlatformTokens searchUserTypeListWith(String field, String verb, String value){		
-		
-		withUserTypeList();
-		addSearchMoreOptions(USER_TYPE_LIST,userTypeListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens searchAllTextOfUserTypeList(String verb, String value){	
-		String field = "id|name|code";
-		addSearchMoreOptions(USER_TYPE_LIST,userTypeListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public PlatformTokens rowsPerPageOfUserTypeList(int rowsPerPage){		
-		addSimpleOptions(USER_TYPE_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public PlatformTokens currentPageNumberOfUserTypeList(int currentPageNumber){		
-		addSimpleOptions(USER_TYPE_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public PlatformTokens retainColumnsOfUserTypeList(String[] columns){		
-		addSimpleOptions(USER_TYPE_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public PlatformTokens excludeColumnsOfUserTypeList(String[] columns){		
-		addSimpleOptions(USER_TYPE_LIST+"ExcludeColumns",columns);
+	public PlatformTokens excludeColumnsOfUserList(String[] columns){		
+		addSimpleOptions(USER_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -1095,15 +882,12 @@ public class PlatformTokens extends CommonTokens{
 		searchAllTextOfProvinceList(verb, value);	
 		searchAllTextOfCityList(verb, value);	
 		searchAllTextOfDistrictList(verb, value);	
-		searchAllTextOfSchoolClassList(verb, value);	
 		searchAllTextOfTeacherList(verb, value);	
-		searchAllTextOfGuardianList(verb, value);	
+		searchAllTextOfStudentList(verb, value);	
 		searchAllTextOfQuestionList(verb, value);	
 		searchAllTextOfQuestionTypeList(verb, value);	
-		searchAllTextOfQuestionSourceList(verb, value);	
 		searchAllTextOfSurveyStatusList(verb, value);	
-		searchAllTextOfWechatUserList(verb, value);	
-		searchAllTextOfUserTypeList(verb, value);	
+		searchAllTextOfUserList(verb, value);	
 		searchAllTextOfChangeRequestList(verb, value);	
 		searchAllTextOfChangeRequestTypeList(verb, value);	
 		return this;

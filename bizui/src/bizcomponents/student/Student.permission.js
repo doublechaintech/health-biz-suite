@@ -32,9 +32,11 @@ const internalSummaryOf = (student,targetComponent) =>{
 	return (
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID">{student.id}</Description> 
-<Description term="名称">{student.name}</Description> 
-<Description term="性别">{student.gender}</Description> 
+<Description term="学生的名字">{student.studentName}</Description> 
 <Description term="学生证">{student.studentId}</Description> 
+<Description term="监护人姓名">{student.guardianName}</Description> 
+<Description term="监护人手机">{student.guardianMobile}</Description> 
+<Description term="创建时间">{ moment(student.createTime).format('YYYY-MM-DD')}</Description> 
 	
       </DescriptionList>
 	)

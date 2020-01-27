@@ -101,7 +101,8 @@
 	  <li class="active"><a data-toggle="tab" href="#summary" class="disabled"><i class="fa  fa-home"></i> ${userContext.localeMap['@summary']}</a></li>
 	 
 	<% Teacher result = (Teacher)request.getAttribute("result");  %>
-			<li><a data-toggle="tab" href="#schoolClassList" class="disabled"> ${userContext.localeMap['school_class']}</a></li>
+			<li><a data-toggle="tab" href="#classDailyHealthSurveyList" class="disabled"> ${userContext.localeMap['class_daily_health_survey']}</a></li>
+			<li><a data-toggle="tab" href="#studentHealthSurveyList" class="disabled"> ${userContext.localeMap['student_health_survey']}</a></li>
  
 	</ul>
 	</div>
@@ -132,8 +133,8 @@
 <c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/platform/Platform$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.cq}" scope="request" />
-<c:set var="referName" value="(cq)" scope="request" />
+<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
+<c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
 
 </div>
@@ -155,12 +156,20 @@
 
 	
 
-		<c:if test='${not empty userContext.accessTokens["schoolClassList"] or ignoreListAccessControl}'>
-		<c:set var="schoolClassList" value="${result.schoolClassList}" scope="request"/>
-		<c:set var="schoolClassListName" value="schoolClassList" scope="request"/>
-		<div id="schoolClassList" class="tab-pane fade sublist" refer-name="class_teacher">
-			<sky:include page="com/doublechaintech/health/schoolclass/SchoolClass$List.jsp"
-					referName="classTeacher"/>
+		<c:if test='${not empty userContext.accessTokens["classDailyHealthSurveyList"] or ignoreListAccessControl}'>
+		<c:set var="classDailyHealthSurveyList" value="${result.classDailyHealthSurveyList}" scope="request"/>
+		<c:set var="classDailyHealthSurveyListName" value="classDailyHealthSurveyList" scope="request"/>
+		<div id="classDailyHealthSurveyList" class="tab-pane fade sublist" refer-name="teacher">
+			<sky:include page="com/doublechaintech/health/classdailyhealthsurvey/ClassDailyHealthSurvey$List.jsp"
+					referName="teacher"/>
+		</div>
+	</c:if>
+	<c:if test='${not empty userContext.accessTokens["studentHealthSurveyList"] or ignoreListAccessControl}'>
+		<c:set var="studentHealthSurveyList" value="${result.studentHealthSurveyList}" scope="request"/>
+		<c:set var="studentHealthSurveyListName" value="studentHealthSurveyList" scope="request"/>
+		<div id="studentHealthSurveyList" class="tab-pane fade sublist" refer-name="teacher">
+			<sky:include page="com/doublechaintech/health/studenthealthsurvey/StudentHealthSurvey$List.jsp"
+					referName="teacher"/>
 		</div>
 	</c:if>
 

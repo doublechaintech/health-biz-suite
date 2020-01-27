@@ -13,14 +13,14 @@ public interface TeacherManager extends BaseManager{
 
 		
 
-	public Teacher createTeacher(HealthUserContext userContext, String name,String mobile,String schoole,String platformId,String cqId) throws Exception;	
+	public Teacher createTeacher(HealthUserContext userContext, String name,String mobile,String school,String schoolClass,String platformId,String changeRequestId) throws Exception;	
 	public Teacher updateTeacher(HealthUserContext userContext,String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public Teacher loadTeacher(HealthUserContext userContext, String teacherId, String [] tokensExpr) throws Exception;
 	public Teacher internalSaveTeacher(HealthUserContext userContext, Teacher teacher) throws Exception;
 	public Teacher internalSaveTeacher(HealthUserContext userContext, Teacher teacher,Map<String,Object>option) throws Exception;
 	
 	public Teacher transferToAnotherPlatform(HealthUserContext userContext, String teacherId, String anotherPlatformId)  throws Exception;
- 	public Teacher transferToAnotherCq(HealthUserContext userContext, String teacherId, String anotherCqId)  throws Exception;
+ 	public Teacher transferToAnotherChangeRequest(HealthUserContext userContext, String teacherId, String anotherChangeRequestId)  throws Exception;
  
 
 	public void delete(HealthUserContext userContext, String teacherId, int version) throws Exception;
@@ -30,11 +30,21 @@ public interface TeacherManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  SchoolClassManager getSchoolClassManager(HealthUserContext userContext, String teacherId, String name, String platformId, String schoole, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Teacher addSchoolClass(HealthUserContext userContext, String teacherId, String name, String platformId, String schoole, String cqId , String [] tokensExpr)  throws Exception;
-	public  Teacher removeSchoolClass(HealthUserContext userContext, String teacherId, String schoolClassId, int schoolClassVersion,String [] tokensExpr)  throws Exception;
-	public  Teacher updateSchoolClass(HealthUserContext userContext, String teacherId, String schoolClassId, int schoolClassVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Teacher removeClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr)  throws Exception;
+	public  Teacher updateClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+
+	/*
+
+	*/
+
+	//public  StudentHealthSurveyManager getStudentHealthSurveyManager(HealthUserContext userContext, String teacherId, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	
+	public  Teacher addStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Teacher removeStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr)  throws Exception;
+	public  Teacher updateStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 

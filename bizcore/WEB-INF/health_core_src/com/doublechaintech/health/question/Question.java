@@ -13,7 +13,10 @@ import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
+import com.doublechaintech.health.changerequest.ChangeRequest;
+import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.questiontype.QuestionType;
+import com.doublechaintech.health.user.User;
 
 @JsonSerialize(using = QuestionSerializer.class)
 public class Question extends BaseEntity implements  java.io.Serializable{
@@ -27,8 +30,11 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	public static final String OPTION_C_PROPERTY              = "optionC"           ;
 	public static final String OPTION_D_PROPERTY              = "optionD"           ;
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
+	public static final String CREATOR_PROPERTY               = "creator"           ;
+	public static final String CQ_PROPERTY                    = "cq"                ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
+	public static final String DAILY_SURVEY_QUESTION_LIST               = "dailySurveyQuestionList";
 
 	public static final String INTERNAL_TYPE="Question";
 	public String getInternalType(){
@@ -57,9 +63,12 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	protected		String              	mOptionC            ;
 	protected		String              	mOptionD            ;
 	protected		Platform            	mPlatform           ;
+	protected		User                	mCreator            ;
+	protected		ChangeRequest       	mCq                 ;
 	protected		int                 	mVersion            ;
 	
 	
+	protected		SmartList<DailySurveyQuestion>	mDailySurveyQuestionList;
 	
 		
 	public 	Question(){
@@ -79,6 +88,8 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	public 	void clearFromAll(){
 		setQuestionType( null );
 		setPlatform( null );
+		setCreator( null );
+		setCq( null );
 
 		this.changed = true;
 	}
@@ -208,6 +219,16 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 		}
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
+		}
+		if(CREATOR_PROPERTY.equals(property)){
+			return getCreator();
+		}
+		if(CQ_PROPERTY.equals(property)){
+			return getCq();
+		}
+		if(DAILY_SURVEY_QUESTION_LIST.equals(property)){
+			List<BaseEntity> list = getDailySurveyQuestionList().stream().map(item->item).collect(Collectors.toList());
+			return list;
 		}
 
     		//other property not include here
@@ -358,6 +379,48 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 		this.changed = true;
 	}
 	
+	public void setCreator(User creator){
+		this.mCreator = creator;;
+	}
+	public User getCreator(){
+		return this.mCreator;
+	}
+	public Question updateCreator(User creator){
+		this.mCreator = creator;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeCreator(User creator){
+		if(creator != null) { setCreator(creator);}
+	}
+	
+	
+	public void clearCreator(){
+		setCreator ( null );
+		this.changed = true;
+	}
+	
+	public void setCq(ChangeRequest cq){
+		this.mCq = cq;;
+	}
+	public ChangeRequest getCq(){
+		return this.mCq;
+	}
+	public Question updateCq(ChangeRequest cq){
+		this.mCq = cq;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeCq(ChangeRequest cq){
+		if(cq != null) { setCq(cq);}
+	}
+	
+	
+	public void clearCq(){
+		setCq ( null );
+		this.changed = true;
+	}
+	
 	public void setVersion(int version){
 		this.mVersion = version;;
 	}
@@ -375,10 +438,119 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	
 	
 
+	public  SmartList<DailySurveyQuestion> getDailySurveyQuestionList(){
+		if(this.mDailySurveyQuestionList == null){
+			this.mDailySurveyQuestionList = new SmartList<DailySurveyQuestion>();
+			this.mDailySurveyQuestionList.setListInternalName (DAILY_SURVEY_QUESTION_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mDailySurveyQuestionList;	
+	}
+	public  void setDailySurveyQuestionList(SmartList<DailySurveyQuestion> dailySurveyQuestionList){
+		for( DailySurveyQuestion dailySurveyQuestion:dailySurveyQuestionList){
+			dailySurveyQuestion.setSurveyQuestion(this);
+		}
+
+		this.mDailySurveyQuestionList = dailySurveyQuestionList;
+		this.mDailySurveyQuestionList.setListInternalName (DAILY_SURVEY_QUESTION_LIST );
+		
+	}
+	
+	public  void addDailySurveyQuestion(DailySurveyQuestion dailySurveyQuestion){
+		dailySurveyQuestion.setSurveyQuestion(this);
+		getDailySurveyQuestionList().add(dailySurveyQuestion);
+	}
+	public  void addDailySurveyQuestionList(SmartList<DailySurveyQuestion> dailySurveyQuestionList){
+		for( DailySurveyQuestion dailySurveyQuestion:dailySurveyQuestionList){
+			dailySurveyQuestion.setSurveyQuestion(this);
+		}
+		getDailySurveyQuestionList().addAll(dailySurveyQuestionList);
+	}
+	public  void mergeDailySurveyQuestionList(SmartList<DailySurveyQuestion> dailySurveyQuestionList){
+		if(dailySurveyQuestionList==null){
+			return;
+		}
+		if(dailySurveyQuestionList.isEmpty()){
+			return;
+		}
+		addDailySurveyQuestionList( dailySurveyQuestionList );
+		
+	}
+	public  DailySurveyQuestion removeDailySurveyQuestion(DailySurveyQuestion dailySurveyQuestionIndex){
+		
+		int index = getDailySurveyQuestionList().indexOf(dailySurveyQuestionIndex);
+        if(index < 0){
+        	String message = "DailySurveyQuestion("+dailySurveyQuestionIndex.getId()+") with version='"+dailySurveyQuestionIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        DailySurveyQuestion dailySurveyQuestion = getDailySurveyQuestionList().get(index);        
+        // dailySurveyQuestion.clearSurveyQuestion(); //disconnect with SurveyQuestion
+        dailySurveyQuestion.clearFromAll(); //disconnect with SurveyQuestion
+		
+		boolean result = getDailySurveyQuestionList().planToRemove(dailySurveyQuestion);
+        if(!result){
+        	String message = "DailySurveyQuestion("+dailySurveyQuestionIndex.getId()+") with version='"+dailySurveyQuestionIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return dailySurveyQuestion;
+        
+	
+	}
+	//断舍离
+	public  void breakWithDailySurveyQuestion(DailySurveyQuestion dailySurveyQuestion){
+		
+		if(dailySurveyQuestion == null){
+			return;
+		}
+		dailySurveyQuestion.setSurveyQuestion(null);
+		//getDailySurveyQuestionList().remove();
+	
+	}
+	
+	public  boolean hasDailySurveyQuestion(DailySurveyQuestion dailySurveyQuestion){
+	
+		return getDailySurveyQuestionList().contains(dailySurveyQuestion);
+  
+	}
+	
+	public void copyDailySurveyQuestionFrom(DailySurveyQuestion dailySurveyQuestion) {
+
+		DailySurveyQuestion dailySurveyQuestionInList = findTheDailySurveyQuestion(dailySurveyQuestion);
+		DailySurveyQuestion newDailySurveyQuestion = new DailySurveyQuestion();
+		dailySurveyQuestionInList.copyTo(newDailySurveyQuestion);
+		newDailySurveyQuestion.setVersion(0);//will trigger copy
+		getDailySurveyQuestionList().add(newDailySurveyQuestion);
+		addItemToFlexiableObject(COPIED_CHILD, newDailySurveyQuestion);
+	}
+	
+	public  DailySurveyQuestion findTheDailySurveyQuestion(DailySurveyQuestion dailySurveyQuestion){
+		
+		int index =  getDailySurveyQuestionList().indexOf(dailySurveyQuestion);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "DailySurveyQuestion("+dailySurveyQuestion.getId()+") with version='"+dailySurveyQuestion.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getDailySurveyQuestionList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpDailySurveyQuestionList(){
+		getDailySurveyQuestionList().clear();
+	}
+	
+	
+	
+
+
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getQuestionType(), internalType);
 		addToEntityList(this, entityList, getPlatform(), internalType);
+		addToEntityList(this, entityList, getCreator(), internalType);
+		addToEntityList(this, entityList, getCq(), internalType);
 
 		
 	}
@@ -386,6 +558,7 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
+		collectFromList(this, entityList, getDailySurveyQuestionList(), internalType);
 
 		return entityList;
 	}
@@ -393,6 +566,7 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
+		listOfList.add( getDailySurveyQuestionList());
 			
 
 		return listOfList;
@@ -410,7 +584,14 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, OPTION_C_PROPERTY, getOptionC());
 		appendKeyValuePair(result, OPTION_D_PROPERTY, getOptionD());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
+		appendKeyValuePair(result, CREATOR_PROPERTY, getCreator());
+		appendKeyValuePair(result, CQ_PROPERTY, getCq());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
+		appendKeyValuePair(result, DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionList());
+		if(!getDailySurveyQuestionList().isEmpty()){
+			appendKeyValuePair(result, "dailySurveyQuestionCount", getDailySurveyQuestionList().getTotalCount());
+			appendKeyValuePair(result, "dailySurveyQuestionCurrentPageNumber", getDailySurveyQuestionList().getCurrentPageNumber());
+		}
 
 		
 		return result;
@@ -433,7 +614,10 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 			dest.setOptionC(getOptionC());
 			dest.setOptionD(getOptionD());
 			dest.setPlatform(getPlatform());
+			dest.setCreator(getCreator());
+			dest.setCq(getCq());
 			dest.setVersion(getVersion());
+			dest.setDailySurveyQuestionList(getDailySurveyQuestionList());
 
 		}
 		super.copyTo(baseDest);
@@ -455,7 +639,10 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 			dest.mergeOptionC(getOptionC());
 			dest.mergeOptionD(getOptionD());
 			dest.mergePlatform(getPlatform());
+			dest.mergeCreator(getCreator());
+			dest.mergeCq(getCq());
 			dest.mergeVersion(getVersion());
+			dest.mergeDailySurveyQuestionList(getDailySurveyQuestionList());
 
 		}
 		super.copyTo(baseDest);
@@ -482,7 +669,7 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getTopic(), getQuestionType(), getOptionA(), getOptionB(), getOptionC(), getOptionD(), getPlatform(), getVersion()};
+		return new Object[]{getId(), getTopic(), getQuestionType(), getOptionA(), getOptionB(), getOptionC(), getOptionD(), getPlatform(), getCreator(), getCq(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -499,6 +686,12 @@ public class Question extends BaseEntity implements  java.io.Serializable{
 		stringBuilder.append("\toptionD='"+getOptionD()+"';");
 		if(getPlatform() != null ){
  			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");
+ 		}
+		if(getCreator() != null ){
+ 			stringBuilder.append("\tcreator='User("+getCreator().getId()+")';");
+ 		}
+		if(getCq() != null ){
+ 			stringBuilder.append("\tcq='ChangeRequest("+getCq().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

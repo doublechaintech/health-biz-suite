@@ -74,12 +74,10 @@ public class ChangeRequestTokens extends CommonTokens{
 		return start()
 			.withRequestType()
 			.withPlatform()
-			.withSchoolClassList()
 			.withTeacherList()
-			.withGuardianList()
-			.withClassQuestionList()
-			.withClassDailyHealthSurveyList()
 			.withStudentList()
+			.withQuestionList()
+			.withClassDailyHealthSurveyList()
 			.withStudentHealthSurveyList()
 			.withStudentDailyAnswerList();
 	
@@ -127,76 +125,6 @@ public class ChangeRequestTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String SCHOOL_CLASS_LIST = "schoolClassList";
-	public String getSchoolClassList(){
-		return SCHOOL_CLASS_LIST;
-	}
-	public ChangeRequestTokens withSchoolClassList(){		
-		addSimpleOptions(SCHOOL_CLASS_LIST);
-		return this;
-	}
-	public ChangeRequestTokens analyzeSchoolClassList(){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeSchoolClassListEnabled(){		
-		
-		if(checkOptions(this.options(), SCHOOL_CLASS_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public ChangeRequestTokens extractMoreFromSchoolClassList(String idsSeperatedWithComma){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int schoolClassListSortCounter = 0;
-	public ChangeRequestTokens sortSchoolClassListWith(String field, String descOrAsc){		
-		addSortMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int schoolClassListSearchCounter = 0;
-	public ChangeRequestTokens searchSchoolClassListWith(String field, String verb, String value){		
-		
-		withSchoolClassList();
-		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens searchAllTextOfSchoolClassList(String verb, String value){	
-		String field = "id|name|schoole";
-		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens rowsPerPageOfSchoolClassList(int rowsPerPage){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public ChangeRequestTokens currentPageNumberOfSchoolClassList(int currentPageNumber){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public ChangeRequestTokens retainColumnsOfSchoolClassList(String[] columns){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public ChangeRequestTokens excludeColumnsOfSchoolClassList(String[] columns){		
-		addSimpleOptions(SCHOOL_CLASS_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	protected static final String TEACHER_LIST = "teacherList";
 	public String getTeacherList(){
 		return TEACHER_LIST;
@@ -241,7 +169,7 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	
 	public ChangeRequestTokens searchAllTextOfTeacherList(String verb, String value){	
-		String field = "id|name|mobile|schoole";
+		String field = "id|name|mobile|school|schoolClass";
 		addSearchMoreOptions(TEACHER_LIST,teacherListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -267,141 +195,141 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	
 		
-	protected static final String GUARDIAN_LIST = "guardianList";
-	public String getGuardianList(){
-		return GUARDIAN_LIST;
+	protected static final String STUDENT_LIST = "studentList";
+	public String getStudentList(){
+		return STUDENT_LIST;
 	}
-	public ChangeRequestTokens withGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST);
+	public ChangeRequestTokens withStudentList(){		
+		addSimpleOptions(STUDENT_LIST);
 		return this;
 	}
-	public ChangeRequestTokens analyzeGuardianList(){		
-		addSimpleOptions(GUARDIAN_LIST+".anaylze");
+	public ChangeRequestTokens analyzeStudentList(){		
+		addSimpleOptions(STUDENT_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeGuardianListEnabled(){		
+	public boolean analyzeStudentListEnabled(){		
 		
-		if(checkOptions(this.options(), GUARDIAN_LIST+".anaylze")){
+		if(checkOptions(this.options(), STUDENT_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public ChangeRequestTokens extractMoreFromGuardianList(String idsSeperatedWithComma){		
-		addSimpleOptions(GUARDIAN_LIST+".extractIds", idsSeperatedWithComma);
+	public ChangeRequestTokens extractMoreFromStudentList(String idsSeperatedWithComma){		
+		addSimpleOptions(STUDENT_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int guardianListSortCounter = 0;
-	public ChangeRequestTokens sortGuardianListWith(String field, String descOrAsc){		
-		addSortMoreOptions(GUARDIAN_LIST,guardianListSortCounter++, field, descOrAsc);
+	private int studentListSortCounter = 0;
+	public ChangeRequestTokens sortStudentListWith(String field, String descOrAsc){		
+		addSortMoreOptions(STUDENT_LIST,studentListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int guardianListSearchCounter = 0;
-	public ChangeRequestTokens searchGuardianListWith(String field, String verb, String value){		
+	private int studentListSearchCounter = 0;
+	public ChangeRequestTokens searchStudentListWith(String field, String verb, String value){		
 		
-		withGuardianList();
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+		withStudentList();
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public ChangeRequestTokens searchAllTextOfGuardianList(String verb, String value){	
-		String field = "id|name|mobile";
-		addSearchMoreOptions(GUARDIAN_LIST,guardianListSearchCounter++, field, verb, value);
+	public ChangeRequestTokens searchAllTextOfStudentList(String verb, String value){	
+		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public ChangeRequestTokens rowsPerPageOfGuardianList(int rowsPerPage){		
-		addSimpleOptions(GUARDIAN_LIST+"RowsPerPage",rowsPerPage);
+	public ChangeRequestTokens rowsPerPageOfStudentList(int rowsPerPage){		
+		addSimpleOptions(STUDENT_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public ChangeRequestTokens currentPageNumberOfGuardianList(int currentPageNumber){		
-		addSimpleOptions(GUARDIAN_LIST+"CurrentPage",currentPageNumber);
+	public ChangeRequestTokens currentPageNumberOfStudentList(int currentPageNumber){		
+		addSimpleOptions(STUDENT_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public ChangeRequestTokens retainColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"RetainColumns",columns);
+	public ChangeRequestTokens retainColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public ChangeRequestTokens excludeColumnsOfGuardianList(String[] columns){		
-		addSimpleOptions(GUARDIAN_LIST+"ExcludeColumns",columns);
+	public ChangeRequestTokens excludeColumnsOfStudentList(String[] columns){		
+		addSimpleOptions(STUDENT_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
 	
 		
-	protected static final String CLASS_QUESTION_LIST = "classQuestionList";
-	public String getClassQuestionList(){
-		return CLASS_QUESTION_LIST;
+	protected static final String QUESTION_LIST = "questionList";
+	public String getQuestionList(){
+		return QUESTION_LIST;
 	}
-	public ChangeRequestTokens withClassQuestionList(){		
-		addSimpleOptions(CLASS_QUESTION_LIST);
+	public ChangeRequestTokens withQuestionList(){		
+		addSimpleOptions(QUESTION_LIST);
 		return this;
 	}
-	public ChangeRequestTokens analyzeClassQuestionList(){		
-		addSimpleOptions(CLASS_QUESTION_LIST+".anaylze");
+	public ChangeRequestTokens analyzeQuestionList(){		
+		addSimpleOptions(QUESTION_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeClassQuestionListEnabled(){		
+	public boolean analyzeQuestionListEnabled(){		
 		
-		if(checkOptions(this.options(), CLASS_QUESTION_LIST+".anaylze")){
+		if(checkOptions(this.options(), QUESTION_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public ChangeRequestTokens extractMoreFromClassQuestionList(String idsSeperatedWithComma){		
-		addSimpleOptions(CLASS_QUESTION_LIST+".extractIds", idsSeperatedWithComma);
+	public ChangeRequestTokens extractMoreFromQuestionList(String idsSeperatedWithComma){		
+		addSimpleOptions(QUESTION_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int classQuestionListSortCounter = 0;
-	public ChangeRequestTokens sortClassQuestionListWith(String field, String descOrAsc){		
-		addSortMoreOptions(CLASS_QUESTION_LIST,classQuestionListSortCounter++, field, descOrAsc);
+	private int questionListSortCounter = 0;
+	public ChangeRequestTokens sortQuestionListWith(String field, String descOrAsc){		
+		addSortMoreOptions(QUESTION_LIST,questionListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int classQuestionListSearchCounter = 0;
-	public ChangeRequestTokens searchClassQuestionListWith(String field, String verb, String value){		
+	private int questionListSearchCounter = 0;
+	public ChangeRequestTokens searchQuestionListWith(String field, String verb, String value){		
 		
-		withClassQuestionList();
-		addSearchMoreOptions(CLASS_QUESTION_LIST,classQuestionListSearchCounter++, field, verb, value);
+		withQuestionList();
+		addSearchMoreOptions(QUESTION_LIST,questionListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public ChangeRequestTokens searchAllTextOfClassQuestionList(String verb, String value){	
+	public ChangeRequestTokens searchAllTextOfQuestionList(String verb, String value){	
 		String field = "id|topic|optionA|optionB|optionC|optionD";
-		addSearchMoreOptions(CLASS_QUESTION_LIST,classQuestionListSearchCounter++, field, verb, value);
+		addSearchMoreOptions(QUESTION_LIST,questionListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public ChangeRequestTokens rowsPerPageOfClassQuestionList(int rowsPerPage){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"RowsPerPage",rowsPerPage);
+	public ChangeRequestTokens rowsPerPageOfQuestionList(int rowsPerPage){		
+		addSimpleOptions(QUESTION_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public ChangeRequestTokens currentPageNumberOfClassQuestionList(int currentPageNumber){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"CurrentPage",currentPageNumber);
+	public ChangeRequestTokens currentPageNumberOfQuestionList(int currentPageNumber){		
+		addSimpleOptions(QUESTION_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public ChangeRequestTokens retainColumnsOfClassQuestionList(String[] columns){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"RetainColumns",columns);
+	public ChangeRequestTokens retainColumnsOfQuestionList(String[] columns){		
+		addSimpleOptions(QUESTION_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public ChangeRequestTokens excludeColumnsOfClassQuestionList(String[] columns){		
-		addSimpleOptions(CLASS_QUESTION_LIST+"ExcludeColumns",columns);
+	public ChangeRequestTokens excludeColumnsOfQuestionList(String[] columns){		
+		addSimpleOptions(QUESTION_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -472,76 +400,6 @@ public class ChangeRequestTokens extends CommonTokens{
 	}
 	public ChangeRequestTokens excludeColumnsOfClassDailyHealthSurveyList(String[] columns){		
 		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
-	protected static final String STUDENT_LIST = "studentList";
-	public String getStudentList(){
-		return STUDENT_LIST;
-	}
-	public ChangeRequestTokens withStudentList(){		
-		addSimpleOptions(STUDENT_LIST);
-		return this;
-	}
-	public ChangeRequestTokens analyzeStudentList(){		
-		addSimpleOptions(STUDENT_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeStudentListEnabled(){		
-		
-		if(checkOptions(this.options(), STUDENT_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public ChangeRequestTokens extractMoreFromStudentList(String idsSeperatedWithComma){		
-		addSimpleOptions(STUDENT_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int studentListSortCounter = 0;
-	public ChangeRequestTokens sortStudentListWith(String field, String descOrAsc){		
-		addSortMoreOptions(STUDENT_LIST,studentListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int studentListSearchCounter = 0;
-	public ChangeRequestTokens searchStudentListWith(String field, String verb, String value){		
-		
-		withStudentList();
-		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens searchAllTextOfStudentList(String verb, String value){	
-		String field = "id|name|gender|studentId";
-		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens rowsPerPageOfStudentList(int rowsPerPage){		
-		addSimpleOptions(STUDENT_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public ChangeRequestTokens currentPageNumberOfStudentList(int currentPageNumber){		
-		addSimpleOptions(STUDENT_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public ChangeRequestTokens retainColumnsOfStudentList(String[] columns){		
-		addSimpleOptions(STUDENT_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public ChangeRequestTokens excludeColumnsOfStudentList(String[] columns){		
-		addSimpleOptions(STUDENT_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -690,12 +548,10 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	public  ChangeRequestTokens searchEntireObjectText(String verb, String value){
 		
-		searchAllTextOfSchoolClassList(verb, value);	
 		searchAllTextOfTeacherList(verb, value);	
-		searchAllTextOfGuardianList(verb, value);	
-		searchAllTextOfClassQuestionList(verb, value);	
-		searchAllTextOfClassDailyHealthSurveyList(verb, value);	
 		searchAllTextOfStudentList(verb, value);	
+		searchAllTextOfQuestionList(verb, value);	
+		searchAllTextOfClassDailyHealthSurveyList(verb, value);	
 		searchAllTextOfStudentHealthSurveyList(verb, value);	
 		searchAllTextOfStudentDailyAnswerList(verb, value);	
 		return this;

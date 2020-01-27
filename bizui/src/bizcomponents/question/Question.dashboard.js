@@ -128,6 +128,18 @@ const internalSummaryOf = (question,targetComponent) =>{
 <Description term="B选项" style={{wordBreak: 'break-all'}}>{question.optionB}</Description> 
 <Description term="C选项" style={{wordBreak: 'break-all'}}>{question.optionC}</Description> 
 <Description term="D选项" style={{wordBreak: 'break-all'}}>{question.optionD}</Description> 
+<Description term="创建人名称">{question.creator==null?appLocaleName(userContext,"NotAssigned"):`${question.creator.displayName}(${question.creator.id})`}
+ <Icon type="swap" onClick={()=>
+  showTransferModel(targetComponent,"创建人名称","user",QuestionService.requestCandidateCreator,
+	      QuestionService.transferToAnotherCreator,"anotherCreatorId",question.creator?question.creator.id:"")} 
+  style={{fontSize: 20,color:"red"}} />
+</Description>
+<Description term="Cq">{question.cq==null?appLocaleName(userContext,"NotAssigned"):`${question.cq.displayName}(${question.cq.id})`}
+ <Icon type="swap" onClick={()=>
+  showTransferModel(targetComponent,"Cq","changeRequest",QuestionService.requestCandidateCq,
+	      QuestionService.transferToAnotherCq,"anotherCqId",question.cq?question.cq.id:"")} 
+  style={{fontSize: 20,color:"red"}} />
+</Description>
 	
         {buildTransferModal(question,targetComponent)}
       </DescriptionList>
@@ -159,7 +171,7 @@ class QuestionDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName,  } = this.props.question
+    const { id,displayName, dailySurveyQuestionListMetaInfo, dailySurveyQuestionCount } = this.props.question
     if(!this.props.question.class){
       return null
     }
@@ -168,6 +180,7 @@ class QuestionDashboard extends Component {
     const cardsData = {cardsName:"检查问题",cardsFor: "question",
     	cardsSource: this.props.question,returnURL,displayName,
   		subItems: [
+{name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','question.daily_survey_question_list',false) ,viewGroup:'__no_group', type:'dailySurveyQuestion',count:dailySurveyQuestionCount,addFunction: true, role: 'dailySurveyQuestion', metaInfo: dailySurveyQuestionListMetaInfo, renderItem: GlobalComponents.DailySurveyQuestionBase.renderItemOfList},
     
       	],
    		subSettingItems: [

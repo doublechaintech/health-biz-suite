@@ -298,12 +298,24 @@ class TeacherUpdateForm extends Component {
               </Col>
 
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.schoole} {...formItemLayout}>
-                  {getFieldDecorator('schoole', {
-                    initialValue: selectedRow.schoole,
+                <Form.Item label={fieldLabels.school} {...formItemLayout}>
+                  {getFieldDecorator('school', {
+                    initialValue: selectedRow.school,
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.schoole} />
+                    <Input size="large"  placeHolder={fieldLabels.school} />
+                    
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
+                  {getFieldDecorator('schoolClass', {
+                    initialValue: selectedRow.schoolClass,
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.schoolClass} />
                     
                   )}
                 </Form.Item>

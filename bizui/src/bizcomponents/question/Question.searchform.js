@@ -139,6 +139,8 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'optionC'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'optionD'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'platform'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'creator'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'cq'))
 
      
       console.log("the final parameter", paramList)
@@ -322,6 +324,30 @@ componentDidMount() {
                     disabled={!availableForEdit('platform')}
                     targetType={"platform"} 
                     requestFunction={QuestionService.requestCandidatePlatform} useForSearch />
+                  	
+                 
+                  )}
+                </Form.Item></Col>
+ <Col md={8} sm={24}>
+                    <Form.Item label={fieldLabels.creator}>
+                  {getFieldDecorator('creator', {initialValue: tryinit('creator')})(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('creator')}
+                    targetType={"creator"} 
+                    requestFunction={QuestionService.requestCandidateCreator} useForSearch />
+                  	
+                 
+                  )}
+                </Form.Item></Col>
+ <Col md={8} sm={24}>
+                    <Form.Item label={fieldLabels.cq}>
+                  {getFieldDecorator('cq', {initialValue: tryinit('cq')})(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('cq')}
+                    targetType={"cq"} 
+                    requestFunction={QuestionService.requestCandidateCq} useForSearch />
                   	
                  
                   )}

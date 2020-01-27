@@ -10,6 +10,12 @@
 		<property name="defaultHandler" ref="changeRequestBaseHandler"/>
 	</bean>
 	<bean id="loginHandler" class="com.doublechaintech.health.changerequest.LoginCustomHandler" ></bean>
+	<bean id="answerSurveyHandler" class="com.doublechaintech.health.changerequest.AnswerSurveyCustomHandler" ></bean>
+	<bean id="registerTeacherHandler" class="com.doublechaintech.health.changerequest.RegisterTeacherCustomHandler" ></bean>
+	<bean id="createSurveyHandler" class="com.doublechaintech.health.changerequest.CreateSurveyCustomHandler" ></bean>
+	<bean id="answerQuestionHandler" class="com.doublechaintech.health.changerequest.AnswerQuestionCustomHandler" ></bean>
+	<bean id="createQuestionHandler" class="com.doublechaintech.health.changerequest.CreateQuestionCustomHandler" ></bean>
+	<bean id="registerStudentHandler" class="com.doublechaintech.health.changerequest.RegisterStudentCustomHandler" ></bean>
 	<bean id="teacherProcessor" class="com.doublechaintech.health.changerequest.TeacherCustomProcessor" ></bean>
 	<bean id="studentProcessor" class="com.doublechaintech.health.changerequest.StudentCustomProcessor" ></bean>
 	<bean id="questionProcessor" class="com.doublechaintech.health.changerequest.QuestionCustomProcessor" ></bean>

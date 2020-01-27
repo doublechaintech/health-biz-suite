@@ -53,20 +53,20 @@ const settingMenuData = {menuName: window.trans('class_daily_health_survey'), me
 const fieldLabels = {
   id: window.trans('class_daily_health_survey.id'),
   name: window.trans('class_daily_health_survey.name'),
-  schoolClass: window.trans('class_daily_health_survey.school_class'),
+  teacher: window.trans('class_daily_health_survey.teacher'),
   surveyTime: window.trans('class_daily_health_survey.survey_time'),
   creator: window.trans('class_daily_health_survey.creator'),
-  cq: window.trans('class_daily_health_survey.cq'),
+  changeRequest: window.trans('class_daily_health_survey.change_request'),
 
 }
 
 const displayColumns = [
   { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'classDailyHealthSurvey') , sorter: true },
   { title: fieldLabels.name, debugtype: 'string', dataIndex: 'name', width: '26',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.schoolClass, dataIndex: 'schoolClass', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.teacher, dataIndex: 'teacher', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.surveyTime, dataIndex: 'surveyTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.creator, dataIndex: 'creator', render: (text, record) => renderReferenceCell(text, record), sorter:true},
-  { title: fieldLabels.cq, dataIndex: 'cq', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
 
@@ -82,12 +82,12 @@ const renderItemOfList=(classDailyHealthSurvey, targetComponent, columCount)=>{
       <DescriptionList  key={classDailyHealthSurvey.id} size="small" col="2" >
         <Description term={fieldLabels.id} style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.id}</Description> 
         <Description term={fieldLabels.name} style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.name}</Description> 
-        <Description term={fieldLabels.schoolClass}><div>{classDailyHealthSurvey.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.schoolClass.displayName}(${classDailyHealthSurvey.schoolClass.id})`}
+        <Description term={fieldLabels.teacher}><div>{classDailyHealthSurvey.teacher==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.teacher.displayName}(${classDailyHealthSurvey.teacher.id})`}
         </div></Description>
         <Description term={fieldLabels.surveyTime}><div>{ moment(classDailyHealthSurvey.surveyTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
         <Description term={fieldLabels.creator}><div>{classDailyHealthSurvey.creator==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.creator.displayName}(${classDailyHealthSurvey.creator.id})`}
         </div></Description>
-        <Description term={fieldLabels.cq}><div>{classDailyHealthSurvey.cq==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.cq.displayName}(${classDailyHealthSurvey.cq.id})`}
+        <Description term={fieldLabels.changeRequest}><div>{classDailyHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.changeRequest.displayName}(${classDailyHealthSurvey.changeRequest.id})`}
         </div></Description>
 	
         
@@ -99,19 +99,19 @@ const renderItemOfList=(classDailyHealthSurvey, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {name, surveyTime, schoolClassId, creatorId, cqId} = formValuesToPack
-	const schoolClass = {id: schoolClassId, version: 2^31}
+	const {name, surveyTime, teacherId, creatorId, changeRequestId} = formValuesToPack
+	const teacher = {id: teacherId, version: 2^31}
 	const creator = {id: creatorId, version: 2^31}
-	const cq = {id: cqId, version: 2^31}
-	const data = {name, surveyTime, schoolClass, creator, cq}
+	const changeRequest = {id: changeRequestId, version: 2^31}
+	const data = {name, surveyTime, teacher, creator, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {name, surveyTime, schoolClass, creator, cq} = objectToUnpack
-	const schoolClassId = schoolClass ? schoolClass.id : null
+	const {name, surveyTime, teacher, creator, changeRequest} = objectToUnpack
+	const teacherId = teacher ? teacher.id : null
 	const creatorId = creator ? creator.id : null
-	const cqId = cq ? cq.id : null
-	const data = {name, surveyTime, schoolClassId, creatorId, cqId}
+	const changeRequestId = changeRequest ? changeRequest.id : null
+	const data = {name, surveyTime, teacherId, creatorId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

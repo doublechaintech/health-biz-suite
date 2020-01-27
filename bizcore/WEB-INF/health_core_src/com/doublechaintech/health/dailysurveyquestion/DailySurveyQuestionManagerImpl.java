@@ -22,11 +22,11 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.question.Question;
 
 import com.doublechaintech.health.questiontype.CandidateQuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.CandidateClassDailyHealthSurvey;
-import com.doublechaintech.health.classquestion.CandidateClassQuestion;
+import com.doublechaintech.health.question.CandidateQuestion;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
@@ -164,7 +164,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_question_type","transferToAnotherQuestionType","transferToAnotherQuestionType/"+dailySurveyQuestion.getId()+"/","main","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_class_daily_health_survey","transferToAnotherClassDailyHealthSurvey","transferToAnotherClassDailyHealthSurvey/"+dailySurveyQuestion.getId()+"/","main","primary");
-		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_class_question","transferToAnotherClassQuestion","transferToAnotherClassQuestion/"+dailySurveyQuestion.getId()+"/","main","primary");
+		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_survey_question","transferToAnotherSurveyQuestion","transferToAnotherSurveyQuestion/"+dailySurveyQuestion.getId()+"/","main","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.addStudentDailyAnswer","addStudentDailyAnswer","addStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.removeStudentDailyAnswer","removeStudentDailyAnswer","removeStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.updateStudentDailyAnswer","updateStudentDailyAnswer","updateStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
@@ -180,8 +180,8 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
  	
  	
 
-	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String classQuestionId) throws Exception
-	//public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String classQuestionId) throws Exception
+	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String surveyQuestionId) throws Exception
+	//public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String surveyQuestionId) throws Exception
 	{
 
 		
@@ -215,8 +215,8 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 		
 			
-		ClassQuestion classQuestion = loadClassQuestion(userContext, classQuestionId,emptyOptions());
-		dailySurveyQuestion.setClassQuestion(classQuestion);
+		Question surveyQuestion = loadQuestion(userContext, surveyQuestionId,emptyOptions());
+		dailySurveyQuestion.setSurveyQuestion(surveyQuestion);
 		
 		
 
@@ -495,24 +495,24 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherClassQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassQuestionId) throws Exception
+ 	protected void checkParamsForTransferingAnotherSurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherSurveyQuestionId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
- 		checkerOf(userContext).checkIdOfClassQuestion(anotherClassQuestionId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfQuestion(anotherSurveyQuestionId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(DailySurveyQuestionManagerException.class);
 
  	}
- 	public DailySurveyQuestion transferToAnotherClassQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassQuestionId) throws Exception
+ 	public DailySurveyQuestion transferToAnotherSurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherSurveyQuestionId) throws Exception
  	{
- 		checkParamsForTransferingAnotherClassQuestion(userContext, dailySurveyQuestionId,anotherClassQuestionId);
+ 		checkParamsForTransferingAnotherSurveyQuestion(userContext, dailySurveyQuestionId,anotherSurveyQuestionId);
  
 		DailySurveyQuestion dailySurveyQuestion = loadDailySurveyQuestion(userContext, dailySurveyQuestionId, allTokens());	
 		synchronized(dailySurveyQuestion){
 			//will be good when the dailySurveyQuestion loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			ClassQuestion classQuestion = loadClassQuestion(userContext, anotherClassQuestionId, emptyOptions());		
-			dailySurveyQuestion.updateClassQuestion(classQuestion);		
+			Question surveyQuestion = loadQuestion(userContext, anotherSurveyQuestionId, emptyOptions());		
+			dailySurveyQuestion.updateSurveyQuestion(surveyQuestion);		
 			dailySurveyQuestion = saveDailySurveyQuestion(userContext, dailySurveyQuestion, emptyOptions());
 			
 			return present(userContext,dailySurveyQuestion, allTokens());
@@ -524,9 +524,9 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 	
 
 
-	public CandidateClassQuestion requestCandidateClassQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateQuestion requestCandidateSurveyQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateClassQuestion result = new CandidateClassQuestion();
+		CandidateQuestion result = new CandidateQuestion();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -537,7 +537,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<ClassQuestion> candidateList = classQuestionDaoOf(userContext).requestCandidateClassQuestionForDailySurveyQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<Question> candidateList = questionDaoOf(userContext).requestCandidateQuestionForDailySurveyQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
@@ -574,10 +574,10 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 
 	
 
- 	protected ClassQuestion loadClassQuestion(HealthUserContext userContext, String newClassQuestionId, Map<String,Object> options) throws Exception
+ 	protected Question loadQuestion(HealthUserContext userContext, String newSurveyQuestionId, Map<String,Object> options) throws Exception
  	{
 
- 		return classQuestionDaoOf(userContext).load(newClassQuestionId, options);
+ 		return questionDaoOf(userContext).load(newSurveyQuestionId, options);
  	}
  	
 
@@ -641,8 +641,8 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 				return dailySurveyQuestion;
 			}
 	}
-	//disconnect DailySurveyQuestion with cq in StudentDailyAnswer
-	protected DailySurveyQuestion breakWithStudentDailyAnswerByCq(HealthUserContext userContext, String dailySurveyQuestionId, String cqId,  String [] tokensExpr)
+	//disconnect DailySurveyQuestion with change_request in StudentDailyAnswer
+	protected DailySurveyQuestion breakWithStudentDailyAnswerByChangeRequest(HealthUserContext userContext, String dailySurveyQuestionId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -653,7 +653,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				dailySurveyQuestionDaoOf(userContext).planToRemoveStudentDailyAnswerListWithCq(dailySurveyQuestion, cqId, this.emptyOptions());
+				dailySurveyQuestionDaoOf(userContext).planToRemoveStudentDailyAnswerListWithChangeRequest(dailySurveyQuestion, changeRequestId, this.emptyOptions());
 
 				dailySurveyQuestion = saveDailySurveyQuestion(userContext, dailySurveyQuestion, tokens().withStudentDailyAnswerList().done());
 				return dailySurveyQuestion;
@@ -665,7 +665,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 
 
 
-	protected void checkParamsForAddingStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
 
@@ -674,18 +674,18 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 		checkerOf(userContext).checkAnswerOfStudentDailyAnswer(answer);
 		
-		checkerOf(userContext).checkCqIdOfStudentDailyAnswer(cqId);
+		checkerOf(userContext).checkChangeRequestIdOfStudentDailyAnswer(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(DailySurveyQuestionManagerException.class);
 
 
 	}
-	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String cqId, String [] tokensExpr) throws Exception
+	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudentDailyAnswer(userContext,dailySurveyQuestionId,studentHealthSurveyId, answer, cqId,tokensExpr);
+		checkParamsForAddingStudentDailyAnswer(userContext,dailySurveyQuestionId,studentHealthSurveyId, answer, changeRequestId,tokensExpr);
 
-		StudentDailyAnswer studentDailyAnswer = createStudentDailyAnswer(userContext,studentHealthSurveyId, answer, cqId);
+		StudentDailyAnswer studentDailyAnswer = createStudentDailyAnswer(userContext,studentHealthSurveyId, answer, changeRequestId);
 
 		DailySurveyQuestion dailySurveyQuestion = loadDailySurveyQuestion(userContext, dailySurveyQuestionId, emptyOptions());
 		synchronized(dailySurveyQuestion){
@@ -736,7 +736,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 	}
 
 
-	protected StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String answer, String cqId) throws Exception{
+	protected StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String answer, String changeRequestId) throws Exception{
 
 		StudentDailyAnswer studentDailyAnswer = new StudentDailyAnswer();
 		
@@ -747,9 +747,9 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		studentDailyAnswer.setAnswer(answer);		
 		studentDailyAnswer.setCreateTime(userContext.now());		
 		studentDailyAnswer.setLastUpdateTime(userContext.now());		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		studentDailyAnswer.setCq(cq);
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		studentDailyAnswer.setChangeRequest(changeRequest);
 	
 		
 		return studentDailyAnswer;

@@ -63,8 +63,9 @@ const showAssociateDialog = (targetComponent) => {
   
   const {selectedRows} = targetComponent.state
   
-  const { GuardianAssociateForm } = GlobalComponents
-  const { SchoolClassAssociateForm } = GlobalComponents
+  const { LocationAssociateForm } = GlobalComponents
+  const { UserAssociateForm } = GlobalComponents
+  const { PlatformAssociateForm } = GlobalComponents
   const { ChangeRequestAssociateForm } = GlobalComponents
 
 
@@ -73,19 +74,23 @@ const showAssociateDialog = (targetComponent) => {
   
    
   
-    <GuardianAssociateForm 
-	visible={currentAssociateModal==='guardian'} 
+    <LocationAssociateForm 
+	visible={currentAssociateModal==='address'} 
 	data={{studentList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'guardian')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'guardian')}/> <SchoolClassAssociateForm 
-	visible={currentAssociateModal==='schoolClass'} 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'address')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'address')}/> <UserAssociateForm 
+	visible={currentAssociateModal==='user'} 
 	data={{studentList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'schoolClass')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'schoolClass')}/> <ChangeRequestAssociateForm 
-	visible={currentAssociateModal==='cq'} 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'user')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'user')}/> <PlatformAssociateForm 
+	visible={currentAssociateModal==='platform'} 
 	data={{studentList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'cq')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'cq')}/> 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'platform')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'platform')}/> <ChangeRequestAssociateForm 
+	visible={currentAssociateModal==='changeRequest'} 
+	data={{studentList:selectedRows}} owner={owner}  
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')}/> 
  
 
 

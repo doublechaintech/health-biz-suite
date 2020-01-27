@@ -117,25 +117,27 @@ const internalSummaryOf = (student,targetComponent) =>{
 	return (
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID" style={{wordBreak: 'break-all'}}>{student.id}</Description> 
-<Description term="名称" style={{wordBreak: 'break-all'}}>{student.name}</Description> 
-<Description term="性别" style={{wordBreak: 'break-all'}}>{student.gender}</Description> 
-<Description term="《卫报》">{student.guardian==null?appLocaleName(userContext,"NotAssigned"):`${student.guardian.displayName}(${student.guardian.id})`}
- <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"《卫报》","guardian",StudentService.requestCandidateGuardian,
-	      StudentService.transferToAnotherGuardian,"anotherGuardianId",student.guardian?student.guardian.id:"")} 
-  style={{fontSize: 20,color:"red"}} />
-</Description>
-<Description term="学校类">{student.schoolClass==null?appLocaleName(userContext,"NotAssigned"):`${student.schoolClass.displayName}(${student.schoolClass.id})`}
- <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"学校类","schoolClass",StudentService.requestCandidateSchoolClass,
-	      StudentService.transferToAnotherSchoolClass,"anotherSchoolClassId",student.schoolClass?student.schoolClass.id:"")} 
-  style={{fontSize: 20,color:"red"}} />
-</Description>
+<Description term="学生的名字" style={{wordBreak: 'break-all'}}>{student.studentName}</Description> 
 <Description term="学生证" style={{wordBreak: 'break-all'}}>{student.studentId}</Description> 
-<Description term="Cq">{student.cq==null?appLocaleName(userContext,"NotAssigned"):`${student.cq.displayName}(${student.cq.id})`}
+<Description term="监护人姓名" style={{wordBreak: 'break-all'}}>{student.guardianName}</Description> 
+<Description term="监护人手机" style={{wordBreak: 'break-all'}}>{student.guardianMobile}</Description> 
+<Description term="地址">{student.address==null?appLocaleName(userContext,"NotAssigned"):`${student.address.displayName}(${student.address.id})`}
  <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"Cq","changeRequest",StudentService.requestCandidateCq,
-	      StudentService.transferToAnotherCq,"anotherCqId",student.cq?student.cq.id:"")} 
+  showTransferModel(targetComponent,"地址","location",StudentService.requestCandidateAddress,
+	      StudentService.transferToAnotherAddress,"anotherAddressId",student.address?student.address.id:"")} 
+  style={{fontSize: 20,color:"red"}} />
+</Description>
+<Description term="用户">{student.user==null?appLocaleName(userContext,"NotAssigned"):`${student.user.displayName}(${student.user.id})`}
+ <Icon type="swap" onClick={()=>
+  showTransferModel(targetComponent,"用户","user",StudentService.requestCandidateUser,
+	      StudentService.transferToAnotherUser,"anotherUserId",student.user?student.user.id:"")} 
+  style={{fontSize: 20,color:"red"}} />
+</Description>
+<Description term="创建时间">{ moment(student.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
+<Description term="变更请求">{student.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${student.changeRequest.displayName}(${student.changeRequest.id})`}
+ <Icon type="swap" onClick={()=>
+  showTransferModel(targetComponent,"变更请求","changeRequest",StudentService.requestCandidateChangeRequest,
+	      StudentService.transferToAnotherChangeRequest,"anotherChangeRequestId",student.changeRequest?student.changeRequest.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
 	

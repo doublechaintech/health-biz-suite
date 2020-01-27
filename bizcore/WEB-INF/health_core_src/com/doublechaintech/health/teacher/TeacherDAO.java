@@ -11,10 +11,12 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
-import com.doublechaintech.health.schoolclass.SchoolClassDAO;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 
 
@@ -46,22 +48,45 @@ public interface TeacherDAO extends BaseDAO{
 	public Teacher disconnectFromAll(String teacherId, int version) throws Exception;
 	public int deleteAll() throws Exception;
 
-	public SchoolClassDAO getSchoolClassDAO();
+	public ClassDailyHealthSurveyDAO getClassDailyHealthSurveyDAO();
+		
+	public StudentHealthSurveyDAO getStudentHealthSurveyDAO();
 		
 	
- 	public SmartList<Teacher> requestCandidateTeacherForSchoolClass(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+ 	public SmartList<Teacher> requestCandidateTeacherForClassDailyHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+ 	public SmartList<Teacher> requestCandidateTeacherForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
-	public Teacher planToRemoveSchoolClassList(Teacher teacher, String schoolClassIds[], Map<String,Object> options)throws Exception;
+	public Teacher planToRemoveClassDailyHealthSurveyList(Teacher teacher, String classDailyHealthSurveyIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect Teacher with platform in SchoolClass
-	public Teacher planToRemoveSchoolClassListWithPlatform(Teacher teacher, String platformId, Map<String,Object> options)throws Exception;
-	public int countSchoolClassListWithPlatform(String teacherId, String platformId, Map<String,Object> options)throws Exception;
+	//disconnect Teacher with creator in ClassDailyHealthSurvey
+	public Teacher planToRemoveClassDailyHealthSurveyListWithCreator(Teacher teacher, String creatorId, Map<String,Object> options)throws Exception;
+	public int countClassDailyHealthSurveyListWithCreator(String teacherId, String creatorId, Map<String,Object> options)throws Exception;
 	
-	//disconnect Teacher with cq in SchoolClass
-	public Teacher planToRemoveSchoolClassListWithCq(Teacher teacher, String cqId, Map<String,Object> options)throws Exception;
-	public int countSchoolClassListWithCq(String teacherId, String cqId, Map<String,Object> options)throws Exception;
+	//disconnect Teacher with change_request in ClassDailyHealthSurvey
+	public Teacher planToRemoveClassDailyHealthSurveyListWithChangeRequest(Teacher teacher, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countClassDailyHealthSurveyListWithChangeRequest(String teacherId, String changeRequestId, Map<String,Object> options)throws Exception;
+	
+	public Teacher planToRemoveStudentHealthSurveyList(Teacher teacher, String studentHealthSurveyIds[], Map<String,Object> options)throws Exception;
+
+
+	//disconnect Teacher with student in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithStudent(Teacher teacher, String studentId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithStudent(String teacherId, String studentId, Map<String,Object> options)throws Exception;
+	
+	//disconnect Teacher with survey_status in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithSurveyStatus(Teacher teacher, String surveyStatusId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithSurveyStatus(String teacherId, String surveyStatusId, Map<String,Object> options)throws Exception;
+	
+	//disconnect Teacher with class_daily_health_survey in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(Teacher teacher, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithClassDailyHealthSurvey(String teacherId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
+	
+	//disconnect Teacher with change_request in StudentHealthSurvey
+	public Teacher planToRemoveStudentHealthSurveyListWithChangeRequest(Teacher teacher, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithChangeRequest(String teacherId, String changeRequestId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<Teacher> queryList(String sql, Object ... parmeters);
@@ -75,16 +100,19 @@ public interface TeacherDAO extends BaseDAO{
 
  
   
- 	public SmartList<Teacher> findTeacherByCq(String changeRequestId, Map<String,Object> options);
- 	public int countTeacherByCq(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countTeacherByCqIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Teacher> findTeacherByCq(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeTeacherByCq(SmartList<Teacher> resultList, String changeRequestId, Map<String,Object> options);
+ 	public SmartList<Teacher> findTeacherByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public int countTeacherByChangeRequest(String changeRequestId, Map<String,Object> options);
+ 	public Map<String, Integer> countTeacherByChangeRequestIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<Teacher> findTeacherByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
+ 	public void analyzeTeacherByChangeRequest(SmartList<Teacher> resultList, String changeRequestId, Map<String,Object> options);
 
  
  
-	// 需要一个加载引用我的对象的enhance方法:SchoolClass的classTeacher的SchoolClassList
-	public SmartList<SchoolClass> loadOurSchoolClassList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception;
+	// 需要一个加载引用我的对象的enhance方法:ClassDailyHealthSurvey的teacher的ClassDailyHealthSurveyList
+	public SmartList<ClassDailyHealthSurvey> loadOurClassDailyHealthSurveyList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception;
+	
+	// 需要一个加载引用我的对象的enhance方法:StudentHealthSurvey的teacher的StudentHealthSurveyList
+	public SmartList<StudentHealthSurvey> loadOurStudentHealthSurveyList(HealthUserContext userContext, List<Teacher> us, Map<String,Object> options) throws Exception;
 	
 }
 

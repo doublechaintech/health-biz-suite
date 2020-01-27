@@ -18,15 +18,15 @@ const load = (targetObjectId, parameters) => {
 
 
 
-const requestCandidateWechatUser = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateUser = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}wechatLoginInfoManager/requestCandidateWechatUser/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}wechatLoginInfoManager/requestCandidateUser/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherWechatUser = (id, parameters) => {
-  const url = `${PREFIX}wechatLoginInfoManager/transferToAnotherWechatUser/id/anotherWechatUserId/`
+const transferToAnotherUser = (id, parameters) => {
+  const url = `${PREFIX}wechatLoginInfoManager/transferToAnotherUser/id/anotherUserId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -65,7 +65,7 @@ const  processRequest = (data) => {
 
 const WechatLoginInfoService = { view,
   load,
-  requestCandidateWechatUser,
-  transferToAnotherWechatUser, listFunctions, saveRequest, processRequest}
+  requestCandidateUser,
+  transferToAnotherUser, listFunctions, saveRequest, processRequest}
 export default WechatLoginInfoService
 

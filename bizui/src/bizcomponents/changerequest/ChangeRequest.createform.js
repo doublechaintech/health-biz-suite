@@ -19,7 +19,7 @@ const testValues = {};
 /*
 const testValues = {
   name: '答题',
-  requestTypeId: 'AnswerQuestion',
+  requestTypeId: 'LOGIN',
   platformId: 'P000001',
 }
 */

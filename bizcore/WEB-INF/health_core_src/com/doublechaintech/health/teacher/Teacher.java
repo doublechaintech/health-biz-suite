@@ -14,7 +14,8 @@ import com.doublechaintech.health.KeyValuePair;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 @JsonSerialize(using = TeacherSerializer.class)
 public class Teacher extends BaseEntity implements  java.io.Serializable{
@@ -23,13 +24,15 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	public static final String ID_PROPERTY                    = "id"                ;
 	public static final String NAME_PROPERTY                  = "name"              ;
 	public static final String MOBILE_PROPERTY                = "mobile"            ;
-	public static final String SCHOOLE_PROPERTY               = "schoole"           ;
+	public static final String SCHOOL_PROPERTY                = "school"            ;
+	public static final String SCHOOL_CLASS_PROPERTY          = "schoolClass"       ;
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
-	public static final String CQ_PROPERTY                    = "cq"                ;
+	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
-	public static final String SCHOOL_CLASS_LIST                        = "schoolClassList"   ;
+	public static final String CLASS_DAILY_HEALTH_SURVEY_LIST           = "classDailyHealthSurveyList";
+	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
 
 	public static final String INTERNAL_TYPE="Teacher";
 	public String getInternalType(){
@@ -53,14 +56,16 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	protected		String              	mId                 ;
 	protected		String              	mName               ;
 	protected		String              	mMobile             ;
-	protected		String              	mSchoole            ;
+	protected		String              	mSchool             ;
+	protected		String              	mSchoolClass        ;
 	protected		DateTime            	mCreateTime         ;
 	protected		Platform            	mPlatform           ;
-	protected		ChangeRequest       	mCq                 ;
+	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
-	protected		SmartList<SchoolClass>	mSchoolClassList    ;
+	protected		SmartList<ClassDailyHealthSurvey>	mClassDailyHealthSurveyList;
+	protected		SmartList<StudentHealthSurvey>	mStudentHealthSurveyList;
 	
 		
 	public 	Teacher(){
@@ -79,7 +84,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
 		setPlatform( null );
-		setCq( null );
+		setChangeRequest( null );
 
 		this.changed = true;
 	}
@@ -95,8 +100,11 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		if(MOBILE_PROPERTY.equals(property)){
 			changeMobileProperty(newValueExpr);
 		}
-		if(SCHOOLE_PROPERTY.equals(property)){
-			changeSchooleProperty(newValueExpr);
+		if(SCHOOL_PROPERTY.equals(property)){
+			changeSchoolProperty(newValueExpr);
+		}
+		if(SCHOOL_CLASS_PROPERTY.equals(property)){
+			changeSchoolClassProperty(newValueExpr);
 		}
 		if(CREATE_TIME_PROPERTY.equals(property)){
 			changeCreateTimeProperty(newValueExpr);
@@ -136,15 +144,30 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			
 			
 			
-	protected void changeSchooleProperty(String newValueExpr){
-		String oldValue = getSchoole();
+	protected void changeSchoolProperty(String newValueExpr){
+		String oldValue = getSchool();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
 			return;//they can be both null, or exact the same object, this is much faster than equals function
 		}
 		//they are surely different each other
-		updateSchoole(newValue);
-		this.onChangeProperty(SCHOOLE_PROPERTY, oldValue, newValue);
+		updateSchool(newValue);
+		this.onChangeProperty(SCHOOL_PROPERTY, oldValue, newValue);
+		return;
+  
+	}
+			
+			
+			
+	protected void changeSchoolClassProperty(String newValueExpr){
+		String oldValue = getSchoolClass();
+		String newValue = parseString(newValueExpr);
+		if(equalsString(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateSchoolClass(newValue);
+		this.onChangeProperty(SCHOOL_CLASS_PROPERTY, oldValue, newValue);
 		return;
   
 	}
@@ -177,8 +200,11 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		if(MOBILE_PROPERTY.equals(property)){
 			return getMobile();
 		}
-		if(SCHOOLE_PROPERTY.equals(property)){
-			return getSchoole();
+		if(SCHOOL_PROPERTY.equals(property)){
+			return getSchool();
+		}
+		if(SCHOOL_CLASS_PROPERTY.equals(property)){
+			return getSchoolClass();
 		}
 		if(CREATE_TIME_PROPERTY.equals(property)){
 			return getCreateTime();
@@ -186,11 +212,15 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
 		}
-		if(CQ_PROPERTY.equals(property)){
-			return getCq();
+		if(CHANGE_REQUEST_PROPERTY.equals(property)){
+			return getChangeRequest();
 		}
-		if(SCHOOL_CLASS_LIST.equals(property)){
-			List<BaseEntity> list = getSchoolClassList().stream().map(item->item).collect(Collectors.toList());
+		if(CLASS_DAILY_HEALTH_SURVEY_LIST.equals(property)){
+			List<BaseEntity> list = getClassDailyHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
+		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
+			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -259,19 +289,35 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	}
 	
 		
-	public void setSchoole(String schoole){
-		this.mSchoole = trimString(schoole);;
+	public void setSchool(String school){
+		this.mSchool = trimString(school);;
 	}
-	public String getSchoole(){
-		return this.mSchoole;
+	public String getSchool(){
+		return this.mSchool;
 	}
-	public Teacher updateSchoole(String schoole){
-		this.mSchoole = trimString(schoole);;
+	public Teacher updateSchool(String school){
+		this.mSchool = trimString(school);;
 		this.changed = true;
 		return this;
 	}
-	public void mergeSchoole(String schoole){
-		if(schoole != null) { setSchoole(schoole);}
+	public void mergeSchool(String school){
+		if(school != null) { setSchool(school);}
+	}
+	
+	
+	public void setSchoolClass(String schoolClass){
+		this.mSchoolClass = trimString(schoolClass);;
+	}
+	public String getSchoolClass(){
+		return this.mSchoolClass;
+	}
+	public Teacher updateSchoolClass(String schoolClass){
+		this.mSchoolClass = trimString(schoolClass);;
+		this.changed = true;
+		return this;
+	}
+	public void mergeSchoolClass(String schoolClass){
+		if(schoolClass != null) { setSchoolClass(schoolClass);}
 	}
 	
 	
@@ -312,24 +358,24 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		this.changed = true;
 	}
 	
-	public void setCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public void setChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 	}
-	public ChangeRequest getCq(){
-		return this.mCq;
+	public ChangeRequest getChangeRequest(){
+		return this.mChangeRequest;
 	}
-	public Teacher updateCq(ChangeRequest cq){
-		this.mCq = cq;;
+	public Teacher updateChangeRequest(ChangeRequest changeRequest){
+		this.mChangeRequest = changeRequest;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeCq(ChangeRequest cq){
-		if(cq != null) { setCq(cq);}
+	public void mergeChangeRequest(ChangeRequest changeRequest){
+		if(changeRequest != null) { setChangeRequest(changeRequest);}
 	}
 	
 	
-	public void clearCq(){
-		setCq ( null );
+	public void clearChangeRequest(){
+		setChangeRequest ( null );
 		this.changed = true;
 	}
 	
@@ -350,107 +396,214 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	
 	
 
-	public  SmartList<SchoolClass> getSchoolClassList(){
-		if(this.mSchoolClassList == null){
-			this.mSchoolClassList = new SmartList<SchoolClass>();
-			this.mSchoolClassList.setListInternalName (SCHOOL_CLASS_LIST );
+	public  SmartList<ClassDailyHealthSurvey> getClassDailyHealthSurveyList(){
+		if(this.mClassDailyHealthSurveyList == null){
+			this.mClassDailyHealthSurveyList = new SmartList<ClassDailyHealthSurvey>();
+			this.mClassDailyHealthSurveyList.setListInternalName (CLASS_DAILY_HEALTH_SURVEY_LIST );
 			//有名字，便于做权限控制
 		}
 		
-		return this.mSchoolClassList;	
+		return this.mClassDailyHealthSurveyList;	
 	}
-	public  void setSchoolClassList(SmartList<SchoolClass> schoolClassList){
-		for( SchoolClass schoolClass:schoolClassList){
-			schoolClass.setClassTeacher(this);
+	public  void setClassDailyHealthSurveyList(SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList){
+		for( ClassDailyHealthSurvey classDailyHealthSurvey:classDailyHealthSurveyList){
+			classDailyHealthSurvey.setTeacher(this);
 		}
 
-		this.mSchoolClassList = schoolClassList;
-		this.mSchoolClassList.setListInternalName (SCHOOL_CLASS_LIST );
+		this.mClassDailyHealthSurveyList = classDailyHealthSurveyList;
+		this.mClassDailyHealthSurveyList.setListInternalName (CLASS_DAILY_HEALTH_SURVEY_LIST );
 		
 	}
 	
-	public  void addSchoolClass(SchoolClass schoolClass){
-		schoolClass.setClassTeacher(this);
-		getSchoolClassList().add(schoolClass);
+	public  void addClassDailyHealthSurvey(ClassDailyHealthSurvey classDailyHealthSurvey){
+		classDailyHealthSurvey.setTeacher(this);
+		getClassDailyHealthSurveyList().add(classDailyHealthSurvey);
 	}
-	public  void addSchoolClassList(SmartList<SchoolClass> schoolClassList){
-		for( SchoolClass schoolClass:schoolClassList){
-			schoolClass.setClassTeacher(this);
+	public  void addClassDailyHealthSurveyList(SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList){
+		for( ClassDailyHealthSurvey classDailyHealthSurvey:classDailyHealthSurveyList){
+			classDailyHealthSurvey.setTeacher(this);
 		}
-		getSchoolClassList().addAll(schoolClassList);
+		getClassDailyHealthSurveyList().addAll(classDailyHealthSurveyList);
 	}
-	public  void mergeSchoolClassList(SmartList<SchoolClass> schoolClassList){
-		if(schoolClassList==null){
+	public  void mergeClassDailyHealthSurveyList(SmartList<ClassDailyHealthSurvey> classDailyHealthSurveyList){
+		if(classDailyHealthSurveyList==null){
 			return;
 		}
-		if(schoolClassList.isEmpty()){
+		if(classDailyHealthSurveyList.isEmpty()){
 			return;
 		}
-		addSchoolClassList( schoolClassList );
+		addClassDailyHealthSurveyList( classDailyHealthSurveyList );
 		
 	}
-	public  SchoolClass removeSchoolClass(SchoolClass schoolClassIndex){
+	public  ClassDailyHealthSurvey removeClassDailyHealthSurvey(ClassDailyHealthSurvey classDailyHealthSurveyIndex){
 		
-		int index = getSchoolClassList().indexOf(schoolClassIndex);
+		int index = getClassDailyHealthSurveyList().indexOf(classDailyHealthSurveyIndex);
         if(index < 0){
-        	String message = "SchoolClass("+schoolClassIndex.getId()+") with version='"+schoolClassIndex.getVersion()+"' NOT found!";
+        	String message = "ClassDailyHealthSurvey("+classDailyHealthSurveyIndex.getId()+") with version='"+classDailyHealthSurveyIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        SchoolClass schoolClass = getSchoolClassList().get(index);        
-        // schoolClass.clearClassTeacher(); //disconnect with ClassTeacher
-        schoolClass.clearFromAll(); //disconnect with ClassTeacher
+        ClassDailyHealthSurvey classDailyHealthSurvey = getClassDailyHealthSurveyList().get(index);        
+        // classDailyHealthSurvey.clearTeacher(); //disconnect with Teacher
+        classDailyHealthSurvey.clearFromAll(); //disconnect with Teacher
 		
-		boolean result = getSchoolClassList().planToRemove(schoolClass);
+		boolean result = getClassDailyHealthSurveyList().planToRemove(classDailyHealthSurvey);
         if(!result){
-        	String message = "SchoolClass("+schoolClassIndex.getId()+") with version='"+schoolClassIndex.getVersion()+"' NOT found!";
+        	String message = "ClassDailyHealthSurvey("+classDailyHealthSurveyIndex.getId()+") with version='"+classDailyHealthSurveyIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        return schoolClass;
+        return classDailyHealthSurvey;
         
 	
 	}
 	//断舍离
-	public  void breakWithSchoolClass(SchoolClass schoolClass){
+	public  void breakWithClassDailyHealthSurvey(ClassDailyHealthSurvey classDailyHealthSurvey){
 		
-		if(schoolClass == null){
+		if(classDailyHealthSurvey == null){
 			return;
 		}
-		schoolClass.setClassTeacher(null);
-		//getSchoolClassList().remove();
+		classDailyHealthSurvey.setTeacher(null);
+		//getClassDailyHealthSurveyList().remove();
 	
 	}
 	
-	public  boolean hasSchoolClass(SchoolClass schoolClass){
+	public  boolean hasClassDailyHealthSurvey(ClassDailyHealthSurvey classDailyHealthSurvey){
 	
-		return getSchoolClassList().contains(schoolClass);
+		return getClassDailyHealthSurveyList().contains(classDailyHealthSurvey);
   
 	}
 	
-	public void copySchoolClassFrom(SchoolClass schoolClass) {
+	public void copyClassDailyHealthSurveyFrom(ClassDailyHealthSurvey classDailyHealthSurvey) {
 
-		SchoolClass schoolClassInList = findTheSchoolClass(schoolClass);
-		SchoolClass newSchoolClass = new SchoolClass();
-		schoolClassInList.copyTo(newSchoolClass);
-		newSchoolClass.setVersion(0);//will trigger copy
-		getSchoolClassList().add(newSchoolClass);
-		addItemToFlexiableObject(COPIED_CHILD, newSchoolClass);
+		ClassDailyHealthSurvey classDailyHealthSurveyInList = findTheClassDailyHealthSurvey(classDailyHealthSurvey);
+		ClassDailyHealthSurvey newClassDailyHealthSurvey = new ClassDailyHealthSurvey();
+		classDailyHealthSurveyInList.copyTo(newClassDailyHealthSurvey);
+		newClassDailyHealthSurvey.setVersion(0);//will trigger copy
+		getClassDailyHealthSurveyList().add(newClassDailyHealthSurvey);
+		addItemToFlexiableObject(COPIED_CHILD, newClassDailyHealthSurvey);
 	}
 	
-	public  SchoolClass findTheSchoolClass(SchoolClass schoolClass){
+	public  ClassDailyHealthSurvey findTheClassDailyHealthSurvey(ClassDailyHealthSurvey classDailyHealthSurvey){
 		
-		int index =  getSchoolClassList().indexOf(schoolClass);
+		int index =  getClassDailyHealthSurveyList().indexOf(classDailyHealthSurvey);
 		//The input parameter must have the same id and version number.
 		if(index < 0){
- 			String message = "SchoolClass("+schoolClass.getId()+") with version='"+schoolClass.getVersion()+"' NOT found!";
+ 			String message = "ClassDailyHealthSurvey("+classDailyHealthSurvey.getId()+") with version='"+classDailyHealthSurvey.getVersion()+"' NOT found!";
 			throw new IllegalStateException(message);
 		}
 		
-		return  getSchoolClassList().get(index);
+		return  getClassDailyHealthSurveyList().get(index);
 		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
 	}
 	
-	public  void cleanUpSchoolClassList(){
-		getSchoolClassList().clear();
+	public  void cleanUpClassDailyHealthSurveyList(){
+		getClassDailyHealthSurveyList().clear();
+	}
+	
+	
+	
+
+
+	public  SmartList<StudentHealthSurvey> getStudentHealthSurveyList(){
+		if(this.mStudentHealthSurveyList == null){
+			this.mStudentHealthSurveyList = new SmartList<StudentHealthSurvey>();
+			this.mStudentHealthSurveyList.setListInternalName (STUDENT_HEALTH_SURVEY_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mStudentHealthSurveyList;	
+	}
+	public  void setStudentHealthSurveyList(SmartList<StudentHealthSurvey> studentHealthSurveyList){
+		for( StudentHealthSurvey studentHealthSurvey:studentHealthSurveyList){
+			studentHealthSurvey.setTeacher(this);
+		}
+
+		this.mStudentHealthSurveyList = studentHealthSurveyList;
+		this.mStudentHealthSurveyList.setListInternalName (STUDENT_HEALTH_SURVEY_LIST );
+		
+	}
+	
+	public  void addStudentHealthSurvey(StudentHealthSurvey studentHealthSurvey){
+		studentHealthSurvey.setTeacher(this);
+		getStudentHealthSurveyList().add(studentHealthSurvey);
+	}
+	public  void addStudentHealthSurveyList(SmartList<StudentHealthSurvey> studentHealthSurveyList){
+		for( StudentHealthSurvey studentHealthSurvey:studentHealthSurveyList){
+			studentHealthSurvey.setTeacher(this);
+		}
+		getStudentHealthSurveyList().addAll(studentHealthSurveyList);
+	}
+	public  void mergeStudentHealthSurveyList(SmartList<StudentHealthSurvey> studentHealthSurveyList){
+		if(studentHealthSurveyList==null){
+			return;
+		}
+		if(studentHealthSurveyList.isEmpty()){
+			return;
+		}
+		addStudentHealthSurveyList( studentHealthSurveyList );
+		
+	}
+	public  StudentHealthSurvey removeStudentHealthSurvey(StudentHealthSurvey studentHealthSurveyIndex){
+		
+		int index = getStudentHealthSurveyList().indexOf(studentHealthSurveyIndex);
+        if(index < 0){
+        	String message = "StudentHealthSurvey("+studentHealthSurveyIndex.getId()+") with version='"+studentHealthSurveyIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        StudentHealthSurvey studentHealthSurvey = getStudentHealthSurveyList().get(index);        
+        // studentHealthSurvey.clearTeacher(); //disconnect with Teacher
+        studentHealthSurvey.clearFromAll(); //disconnect with Teacher
+		
+		boolean result = getStudentHealthSurveyList().planToRemove(studentHealthSurvey);
+        if(!result){
+        	String message = "StudentHealthSurvey("+studentHealthSurveyIndex.getId()+") with version='"+studentHealthSurveyIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return studentHealthSurvey;
+        
+	
+	}
+	//断舍离
+	public  void breakWithStudentHealthSurvey(StudentHealthSurvey studentHealthSurvey){
+		
+		if(studentHealthSurvey == null){
+			return;
+		}
+		studentHealthSurvey.setTeacher(null);
+		//getStudentHealthSurveyList().remove();
+	
+	}
+	
+	public  boolean hasStudentHealthSurvey(StudentHealthSurvey studentHealthSurvey){
+	
+		return getStudentHealthSurveyList().contains(studentHealthSurvey);
+  
+	}
+	
+	public void copyStudentHealthSurveyFrom(StudentHealthSurvey studentHealthSurvey) {
+
+		StudentHealthSurvey studentHealthSurveyInList = findTheStudentHealthSurvey(studentHealthSurvey);
+		StudentHealthSurvey newStudentHealthSurvey = new StudentHealthSurvey();
+		studentHealthSurveyInList.copyTo(newStudentHealthSurvey);
+		newStudentHealthSurvey.setVersion(0);//will trigger copy
+		getStudentHealthSurveyList().add(newStudentHealthSurvey);
+		addItemToFlexiableObject(COPIED_CHILD, newStudentHealthSurvey);
+	}
+	
+	public  StudentHealthSurvey findTheStudentHealthSurvey(StudentHealthSurvey studentHealthSurvey){
+		
+		int index =  getStudentHealthSurveyList().indexOf(studentHealthSurvey);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "StudentHealthSurvey("+studentHealthSurvey.getId()+") with version='"+studentHealthSurvey.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getStudentHealthSurveyList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpStudentHealthSurveyList(){
+		getStudentHealthSurveyList().clear();
 	}
 	
 	
@@ -460,7 +613,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getPlatform(), internalType);
-		addToEntityList(this, entityList, getCq(), internalType);
+		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
 	}
@@ -468,7 +621,8 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
-		collectFromList(this, entityList, getSchoolClassList(), internalType);
+		collectFromList(this, entityList, getClassDailyHealthSurveyList(), internalType);
+		collectFromList(this, entityList, getStudentHealthSurveyList(), internalType);
 
 		return entityList;
 	}
@@ -476,7 +630,8 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
-		listOfList.add( getSchoolClassList());
+		listOfList.add( getClassDailyHealthSurveyList());
+		listOfList.add( getStudentHealthSurveyList());
 			
 
 		return listOfList;
@@ -489,15 +644,21 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, ID_PROPERTY, getId());
 		appendKeyValuePair(result, NAME_PROPERTY, getName());
 		appendKeyValuePair(result, MOBILE_PROPERTY, getMaskedMobile());
-		appendKeyValuePair(result, SCHOOLE_PROPERTY, getSchoole());
+		appendKeyValuePair(result, SCHOOL_PROPERTY, getSchool());
+		appendKeyValuePair(result, SCHOOL_CLASS_PROPERTY, getSchoolClass());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
-		appendKeyValuePair(result, CQ_PROPERTY, getCq());
+		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
-		appendKeyValuePair(result, SCHOOL_CLASS_LIST, getSchoolClassList());
-		if(!getSchoolClassList().isEmpty()){
-			appendKeyValuePair(result, "schoolClassCount", getSchoolClassList().getTotalCount());
-			appendKeyValuePair(result, "schoolClassCurrentPageNumber", getSchoolClassList().getCurrentPageNumber());
+		appendKeyValuePair(result, CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyList());
+		if(!getClassDailyHealthSurveyList().isEmpty()){
+			appendKeyValuePair(result, "classDailyHealthSurveyCount", getClassDailyHealthSurveyList().getTotalCount());
+			appendKeyValuePair(result, "classDailyHealthSurveyCurrentPageNumber", getClassDailyHealthSurveyList().getCurrentPageNumber());
+		}
+		appendKeyValuePair(result, STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyList());
+		if(!getStudentHealthSurveyList().isEmpty()){
+			appendKeyValuePair(result, "studentHealthSurveyCount", getStudentHealthSurveyList().getTotalCount());
+			appendKeyValuePair(result, "studentHealthSurveyCurrentPageNumber", getStudentHealthSurveyList().getCurrentPageNumber());
 		}
 
 		
@@ -516,12 +677,14 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.setId(getId());
 			dest.setName(getName());
 			dest.setMobile(getMobile());
-			dest.setSchoole(getSchoole());
+			dest.setSchool(getSchool());
+			dest.setSchoolClass(getSchoolClass());
 			dest.setCreateTime(getCreateTime());
 			dest.setPlatform(getPlatform());
-			dest.setCq(getCq());
+			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
-			dest.setSchoolClassList(getSchoolClassList());
+			dest.setClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
+			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
 
 		}
 		super.copyTo(baseDest);
@@ -538,12 +701,14 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.mergeId(getId());
 			dest.mergeName(getName());
 			dest.mergeMobile(getMobile());
-			dest.mergeSchoole(getSchoole());
+			dest.mergeSchool(getSchool());
+			dest.mergeSchoolClass(getSchoolClass());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergePlatform(getPlatform());
-			dest.mergeCq(getCq());
+			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
-			dest.mergeSchoolClassList(getSchoolClassList());
+			dest.mergeClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
+			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
 
 		}
 		super.copyTo(baseDest);
@@ -561,7 +726,8 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.mergeId(getId());
 			dest.mergeName(getName());
 			dest.mergeMobile(getMobile());
-			dest.mergeSchoole(getSchoole());
+			dest.mergeSchool(getSchool());
+			dest.mergeSchoolClass(getSchoolClass());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergeVersion(getVersion());
 
@@ -569,7 +735,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getMobile(), getSchoole(), getCreateTime(), getPlatform(), getCq(), getVersion()};
+		return new Object[]{getId(), getName(), getMobile(), getSchool(), getSchoolClass(), getCreateTime(), getPlatform(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -578,13 +744,14 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		stringBuilder.append("\tid='"+getId()+"';");
 		stringBuilder.append("\tname='"+getName()+"';");
 		stringBuilder.append("\tmobile='"+getMobile()+"';");
-		stringBuilder.append("\tschoole='"+getSchoole()+"';");
+		stringBuilder.append("\tschool='"+getSchool()+"';");
+		stringBuilder.append("\tschoolClass='"+getSchoolClass()+"';");
 		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
 		if(getPlatform() != null ){
  			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");
  		}
-		if(getCq() != null ){
- 			stringBuilder.append("\tcq='ChangeRequest("+getCq().getId()+")';");
+		if(getChangeRequest() != null ){
+ 			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

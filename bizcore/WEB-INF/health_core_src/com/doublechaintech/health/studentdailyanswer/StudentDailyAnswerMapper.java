@@ -20,7 +20,7 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
  		setAnswer(studentDailyAnswer, rs, rowNumber); 		
  		setCreateTime(studentDailyAnswer, rs, rowNumber); 		
  		setLastUpdateTime(studentDailyAnswer, rs, rowNumber); 		
- 		setCq(studentDailyAnswer, rs, rowNumber); 		
+ 		setChangeRequest(studentDailyAnswer, rs, rowNumber); 		
  		setVersion(studentDailyAnswer, rs, rowNumber);
 
 		return studentDailyAnswer;
@@ -114,22 +114,22 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 		studentDailyAnswer.setLastUpdateTime(convertToDateTime(lastUpdateTime));
 	}
 		 		
- 	protected void setCq(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
- 		String changeRequestId = rs.getString(StudentDailyAnswerTable.COLUMN_CQ);
+ 	protected void setChangeRequest(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
+ 		String changeRequestId = rs.getString(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST);
  		if( changeRequestId == null){
  			return;
  		}
  		if( changeRequestId.isEmpty()){
  			return;
  		}
- 		ChangeRequest changeRequest = studentDailyAnswer.getCq();
+ 		ChangeRequest changeRequest = studentDailyAnswer.getChangeRequest();
  		if( changeRequest != null ){
  			//if the root object 'studentDailyAnswer' already have the property, just set the id for it;
  			changeRequest.setId(changeRequestId);
  			
  			return;
  		}
- 		studentDailyAnswer.setCq(createEmptyCq(changeRequestId));
+ 		studentDailyAnswer.setChangeRequest(createEmptyChangeRequest(changeRequestId));
  	}
  	
 	protected void setVersion(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
@@ -160,7 +160,7 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
  		return dailySurveyQuestion;
  	}
  	
- 	protected ChangeRequest  createEmptyCq(String changeRequestId){
+ 	protected ChangeRequest  createEmptyChangeRequest(String changeRequestId){
  		ChangeRequest changeRequest = new ChangeRequest();
  		changeRequest.setId(changeRequestId);
  		changeRequest.setVersion(Integer.MAX_VALUE);

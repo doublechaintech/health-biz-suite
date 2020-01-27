@@ -18,9 +18,11 @@
 	
 	
 	<li><span>${userContext.localeMap['student.id']}</span> ${student.id}</li>
-<li><span>${userContext.localeMap['student.name']}</span> ${student.name}</li>
-<li><span>${userContext.localeMap['student.gender']}</span> ${student.gender}</li>
+<li><span>${userContext.localeMap['student.student_name']}</span> ${student.studentName}</li>
 <li><span>${userContext.localeMap['student.student_id']}</span> ${student.studentId}</li>
+<li><span>${userContext.localeMap['student.guardian_name']}</span> ${student.guardianName}</li>
+<li><span>${userContext.localeMap['student.guardian_mobile']}</span> ${student.maskedGuardianMobile}</li>
+<li><span>${userContext.localeMap['student.create_time']}</span> <fmt:formatDate pattern="yyyy-MM-dd" value="${student.createTime}" /></li>
 
 	
 	</ul>

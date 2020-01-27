@@ -18,16 +18,19 @@ public class StudentTable{
 	//only this package can use this, so the scope is default, not public, not private either nor protected
 	public static final String TABLE_NAME="student_data";
 	static final String COLUMN_ID = "id";
-	static final String COLUMN_NAME = "name";
-	static final String COLUMN_GENDER = "gender";
-	static final String COLUMN_GUARDIAN = "guardian";
-	static final String COLUMN_SCHOOL_CLASS = "school_class";
+	static final String COLUMN_STUDENT_NAME = "student_name";
 	static final String COLUMN_STUDENT_ID = "student_id";
-	static final String COLUMN_CQ = "cq";
+	static final String COLUMN_GUARDIAN_NAME = "guardian_name";
+	static final String COLUMN_GUARDIAN_MOBILE = "guardian_mobile";
+	static final String COLUMN_ADDRESS = "address";
+	static final String COLUMN_USER = "user";
+	static final String COLUMN_CREATE_TIME = "create_time";
+	static final String COLUMN_PLATFORM = "platform";
+	static final String COLUMN_CHANGE_REQUEST = "change_request";
 	static final String COLUMN_VERSION = "version";
  
-	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_NAME,COLUMN_GENDER,COLUMN_GUARDIAN,COLUMN_SCHOOL_CLASS,COLUMN_STUDENT_ID,COLUMN_CQ,COLUMN_VERSION};
-	public static final String []NORMAL_CLOUMNS = {COLUMN_NAME,COLUMN_GENDER,COLUMN_GUARDIAN,COLUMN_SCHOOL_CLASS,COLUMN_STUDENT_ID,COLUMN_CQ};
+	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_STUDENT_NAME,COLUMN_STUDENT_ID,COLUMN_GUARDIAN_NAME,COLUMN_GUARDIAN_MOBILE,COLUMN_ADDRESS,COLUMN_USER,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CHANGE_REQUEST,COLUMN_VERSION};
+	public static final String []NORMAL_CLOUMNS = {COLUMN_STUDENT_NAME,COLUMN_STUDENT_ID,COLUMN_GUARDIAN_NAME,COLUMN_GUARDIAN_MOBILE,COLUMN_ADDRESS,COLUMN_USER,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CHANGE_REQUEST};
 	
 	
 }

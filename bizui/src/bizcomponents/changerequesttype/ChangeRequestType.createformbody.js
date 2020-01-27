@@ -17,8 +17,8 @@ const {fieldLabels} = ChangeRequestTypeBase
 const testValues = {};
 /*
 const testValues = {
-  name: '答题',
-  code: 'AnswerQuestion',
+  name: '登录',
+  code: 'LOGIN',
   icon: 'book',
   displayOrder: '1',
   platformId: 'P000001',

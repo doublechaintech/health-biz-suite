@@ -18,12 +18,14 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  name: '刘婵',
-  gender: 'male',
+  studentName: '刘婵',
   studentId: 'A01',
-  guardianId: 'G000001',
-  schoolClassId: 'SC000001',
-  cqId: 'CR000001',
+  guardianName: '刘备',
+  guardianMobile: '18012341234',
+  addressId: 'L000001',
+  userId: 'U000001',
+  platformId: 'P000001',
+  changeRequestId: 'CR000001',
 }
 */
 
