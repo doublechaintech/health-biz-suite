@@ -74,6 +74,36 @@ const buildSteps=(targetComponent, stepCode)=>{
 	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
 	completeStep()]
 
+  stepCollection['ANSWER_SURVEY'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	studentHealthSurveyStepOf(targetComponent, '创建学生健康调查', <StudentHealthSurveyCreateFormBody {...targetComponent.props} hideTitle />, "studentHealthSurveyList", 0),
+	completeStep()]
+
+  stepCollection['REGISTER_TEACHER'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	teacherStepOf(targetComponent, '创建老师', <TeacherCreateFormBody {...targetComponent.props} hideTitle />, "teacherList", 0),
+	completeStep()]
+
+  stepCollection['CREATE_SURVEY'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	classDailyHealthSurveyStepOf(targetComponent, '创建每日健康调查', <ClassDailyHealthSurveyCreateFormBody {...targetComponent.props} hideTitle />, "classDailyHealthSurveyList", 0),
+	completeStep()]
+
+  stepCollection['ANSWER_QUESTION'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	studentDailyAnswerStepOf(targetComponent, '创建学生每天回答', <StudentDailyAnswerCreateFormBody {...targetComponent.props} hideTitle />, "studentDailyAnswerList", 0),
+	completeStep()]
+
+  stepCollection['CREATE_QUESTION'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	questionStepOf(targetComponent, '创建检查问题', <QuestionCreateFormBody {...targetComponent.props} hideTitle />, "questionList", 0),
+	completeStep()]
+
+  stepCollection['REGISTER_STUDENT'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	studentStepOf(targetComponent, '创建学生', <StudentCreateFormBody {...targetComponent.props} hideTitle />, "studentList", 0),
+	completeStep()]
+
   
   if(stepCollection[stepCode]){
   	return stepCollection[stepCode]
