@@ -18,10 +18,10 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  answerTime: '2020-01-25 02:24:27',
+  answerTime: '2020-01-16 18:03:56',
   studentId: 'S000001',
   surveyStatusId: 'UnSubmitted',
-  teacherId: 'T000001',
+  schoolClassId: 'SC000001',
   classDailyHealthSurveyId: 'CDHS000001',
   cqId: 'CR000001',
 }

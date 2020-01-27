@@ -150,7 +150,7 @@ class QuestionTypeDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, questionListMetaInfo, dailySurveyQuestionListMetaInfo, questionCount, dailySurveyQuestionCount } = this.props.questionType
+    const { id,displayName, questionListMetaInfo, classQuestionListMetaInfo, dailySurveyQuestionListMetaInfo, questionCount, classQuestionCount, dailySurveyQuestionCount } = this.props.questionType
     if(!this.props.questionType.class){
       return null
     }
@@ -160,6 +160,7 @@ class QuestionTypeDashboard extends Component {
     	cardsSource: this.props.questionType,returnURL,displayName,
   		subItems: [
 {name: 'questionList', displayName: window.mtrans('question','question_type.question_list',false) ,viewGroup:'__no_group', type:'question',count:questionCount,addFunction: true, role: 'question', metaInfo: questionListMetaInfo, renderItem: GlobalComponents.QuestionBase.renderItemOfList},
+{name: 'classQuestionList', displayName: window.mtrans('class_question','question_type.class_question_list',false) ,viewGroup:'__no_group', type:'classQuestion',count:classQuestionCount,addFunction: true, role: 'classQuestion', metaInfo: classQuestionListMetaInfo, renderItem: GlobalComponents.ClassQuestionBase.renderItemOfList},
 {name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','question_type.daily_survey_question_list',false) ,viewGroup:'__no_group', type:'dailySurveyQuestion',count:dailySurveyQuestionCount,addFunction: true, role: 'dailySurveyQuestion', metaInfo: dailySurveyQuestionListMetaInfo, renderItem: GlobalComponents.DailySurveyQuestionBase.renderItemOfList},
     
       	],

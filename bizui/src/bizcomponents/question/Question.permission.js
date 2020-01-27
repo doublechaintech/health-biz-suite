@@ -61,7 +61,7 @@ class QuestionPermission extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  question = this.props.question
-    const { id,displayName, dailySurveyQuestionCount } = question
+    const { id,displayName,  } = question
     const  returnURL = `/question/${id}/dashboard`
     const cardsData = {cardsName:"检查问题",cardsFor: "question",cardsSource: question,displayName,returnURL,
   		subItems: [

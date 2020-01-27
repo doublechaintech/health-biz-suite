@@ -6,9 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.user.User;
 
 public class QuestionMapper extends BaseRowMapper<Question>{
 	
@@ -23,8 +21,6 @@ public class QuestionMapper extends BaseRowMapper<Question>{
  		setOptionC(question, rs, rowNumber); 		
  		setOptionD(question, rs, rowNumber); 		
  		setPlatform(question, rs, rowNumber); 		
- 		setCreator(question, rs, rowNumber); 		
- 		setCq(question, rs, rowNumber); 		
  		setVersion(question, rs, rowNumber);
 
 		return question;
@@ -141,42 +137,6 @@ public class QuestionMapper extends BaseRowMapper<Question>{
  		}
  		question.setPlatform(createEmptyPlatform(platformId));
  	}
- 	 		
- 	protected void setCreator(Question question, ResultSet rs, int rowNumber) throws SQLException{
- 		String userId = rs.getString(QuestionTable.COLUMN_CREATOR);
- 		if( userId == null){
- 			return;
- 		}
- 		if( userId.isEmpty()){
- 			return;
- 		}
- 		User user = question.getCreator();
- 		if( user != null ){
- 			//if the root object 'question' already have the property, just set the id for it;
- 			user.setId(userId);
- 			
- 			return;
- 		}
- 		question.setCreator(createEmptyCreator(userId));
- 	}
- 	 		
- 	protected void setCq(Question question, ResultSet rs, int rowNumber) throws SQLException{
- 		String changeRequestId = rs.getString(QuestionTable.COLUMN_CQ);
- 		if( changeRequestId == null){
- 			return;
- 		}
- 		if( changeRequestId.isEmpty()){
- 			return;
- 		}
- 		ChangeRequest changeRequest = question.getCq();
- 		if( changeRequest != null ){
- 			//if the root object 'question' already have the property, just set the id for it;
- 			changeRequest.setId(changeRequestId);
- 			
- 			return;
- 		}
- 		question.setCq(createEmptyCq(changeRequestId));
- 	}
  	
 	protected void setVersion(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
@@ -204,20 +164,6 @@ public class QuestionMapper extends BaseRowMapper<Question>{
  		platform.setId(platformId);
  		platform.setVersion(Integer.MAX_VALUE);
  		return platform;
- 	}
- 	
- 	protected User  createEmptyCreator(String userId){
- 		User user = new User();
- 		user.setId(userId);
- 		user.setVersion(Integer.MAX_VALUE);
- 		return user;
- 	}
- 	
- 	protected ChangeRequest  createEmptyCq(String changeRequestId){
- 		ChangeRequest changeRequest = new ChangeRequest();
- 		changeRequest.setId(changeRequestId);
- 		changeRequest.setVersion(Integer.MAX_VALUE);
- 		return changeRequest;
  	}
  	
 }

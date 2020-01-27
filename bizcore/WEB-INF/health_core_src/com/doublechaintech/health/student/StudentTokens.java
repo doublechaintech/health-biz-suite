@@ -72,9 +72,8 @@ public class StudentTokens extends CommonTokens{
 	protected static StudentTokens allTokens(){
 		
 		return start()
-			.withAddress()
-			.withUser()
-			.withPlatform()
+			.withGuardian()
+			.withSchoolClass()
 			.withCq()
 			.withStudentHealthSurveyList();
 	
@@ -82,9 +81,8 @@ public class StudentTokens extends CommonTokens{
 	public static StudentTokens withoutListsTokens(){
 		
 		return start()
-			.withAddress()
-			.withUser()
-			.withPlatform()
+			.withGuardian()
+			.withSchoolClass()
 			.withCq();
 	
 	}
@@ -104,32 +102,22 @@ public class StudentTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String ADDRESS = "address";
-	public String getAddress(){
-		return ADDRESS;
+	protected static final String GUARDIAN = "guardian";
+	public String getGuardian(){
+		return GUARDIAN;
 	}
-	public StudentTokens withAddress(){		
-		addSimpleOptions(ADDRESS);
+	public StudentTokens withGuardian(){		
+		addSimpleOptions(GUARDIAN);
 		return this;
 	}
 	
 	
-	protected static final String USER = "user";
-	public String getUser(){
-		return USER;
+	protected static final String SCHOOLCLASS = "schoolClass";
+	public String getSchoolClass(){
+		return SCHOOLCLASS;
 	}
-	public StudentTokens withUser(){		
-		addSimpleOptions(USER);
-		return this;
-	}
-	
-	
-	protected static final String PLATFORM = "platform";
-	public String getPlatform(){
-		return PLATFORM;
-	}
-	public StudentTokens withPlatform(){		
-		addSimpleOptions(PLATFORM);
+	public StudentTokens withSchoolClass(){		
+		addSimpleOptions(SCHOOLCLASS);
 		return this;
 	}
 	

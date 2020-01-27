@@ -22,15 +22,15 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
+import com.doublechaintech.health.schoolclass.SchoolClassDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
-import com.doublechaintech.health.teacher.TeacherDAO;
-import com.doublechaintech.health.user.UserDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
 
 
 
@@ -42,21 +42,21 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implements ClassDailyHealthSurveyDAO{
  
  	
- 	private  UserDAO  userDAO;
- 	public void setUserDAO(UserDAO userDAO){
-	 	this.userDAO = userDAO;
+ 	private  WechatUserDAO  wechatUserDAO;
+ 	public void setWechatUserDAO(WechatUserDAO wechatUserDAO){
+	 	this.wechatUserDAO = wechatUserDAO;
  	}
- 	public UserDAO getUserDAO(){
-	 	return this.userDAO;
+ 	public WechatUserDAO getWechatUserDAO(){
+	 	return this.wechatUserDAO;
  	}
  
  	
- 	private  TeacherDAO  teacherDAO;
- 	public void setTeacherDAO(TeacherDAO teacherDAO){
-	 	this.teacherDAO = teacherDAO;
+ 	private  SchoolClassDAO  schoolClassDAO;
+ 	public void setSchoolClassDAO(SchoolClassDAO schoolClassDAO){
+	 	this.schoolClassDAO = schoolClassDAO;
  	}
- 	public TeacherDAO getTeacherDAO(){
-	 	return this.teacherDAO;
+ 	public SchoolClassDAO getSchoolClassDAO(){
+	 	return this.schoolClassDAO;
  	}
  
  	
@@ -263,14 +263,14 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 
  
 
- 	protected boolean isExtractTeacherEnabled(Map<String,Object> options){
+ 	protected boolean isExtractSchoolClassEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, ClassDailyHealthSurveyTokens.TEACHER);
+	 	return checkOptions(options, ClassDailyHealthSurveyTokens.SCHOOLCLASS);
  	}
 
- 	protected boolean isSaveTeacherEnabled(Map<String,Object> options){
+ 	protected boolean isSaveSchoolClassEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, ClassDailyHealthSurveyTokens.TEACHER);
+ 		return checkOptions(options, ClassDailyHealthSurveyTokens.SCHOOLCLASS);
  	}
  	
 
@@ -359,8 +359,8 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		
 		ClassDailyHealthSurvey classDailyHealthSurvey = extractClassDailyHealthSurvey(accessKey, loadOptions);
  	
- 		if(isExtractTeacherEnabled(loadOptions)){
-	 		extractTeacher(classDailyHealthSurvey, loadOptions);
+ 		if(isExtractSchoolClassEnabled(loadOptions)){
+	 		extractSchoolClass(classDailyHealthSurvey, loadOptions);
  		}
   	
  		if(isExtractCreatorEnabled(loadOptions)){
@@ -394,18 +394,18 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 
 	 
 
- 	protected ClassDailyHealthSurvey extractTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, Map<String,Object> options) throws Exception{
+ 	protected ClassDailyHealthSurvey extractSchoolClass(ClassDailyHealthSurvey classDailyHealthSurvey, Map<String,Object> options) throws Exception{
 
-		if(classDailyHealthSurvey.getTeacher() == null){
+		if(classDailyHealthSurvey.getSchoolClass() == null){
 			return classDailyHealthSurvey;
 		}
-		String teacherId = classDailyHealthSurvey.getTeacher().getId();
-		if( teacherId == null){
+		String schoolClassId = classDailyHealthSurvey.getSchoolClass().getId();
+		if( schoolClassId == null){
 			return classDailyHealthSurvey;
 		}
-		Teacher teacher = getTeacherDAO().load(teacherId,options);
-		if(teacher != null){
-			classDailyHealthSurvey.setTeacher(teacher);
+		SchoolClass schoolClass = getSchoolClassDAO().load(schoolClassId,options);
+		if(schoolClass != null){
+			classDailyHealthSurvey.setSchoolClass(schoolClass);
 		}
 		
  		
@@ -423,7 +423,7 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		if( creatorId == null){
 			return classDailyHealthSurvey;
 		}
-		User creator = getUserDAO().load(creatorId,options);
+		WechatUser creator = getWechatUserDAO().load(creatorId,options);
 		if(creator != null){
 			classDailyHealthSurvey.setCreator(creator);
 		}
@@ -556,28 +556,28 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		
 		
   	
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByTeacher(String teacherId,Map<String,Object> options){
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyBySchoolClass(String schoolClassId,Map<String,Object> options){
  	
-  		SmartList<ClassDailyHealthSurvey> resultList = queryWith(ClassDailyHealthSurveyTable.COLUMN_TEACHER, teacherId, options, getClassDailyHealthSurveyMapper());
-		// analyzeClassDailyHealthSurveyByTeacher(resultList, teacherId, options);
+  		SmartList<ClassDailyHealthSurvey> resultList = queryWith(ClassDailyHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getClassDailyHealthSurveyMapper());
+		// analyzeClassDailyHealthSurveyBySchoolClass(resultList, schoolClassId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByTeacher(String teacherId, int start, int count,Map<String,Object> options){
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyBySchoolClass(String schoolClassId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<ClassDailyHealthSurvey> resultList =  queryWithRange(ClassDailyHealthSurveyTable.COLUMN_TEACHER, teacherId, options, getClassDailyHealthSurveyMapper(), start, count);
- 		//analyzeClassDailyHealthSurveyByTeacher(resultList, teacherId, options);
+ 		SmartList<ClassDailyHealthSurvey> resultList =  queryWithRange(ClassDailyHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options, getClassDailyHealthSurveyMapper(), start, count);
+ 		//analyzeClassDailyHealthSurveyBySchoolClass(resultList, schoolClassId, options);
  		return resultList;
  		
  	}
- 	public void analyzeClassDailyHealthSurveyByTeacher(SmartList<ClassDailyHealthSurvey> resultList, String teacherId, Map<String,Object> options){
+ 	public void analyzeClassDailyHealthSurveyBySchoolClass(SmartList<ClassDailyHealthSurvey> resultList, String schoolClassId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(ClassDailyHealthSurvey.TEACHER_PROPERTY, teacherId);
+ 		filterKey.put(ClassDailyHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -596,38 +596,38 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
  		
  	}
  	@Override
- 	public int countClassDailyHealthSurveyByTeacher(String teacherId,Map<String,Object> options){
+ 	public int countClassDailyHealthSurveyBySchoolClass(String schoolClassId,Map<String,Object> options){
 
- 		return countWith(ClassDailyHealthSurveyTable.COLUMN_TEACHER, teacherId, options);
+ 		return countWith(ClassDailyHealthSurveyTable.COLUMN_SCHOOL_CLASS, schoolClassId, options);
  	}
  	@Override
-	public Map<String, Integer> countClassDailyHealthSurveyByTeacherIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(ClassDailyHealthSurveyTable.COLUMN_TEACHER, ids, options);
+	public Map<String, Integer> countClassDailyHealthSurveyBySchoolClassIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(ClassDailyHealthSurveyTable.COLUMN_SCHOOL_CLASS, ids, options);
 	}
  	
   	
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String userId,Map<String,Object> options){
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String wechatUserId,Map<String,Object> options){
  	
-  		SmartList<ClassDailyHealthSurvey> resultList = queryWith(ClassDailyHealthSurveyTable.COLUMN_CREATOR, userId, options, getClassDailyHealthSurveyMapper());
-		// analyzeClassDailyHealthSurveyByCreator(resultList, userId, options);
+  		SmartList<ClassDailyHealthSurvey> resultList = queryWith(ClassDailyHealthSurveyTable.COLUMN_CREATOR, wechatUserId, options, getClassDailyHealthSurveyMapper());
+		// analyzeClassDailyHealthSurveyByCreator(resultList, wechatUserId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String userId, int start, int count,Map<String,Object> options){
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String wechatUserId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<ClassDailyHealthSurvey> resultList =  queryWithRange(ClassDailyHealthSurveyTable.COLUMN_CREATOR, userId, options, getClassDailyHealthSurveyMapper(), start, count);
- 		//analyzeClassDailyHealthSurveyByCreator(resultList, userId, options);
+ 		SmartList<ClassDailyHealthSurvey> resultList =  queryWithRange(ClassDailyHealthSurveyTable.COLUMN_CREATOR, wechatUserId, options, getClassDailyHealthSurveyMapper(), start, count);
+ 		//analyzeClassDailyHealthSurveyByCreator(resultList, wechatUserId, options);
  		return resultList;
  		
  	}
- 	public void analyzeClassDailyHealthSurveyByCreator(SmartList<ClassDailyHealthSurvey> resultList, String userId, Map<String,Object> options){
+ 	public void analyzeClassDailyHealthSurveyByCreator(SmartList<ClassDailyHealthSurvey> resultList, String wechatUserId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(ClassDailyHealthSurvey.CREATOR_PROPERTY, userId);
+ 		filterKey.put(ClassDailyHealthSurvey.CREATOR_PROPERTY, wechatUserId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -646,9 +646,9 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
  		
  	}
  	@Override
- 	public int countClassDailyHealthSurveyByCreator(String userId,Map<String,Object> options){
+ 	public int countClassDailyHealthSurveyByCreator(String wechatUserId,Map<String,Object> options){
 
- 		return countWith(ClassDailyHealthSurveyTable.COLUMN_CREATOR, userId, options);
+ 		return countWith(ClassDailyHealthSurveyTable.COLUMN_CREATOR, wechatUserId, options);
  	}
  	@Override
 	public Map<String, Integer> countClassDailyHealthSurveyByCreatorIds(String[] ids, Map<String, Object> options) {
@@ -850,8 +850,8 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
  		Object[] parameters = new Object[8];
  
  		parameters[0] = classDailyHealthSurvey.getName(); 	
- 		if(classDailyHealthSurvey.getTeacher() != null){
- 			parameters[1] = classDailyHealthSurvey.getTeacher().getId();
+ 		if(classDailyHealthSurvey.getSchoolClass() != null){
+ 			parameters[1] = classDailyHealthSurvey.getSchoolClass().getId();
  		}
  
  		parameters[2] = classDailyHealthSurvey.getSurveyTime(); 	
@@ -876,8 +876,8 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		parameters[0] =  classDailyHealthSurvey.getId();
  
  		parameters[1] = classDailyHealthSurvey.getName(); 	
- 		if(classDailyHealthSurvey.getTeacher() != null){
- 			parameters[2] = classDailyHealthSurvey.getTeacher().getId();
+ 		if(classDailyHealthSurvey.getSchoolClass() != null){
+ 			parameters[2] = classDailyHealthSurvey.getSchoolClass().getId();
  		
  		}
  		
@@ -900,8 +900,8 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		
 		saveClassDailyHealthSurvey(classDailyHealthSurvey);
  	
- 		if(isSaveTeacherEnabled(options)){
-	 		saveTeacher(classDailyHealthSurvey, options);
+ 		if(isSaveSchoolClassEnabled(options)){
+	 		saveSchoolClass(classDailyHealthSurvey, options);
  		}
   	
  		if(isSaveCreatorEnabled(options)){
@@ -936,13 +936,13 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 	//======================================================================================
 	 
  
- 	protected ClassDailyHealthSurvey saveTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, Map<String,Object> options){
+ 	protected ClassDailyHealthSurvey saveSchoolClass(ClassDailyHealthSurvey classDailyHealthSurvey, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(classDailyHealthSurvey.getTeacher() == null){
+ 		if(classDailyHealthSurvey.getSchoolClass() == null){
  			return classDailyHealthSurvey;//do nothing when it is null
  		}
  		
- 		getTeacherDAO().save(classDailyHealthSurvey.getTeacher(),options);
+ 		getSchoolClassDAO().save(classDailyHealthSurvey.getSchoolClass(),options);
  		return classDailyHealthSurvey;
  		
  	}
@@ -959,7 +959,7 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
  			return classDailyHealthSurvey;//do nothing when it is null
  		}
  		
- 		getUserDAO().save(classDailyHealthSurvey.getCreator(),options);
+ 		getWechatUserDAO().save(classDailyHealthSurvey.getCreator(),options);
  		return classDailyHealthSurvey;
  		
  	}
@@ -1060,15 +1060,15 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		return count;
 	}
 	
-	//disconnect ClassDailyHealthSurvey with survey_question in DailySurveyQuestion
-	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionListWithSurveyQuestion(ClassDailyHealthSurvey classDailyHealthSurvey, String surveyQuestionId, Map<String,Object> options)throws Exception{
+	//disconnect ClassDailyHealthSurvey with class_question in DailySurveyQuestion
+	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionListWithClassQuestion(ClassDailyHealthSurvey classDailyHealthSurvey, String classQuestionId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurvey.getId());
-		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, surveyQuestionId);
+		key.put(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, classQuestionId);
 		
 		SmartList<DailySurveyQuestion> externalDailySurveyQuestionList = getDailySurveyQuestionDAO().
 				findDailySurveyQuestionWithKey(key, options);
@@ -1080,7 +1080,7 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		}
 		
 		for(DailySurveyQuestion dailySurveyQuestionItem: externalDailySurveyQuestionList){
-			dailySurveyQuestionItem.clearSurveyQuestion();
+			dailySurveyQuestionItem.clearClassQuestion();
 			dailySurveyQuestionItem.clearClassDailyHealthSurvey();
 			
 		}
@@ -1091,14 +1091,14 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		return classDailyHealthSurvey;
 	}
 	
-	public int countDailySurveyQuestionListWithSurveyQuestion(String classDailyHealthSurveyId, String surveyQuestionId, Map<String,Object> options)throws Exception{
+	public int countDailySurveyQuestionListWithClassQuestion(String classDailyHealthSurveyId, String classQuestionId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(DailySurveyQuestion.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
-		key.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, surveyQuestionId);
+		key.put(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, classQuestionId);
 		
 		int count = getDailySurveyQuestionDAO().countDailySurveyQuestionWithKey(key, options);
 		return count;
@@ -1220,15 +1220,15 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		return count;
 	}
 	
-	//disconnect ClassDailyHealthSurvey with teacher in StudentHealthSurvey
-	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, String teacherId, Map<String,Object> options)throws Exception{
+	//disconnect ClassDailyHealthSurvey with school_class in StudentHealthSurvey
+	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithSchoolClass(ClassDailyHealthSurvey classDailyHealthSurvey, String schoolClassId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurvey.getId());
-		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
 		
 		SmartList<StudentHealthSurvey> externalStudentHealthSurveyList = getStudentHealthSurveyDAO().
 				findStudentHealthSurveyWithKey(key, options);
@@ -1240,7 +1240,7 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		}
 		
 		for(StudentHealthSurvey studentHealthSurveyItem: externalStudentHealthSurveyList){
-			studentHealthSurveyItem.clearTeacher();
+			studentHealthSurveyItem.clearSchoolClass();
 			studentHealthSurveyItem.clearClassDailyHealthSurvey();
 			
 		}
@@ -1251,14 +1251,14 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
 		return classDailyHealthSurvey;
 	}
 	
-	public int countStudentHealthSurveyListWithTeacher(String classDailyHealthSurveyId, String teacherId, Map<String,Object> options)throws Exception{
+	public int countStudentHealthSurveyListWithSchoolClass(String classDailyHealthSurveyId, String schoolClassId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentHealthSurvey.CLASS_DAILY_HEALTH_SURVEY_PROPERTY, classDailyHealthSurveyId);
-		key.put(StudentHealthSurvey.TEACHER_PROPERTY, teacherId);
+		key.put(StudentHealthSurvey.SCHOOL_CLASS_PROPERTY, schoolClassId);
 		
 		int count = getStudentHealthSurveyDAO().countStudentHealthSurveyWithKey(key, options);
 		return count;

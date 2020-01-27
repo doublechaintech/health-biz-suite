@@ -20,15 +20,14 @@ public class TeacherTable{
 	static final String COLUMN_ID = "id";
 	static final String COLUMN_NAME = "name";
 	static final String COLUMN_MOBILE = "mobile";
-	static final String COLUMN_SCHOOL = "school";
-	static final String COLUMN_SCHOOL_CLASS = "school_class";
+	static final String COLUMN_SCHOOLE = "schoole";
 	static final String COLUMN_CREATE_TIME = "create_time";
 	static final String COLUMN_PLATFORM = "platform";
 	static final String COLUMN_CQ = "cq";
 	static final String COLUMN_VERSION = "version";
  
-	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_NAME,COLUMN_MOBILE,COLUMN_SCHOOL,COLUMN_SCHOOL_CLASS,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CQ,COLUMN_VERSION};
-	public static final String []NORMAL_CLOUMNS = {COLUMN_NAME,COLUMN_MOBILE,COLUMN_SCHOOL,COLUMN_SCHOOL_CLASS,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CQ};
+	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_NAME,COLUMN_MOBILE,COLUMN_SCHOOLE,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CQ,COLUMN_VERSION};
+	public static final String []NORMAL_CLOUMNS = {COLUMN_NAME,COLUMN_MOBILE,COLUMN_SCHOOLE,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_CQ};
 	
 	
 }

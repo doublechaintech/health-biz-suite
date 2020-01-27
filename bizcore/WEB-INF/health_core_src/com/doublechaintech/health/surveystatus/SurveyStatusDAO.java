@@ -63,9 +63,9 @@ public interface SurveyStatusDAO extends BaseDAO{
 	public SurveyStatus planToRemoveStudentHealthSurveyListWithStudent(SurveyStatus surveyStatus, String studentId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithStudent(String surveyStatusId, String studentId, Map<String,Object> options)throws Exception;
 	
-	//disconnect SurveyStatus with teacher in StudentHealthSurvey
-	public SurveyStatus planToRemoveStudentHealthSurveyListWithTeacher(SurveyStatus surveyStatus, String teacherId, Map<String,Object> options)throws Exception;
-	public int countStudentHealthSurveyListWithTeacher(String surveyStatusId, String teacherId, Map<String,Object> options)throws Exception;
+	//disconnect SurveyStatus with school_class in StudentHealthSurvey
+	public SurveyStatus planToRemoveStudentHealthSurveyListWithSchoolClass(SurveyStatus surveyStatus, String schoolClassId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithSchoolClass(String surveyStatusId, String schoolClassId, Map<String,Object> options)throws Exception;
 	
 	//disconnect SurveyStatus with class_daily_health_survey in StudentHealthSurvey
 	public SurveyStatus planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(SurveyStatus surveyStatus, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;

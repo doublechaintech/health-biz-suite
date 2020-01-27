@@ -14,12 +14,14 @@ import com.doublechaintech.health.KeyValuePair;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 @JsonSerialize(using = ChangeRequestSerializer.class)
 public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
@@ -33,10 +35,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
+	public static final String SCHOOL_CLASS_LIST                        = "schoolClassList"   ;
 	public static final String TEACHER_LIST                             = "teacherList"       ;
-	public static final String STUDENT_LIST                             = "studentList"       ;
-	public static final String QUESTION_LIST                            = "questionList"      ;
+	public static final String GUARDIAN_LIST                            = "guardianList"      ;
+	public static final String CLASS_QUESTION_LIST                      = "classQuestionList" ;
 	public static final String CLASS_DAILY_HEALTH_SURVEY_LIST           = "classDailyHealthSurveyList";
+	public static final String STUDENT_LIST                             = "studentList"       ;
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
 	public static final String STUDENT_DAILY_ANSWER_LIST                = "studentDailyAnswerList";
 
@@ -68,10 +72,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	protected		int                 	mVersion            ;
 	
 	
+	protected		SmartList<SchoolClass>	mSchoolClassList    ;
 	protected		SmartList<Teacher>  	mTeacherList        ;
-	protected		SmartList<Student>  	mStudentList        ;
-	protected		SmartList<Question> 	mQuestionList       ;
+	protected		SmartList<Guardian> 	mGuardianList       ;
+	protected		SmartList<ClassQuestion>	mClassQuestionList  ;
 	protected		SmartList<ClassDailyHealthSurvey>	mClassDailyHealthSurveyList;
+	protected		SmartList<Student>  	mStudentList        ;
 	protected		SmartList<StudentHealthSurvey>	mStudentHealthSurveyList;
 	protected		SmartList<StudentDailyAnswer>	mStudentDailyAnswerList;
 	
@@ -181,20 +187,28 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
 		}
+		if(SCHOOL_CLASS_LIST.equals(property)){
+			List<BaseEntity> list = getSchoolClassList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
 		if(TEACHER_LIST.equals(property)){
 			List<BaseEntity> list = getTeacherList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
-		if(STUDENT_LIST.equals(property)){
-			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
+		if(GUARDIAN_LIST.equals(property)){
+			List<BaseEntity> list = getGuardianList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
-		if(QUESTION_LIST.equals(property)){
-			List<BaseEntity> list = getQuestionList().stream().map(item->item).collect(Collectors.toList());
+		if(CLASS_QUESTION_LIST.equals(property)){
+			List<BaseEntity> list = getClassQuestionList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 		if(CLASS_DAILY_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getClassDailyHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
+		if(STUDENT_LIST.equals(property)){
+			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
@@ -339,6 +353,113 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 	
 
+	public  SmartList<SchoolClass> getSchoolClassList(){
+		if(this.mSchoolClassList == null){
+			this.mSchoolClassList = new SmartList<SchoolClass>();
+			this.mSchoolClassList.setListInternalName (SCHOOL_CLASS_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mSchoolClassList;	
+	}
+	public  void setSchoolClassList(SmartList<SchoolClass> schoolClassList){
+		for( SchoolClass schoolClass:schoolClassList){
+			schoolClass.setCq(this);
+		}
+
+		this.mSchoolClassList = schoolClassList;
+		this.mSchoolClassList.setListInternalName (SCHOOL_CLASS_LIST );
+		
+	}
+	
+	public  void addSchoolClass(SchoolClass schoolClass){
+		schoolClass.setCq(this);
+		getSchoolClassList().add(schoolClass);
+	}
+	public  void addSchoolClassList(SmartList<SchoolClass> schoolClassList){
+		for( SchoolClass schoolClass:schoolClassList){
+			schoolClass.setCq(this);
+		}
+		getSchoolClassList().addAll(schoolClassList);
+	}
+	public  void mergeSchoolClassList(SmartList<SchoolClass> schoolClassList){
+		if(schoolClassList==null){
+			return;
+		}
+		if(schoolClassList.isEmpty()){
+			return;
+		}
+		addSchoolClassList( schoolClassList );
+		
+	}
+	public  SchoolClass removeSchoolClass(SchoolClass schoolClassIndex){
+		
+		int index = getSchoolClassList().indexOf(schoolClassIndex);
+        if(index < 0){
+        	String message = "SchoolClass("+schoolClassIndex.getId()+") with version='"+schoolClassIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        SchoolClass schoolClass = getSchoolClassList().get(index);        
+        // schoolClass.clearCq(); //disconnect with Cq
+        schoolClass.clearFromAll(); //disconnect with Cq
+		
+		boolean result = getSchoolClassList().planToRemove(schoolClass);
+        if(!result){
+        	String message = "SchoolClass("+schoolClassIndex.getId()+") with version='"+schoolClassIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return schoolClass;
+        
+	
+	}
+	//断舍离
+	public  void breakWithSchoolClass(SchoolClass schoolClass){
+		
+		if(schoolClass == null){
+			return;
+		}
+		schoolClass.setCq(null);
+		//getSchoolClassList().remove();
+	
+	}
+	
+	public  boolean hasSchoolClass(SchoolClass schoolClass){
+	
+		return getSchoolClassList().contains(schoolClass);
+  
+	}
+	
+	public void copySchoolClassFrom(SchoolClass schoolClass) {
+
+		SchoolClass schoolClassInList = findTheSchoolClass(schoolClass);
+		SchoolClass newSchoolClass = new SchoolClass();
+		schoolClassInList.copyTo(newSchoolClass);
+		newSchoolClass.setVersion(0);//will trigger copy
+		getSchoolClassList().add(newSchoolClass);
+		addItemToFlexiableObject(COPIED_CHILD, newSchoolClass);
+	}
+	
+	public  SchoolClass findTheSchoolClass(SchoolClass schoolClass){
+		
+		int index =  getSchoolClassList().indexOf(schoolClass);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "SchoolClass("+schoolClass.getId()+") with version='"+schoolClass.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getSchoolClassList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpSchoolClassList(){
+		getSchoolClassList().clear();
+	}
+	
+	
+	
+
+
 	public  SmartList<Teacher> getTeacherList(){
 		if(this.mTeacherList == null){
 			this.mTeacherList = new SmartList<Teacher>();
@@ -446,214 +567,214 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 
 
-	public  SmartList<Student> getStudentList(){
-		if(this.mStudentList == null){
-			this.mStudentList = new SmartList<Student>();
-			this.mStudentList.setListInternalName (STUDENT_LIST );
+	public  SmartList<Guardian> getGuardianList(){
+		if(this.mGuardianList == null){
+			this.mGuardianList = new SmartList<Guardian>();
+			this.mGuardianList.setListInternalName (GUARDIAN_LIST );
 			//有名字，便于做权限控制
 		}
 		
-		return this.mStudentList;	
+		return this.mGuardianList;	
 	}
-	public  void setStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setCq(this);
+	public  void setGuardianList(SmartList<Guardian> guardianList){
+		for( Guardian guardian:guardianList){
+			guardian.setCq(this);
 		}
 
-		this.mStudentList = studentList;
-		this.mStudentList.setListInternalName (STUDENT_LIST );
+		this.mGuardianList = guardianList;
+		this.mGuardianList.setListInternalName (GUARDIAN_LIST );
 		
 	}
 	
-	public  void addStudent(Student student){
-		student.setCq(this);
-		getStudentList().add(student);
+	public  void addGuardian(Guardian guardian){
+		guardian.setCq(this);
+		getGuardianList().add(guardian);
 	}
-	public  void addStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setCq(this);
+	public  void addGuardianList(SmartList<Guardian> guardianList){
+		for( Guardian guardian:guardianList){
+			guardian.setCq(this);
 		}
-		getStudentList().addAll(studentList);
+		getGuardianList().addAll(guardianList);
 	}
-	public  void mergeStudentList(SmartList<Student> studentList){
-		if(studentList==null){
+	public  void mergeGuardianList(SmartList<Guardian> guardianList){
+		if(guardianList==null){
 			return;
 		}
-		if(studentList.isEmpty()){
+		if(guardianList.isEmpty()){
 			return;
 		}
-		addStudentList( studentList );
+		addGuardianList( guardianList );
 		
 	}
-	public  Student removeStudent(Student studentIndex){
+	public  Guardian removeGuardian(Guardian guardianIndex){
 		
-		int index = getStudentList().indexOf(studentIndex);
+		int index = getGuardianList().indexOf(guardianIndex);
         if(index < 0){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+        	String message = "Guardian("+guardianIndex.getId()+") with version='"+guardianIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        Student student = getStudentList().get(index);        
-        // student.clearCq(); //disconnect with Cq
-        student.clearFromAll(); //disconnect with Cq
+        Guardian guardian = getGuardianList().get(index);        
+        // guardian.clearCq(); //disconnect with Cq
+        guardian.clearFromAll(); //disconnect with Cq
 		
-		boolean result = getStudentList().planToRemove(student);
+		boolean result = getGuardianList().planToRemove(guardian);
         if(!result){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+        	String message = "Guardian("+guardianIndex.getId()+") with version='"+guardianIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        return student;
+        return guardian;
         
 	
 	}
 	//断舍离
-	public  void breakWithStudent(Student student){
+	public  void breakWithGuardian(Guardian guardian){
 		
-		if(student == null){
+		if(guardian == null){
 			return;
 		}
-		student.setCq(null);
-		//getStudentList().remove();
+		guardian.setCq(null);
+		//getGuardianList().remove();
 	
 	}
 	
-	public  boolean hasStudent(Student student){
+	public  boolean hasGuardian(Guardian guardian){
 	
-		return getStudentList().contains(student);
+		return getGuardianList().contains(guardian);
   
 	}
 	
-	public void copyStudentFrom(Student student) {
+	public void copyGuardianFrom(Guardian guardian) {
 
-		Student studentInList = findTheStudent(student);
-		Student newStudent = new Student();
-		studentInList.copyTo(newStudent);
-		newStudent.setVersion(0);//will trigger copy
-		getStudentList().add(newStudent);
-		addItemToFlexiableObject(COPIED_CHILD, newStudent);
+		Guardian guardianInList = findTheGuardian(guardian);
+		Guardian newGuardian = new Guardian();
+		guardianInList.copyTo(newGuardian);
+		newGuardian.setVersion(0);//will trigger copy
+		getGuardianList().add(newGuardian);
+		addItemToFlexiableObject(COPIED_CHILD, newGuardian);
 	}
 	
-	public  Student findTheStudent(Student student){
+	public  Guardian findTheGuardian(Guardian guardian){
 		
-		int index =  getStudentList().indexOf(student);
+		int index =  getGuardianList().indexOf(guardian);
 		//The input parameter must have the same id and version number.
 		if(index < 0){
- 			String message = "Student("+student.getId()+") with version='"+student.getVersion()+"' NOT found!";
+ 			String message = "Guardian("+guardian.getId()+") with version='"+guardian.getVersion()+"' NOT found!";
 			throw new IllegalStateException(message);
 		}
 		
-		return  getStudentList().get(index);
+		return  getGuardianList().get(index);
 		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
 	}
 	
-	public  void cleanUpStudentList(){
-		getStudentList().clear();
+	public  void cleanUpGuardianList(){
+		getGuardianList().clear();
 	}
 	
 	
 	
 
 
-	public  SmartList<Question> getQuestionList(){
-		if(this.mQuestionList == null){
-			this.mQuestionList = new SmartList<Question>();
-			this.mQuestionList.setListInternalName (QUESTION_LIST );
+	public  SmartList<ClassQuestion> getClassQuestionList(){
+		if(this.mClassQuestionList == null){
+			this.mClassQuestionList = new SmartList<ClassQuestion>();
+			this.mClassQuestionList.setListInternalName (CLASS_QUESTION_LIST );
 			//有名字，便于做权限控制
 		}
 		
-		return this.mQuestionList;	
+		return this.mClassQuestionList;	
 	}
-	public  void setQuestionList(SmartList<Question> questionList){
-		for( Question question:questionList){
-			question.setCq(this);
+	public  void setClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		for( ClassQuestion classQuestion:classQuestionList){
+			classQuestion.setCq(this);
 		}
 
-		this.mQuestionList = questionList;
-		this.mQuestionList.setListInternalName (QUESTION_LIST );
+		this.mClassQuestionList = classQuestionList;
+		this.mClassQuestionList.setListInternalName (CLASS_QUESTION_LIST );
 		
 	}
 	
-	public  void addQuestion(Question question){
-		question.setCq(this);
-		getQuestionList().add(question);
+	public  void addClassQuestion(ClassQuestion classQuestion){
+		classQuestion.setCq(this);
+		getClassQuestionList().add(classQuestion);
 	}
-	public  void addQuestionList(SmartList<Question> questionList){
-		for( Question question:questionList){
-			question.setCq(this);
+	public  void addClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		for( ClassQuestion classQuestion:classQuestionList){
+			classQuestion.setCq(this);
 		}
-		getQuestionList().addAll(questionList);
+		getClassQuestionList().addAll(classQuestionList);
 	}
-	public  void mergeQuestionList(SmartList<Question> questionList){
-		if(questionList==null){
+	public  void mergeClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		if(classQuestionList==null){
 			return;
 		}
-		if(questionList.isEmpty()){
+		if(classQuestionList.isEmpty()){
 			return;
 		}
-		addQuestionList( questionList );
+		addClassQuestionList( classQuestionList );
 		
 	}
-	public  Question removeQuestion(Question questionIndex){
+	public  ClassQuestion removeClassQuestion(ClassQuestion classQuestionIndex){
 		
-		int index = getQuestionList().indexOf(questionIndex);
+		int index = getClassQuestionList().indexOf(classQuestionIndex);
         if(index < 0){
-        	String message = "Question("+questionIndex.getId()+") with version='"+questionIndex.getVersion()+"' NOT found!";
+        	String message = "ClassQuestion("+classQuestionIndex.getId()+") with version='"+classQuestionIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        Question question = getQuestionList().get(index);        
-        // question.clearCq(); //disconnect with Cq
-        question.clearFromAll(); //disconnect with Cq
+        ClassQuestion classQuestion = getClassQuestionList().get(index);        
+        // classQuestion.clearCq(); //disconnect with Cq
+        classQuestion.clearFromAll(); //disconnect with Cq
 		
-		boolean result = getQuestionList().planToRemove(question);
+		boolean result = getClassQuestionList().planToRemove(classQuestion);
         if(!result){
-        	String message = "Question("+questionIndex.getId()+") with version='"+questionIndex.getVersion()+"' NOT found!";
+        	String message = "ClassQuestion("+classQuestionIndex.getId()+") with version='"+classQuestionIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        return question;
+        return classQuestion;
         
 	
 	}
 	//断舍离
-	public  void breakWithQuestion(Question question){
+	public  void breakWithClassQuestion(ClassQuestion classQuestion){
 		
-		if(question == null){
+		if(classQuestion == null){
 			return;
 		}
-		question.setCq(null);
-		//getQuestionList().remove();
+		classQuestion.setCq(null);
+		//getClassQuestionList().remove();
 	
 	}
 	
-	public  boolean hasQuestion(Question question){
+	public  boolean hasClassQuestion(ClassQuestion classQuestion){
 	
-		return getQuestionList().contains(question);
+		return getClassQuestionList().contains(classQuestion);
   
 	}
 	
-	public void copyQuestionFrom(Question question) {
+	public void copyClassQuestionFrom(ClassQuestion classQuestion) {
 
-		Question questionInList = findTheQuestion(question);
-		Question newQuestion = new Question();
-		questionInList.copyTo(newQuestion);
-		newQuestion.setVersion(0);//will trigger copy
-		getQuestionList().add(newQuestion);
-		addItemToFlexiableObject(COPIED_CHILD, newQuestion);
+		ClassQuestion classQuestionInList = findTheClassQuestion(classQuestion);
+		ClassQuestion newClassQuestion = new ClassQuestion();
+		classQuestionInList.copyTo(newClassQuestion);
+		newClassQuestion.setVersion(0);//will trigger copy
+		getClassQuestionList().add(newClassQuestion);
+		addItemToFlexiableObject(COPIED_CHILD, newClassQuestion);
 	}
 	
-	public  Question findTheQuestion(Question question){
+	public  ClassQuestion findTheClassQuestion(ClassQuestion classQuestion){
 		
-		int index =  getQuestionList().indexOf(question);
+		int index =  getClassQuestionList().indexOf(classQuestion);
 		//The input parameter must have the same id and version number.
 		if(index < 0){
- 			String message = "Question("+question.getId()+") with version='"+question.getVersion()+"' NOT found!";
+ 			String message = "ClassQuestion("+classQuestion.getId()+") with version='"+classQuestion.getVersion()+"' NOT found!";
 			throw new IllegalStateException(message);
 		}
 		
-		return  getQuestionList().get(index);
+		return  getClassQuestionList().get(index);
 		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
 	}
 	
-	public  void cleanUpQuestionList(){
-		getQuestionList().clear();
+	public  void cleanUpClassQuestionList(){
+		getClassQuestionList().clear();
 	}
 	
 	
@@ -761,6 +882,113 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 	public  void cleanUpClassDailyHealthSurveyList(){
 		getClassDailyHealthSurveyList().clear();
+	}
+	
+	
+	
+
+
+	public  SmartList<Student> getStudentList(){
+		if(this.mStudentList == null){
+			this.mStudentList = new SmartList<Student>();
+			this.mStudentList.setListInternalName (STUDENT_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mStudentList;	
+	}
+	public  void setStudentList(SmartList<Student> studentList){
+		for( Student student:studentList){
+			student.setCq(this);
+		}
+
+		this.mStudentList = studentList;
+		this.mStudentList.setListInternalName (STUDENT_LIST );
+		
+	}
+	
+	public  void addStudent(Student student){
+		student.setCq(this);
+		getStudentList().add(student);
+	}
+	public  void addStudentList(SmartList<Student> studentList){
+		for( Student student:studentList){
+			student.setCq(this);
+		}
+		getStudentList().addAll(studentList);
+	}
+	public  void mergeStudentList(SmartList<Student> studentList){
+		if(studentList==null){
+			return;
+		}
+		if(studentList.isEmpty()){
+			return;
+		}
+		addStudentList( studentList );
+		
+	}
+	public  Student removeStudent(Student studentIndex){
+		
+		int index = getStudentList().indexOf(studentIndex);
+        if(index < 0){
+        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        Student student = getStudentList().get(index);        
+        // student.clearCq(); //disconnect with Cq
+        student.clearFromAll(); //disconnect with Cq
+		
+		boolean result = getStudentList().planToRemove(student);
+        if(!result){
+        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return student;
+        
+	
+	}
+	//断舍离
+	public  void breakWithStudent(Student student){
+		
+		if(student == null){
+			return;
+		}
+		student.setCq(null);
+		//getStudentList().remove();
+	
+	}
+	
+	public  boolean hasStudent(Student student){
+	
+		return getStudentList().contains(student);
+  
+	}
+	
+	public void copyStudentFrom(Student student) {
+
+		Student studentInList = findTheStudent(student);
+		Student newStudent = new Student();
+		studentInList.copyTo(newStudent);
+		newStudent.setVersion(0);//will trigger copy
+		getStudentList().add(newStudent);
+		addItemToFlexiableObject(COPIED_CHILD, newStudent);
+	}
+	
+	public  Student findTheStudent(Student student){
+		
+		int index =  getStudentList().indexOf(student);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "Student("+student.getId()+") with version='"+student.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getStudentList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpStudentList(){
+		getStudentList().clear();
 	}
 	
 	
@@ -992,10 +1220,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
+		collectFromList(this, entityList, getSchoolClassList(), internalType);
 		collectFromList(this, entityList, getTeacherList(), internalType);
-		collectFromList(this, entityList, getStudentList(), internalType);
-		collectFromList(this, entityList, getQuestionList(), internalType);
+		collectFromList(this, entityList, getGuardianList(), internalType);
+		collectFromList(this, entityList, getClassQuestionList(), internalType);
 		collectFromList(this, entityList, getClassDailyHealthSurveyList(), internalType);
+		collectFromList(this, entityList, getStudentList(), internalType);
 		collectFromList(this, entityList, getStudentHealthSurveyList(), internalType);
 		collectFromList(this, entityList, getStudentDailyAnswerList(), internalType);
 
@@ -1005,10 +1235,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
+		listOfList.add( getSchoolClassList());
 		listOfList.add( getTeacherList());
-		listOfList.add( getStudentList());
-		listOfList.add( getQuestionList());
+		listOfList.add( getGuardianList());
+		listOfList.add( getClassQuestionList());
 		listOfList.add( getClassDailyHealthSurveyList());
+		listOfList.add( getStudentList());
 		listOfList.add( getStudentHealthSurveyList());
 		listOfList.add( getStudentDailyAnswerList());
 			
@@ -1027,25 +1259,35 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, REQUEST_TYPE_PROPERTY, getRequestType());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
+		appendKeyValuePair(result, SCHOOL_CLASS_LIST, getSchoolClassList());
+		if(!getSchoolClassList().isEmpty()){
+			appendKeyValuePair(result, "schoolClassCount", getSchoolClassList().getTotalCount());
+			appendKeyValuePair(result, "schoolClassCurrentPageNumber", getSchoolClassList().getCurrentPageNumber());
+		}
 		appendKeyValuePair(result, TEACHER_LIST, getTeacherList());
 		if(!getTeacherList().isEmpty()){
 			appendKeyValuePair(result, "teacherCount", getTeacherList().getTotalCount());
 			appendKeyValuePair(result, "teacherCurrentPageNumber", getTeacherList().getCurrentPageNumber());
 		}
-		appendKeyValuePair(result, STUDENT_LIST, getStudentList());
-		if(!getStudentList().isEmpty()){
-			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
-			appendKeyValuePair(result, "studentCurrentPageNumber", getStudentList().getCurrentPageNumber());
+		appendKeyValuePair(result, GUARDIAN_LIST, getGuardianList());
+		if(!getGuardianList().isEmpty()){
+			appendKeyValuePair(result, "guardianCount", getGuardianList().getTotalCount());
+			appendKeyValuePair(result, "guardianCurrentPageNumber", getGuardianList().getCurrentPageNumber());
 		}
-		appendKeyValuePair(result, QUESTION_LIST, getQuestionList());
-		if(!getQuestionList().isEmpty()){
-			appendKeyValuePair(result, "questionCount", getQuestionList().getTotalCount());
-			appendKeyValuePair(result, "questionCurrentPageNumber", getQuestionList().getCurrentPageNumber());
+		appendKeyValuePair(result, CLASS_QUESTION_LIST, getClassQuestionList());
+		if(!getClassQuestionList().isEmpty()){
+			appendKeyValuePair(result, "classQuestionCount", getClassQuestionList().getTotalCount());
+			appendKeyValuePair(result, "classQuestionCurrentPageNumber", getClassQuestionList().getCurrentPageNumber());
 		}
 		appendKeyValuePair(result, CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyList());
 		if(!getClassDailyHealthSurveyList().isEmpty()){
 			appendKeyValuePair(result, "classDailyHealthSurveyCount", getClassDailyHealthSurveyList().getTotalCount());
 			appendKeyValuePair(result, "classDailyHealthSurveyCurrentPageNumber", getClassDailyHealthSurveyList().getCurrentPageNumber());
+		}
+		appendKeyValuePair(result, STUDENT_LIST, getStudentList());
+		if(!getStudentList().isEmpty()){
+			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
+			appendKeyValuePair(result, "studentCurrentPageNumber", getStudentList().getCurrentPageNumber());
 		}
 		appendKeyValuePair(result, STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyList());
 		if(!getStudentHealthSurveyList().isEmpty()){
@@ -1078,10 +1320,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			dest.setRequestType(getRequestType());
 			dest.setPlatform(getPlatform());
 			dest.setVersion(getVersion());
+			dest.setSchoolClassList(getSchoolClassList());
 			dest.setTeacherList(getTeacherList());
-			dest.setStudentList(getStudentList());
-			dest.setQuestionList(getQuestionList());
+			dest.setGuardianList(getGuardianList());
+			dest.setClassQuestionList(getClassQuestionList());
 			dest.setClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
+			dest.setStudentList(getStudentList());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
 			dest.setStudentDailyAnswerList(getStudentDailyAnswerList());
 
@@ -1104,10 +1348,12 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			dest.mergeRequestType(getRequestType());
 			dest.mergePlatform(getPlatform());
 			dest.mergeVersion(getVersion());
+			dest.mergeSchoolClassList(getSchoolClassList());
 			dest.mergeTeacherList(getTeacherList());
-			dest.mergeStudentList(getStudentList());
-			dest.mergeQuestionList(getQuestionList());
+			dest.mergeGuardianList(getGuardianList());
+			dest.mergeClassQuestionList(getClassQuestionList());
 			dest.mergeClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
+			dest.mergeStudentList(getStudentList());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
 			dest.mergeStudentDailyAnswerList(getStudentDailyAnswerList());
 

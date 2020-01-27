@@ -132,13 +132,11 @@ componentDidMount() {
       const {listName} = owner
      
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'id'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'studentName'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'name'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'gender'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'guardian'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'schoolClass'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'studentId'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'guardianName'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'guardianMobile'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'address'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'user'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'platform'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'cq'))
 
      
@@ -206,8 +204,8 @@ componentDidMount() {
        </Col>
 
        <Col md={8} sm={24}>
-         <FormItem label={fieldLabels.studentName}>
-           {getFieldDecorator('studentName')(
+         <FormItem label={fieldLabels.name}>
+           {getFieldDecorator('name')(
              <Input size="default" placeholder={appLocaleName(userContext,"PleaseInput")} />
            )}
          </FormItem>
@@ -261,12 +259,44 @@ componentDidMount() {
           </Col>
 
           <Col md={8} sm={24}>
-            <FormItem label={fieldLabels.studentName}>
-              {getFieldDecorator('studentName')(
+            <FormItem label={fieldLabels.name}>
+              {getFieldDecorator('name')(
                 <Input placeholder={appLocaleName(userContext,"PleaseInput")} />
               )}
             </FormItem>
           </Col>
+
+          <Col md={8} sm={24}>
+            <FormItem label={fieldLabels.gender}>
+              {getFieldDecorator('gender')(
+                <Input placeholder={appLocaleName(userContext,"PleaseInput")} />
+              )}
+            </FormItem>
+          </Col>
+ <Col md={8} sm={24}>
+                    <Form.Item label={fieldLabels.guardian}>
+                  {getFieldDecorator('guardian', {initialValue: tryinit('guardian')})(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('guardian')}
+                    targetType={"guardian"} 
+                    requestFunction={StudentService.requestCandidateGuardian} useForSearch />
+                  	
+                 
+                  )}
+                </Form.Item></Col>
+ <Col md={8} sm={24}>
+                    <Form.Item label={fieldLabels.schoolClass}>
+                  {getFieldDecorator('schoolClass', {initialValue: tryinit('schoolClass')})(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('schoolClass')}
+                    targetType={"schoolClass"} 
+                    requestFunction={StudentService.requestCandidateSchoolClass} useForSearch />
+                  	
+                 
+                  )}
+                </Form.Item></Col>
 
           <Col md={8} sm={24}>
             <FormItem label={fieldLabels.studentId}>
@@ -275,58 +305,6 @@ componentDidMount() {
               )}
             </FormItem>
           </Col>
-
-          <Col md={8} sm={24}>
-            <FormItem label={fieldLabels.guardianName}>
-              {getFieldDecorator('guardianName')(
-                <Input placeholder={appLocaleName(userContext,"PleaseInput")} />
-              )}
-            </FormItem>
-          </Col>
-
-          <Col md={8} sm={24}>
-            <FormItem label={fieldLabels.guardianMobile}>
-              {getFieldDecorator('guardianMobile')(
-                <Input placeholder={appLocaleName(userContext,"PleaseInput")} />
-              )}
-            </FormItem>
-          </Col>
- <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.address}>
-                  {getFieldDecorator('address', {initialValue: tryinit('address')})(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('address')}
-                    targetType={"address"} 
-                    requestFunction={StudentService.requestCandidateAddress} useForSearch />
-                  	
-                 
-                  )}
-                </Form.Item></Col>
- <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.user}>
-                  {getFieldDecorator('user', {initialValue: tryinit('user')})(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('user')}
-                    targetType={"user"} 
-                    requestFunction={StudentService.requestCandidateUser} useForSearch />
-                  	
-                 
-                  )}
-                </Form.Item></Col>
- <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.platform}>
-                  {getFieldDecorator('platform', {initialValue: tryinit('platform')})(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('platform')}
-                    targetType={"platform"} 
-                    requestFunction={StudentService.requestCandidatePlatform} useForSearch />
-                  	
-                 
-                  )}
-                </Form.Item></Col>
  <Col md={8} sm={24}>
                     <Form.Item label={fieldLabels.cq}>
                   {getFieldDecorator('cq', {initialValue: tryinit('cq')})(

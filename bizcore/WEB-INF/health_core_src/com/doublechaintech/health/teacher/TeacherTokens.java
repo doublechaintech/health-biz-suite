@@ -74,8 +74,7 @@ public class TeacherTokens extends CommonTokens{
 		return start()
 			.withPlatform()
 			.withCq()
-			.withClassDailyHealthSurveyList()
-			.withStudentHealthSurveyList();
+			.withSchoolClassList();
 	
 	}
 	public static TeacherTokens withoutListsTokens(){
@@ -121,141 +120,71 @@ public class TeacherTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String CLASS_DAILY_HEALTH_SURVEY_LIST = "classDailyHealthSurveyList";
-	public String getClassDailyHealthSurveyList(){
-		return CLASS_DAILY_HEALTH_SURVEY_LIST;
+	protected static final String SCHOOL_CLASS_LIST = "schoolClassList";
+	public String getSchoolClassList(){
+		return SCHOOL_CLASS_LIST;
 	}
-	public TeacherTokens withClassDailyHealthSurveyList(){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST);
+	public TeacherTokens withSchoolClassList(){		
+		addSimpleOptions(SCHOOL_CLASS_LIST);
 		return this;
 	}
-	public TeacherTokens analyzeClassDailyHealthSurveyList(){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+".anaylze");
+	public TeacherTokens analyzeSchoolClassList(){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+".anaylze");
 		return this;
 	}
-	public boolean analyzeClassDailyHealthSurveyListEnabled(){		
+	public boolean analyzeSchoolClassListEnabled(){		
 		
-		if(checkOptions(this.options(), CLASS_DAILY_HEALTH_SURVEY_LIST+".anaylze")){
+		if(checkOptions(this.options(), SCHOOL_CLASS_LIST+".anaylze")){
 			return true; //most of the case, should call here
 		}
 		//if not true, then query for global setting
 		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
 	}
-	public TeacherTokens extractMoreFromClassDailyHealthSurveyList(String idsSeperatedWithComma){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+".extractIds", idsSeperatedWithComma);
+	public TeacherTokens extractMoreFromSchoolClassList(String idsSeperatedWithComma){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+".extractIds", idsSeperatedWithComma);
 		return this;
 	}
 	
 	
 	
 	
-	private int classDailyHealthSurveyListSortCounter = 0;
-	public TeacherTokens sortClassDailyHealthSurveyListWith(String field, String descOrAsc){		
-		addSortMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSortCounter++, field, descOrAsc);
+	private int schoolClassListSortCounter = 0;
+	public TeacherTokens sortSchoolClassListWith(String field, String descOrAsc){		
+		addSortMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSortCounter++, field, descOrAsc);
 		return this;
 	}
-	private int classDailyHealthSurveyListSearchCounter = 0;
-	public TeacherTokens searchClassDailyHealthSurveyListWith(String field, String verb, String value){		
+	private int schoolClassListSearchCounter = 0;
+	public TeacherTokens searchSchoolClassListWith(String field, String verb, String value){		
 		
-		withClassDailyHealthSurveyList();
-		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
+		withSchoolClassList();
+		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public TeacherTokens searchAllTextOfClassDailyHealthSurveyList(String verb, String value){	
-		String field = "id|name";
-		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
+	public TeacherTokens searchAllTextOfSchoolClassList(String verb, String value){	
+		String field = "id|name|schoole";
+		addSearchMoreOptions(SCHOOL_CLASS_LIST,schoolClassListSearchCounter++, field, verb, value);
 		return this;
 	}
 	
 	
 	
-	public TeacherTokens rowsPerPageOfClassDailyHealthSurveyList(int rowsPerPage){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+"RowsPerPage",rowsPerPage);
+	public TeacherTokens rowsPerPageOfSchoolClassList(int rowsPerPage){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+"RowsPerPage",rowsPerPage);
 		return this;
 	}
-	public TeacherTokens currentPageNumberOfClassDailyHealthSurveyList(int currentPageNumber){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+"CurrentPage",currentPageNumber);
+	public TeacherTokens currentPageNumberOfSchoolClassList(int currentPageNumber){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+"CurrentPage",currentPageNumber);
 		return this;
 	}
-	public TeacherTokens retainColumnsOfClassDailyHealthSurveyList(String[] columns){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+"RetainColumns",columns);
+	public TeacherTokens retainColumnsOfSchoolClassList(String[] columns){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+"RetainColumns",columns);
 		return this;
 	}
-	public TeacherTokens excludeColumnsOfClassDailyHealthSurveyList(String[] columns){		
-		addSimpleOptions(CLASS_DAILY_HEALTH_SURVEY_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
-	protected static final String STUDENT_HEALTH_SURVEY_LIST = "studentHealthSurveyList";
-	public String getStudentHealthSurveyList(){
-		return STUDENT_HEALTH_SURVEY_LIST;
-	}
-	public TeacherTokens withStudentHealthSurveyList(){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST);
-		return this;
-	}
-	public TeacherTokens analyzeStudentHealthSurveyList(){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeStudentHealthSurveyListEnabled(){		
-		
-		if(checkOptions(this.options(), STUDENT_HEALTH_SURVEY_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public TeacherTokens extractMoreFromStudentHealthSurveyList(String idsSeperatedWithComma){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int studentHealthSurveyListSortCounter = 0;
-	public TeacherTokens sortStudentHealthSurveyListWith(String field, String descOrAsc){		
-		addSortMoreOptions(STUDENT_HEALTH_SURVEY_LIST,studentHealthSurveyListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int studentHealthSurveyListSearchCounter = 0;
-	public TeacherTokens searchStudentHealthSurveyListWith(String field, String verb, String value){		
-		
-		withStudentHealthSurveyList();
-		addSearchMoreOptions(STUDENT_HEALTH_SURVEY_LIST,studentHealthSurveyListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public TeacherTokens searchAllTextOfStudentHealthSurveyList(String verb, String value){	
-		String field = "id";
-		addSearchMoreOptions(STUDENT_HEALTH_SURVEY_LIST,studentHealthSurveyListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public TeacherTokens rowsPerPageOfStudentHealthSurveyList(int rowsPerPage){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public TeacherTokens currentPageNumberOfStudentHealthSurveyList(int currentPageNumber){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public TeacherTokens retainColumnsOfStudentHealthSurveyList(String[] columns){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public TeacherTokens excludeColumnsOfStudentHealthSurveyList(String[] columns){		
-		addSimpleOptions(STUDENT_HEALTH_SURVEY_LIST+"ExcludeColumns",columns);
+	public TeacherTokens excludeColumnsOfSchoolClassList(String[] columns){		
+		addSimpleOptions(SCHOOL_CLASS_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -264,8 +193,7 @@ public class TeacherTokens extends CommonTokens{
 	
 	public  TeacherTokens searchEntireObjectText(String verb, String value){
 		
-		searchAllTextOfClassDailyHealthSurveyList(verb, value);	
-		searchAllTextOfStudentHealthSurveyList(verb, value);	
+		searchAllTextOfSchoolClassList(verb, value);	
 		return this;
 	}
 }

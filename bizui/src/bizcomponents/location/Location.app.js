@@ -182,108 +182,108 @@ constructor(props) {
 
 
 
-  getStudentSearch = () => {
-    const {StudentSearch} = GlobalComponents;
+  getGuardianSearch = () => {
+    const {GuardianSearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('student','location.student_list',false),
-      role: "student",
-      data: state._location.studentList,
-      metaInfo: state._location.studentListMetaInfo,
-      count: state._location.studentCount,
+      name: window.mtrans('guardian','location.guardian_list',false),
+      role: "guardian",
+      data: state._location.guardianList,
+      metaInfo: state._location.guardianListMetaInfo,
+      count: state._location.guardianCount,
       returnURL: `/location/${state._location.id}/dashboard`,
-      currentPage: state._location.studentCurrentPageNumber,
-      searchFormParameters: state._location.studentSearchFormParameters,
+      currentPage: state._location.guardianCurrentPageNumber,
+      searchFormParameters: state._location.guardianSearchFormParameters,
       searchParameters: {...state._location.searchParameters},
       expandForm: state._location.expandForm,
       loading: state._location.loading,
       partialList: state._location.partialList,
       owner: { type: '_location', id: state._location.id, 
       referenceName: 'address', 
-      listName: 'studentList', ref:state._location, 
+      listName: 'guardianList', ref:state._location, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentSearch)
+    }))(GuardianSearch)
   }
   
-  getStudentCreateForm = () => {
-   	const {StudentCreateForm} = GlobalComponents;
+  getGuardianCreateForm = () => {
+   	const {GuardianCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "student",
-      data: state._location.studentList,
-      metaInfo: state._location.studentListMetaInfo,
-      count: state._location.studentCount,
+      role: "guardian",
+      data: state._location.guardianList,
+      metaInfo: state._location.guardianListMetaInfo,
+      count: state._location.guardianCount,
       returnURL: `/location/${state._location.id}/list`,
-      currentPage: state._location.studentCurrentPageNumber,
-      searchFormParameters: state._location.studentSearchFormParameters,
+      currentPage: state._location.guardianCurrentPageNumber,
+      searchFormParameters: state._location.guardianSearchFormParameters,
       loading: state._location.loading,
-      owner: { type: '_location', id: state._location.id, referenceName: 'address', listName: 'studentList', ref:state._location, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(StudentCreateForm)
+      owner: { type: '_location', id: state._location.id, referenceName: 'address', listName: 'guardianList', ref:state._location, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(GuardianCreateForm)
   }
   
-  getStudentUpdateForm = () => {
+  getGuardianUpdateForm = () => {
     const userContext = null
-  	const {StudentUpdateForm} = GlobalComponents;
+  	const {GuardianUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._location.selectedRows,
-      role: "student",
+      role: "guardian",
       currentUpdateIndex: state._location.currentUpdateIndex,
-      owner: { type: '_location', id: state._location.id, listName: 'studentList', ref:state._location, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentUpdateForm)
+      owner: { type: '_location', id: state._location.id, listName: 'guardianList', ref:state._location, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(GuardianUpdateForm)
   }
 
-  getUserSearch = () => {
-    const {UserSearch} = GlobalComponents;
+  getWechatUserSearch = () => {
+    const {WechatUserSearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('user','location.user_list',false),
-      role: "user",
-      data: state._location.userList,
-      metaInfo: state._location.userListMetaInfo,
-      count: state._location.userCount,
+      name: window.mtrans('wechat_user','location.wechat_user_list',false),
+      role: "wechatUser",
+      data: state._location.wechatUserList,
+      metaInfo: state._location.wechatUserListMetaInfo,
+      count: state._location.wechatUserCount,
       returnURL: `/location/${state._location.id}/dashboard`,
-      currentPage: state._location.userCurrentPageNumber,
-      searchFormParameters: state._location.userSearchFormParameters,
+      currentPage: state._location.wechatUserCurrentPageNumber,
+      searchFormParameters: state._location.wechatUserSearchFormParameters,
       searchParameters: {...state._location.searchParameters},
       expandForm: state._location.expandForm,
       loading: state._location.loading,
       partialList: state._location.partialList,
       owner: { type: '_location', id: state._location.id, 
       referenceName: 'address', 
-      listName: 'userList', ref:state._location, 
+      listName: 'wechatUserList', ref:state._location, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserSearch)
+    }))(WechatUserSearch)
   }
   
-  getUserCreateForm = () => {
-   	const {UserCreateForm} = GlobalComponents;
+  getWechatUserCreateForm = () => {
+   	const {WechatUserCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "user",
-      data: state._location.userList,
-      metaInfo: state._location.userListMetaInfo,
-      count: state._location.userCount,
+      role: "wechatUser",
+      data: state._location.wechatUserList,
+      metaInfo: state._location.wechatUserListMetaInfo,
+      count: state._location.wechatUserCount,
       returnURL: `/location/${state._location.id}/list`,
-      currentPage: state._location.userCurrentPageNumber,
-      searchFormParameters: state._location.userSearchFormParameters,
+      currentPage: state._location.wechatUserCurrentPageNumber,
+      searchFormParameters: state._location.wechatUserSearchFormParameters,
       loading: state._location.loading,
-      owner: { type: '_location', id: state._location.id, referenceName: 'address', listName: 'userList', ref:state._location, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(UserCreateForm)
+      owner: { type: '_location', id: state._location.id, referenceName: 'address', listName: 'wechatUserList', ref:state._location, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(WechatUserCreateForm)
   }
   
-  getUserUpdateForm = () => {
+  getWechatUserUpdateForm = () => {
     const userContext = null
-  	const {UserUpdateForm} = GlobalComponents;
+  	const {WechatUserUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._location.selectedRows,
-      role: "user",
+      role: "wechatUser",
       currentUpdateIndex: state._location.currentUpdateIndex,
-      owner: { type: '_location', id: state._location.id, listName: 'userList', ref:state._location, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserUpdateForm)
+      owner: { type: '_location', id: state._location.id, listName: 'wechatUserList', ref:state._location, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(WechatUserUpdateForm)
   }
 
 
@@ -311,13 +311,13 @@ constructor(props) {
   	
   	
   	
-  	{path:"/location/:id/list/studentList", component: this.getStudentSearch()},
-  	{path:"/location/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
-  	{path:"/location/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
+  	{path:"/location/:id/list/guardianList", component: this.getGuardianSearch()},
+  	{path:"/location/:id/list/guardianCreateForm", component: this.getGuardianCreateForm()},
+  	{path:"/location/:id/list/guardianUpdateForm", component: this.getGuardianUpdateForm()},
    	
-  	{path:"/location/:id/list/userList", component: this.getUserSearch()},
-  	{path:"/location/:id/list/userCreateForm", component: this.getUserCreateForm()},
-  	{path:"/location/:id/list/userUpdateForm", component: this.getUserUpdateForm()},
+  	{path:"/location/:id/list/wechatUserList", component: this.getWechatUserSearch()},
+  	{path:"/location/:id/list/wechatUserCreateForm", component: this.getWechatUserCreateForm()},
+  	{path:"/location/:id/list/wechatUserUpdateForm", component: this.getWechatUserUpdateForm()},
    	{path:"/location/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

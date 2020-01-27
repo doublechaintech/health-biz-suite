@@ -18,45 +18,30 @@ const load = (targetObjectId, parameters) => {
 
 
 
-const requestCandidateAddress = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateGuardian = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}studentManager/requestCandidateAddress/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}studentManager/requestCandidateGuardian/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherAddress = (id, parameters) => {
-  const url = `${PREFIX}studentManager/transferToAnotherAddress/id/anotherAddressId/`
+const transferToAnotherGuardian = (id, parameters) => {
+  const url = `${PREFIX}studentManager/transferToAnotherGuardian/id/anotherGuardianId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
 
 
 
-const requestCandidateUser = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateSchoolClass = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}studentManager/requestCandidateUser/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}studentManager/requestCandidateSchoolClass/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherUser = (id, parameters) => {
-  const url = `${PREFIX}studentManager/transferToAnotherUser/id/anotherUserId/`
-  const requestParameters = {id, ...parameters}
-  return postForm({url,requestParameters})
-}
-
-
-
-const requestCandidatePlatform = (ownerClass, id, filterKey, pageNo) => {
- 
-  const url = `${PREFIX}studentManager/requestCandidatePlatform/ownerClass/id/filterKey/pageNo/`
-  const requestParameters = {id, ownerClass,filterKey, pageNo}
-  return postForm({url,requestParameters})
-}	
-
-const transferToAnotherPlatform = (id, parameters) => {
-  const url = `${PREFIX}studentManager/transferToAnotherPlatform/id/anotherPlatformId/`
+const transferToAnotherSchoolClass = (id, parameters) => {
+  const url = `${PREFIX}studentManager/transferToAnotherSchoolClass/id/anotherSchoolClassId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -83,7 +68,7 @@ const transferToAnotherCq = (id, parameters) => {
 
 
 const addStudentHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}studentManager/addStudentHealthSurvey/studentId/answerTime/surveyStatusId/teacherId/classDailyHealthSurveyId/cqId/tokensExpr/`
+  const url = `${PREFIX}studentManager/addStudentHealthSurvey/studentId/answerTime/surveyStatusId/schoolClassId/classDailyHealthSurveyId/cqId/tokensExpr/`
   const studentId = targetObjectId
   const requestParameters = { ...parameters, studentId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -135,13 +120,11 @@ const StudentService = { view,
   addStudentHealthSurvey,
   updateStudentHealthSurvey,
   removeStudentHealthSurveyList,
-  requestCandidateAddress,
-  requestCandidateUser,
-  requestCandidatePlatform,
+  requestCandidateGuardian,
+  requestCandidateSchoolClass,
   requestCandidateCq,
-  transferToAnotherAddress,
-  transferToAnotherUser,
-  transferToAnotherPlatform,
+  transferToAnotherGuardian,
+  transferToAnotherSchoolClass,
   transferToAnotherCq, listFunctions, saveRequest, processRequest}
 export default StudentService
 

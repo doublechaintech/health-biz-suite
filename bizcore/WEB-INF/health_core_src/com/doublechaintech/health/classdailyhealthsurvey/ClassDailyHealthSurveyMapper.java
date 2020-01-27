@@ -6,8 +6,8 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealthSurvey>{
 	
@@ -16,7 +16,7 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 		 		
  		setId(classDailyHealthSurvey, rs, rowNumber); 		
  		setName(classDailyHealthSurvey, rs, rowNumber); 		
- 		setTeacher(classDailyHealthSurvey, rs, rowNumber); 		
+ 		setSchoolClass(classDailyHealthSurvey, rs, rowNumber); 		
  		setSurveyTime(classDailyHealthSurvey, rs, rowNumber); 		
  		setCreator(classDailyHealthSurvey, rs, rowNumber); 		
  		setCq(classDailyHealthSurvey, rs, rowNumber); 		
@@ -53,22 +53,22 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 		classDailyHealthSurvey.setName(name);
 	}
 		 		
- 	protected void setTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
- 		String teacherId = rs.getString(ClassDailyHealthSurveyTable.COLUMN_TEACHER);
- 		if( teacherId == null){
+ 	protected void setSchoolClass(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
+ 		String schoolClassId = rs.getString(ClassDailyHealthSurveyTable.COLUMN_SCHOOL_CLASS);
+ 		if( schoolClassId == null){
  			return;
  		}
- 		if( teacherId.isEmpty()){
+ 		if( schoolClassId.isEmpty()){
  			return;
  		}
- 		Teacher teacher = classDailyHealthSurvey.getTeacher();
- 		if( teacher != null ){
+ 		SchoolClass schoolClass = classDailyHealthSurvey.getSchoolClass();
+ 		if( schoolClass != null ){
  			//if the root object 'classDailyHealthSurvey' already have the property, just set the id for it;
- 			teacher.setId(teacherId);
+ 			schoolClass.setId(schoolClassId);
  			
  			return;
  		}
- 		classDailyHealthSurvey.setTeacher(createEmptyTeacher(teacherId));
+ 		classDailyHealthSurvey.setSchoolClass(createEmptySchoolClass(schoolClassId));
  	}
  	
 	protected void setSurveyTime(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
@@ -84,21 +84,21 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 	}
 		 		
  	protected void setCreator(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
- 		String userId = rs.getString(ClassDailyHealthSurveyTable.COLUMN_CREATOR);
- 		if( userId == null){
+ 		String wechatUserId = rs.getString(ClassDailyHealthSurveyTable.COLUMN_CREATOR);
+ 		if( wechatUserId == null){
  			return;
  		}
- 		if( userId.isEmpty()){
+ 		if( wechatUserId.isEmpty()){
  			return;
  		}
- 		User user = classDailyHealthSurvey.getCreator();
- 		if( user != null ){
+ 		WechatUser wechatUser = classDailyHealthSurvey.getCreator();
+ 		if( wechatUser != null ){
  			//if the root object 'classDailyHealthSurvey' already have the property, just set the id for it;
- 			user.setId(userId);
+ 			wechatUser.setId(wechatUserId);
  			
  			return;
  		}
- 		classDailyHealthSurvey.setCreator(createEmptyCreator(userId));
+ 		classDailyHealthSurvey.setCreator(createEmptyCreator(wechatUserId));
  	}
  	 		
  	protected void setCq(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
@@ -133,18 +133,18 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 		
 		
 
- 	protected Teacher  createEmptyTeacher(String teacherId){
- 		Teacher teacher = new Teacher();
- 		teacher.setId(teacherId);
- 		teacher.setVersion(Integer.MAX_VALUE);
- 		return teacher;
+ 	protected SchoolClass  createEmptySchoolClass(String schoolClassId){
+ 		SchoolClass schoolClass = new SchoolClass();
+ 		schoolClass.setId(schoolClassId);
+ 		schoolClass.setVersion(Integer.MAX_VALUE);
+ 		return schoolClass;
  	}
  	
- 	protected User  createEmptyCreator(String userId){
- 		User user = new User();
- 		user.setId(userId);
- 		user.setVersion(Integer.MAX_VALUE);
- 		return user;
+ 	protected WechatUser  createEmptyCreator(String wechatUserId){
+ 		WechatUser wechatUser = new WechatUser();
+ 		wechatUser.setId(wechatUserId);
+ 		wechatUser.setVersion(Integer.MAX_VALUE);
+ 		return wechatUser;
  	}
  	
  	protected ChangeRequest  createEmptyCq(String changeRequestId){

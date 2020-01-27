@@ -25,7 +25,7 @@ import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.platform.CandidatePlatform;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
@@ -463,8 +463,8 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 				return surveyStatus;
 			}
 	}
-	//disconnect SurveyStatus with teacher in StudentHealthSurvey
-	protected SurveyStatus breakWithStudentHealthSurveyByTeacher(HealthUserContext userContext, String surveyStatusId, String teacherId,  String [] tokensExpr)
+	//disconnect SurveyStatus with school_class in StudentHealthSurvey
+	protected SurveyStatus breakWithStudentHealthSurveyBySchoolClass(HealthUserContext userContext, String surveyStatusId, String schoolClassId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -475,7 +475,7 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				surveyStatusDaoOf(userContext).planToRemoveStudentHealthSurveyListWithTeacher(surveyStatus, teacherId, this.emptyOptions());
+				surveyStatusDaoOf(userContext).planToRemoveStudentHealthSurveyListWithSchoolClass(surveyStatus, schoolClassId, this.emptyOptions());
 
 				surveyStatus = saveSurveyStatus(userContext, surveyStatus, tokens().withStudentHealthSurveyList().done());
 				return surveyStatus;
@@ -523,7 +523,7 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 
 
 
-	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String teacherId, String classDailyHealthSurveyId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String schoolClassId, String classDailyHealthSurveyId, String cqId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfSurveyStatus(surveyStatusId);
 
@@ -532,7 +532,7 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 		
 		checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(answerTime);
 		
-		checkerOf(userContext).checkTeacherIdOfStudentHealthSurvey(teacherId);
+		checkerOf(userContext).checkSchoolClassIdOfStudentHealthSurvey(schoolClassId);
 		
 		checkerOf(userContext).checkClassDailyHealthSurveyIdOfStudentHealthSurvey(classDailyHealthSurveyId);
 		
@@ -542,12 +542,12 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 
 
 	}
-	public  SurveyStatus addStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String teacherId, String classDailyHealthSurveyId, String cqId, String [] tokensExpr) throws Exception
+	public  SurveyStatus addStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String schoolClassId, String classDailyHealthSurveyId, String cqId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudentHealthSurvey(userContext,surveyStatusId,studentId, answerTime, teacherId, classDailyHealthSurveyId, cqId,tokensExpr);
+		checkParamsForAddingStudentHealthSurvey(userContext,surveyStatusId,studentId, answerTime, schoolClassId, classDailyHealthSurveyId, cqId,tokensExpr);
 
-		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,studentId, answerTime, teacherId, classDailyHealthSurveyId, cqId);
+		StudentHealthSurvey studentHealthSurvey = createStudentHealthSurvey(userContext,studentId, answerTime, schoolClassId, classDailyHealthSurveyId, cqId);
 
 		SurveyStatus surveyStatus = loadSurveyStatus(userContext, surveyStatusId, emptyOptions());
 		synchronized(surveyStatus){
@@ -598,7 +598,7 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 	}
 
 
-	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String teacherId, String classDailyHealthSurveyId, String cqId) throws Exception{
+	protected StudentHealthSurvey createStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String schoolClassId, String classDailyHealthSurveyId, String cqId) throws Exception{
 
 		StudentHealthSurvey studentHealthSurvey = new StudentHealthSurvey();
 		
@@ -607,9 +607,9 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 		student.setId(studentId);		
 		studentHealthSurvey.setStudent(student);		
 		studentHealthSurvey.setAnswerTime(answerTime);		
-		Teacher  teacher = new Teacher();
-		teacher.setId(teacherId);		
-		studentHealthSurvey.setTeacher(teacher);		
+		SchoolClass  schoolClass = new SchoolClass();
+		schoolClass.setId(schoolClassId);		
+		studentHealthSurvey.setSchoolClass(schoolClass);		
 		ClassDailyHealthSurvey  classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		classDailyHealthSurvey.setId(classDailyHealthSurveyId);		
 		studentHealthSurvey.setClassDailyHealthSurvey(classDailyHealthSurvey);		

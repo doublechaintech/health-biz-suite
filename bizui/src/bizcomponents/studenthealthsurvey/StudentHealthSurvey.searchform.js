@@ -134,7 +134,7 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'id'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'student'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'surveyStatus'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'teacher'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'schoolClass'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'classDailyHealthSurvey'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'cq'))
 
@@ -285,13 +285,13 @@ componentDidMount() {
                   )}
                 </Form.Item></Col>
  <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.teacher}>
-                  {getFieldDecorator('teacher', {initialValue: tryinit('teacher')})(
+                    <Form.Item label={fieldLabels.schoolClass}>
+                  {getFieldDecorator('schoolClass', {initialValue: tryinit('schoolClass')})(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('teacher')}
-                    targetType={"teacher"} 
-                    requestFunction={StudentHealthSurveyService.requestCandidateTeacher} useForSearch />
+                    disabled={!availableForEdit('schoolClass')}
+                    targetType={"schoolClass"} 
+                    requestFunction={StudentHealthSurveyService.requestCandidateSchoolClass} useForSearch />
                   	
                  
                   )}

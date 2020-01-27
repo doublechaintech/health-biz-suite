@@ -16,8 +16,7 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		setId(teacher, rs, rowNumber); 		
  		setName(teacher, rs, rowNumber); 		
  		setMobile(teacher, rs, rowNumber); 		
- 		setSchool(teacher, rs, rowNumber); 		
- 		setSchoolClass(teacher, rs, rowNumber); 		
+ 		setSchoole(teacher, rs, rowNumber); 		
  		setCreateTime(teacher, rs, rowNumber); 		
  		setPlatform(teacher, rs, rowNumber); 		
  		setCq(teacher, rs, rowNumber); 		
@@ -66,28 +65,16 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 		teacher.setMobile(mobile);
 	}
 		
-	protected void setSchool(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+	protected void setSchoole(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
-		String school = rs.getString(TeacherTable.COLUMN_SCHOOL);
-		if(school == null){
+		String schoole = rs.getString(TeacherTable.COLUMN_SCHOOLE);
+		if(schoole == null){
 			//do nothing when nothing found in database
 			return;
 		}
 		
-		teacher.setSchool(school);
-	}
-		
-	protected void setSchoolClass(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
-	
-		//there will be issue when the type is double/int/long
-		String schoolClass = rs.getString(TeacherTable.COLUMN_SCHOOL_CLASS);
-		if(schoolClass == null){
-			//do nothing when nothing found in database
-			return;
-		}
-		
-		teacher.setSchoolClass(schoolClass);
+		teacher.setSchoole(schoole);
 	}
 		
 	protected void setCreateTime(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{

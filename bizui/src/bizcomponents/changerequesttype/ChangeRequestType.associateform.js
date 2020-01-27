@@ -18,8 +18,8 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  name: '登录',
-  code: 'LOGIN',
+  name: '答题',
+  code: 'AnswerQuestion',
   icon: 'book',
   displayOrder: '1',
   platformId: 'P000001',

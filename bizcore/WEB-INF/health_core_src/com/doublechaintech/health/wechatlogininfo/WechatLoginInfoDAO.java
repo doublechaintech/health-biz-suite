@@ -9,9 +9,9 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
-import com.doublechaintech.health.user.UserDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
 
 
 public interface WechatLoginInfoDAO extends BaseDAO{
@@ -48,11 +48,11 @@ public interface WechatLoginInfoDAO extends BaseDAO{
 	public SmartList<WechatLoginInfo> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);
  
- 	public SmartList<WechatLoginInfo> findWechatLoginInfoByUser(String userId, Map<String,Object> options);
- 	public int countWechatLoginInfoByUser(String userId, Map<String,Object> options);
- 	public Map<String, Integer> countWechatLoginInfoByUserIds(String[] ids, Map<String,Object> options);
- 	public SmartList<WechatLoginInfo> findWechatLoginInfoByUser(String userId, int start, int count, Map<String,Object> options);
- 	public void analyzeWechatLoginInfoByUser(SmartList<WechatLoginInfo> resultList, String userId, Map<String,Object> options);
+ 	public SmartList<WechatLoginInfo> findWechatLoginInfoByWechatUser(String wechatUserId, Map<String,Object> options);
+ 	public int countWechatLoginInfoByWechatUser(String wechatUserId, Map<String,Object> options);
+ 	public Map<String, Integer> countWechatLoginInfoByWechatUserIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<WechatLoginInfo> findWechatLoginInfoByWechatUser(String wechatUserId, int start, int count, Map<String,Object> options);
+ 	public void analyzeWechatLoginInfoByWechatUser(SmartList<WechatLoginInfo> resultList, String wechatUserId, Map<String,Object> options);
 
  
  

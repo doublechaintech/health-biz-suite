@@ -63,7 +63,7 @@ const showAssociateDialog = (targetComponent) => {
   
   const {selectedRows} = targetComponent.state
   
-  const { UserAssociateForm } = GlobalComponents
+  const { WechatUserAssociateForm } = GlobalComponents
 
 
   return (
@@ -71,11 +71,11 @@ const showAssociateDialog = (targetComponent) => {
   
    
   
-    <UserAssociateForm 
-	visible={currentAssociateModal==='user'} 
+    <WechatUserAssociateForm 
+	visible={currentAssociateModal==='wechatUser'} 
 	data={{wechatLoginInfoList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'user')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'user')}/> 
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'wechatUser')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'wechatUser')}/> 
  
 
 

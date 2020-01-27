@@ -18,15 +18,15 @@ const load = (targetObjectId, parameters) => {
 
 
 
-const requestCandidateTeacher = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateSchoolClass = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateTeacher/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/requestCandidateSchoolClass/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherTeacher = (id, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherTeacher/id/anotherTeacherId/`
+const transferToAnotherSchoolClass = (id, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/transferToAnotherSchoolClass/id/anotherSchoolClassId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -68,7 +68,7 @@ const transferToAnotherCq = (id, parameters) => {
 
 
 const addDailySurveyQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/addDailySurveyQuestion/classDailyHealthSurveyId/topic/questionTypeId/optionA/optionB/optionC/optionD/surveyQuestionId/tokensExpr/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/addDailySurveyQuestion/classDailyHealthSurveyId/topic/questionTypeId/optionA/optionB/optionC/optionD/classQuestionId/tokensExpr/`
   const classDailyHealthSurveyId = targetObjectId
   const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -90,7 +90,7 @@ const removeDailySurveyQuestionList = (targetObjectId, parameters) => {
 
 
 const addStudentHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}classDailyHealthSurveyManager/addStudentHealthSurvey/classDailyHealthSurveyId/studentId/answerTime/surveyStatusId/teacherId/cqId/tokensExpr/`
+  const url = `${PREFIX}classDailyHealthSurveyManager/addStudentHealthSurvey/classDailyHealthSurveyId/studentId/answerTime/surveyStatusId/schoolClassId/cqId/tokensExpr/`
   const classDailyHealthSurveyId = targetObjectId
   const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -145,10 +145,10 @@ const ClassDailyHealthSurveyService = { view,
   updateStudentHealthSurvey,
   removeDailySurveyQuestionList,
   removeStudentHealthSurveyList,
-  requestCandidateTeacher,
+  requestCandidateSchoolClass,
   requestCandidateCreator,
   requestCandidateCq,
-  transferToAnotherTeacher,
+  transferToAnotherSchoolClass,
   transferToAnotherCreator,
   transferToAnotherCq, listFunctions, saveRequest, processRequest}
 export default ClassDailyHealthSurveyService

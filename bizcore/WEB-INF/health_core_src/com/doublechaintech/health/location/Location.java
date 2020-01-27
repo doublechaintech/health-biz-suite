@@ -12,10 +12,10 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 @JsonSerialize(using = LocationSerializer.class)
 public class Location extends BaseEntity implements  java.io.Serializable{
@@ -30,8 +30,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	public static final String LONGITUDE_PROPERTY             = "longitude"         ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
-	public static final String STUDENT_LIST                             = "studentList"       ;
-	public static final String USER_LIST                                = "userList"          ;
+	public static final String GUARDIAN_LIST                            = "guardianList"      ;
+	public static final String WECHAT_USER_LIST                         = "wechatUserList"    ;
 
 	public static final String INTERNAL_TYPE="Location";
 	public String getInternalType(){
@@ -62,8 +62,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	protected		int                 	mVersion            ;
 	
 	
-	protected		SmartList<Student>  	mStudentList        ;
-	protected		SmartList<User>     	mUserList           ;
+	protected		SmartList<Guardian> 	mGuardianList       ;
+	protected		SmartList<WechatUser>	mWechatUserList     ;
 	
 		
 	public 	Location(){
@@ -192,12 +192,12 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		if(LONGITUDE_PROPERTY.equals(property)){
 			return getLongitude();
 		}
-		if(STUDENT_LIST.equals(property)){
-			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
+		if(GUARDIAN_LIST.equals(property)){
+			List<BaseEntity> list = getGuardianList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
-		if(USER_LIST.equals(property)){
-			List<BaseEntity> list = getUserList().stream().map(item->item).collect(Collectors.toList());
+		if(WECHAT_USER_LIST.equals(property)){
+			List<BaseEntity> list = getWechatUserList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -350,214 +350,214 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	
 	
 
-	public  SmartList<Student> getStudentList(){
-		if(this.mStudentList == null){
-			this.mStudentList = new SmartList<Student>();
-			this.mStudentList.setListInternalName (STUDENT_LIST );
+	public  SmartList<Guardian> getGuardianList(){
+		if(this.mGuardianList == null){
+			this.mGuardianList = new SmartList<Guardian>();
+			this.mGuardianList.setListInternalName (GUARDIAN_LIST );
 			//有名字，便于做权限控制
 		}
 		
-		return this.mStudentList;	
+		return this.mGuardianList;	
 	}
-	public  void setStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setAddress(this);
+	public  void setGuardianList(SmartList<Guardian> guardianList){
+		for( Guardian guardian:guardianList){
+			guardian.setAddress(this);
 		}
 
-		this.mStudentList = studentList;
-		this.mStudentList.setListInternalName (STUDENT_LIST );
+		this.mGuardianList = guardianList;
+		this.mGuardianList.setListInternalName (GUARDIAN_LIST );
 		
 	}
 	
-	public  void addStudent(Student student){
-		student.setAddress(this);
-		getStudentList().add(student);
+	public  void addGuardian(Guardian guardian){
+		guardian.setAddress(this);
+		getGuardianList().add(guardian);
 	}
-	public  void addStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setAddress(this);
+	public  void addGuardianList(SmartList<Guardian> guardianList){
+		for( Guardian guardian:guardianList){
+			guardian.setAddress(this);
 		}
-		getStudentList().addAll(studentList);
+		getGuardianList().addAll(guardianList);
 	}
-	public  void mergeStudentList(SmartList<Student> studentList){
-		if(studentList==null){
+	public  void mergeGuardianList(SmartList<Guardian> guardianList){
+		if(guardianList==null){
 			return;
 		}
-		if(studentList.isEmpty()){
+		if(guardianList.isEmpty()){
 			return;
 		}
-		addStudentList( studentList );
+		addGuardianList( guardianList );
 		
 	}
-	public  Student removeStudent(Student studentIndex){
+	public  Guardian removeGuardian(Guardian guardianIndex){
 		
-		int index = getStudentList().indexOf(studentIndex);
+		int index = getGuardianList().indexOf(guardianIndex);
         if(index < 0){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+        	String message = "Guardian("+guardianIndex.getId()+") with version='"+guardianIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        Student student = getStudentList().get(index);        
-        // student.clearAddress(); //disconnect with Address
-        student.clearFromAll(); //disconnect with Address
+        Guardian guardian = getGuardianList().get(index);        
+        // guardian.clearAddress(); //disconnect with Address
+        guardian.clearFromAll(); //disconnect with Address
 		
-		boolean result = getStudentList().planToRemove(student);
+		boolean result = getGuardianList().planToRemove(guardian);
         if(!result){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
+        	String message = "Guardian("+guardianIndex.getId()+") with version='"+guardianIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        return student;
+        return guardian;
         
 	
 	}
 	//断舍离
-	public  void breakWithStudent(Student student){
+	public  void breakWithGuardian(Guardian guardian){
 		
-		if(student == null){
+		if(guardian == null){
 			return;
 		}
-		student.setAddress(null);
-		//getStudentList().remove();
+		guardian.setAddress(null);
+		//getGuardianList().remove();
 	
 	}
 	
-	public  boolean hasStudent(Student student){
+	public  boolean hasGuardian(Guardian guardian){
 	
-		return getStudentList().contains(student);
+		return getGuardianList().contains(guardian);
   
 	}
 	
-	public void copyStudentFrom(Student student) {
+	public void copyGuardianFrom(Guardian guardian) {
 
-		Student studentInList = findTheStudent(student);
-		Student newStudent = new Student();
-		studentInList.copyTo(newStudent);
-		newStudent.setVersion(0);//will trigger copy
-		getStudentList().add(newStudent);
-		addItemToFlexiableObject(COPIED_CHILD, newStudent);
+		Guardian guardianInList = findTheGuardian(guardian);
+		Guardian newGuardian = new Guardian();
+		guardianInList.copyTo(newGuardian);
+		newGuardian.setVersion(0);//will trigger copy
+		getGuardianList().add(newGuardian);
+		addItemToFlexiableObject(COPIED_CHILD, newGuardian);
 	}
 	
-	public  Student findTheStudent(Student student){
+	public  Guardian findTheGuardian(Guardian guardian){
 		
-		int index =  getStudentList().indexOf(student);
+		int index =  getGuardianList().indexOf(guardian);
 		//The input parameter must have the same id and version number.
 		if(index < 0){
- 			String message = "Student("+student.getId()+") with version='"+student.getVersion()+"' NOT found!";
+ 			String message = "Guardian("+guardian.getId()+") with version='"+guardian.getVersion()+"' NOT found!";
 			throw new IllegalStateException(message);
 		}
 		
-		return  getStudentList().get(index);
+		return  getGuardianList().get(index);
 		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
 	}
 	
-	public  void cleanUpStudentList(){
-		getStudentList().clear();
+	public  void cleanUpGuardianList(){
+		getGuardianList().clear();
 	}
 	
 	
 	
 
 
-	public  SmartList<User> getUserList(){
-		if(this.mUserList == null){
-			this.mUserList = new SmartList<User>();
-			this.mUserList.setListInternalName (USER_LIST );
+	public  SmartList<WechatUser> getWechatUserList(){
+		if(this.mWechatUserList == null){
+			this.mWechatUserList = new SmartList<WechatUser>();
+			this.mWechatUserList.setListInternalName (WECHAT_USER_LIST );
 			//有名字，便于做权限控制
 		}
 		
-		return this.mUserList;	
+		return this.mWechatUserList;	
 	}
-	public  void setUserList(SmartList<User> userList){
-		for( User user:userList){
-			user.setAddress(this);
+	public  void setWechatUserList(SmartList<WechatUser> wechatUserList){
+		for( WechatUser wechatUser:wechatUserList){
+			wechatUser.setAddress(this);
 		}
 
-		this.mUserList = userList;
-		this.mUserList.setListInternalName (USER_LIST );
+		this.mWechatUserList = wechatUserList;
+		this.mWechatUserList.setListInternalName (WECHAT_USER_LIST );
 		
 	}
 	
-	public  void addUser(User user){
-		user.setAddress(this);
-		getUserList().add(user);
+	public  void addWechatUser(WechatUser wechatUser){
+		wechatUser.setAddress(this);
+		getWechatUserList().add(wechatUser);
 	}
-	public  void addUserList(SmartList<User> userList){
-		for( User user:userList){
-			user.setAddress(this);
+	public  void addWechatUserList(SmartList<WechatUser> wechatUserList){
+		for( WechatUser wechatUser:wechatUserList){
+			wechatUser.setAddress(this);
 		}
-		getUserList().addAll(userList);
+		getWechatUserList().addAll(wechatUserList);
 	}
-	public  void mergeUserList(SmartList<User> userList){
-		if(userList==null){
+	public  void mergeWechatUserList(SmartList<WechatUser> wechatUserList){
+		if(wechatUserList==null){
 			return;
 		}
-		if(userList.isEmpty()){
+		if(wechatUserList.isEmpty()){
 			return;
 		}
-		addUserList( userList );
+		addWechatUserList( wechatUserList );
 		
 	}
-	public  User removeUser(User userIndex){
+	public  WechatUser removeWechatUser(WechatUser wechatUserIndex){
 		
-		int index = getUserList().indexOf(userIndex);
+		int index = getWechatUserList().indexOf(wechatUserIndex);
         if(index < 0){
-        	String message = "User("+userIndex.getId()+") with version='"+userIndex.getVersion()+"' NOT found!";
+        	String message = "WechatUser("+wechatUserIndex.getId()+") with version='"+wechatUserIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        User user = getUserList().get(index);        
-        // user.clearAddress(); //disconnect with Address
-        user.clearFromAll(); //disconnect with Address
+        WechatUser wechatUser = getWechatUserList().get(index);        
+        // wechatUser.clearAddress(); //disconnect with Address
+        wechatUser.clearFromAll(); //disconnect with Address
 		
-		boolean result = getUserList().planToRemove(user);
+		boolean result = getWechatUserList().planToRemove(wechatUser);
         if(!result){
-        	String message = "User("+userIndex.getId()+") with version='"+userIndex.getVersion()+"' NOT found!";
+        	String message = "WechatUser("+wechatUserIndex.getId()+") with version='"+wechatUserIndex.getVersion()+"' NOT found!";
             throw new IllegalStateException(message);
         }
-        return user;
+        return wechatUser;
         
 	
 	}
 	//断舍离
-	public  void breakWithUser(User user){
+	public  void breakWithWechatUser(WechatUser wechatUser){
 		
-		if(user == null){
+		if(wechatUser == null){
 			return;
 		}
-		user.setAddress(null);
-		//getUserList().remove();
+		wechatUser.setAddress(null);
+		//getWechatUserList().remove();
 	
 	}
 	
-	public  boolean hasUser(User user){
+	public  boolean hasWechatUser(WechatUser wechatUser){
 	
-		return getUserList().contains(user);
+		return getWechatUserList().contains(wechatUser);
   
 	}
 	
-	public void copyUserFrom(User user) {
+	public void copyWechatUserFrom(WechatUser wechatUser) {
 
-		User userInList = findTheUser(user);
-		User newUser = new User();
-		userInList.copyTo(newUser);
-		newUser.setVersion(0);//will trigger copy
-		getUserList().add(newUser);
-		addItemToFlexiableObject(COPIED_CHILD, newUser);
+		WechatUser wechatUserInList = findTheWechatUser(wechatUser);
+		WechatUser newWechatUser = new WechatUser();
+		wechatUserInList.copyTo(newWechatUser);
+		newWechatUser.setVersion(0);//will trigger copy
+		getWechatUserList().add(newWechatUser);
+		addItemToFlexiableObject(COPIED_CHILD, newWechatUser);
 	}
 	
-	public  User findTheUser(User user){
+	public  WechatUser findTheWechatUser(WechatUser wechatUser){
 		
-		int index =  getUserList().indexOf(user);
+		int index =  getWechatUserList().indexOf(wechatUser);
 		//The input parameter must have the same id and version number.
 		if(index < 0){
- 			String message = "User("+user.getId()+") with version='"+user.getVersion()+"' NOT found!";
+ 			String message = "WechatUser("+wechatUser.getId()+") with version='"+wechatUser.getVersion()+"' NOT found!";
 			throw new IllegalStateException(message);
 		}
 		
-		return  getUserList().get(index);
+		return  getWechatUserList().get(index);
 		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
 	}
 	
-	public  void cleanUpUserList(){
-		getUserList().clear();
+	public  void cleanUpWechatUserList(){
+		getWechatUserList().clear();
 	}
 	
 	
@@ -575,8 +575,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
-		collectFromList(this, entityList, getStudentList(), internalType);
-		collectFromList(this, entityList, getUserList(), internalType);
+		collectFromList(this, entityList, getGuardianList(), internalType);
+		collectFromList(this, entityList, getWechatUserList(), internalType);
 
 		return entityList;
 	}
@@ -584,8 +584,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
-		listOfList.add( getStudentList());
-		listOfList.add( getUserList());
+		listOfList.add( getGuardianList());
+		listOfList.add( getWechatUserList());
 			
 
 		return listOfList;
@@ -603,15 +603,15 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, LATITUDE_PROPERTY, getLatitude());
 		appendKeyValuePair(result, LONGITUDE_PROPERTY, getLongitude());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
-		appendKeyValuePair(result, STUDENT_LIST, getStudentList());
-		if(!getStudentList().isEmpty()){
-			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
-			appendKeyValuePair(result, "studentCurrentPageNumber", getStudentList().getCurrentPageNumber());
+		appendKeyValuePair(result, GUARDIAN_LIST, getGuardianList());
+		if(!getGuardianList().isEmpty()){
+			appendKeyValuePair(result, "guardianCount", getGuardianList().getTotalCount());
+			appendKeyValuePair(result, "guardianCurrentPageNumber", getGuardianList().getCurrentPageNumber());
 		}
-		appendKeyValuePair(result, USER_LIST, getUserList());
-		if(!getUserList().isEmpty()){
-			appendKeyValuePair(result, "userCount", getUserList().getTotalCount());
-			appendKeyValuePair(result, "userCurrentPageNumber", getUserList().getCurrentPageNumber());
+		appendKeyValuePair(result, WECHAT_USER_LIST, getWechatUserList());
+		if(!getWechatUserList().isEmpty()){
+			appendKeyValuePair(result, "wechatUserCount", getWechatUserList().getTotalCount());
+			appendKeyValuePair(result, "wechatUserCurrentPageNumber", getWechatUserList().getCurrentPageNumber());
 		}
 
 		
@@ -635,8 +635,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 			dest.setLatitude(getLatitude());
 			dest.setLongitude(getLongitude());
 			dest.setVersion(getVersion());
-			dest.setStudentList(getStudentList());
-			dest.setUserList(getUserList());
+			dest.setGuardianList(getGuardianList());
+			dest.setWechatUserList(getWechatUserList());
 
 		}
 		super.copyTo(baseDest);
@@ -658,8 +658,8 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 			dest.mergeLatitude(getLatitude());
 			dest.mergeLongitude(getLongitude());
 			dest.mergeVersion(getVersion());
-			dest.mergeStudentList(getStudentList());
-			dest.mergeUserList(getUserList());
+			dest.mergeGuardianList(getGuardianList());
+			dest.mergeWechatUserList(getWechatUserList());
 
 		}
 		super.copyTo(baseDest);

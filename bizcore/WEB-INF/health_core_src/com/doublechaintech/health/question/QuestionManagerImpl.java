@@ -20,19 +20,11 @@ import com.terapico.uccaf.BaseUserContext;
 
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.platform.CandidatePlatform;
-import com.doublechaintech.health.changerequest.CandidateChangeRequest;
 import com.doublechaintech.health.questiontype.CandidateQuestionType;
-import com.doublechaintech.health.user.CandidateUser;
 
-import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.question.Question;
 
 
 
@@ -166,12 +158,6 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 		
 		addAction(userContext, question, tokens,"question.transfer_to_question_type","transferToAnotherQuestionType","transferToAnotherQuestionType/"+question.getId()+"/","main","primary");
 		addAction(userContext, question, tokens,"question.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+question.getId()+"/","main","primary");
-		addAction(userContext, question, tokens,"question.transfer_to_creator","transferToAnotherCreator","transferToAnotherCreator/"+question.getId()+"/","main","primary");
-		addAction(userContext, question, tokens,"question.transfer_to_cq","transferToAnotherCq","transferToAnotherCq/"+question.getId()+"/","main","primary");
-		addAction(userContext, question, tokens,"question.addDailySurveyQuestion","addDailySurveyQuestion","addDailySurveyQuestion/"+question.getId()+"/","dailySurveyQuestionList","primary");
-		addAction(userContext, question, tokens,"question.removeDailySurveyQuestion","removeDailySurveyQuestion","removeDailySurveyQuestion/"+question.getId()+"/","dailySurveyQuestionList","primary");
-		addAction(userContext, question, tokens,"question.updateDailySurveyQuestion","updateDailySurveyQuestion","updateDailySurveyQuestion/"+question.getId()+"/","dailySurveyQuestionList","primary");
-		addAction(userContext, question, tokens,"question.copyDailySurveyQuestionFrom","copyDailySurveyQuestionFrom","copyDailySurveyQuestionFrom/"+question.getId()+"/","dailySurveyQuestionList","primary");
 	
 		
 		
@@ -183,8 +169,8 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
  	
  	
 
-	public Question createQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String platformId,String creatorId,String cqId) throws Exception
-	//public Question createQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String platformId, String creatorId, String cqId) throws Exception
+	public Question createQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String platformId) throws Exception
+	//public Question createQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String platformId) throws Exception
 	{
 
 		
@@ -215,16 +201,6 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 			
 		Platform platform = loadPlatform(userContext, platformId,emptyOptions());
 		question.setPlatform(platform);
-		
-		
-		if(isValidIdentifier(creatorId)){	
-			User creator = loadUser(userContext, creatorId,emptyOptions());
-			question.setCreator(creator);
-		}
-		
-			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		question.setCq(cq);
 		
 		
 
@@ -268,10 +244,6 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 		if(Question.OPTION_D_PROPERTY.equals(property)){
 			checkerOf(userContext).checkOptionDOfQuestion(parseString(newValueExpr));
 		}		
-
-				
-
-				
 
 		
 	
@@ -372,7 +344,6 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 	}
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
-		.sortDailySurveyQuestionListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -505,115 +476,7 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherCreator(HealthUserContext userContext, String questionId, String anotherCreatorId) throws Exception
- 	{
-
- 		checkerOf(userContext).checkIdOfQuestion(questionId);
- 		checkerOf(userContext).checkIdOfUser(anotherCreatorId);//check for optional reference
- 		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
- 	}
- 	public Question transferToAnotherCreator(HealthUserContext userContext, String questionId, String anotherCreatorId) throws Exception
- 	{
- 		checkParamsForTransferingAnotherCreator(userContext, questionId,anotherCreatorId);
- 
-		Question question = loadQuestion(userContext, questionId, allTokens());	
-		synchronized(question){
-			//will be good when the question loaded from this JVM process cache.
-			//also good when there is a ram based DAO implementation
-			User creator = loadUser(userContext, anotherCreatorId, emptyOptions());		
-			question.updateCreator(creator);		
-			question = saveQuestion(userContext, question, emptyOptions());
-			
-			return present(userContext,question, allTokens());
-			
-		}
-
- 	}
-
-	
-
-
-	public CandidateUser requestCandidateCreator(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
-
-		CandidateUser result = new CandidateUser();
-		result.setOwnerClass(ownerClass);
-		result.setOwnerId(id);
-		result.setFilterKey(filterKey==null?"":filterKey.trim());
-		result.setPageNo(pageNo);
-		result.setValueFieldName("id");
-		result.setDisplayFieldName("name");
-
-		pageNo = Math.max(1, pageNo);
-		int pageSize = 20;
-		//requestCandidateProductForSkuAsOwner
-		SmartList<User> candidateList = userDaoOf(userContext).requestCandidateUserForQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
-		result.setCandidates(candidateList);
-		int totalCount = candidateList.getTotalCount();
-		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
-		return result;
-	}
-
- 	protected void checkParamsForTransferingAnotherCq(HealthUserContext userContext, String questionId, String anotherCqId) throws Exception
- 	{
-
- 		checkerOf(userContext).checkIdOfQuestion(questionId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherCqId);//check for optional reference
- 		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
- 	}
- 	public Question transferToAnotherCq(HealthUserContext userContext, String questionId, String anotherCqId) throws Exception
- 	{
- 		checkParamsForTransferingAnotherCq(userContext, questionId,anotherCqId);
- 
-		Question question = loadQuestion(userContext, questionId, allTokens());	
-		synchronized(question){
-			//will be good when the question loaded from this JVM process cache.
-			//also good when there is a ram based DAO implementation
-			ChangeRequest cq = loadChangeRequest(userContext, anotherCqId, emptyOptions());		
-			question.updateCq(cq);		
-			question = saveQuestion(userContext, question, emptyOptions());
-			
-			return present(userContext,question, allTokens());
-			
-		}
-
- 	}
-
-	
-
-
-	public CandidateChangeRequest requestCandidateCq(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
-
-		CandidateChangeRequest result = new CandidateChangeRequest();
-		result.setOwnerClass(ownerClass);
-		result.setOwnerId(id);
-		result.setFilterKey(filterKey==null?"":filterKey.trim());
-		result.setPageNo(pageNo);
-		result.setValueFieldName("id");
-		result.setDisplayFieldName("name");
-
-		pageNo = Math.max(1, pageNo);
-		int pageSize = 20;
-		//requestCandidateProductForSkuAsOwner
-		SmartList<ChangeRequest> candidateList = changeRequestDaoOf(userContext).requestCandidateChangeRequestForQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
-		result.setCandidates(candidateList);
-		int totalCount = candidateList.getTotalCount();
-		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
-		return result;
-	}
-
  //--------------------------------------------------------------
-	
-
- 	protected User loadUser(HealthUserContext userContext, String newCreatorId, Map<String,Object> options) throws Exception
- 	{
-
- 		return userDaoOf(userContext).load(newCreatorId, options);
- 	}
- 	
-
-
 	
 
  	protected QuestionType loadQuestionType(HealthUserContext userContext, String newQuestionTypeId, Map<String,Object> options) throws Exception
@@ -628,16 +491,6 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
  		return questionTypeDaoOf(userContext).loadByCode(newCode, options);
  	}
 
- 	
-
-
-	
-
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newCqId, Map<String,Object> options) throws Exception
- 	{
-
- 		return changeRequestDaoOf(userContext).load(newCqId, options);
- 	}
  	
 
 
@@ -692,320 +545,8 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 	}
 
 
-	//disconnect Question with question_type in DailySurveyQuestion
-	protected Question breakWithDailySurveyQuestionByQuestionType(HealthUserContext userContext, String questionId, String questionTypeId,  String [] tokensExpr)
-		 throws Exception{
 
-			//TODO add check code here
 
-			Question question = loadQuestion(userContext, questionId, allTokens());
-
-			synchronized(question){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				questionDaoOf(userContext).planToRemoveDailySurveyQuestionListWithQuestionType(question, questionTypeId, this.emptyOptions());
-
-				question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-				return question;
-			}
-	}
-	//disconnect Question with class_daily_health_survey in DailySurveyQuestion
-	protected Question breakWithDailySurveyQuestionByClassDailyHealthSurvey(HealthUserContext userContext, String questionId, String classDailyHealthSurveyId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Question question = loadQuestion(userContext, questionId, allTokens());
-
-			synchronized(question){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				questionDaoOf(userContext).planToRemoveDailySurveyQuestionListWithClassDailyHealthSurvey(question, classDailyHealthSurveyId, this.emptyOptions());
-
-				question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-				return question;
-			}
-	}
-
-
-
-
-
-
-	protected void checkParamsForAddingDailySurveyQuestion(HealthUserContext userContext, String questionId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfQuestion(questionId);
-
-		
-		checkerOf(userContext).checkTopicOfDailySurveyQuestion(topic);
-		
-		checkerOf(userContext).checkQuestionTypeIdOfDailySurveyQuestion(questionTypeId);
-		
-		checkerOf(userContext).checkOptionAOfDailySurveyQuestion(optionA);
-		
-		checkerOf(userContext).checkOptionBOfDailySurveyQuestion(optionB);
-		
-		checkerOf(userContext).checkOptionCOfDailySurveyQuestion(optionC);
-		
-		checkerOf(userContext).checkOptionDOfDailySurveyQuestion(optionD);
-		
-		checkerOf(userContext).checkClassDailyHealthSurveyIdOfDailySurveyQuestion(classDailyHealthSurveyId);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-
-	}
-	public  Question addDailySurveyQuestion(HealthUserContext userContext, String questionId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingDailySurveyQuestion(userContext,questionId,topic, questionTypeId, optionA, optionB, optionC, optionD, classDailyHealthSurveyId,tokensExpr);
-
-		DailySurveyQuestion dailySurveyQuestion = createDailySurveyQuestion(userContext,topic, questionTypeId, optionA, optionB, optionC, optionD, classDailyHealthSurveyId);
-
-		Question question = loadQuestion(userContext, questionId, emptyOptions());
-		synchronized(question){
-			//Will be good when the question loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			question.addDailySurveyQuestion( dailySurveyQuestion );
-			question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-			
-			userContext.getManagerGroup().getDailySurveyQuestionManager().onNewInstanceCreated(userContext, dailySurveyQuestion);
-			return present(userContext,question, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingDailySurveyQuestionProperties(HealthUserContext userContext, String questionId,String id,String topic,String optionA,String optionB,String optionC,String optionD,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfQuestion(questionId);
-		checkerOf(userContext).checkIdOfDailySurveyQuestion(id);
-
-		checkerOf(userContext).checkTopicOfDailySurveyQuestion( topic);
-		checkerOf(userContext).checkOptionAOfDailySurveyQuestion( optionA);
-		checkerOf(userContext).checkOptionBOfDailySurveyQuestion( optionB);
-		checkerOf(userContext).checkOptionCOfDailySurveyQuestion( optionC);
-		checkerOf(userContext).checkOptionDOfDailySurveyQuestion( optionD);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-	}
-	public  Question updateDailySurveyQuestionProperties(HealthUserContext userContext, String questionId, String id,String topic,String optionA,String optionB,String optionC,String optionD, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingDailySurveyQuestionProperties(userContext,questionId,id,topic,optionA,optionB,optionC,optionD,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withDailySurveyQuestionListList()
-				.searchDailySurveyQuestionListWith(DailySurveyQuestion.ID_PROPERTY, "is", id).done();
-
-		Question questionToUpdate = loadQuestion(userContext, questionId, options);
-
-		if(questionToUpdate.getDailySurveyQuestionList().isEmpty()){
-			throw new QuestionManagerException("DailySurveyQuestion is NOT FOUND with id: '"+id+"'");
-		}
-
-		DailySurveyQuestion item = questionToUpdate.getDailySurveyQuestionList().first();
-
-		item.updateTopic( topic );
-		item.updateOptionA( optionA );
-		item.updateOptionB( optionB );
-		item.updateOptionC( optionC );
-		item.updateOptionD( optionD );
-
-
-		//checkParamsForAddingDailySurveyQuestion(userContext,questionId,name, code, used,tokensExpr);
-		Question question = saveQuestion(userContext, questionToUpdate, tokens().withDailySurveyQuestionList().done());
-		synchronized(question){
-			return present(userContext,question, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId) throws Exception{
-
-		DailySurveyQuestion dailySurveyQuestion = new DailySurveyQuestion();
-		
-		
-		dailySurveyQuestion.setTopic(topic);		
-		QuestionType  questionType = new QuestionType();
-		questionType.setId(questionTypeId);		
-		dailySurveyQuestion.setQuestionType(questionType);		
-		dailySurveyQuestion.setOptionA(optionA);		
-		dailySurveyQuestion.setOptionB(optionB);		
-		dailySurveyQuestion.setOptionC(optionC);		
-		dailySurveyQuestion.setOptionD(optionD);		
-		ClassDailyHealthSurvey  classDailyHealthSurvey = new ClassDailyHealthSurvey();
-		classDailyHealthSurvey.setId(classDailyHealthSurveyId);		
-		dailySurveyQuestion.setClassDailyHealthSurvey(classDailyHealthSurvey);
-	
-		
-		return dailySurveyQuestion;
-
-
-	}
-
-	protected DailySurveyQuestion createIndexedDailySurveyQuestion(String id, int version){
-
-		DailySurveyQuestion dailySurveyQuestion = new DailySurveyQuestion();
-		dailySurveyQuestion.setId(id);
-		dailySurveyQuestion.setVersion(version);
-		return dailySurveyQuestion;
-
-	}
-
-	protected void checkParamsForRemovingDailySurveyQuestionList(HealthUserContext userContext, String questionId,
-			String dailySurveyQuestionIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfQuestion(questionId);
-		for(String dailySurveyQuestionIdItem: dailySurveyQuestionIds){
-			checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-	}
-	public  Question removeDailySurveyQuestionList(HealthUserContext userContext, String questionId,
-			String dailySurveyQuestionIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingDailySurveyQuestionList(userContext, questionId,  dailySurveyQuestionIds, tokensExpr);
-
-
-			Question question = loadQuestion(userContext, questionId, allTokens());
-			synchronized(question){
-				//Will be good when the question loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				questionDaoOf(userContext).planToRemoveDailySurveyQuestionList(question, dailySurveyQuestionIds, allTokens());
-				question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-				deleteRelationListInGraph(userContext, question.getDailySurveyQuestionList());
-				return present(userContext,question, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingDailySurveyQuestion(HealthUserContext userContext, String questionId,
-		String dailySurveyQuestionId, int dailySurveyQuestionVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfQuestion( questionId);
-		checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
-		checkerOf(userContext).checkVersionOfDailySurveyQuestion(dailySurveyQuestionVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-	}
-	public  Question removeDailySurveyQuestion(HealthUserContext userContext, String questionId,
-		String dailySurveyQuestionId, int dailySurveyQuestionVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingDailySurveyQuestion(userContext,questionId, dailySurveyQuestionId, dailySurveyQuestionVersion,tokensExpr);
-
-		DailySurveyQuestion dailySurveyQuestion = createIndexedDailySurveyQuestion(dailySurveyQuestionId, dailySurveyQuestionVersion);
-		Question question = loadQuestion(userContext, questionId, allTokens());
-		synchronized(question){
-			//Will be good when the question loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			question.removeDailySurveyQuestion( dailySurveyQuestion );
-			question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-			deleteRelationInGraph(userContext, dailySurveyQuestion);
-			return present(userContext,question, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingDailySurveyQuestion(HealthUserContext userContext, String questionId,
-		String dailySurveyQuestionId, int dailySurveyQuestionVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfQuestion( questionId);
-		checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
-		checkerOf(userContext).checkVersionOfDailySurveyQuestion(dailySurveyQuestionVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-	}
-	public  Question copyDailySurveyQuestionFrom(HealthUserContext userContext, String questionId,
-		String dailySurveyQuestionId, int dailySurveyQuestionVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingDailySurveyQuestion(userContext,questionId, dailySurveyQuestionId, dailySurveyQuestionVersion,tokensExpr);
-
-		DailySurveyQuestion dailySurveyQuestion = createIndexedDailySurveyQuestion(dailySurveyQuestionId, dailySurveyQuestionVersion);
-		Question question = loadQuestion(userContext, questionId, allTokens());
-		synchronized(question){
-			//Will be good when the question loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			question.copyDailySurveyQuestionFrom( dailySurveyQuestion );
-			question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-			
-			userContext.getManagerGroup().getDailySurveyQuestionManager().onNewInstanceCreated(userContext, (DailySurveyQuestion)question.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,question, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingDailySurveyQuestion(HealthUserContext userContext, String questionId, String dailySurveyQuestionId, int dailySurveyQuestionVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfQuestion(questionId);
-		checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
-		checkerOf(userContext).checkVersionOfDailySurveyQuestion(dailySurveyQuestionVersion);
-		
-
-		if(DailySurveyQuestion.TOPIC_PROPERTY.equals(property)){
-			checkerOf(userContext).checkTopicOfDailySurveyQuestion(parseString(newValueExpr));
-		}
-		
-		if(DailySurveyQuestion.OPTION_A_PROPERTY.equals(property)){
-			checkerOf(userContext).checkOptionAOfDailySurveyQuestion(parseString(newValueExpr));
-		}
-		
-		if(DailySurveyQuestion.OPTION_B_PROPERTY.equals(property)){
-			checkerOf(userContext).checkOptionBOfDailySurveyQuestion(parseString(newValueExpr));
-		}
-		
-		if(DailySurveyQuestion.OPTION_C_PROPERTY.equals(property)){
-			checkerOf(userContext).checkOptionCOfDailySurveyQuestion(parseString(newValueExpr));
-		}
-		
-		if(DailySurveyQuestion.OPTION_D_PROPERTY.equals(property)){
-			checkerOf(userContext).checkOptionDOfDailySurveyQuestion(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(QuestionManagerException.class);
-
-	}
-
-	public  Question updateDailySurveyQuestion(HealthUserContext userContext, String questionId, String dailySurveyQuestionId, int dailySurveyQuestionVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingDailySurveyQuestion(userContext, questionId, dailySurveyQuestionId, dailySurveyQuestionVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withDailySurveyQuestionList().searchDailySurveyQuestionListWith(DailySurveyQuestion.ID_PROPERTY, "eq", dailySurveyQuestionId).done();
-
-
-
-		Question question = loadQuestion(userContext, questionId, loadTokens);
-
-		synchronized(question){
-			//Will be good when the question loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//question.removeDailySurveyQuestion( dailySurveyQuestion );
-			//make changes to AcceleraterAccount.
-			DailySurveyQuestion dailySurveyQuestionIndex = createIndexedDailySurveyQuestion(dailySurveyQuestionId, dailySurveyQuestionVersion);
-
-			DailySurveyQuestion dailySurveyQuestion = question.findTheDailySurveyQuestion(dailySurveyQuestionIndex);
-			if(dailySurveyQuestion == null){
-				throw new QuestionManagerException(dailySurveyQuestion+" is NOT FOUND" );
-			}
-
-			dailySurveyQuestion.changeProperty(property, newValueExpr);
-			
-			question = saveQuestion(userContext, question, tokens().withDailySurveyQuestionList().done());
-			return present(userContext,question, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
 
 
 

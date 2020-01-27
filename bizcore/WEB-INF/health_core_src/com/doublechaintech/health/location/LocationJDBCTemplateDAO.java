@@ -20,15 +20,15 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 import com.doublechaintech.health.province.ProvinceDAO;
-import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.guardian.GuardianDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
 import com.doublechaintech.health.district.DistrictDAO;
-import com.doublechaintech.health.user.UserDAO;
 
 
 
@@ -61,39 +61,39 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 			
 		
 	
-  	private  StudentDAO  studentDAO;
- 	public void setStudentDAO(StudentDAO pStudentDAO){
+  	private  GuardianDAO  guardianDAO;
+ 	public void setGuardianDAO(GuardianDAO pGuardianDAO){
  	
- 		if(pStudentDAO == null){
- 			throw new IllegalStateException("Do not try to set studentDAO to null.");
+ 		if(pGuardianDAO == null){
+ 			throw new IllegalStateException("Do not try to set guardianDAO to null.");
  		}
-	 	this.studentDAO = pStudentDAO;
+	 	this.guardianDAO = pGuardianDAO;
  	}
- 	public StudentDAO getStudentDAO(){
- 		if(this.studentDAO == null){
- 			throw new IllegalStateException("The studentDAO is not configured yet, please config it some where.");
+ 	public GuardianDAO getGuardianDAO(){
+ 		if(this.guardianDAO == null){
+ 			throw new IllegalStateException("The guardianDAO is not configured yet, please config it some where.");
  		}
  		
-	 	return this.studentDAO;
+	 	return this.guardianDAO;
  	}	
  	
 			
 		
 	
-  	private  UserDAO  userDAO;
- 	public void setUserDAO(UserDAO pUserDAO){
+  	private  WechatUserDAO  wechatUserDAO;
+ 	public void setWechatUserDAO(WechatUserDAO pWechatUserDAO){
  	
- 		if(pUserDAO == null){
- 			throw new IllegalStateException("Do not try to set userDAO to null.");
+ 		if(pWechatUserDAO == null){
+ 			throw new IllegalStateException("Do not try to set wechatUserDAO to null.");
  		}
-	 	this.userDAO = pUserDAO;
+	 	this.wechatUserDAO = pWechatUserDAO;
  	}
- 	public UserDAO getUserDAO(){
- 		if(this.userDAO == null){
- 			throw new IllegalStateException("The userDAO is not configured yet, please config it some where.");
+ 	public WechatUserDAO getWechatUserDAO(){
+ 		if(this.wechatUserDAO == null){
+ 			throw new IllegalStateException("The wechatUserDAO is not configured yet, please config it some where.");
  		}
  		
-	 	return this.userDAO;
+	 	return this.wechatUserDAO;
  	}	
  	
 			
@@ -148,15 +148,15 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		
 		
  		
- 		if(isSaveStudentListEnabled(options)){
- 			for(Student item: newLocation.getStudentList()){
+ 		if(isSaveGuardianListEnabled(options)){
+ 			for(Guardian item: newLocation.getGuardianList()){
  				item.setVersion(0);
  			}
  		}
 		
  		
- 		if(isSaveUserListEnabled(options)){
- 			for(User item: newLocation.getUserList()){
+ 		if(isSaveWechatUserListEnabled(options)){
+ 			for(WechatUser item: newLocation.getWechatUserList()){
  				item.setVersion(0);
  			}
  		}
@@ -281,29 +281,29 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  
 		
 	
-	protected boolean isExtractStudentListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,LocationTokens.STUDENT_LIST);
+	protected boolean isExtractGuardianListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,LocationTokens.GUARDIAN_LIST);
  	}
- 	protected boolean isAnalyzeStudentListEnabled(Map<String,Object> options){		 		
- 		return LocationTokens.of(options).analyzeStudentListEnabled();
+ 	protected boolean isAnalyzeGuardianListEnabled(Map<String,Object> options){		 		
+ 		return LocationTokens.of(options).analyzeGuardianListEnabled();
  	}
 	
-	protected boolean isSaveStudentListEnabled(Map<String,Object> options){
-		return checkOptions(options, LocationTokens.STUDENT_LIST);
+	protected boolean isSaveGuardianListEnabled(Map<String,Object> options){
+		return checkOptions(options, LocationTokens.GUARDIAN_LIST);
 		
  	}
  	
 		
 	
-	protected boolean isExtractUserListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,LocationTokens.USER_LIST);
+	protected boolean isExtractWechatUserListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,LocationTokens.WECHAT_USER_LIST);
  	}
- 	protected boolean isAnalyzeUserListEnabled(Map<String,Object> options){		 		
- 		return LocationTokens.of(options).analyzeUserListEnabled();
+ 	protected boolean isAnalyzeWechatUserListEnabled(Map<String,Object> options){		 		
+ 		return LocationTokens.of(options).analyzeWechatUserListEnabled();
  	}
 	
-	protected boolean isSaveUserListEnabled(Map<String,Object> options){
-		return checkOptions(options, LocationTokens.USER_LIST);
+	protected boolean isSaveWechatUserListEnabled(Map<String,Object> options){
+		return checkOptions(options, LocationTokens.WECHAT_USER_LIST);
 		
  	}
  	
@@ -343,19 +343,19 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		}
  
 		
-		if(isExtractStudentListEnabled(loadOptions)){
-	 		extractStudentList(location, loadOptions);
+		if(isExtractGuardianListEnabled(loadOptions)){
+	 		extractGuardianList(location, loadOptions);
  		}	
- 		if(isAnalyzeStudentListEnabled(loadOptions)){
-	 		analyzeStudentList(location, loadOptions);
+ 		if(isAnalyzeGuardianListEnabled(loadOptions)){
+	 		analyzeGuardianList(location, loadOptions);
  		}
  		
 		
-		if(isExtractUserListEnabled(loadOptions)){
-	 		extractUserList(location, loadOptions);
+		if(isExtractWechatUserListEnabled(loadOptions)){
+	 		extractWechatUserList(location, loadOptions);
  		}	
- 		if(isAnalyzeUserListEnabled(loadOptions)){
-	 		analyzeUserList(location, loadOptions);
+ 		if(isAnalyzeWechatUserListEnabled(loadOptions)){
+	 		analyzeWechatUserList(location, loadOptions);
  		}
  		
 		
@@ -405,12 +405,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		
  
 		
-	protected void enhanceStudentList(SmartList<Student> studentList,Map<String,Object> options){
+	protected void enhanceGuardianList(SmartList<Guardian> guardianList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
 	}
 	
-	protected Location extractStudentList(Location location, Map<String,Object> options){
+	protected Location extractGuardianList(Location location, Map<String,Object> options){
 		
 		
 		if(location == null){
@@ -422,17 +422,17 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 
 		
 		
-		SmartList<Student> studentList = getStudentDAO().findStudentByAddress(location.getId(),options);
-		if(studentList != null){
-			enhanceStudentList(studentList,options);
-			location.setStudentList(studentList);
+		SmartList<Guardian> guardianList = getGuardianDAO().findGuardianByAddress(location.getId(),options);
+		if(guardianList != null){
+			enhanceGuardianList(guardianList,options);
+			location.setGuardianList(guardianList);
 		}
 		
 		return location;
 	
 	}	
 	
-	protected Location analyzeStudentList(Location location, Map<String,Object> options){
+	protected Location analyzeGuardianList(Location location, Map<String,Object> options){
 		
 		
 		if(location == null){
@@ -444,9 +444,9 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 
 		
 		
-		SmartList<Student> studentList = location.getStudentList();
-		if(studentList != null){
-			getStudentDAO().analyzeStudentByAddress(studentList, location.getId(), options);
+		SmartList<Guardian> guardianList = location.getGuardianList();
+		if(guardianList != null){
+			getGuardianDAO().analyzeGuardianByAddress(guardianList, location.getId(), options);
 			
 		}
 		
@@ -455,12 +455,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	}	
 	
 		
-	protected void enhanceUserList(SmartList<User> userList,Map<String,Object> options){
+	protected void enhanceWechatUserList(SmartList<WechatUser> wechatUserList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
 	}
 	
-	protected Location extractUserList(Location location, Map<String,Object> options){
+	protected Location extractWechatUserList(Location location, Map<String,Object> options){
 		
 		
 		if(location == null){
@@ -472,17 +472,17 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 
 		
 		
-		SmartList<User> userList = getUserDAO().findUserByAddress(location.getId(),options);
-		if(userList != null){
-			enhanceUserList(userList,options);
-			location.setUserList(userList);
+		SmartList<WechatUser> wechatUserList = getWechatUserDAO().findWechatUserByAddress(location.getId(),options);
+		if(wechatUserList != null){
+			enhanceWechatUserList(wechatUserList,options);
+			location.setWechatUserList(wechatUserList);
 		}
 		
 		return location;
 	
 	}	
 	
-	protected Location analyzeUserList(Location location, Map<String,Object> options){
+	protected Location analyzeWechatUserList(Location location, Map<String,Object> options){
 		
 		
 		if(location == null){
@@ -494,9 +494,9 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 
 		
 		
-		SmartList<User> userList = location.getUserList();
-		if(userList != null){
-			getUserDAO().analyzeUserByAddress(userList, location.getId(), options);
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();
+		if(wechatUserList != null){
+			getWechatUserDAO().analyzeWechatUserByAddress(wechatUserList, location.getId(), options);
 			
 		}
 		
@@ -791,16 +791,16 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		}
  
 		
-		if(isSaveStudentListEnabled(options)){
-	 		saveStudentList(location, options);
-	 		//removeStudentList(location, options);
+		if(isSaveGuardianListEnabled(options)){
+	 		saveGuardianList(location, options);
+	 		//removeGuardianList(location, options);
 	 		//Not delete the record
 	 		
  		}		
 		
-		if(isSaveUserListEnabled(options)){
-	 		saveUserList(location, options);
-	 		//removeUserList(location, options);
+		if(isSaveWechatUserListEnabled(options)){
+	 		saveWechatUserList(location, options);
+	 		//removeWechatUserList(location, options);
 	 		//Not delete the record
 	 		
  		}		
@@ -849,311 +849,311 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  
 
 	
-	public Location planToRemoveStudentList(Location location, String studentIds[], Map<String,Object> options)throws Exception{
+	public Location planToRemoveGuardianList(Location location, String guardianIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.ID_PROPERTY, studentIds);
+		key.put(Guardian.ADDRESS_PROPERTY, location.getId());
+		key.put(Guardian.ID_PROPERTY, guardianIds);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return location;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return location;
 		}
 		
-		for(Student studentItem: externalStudentList){
+		for(Guardian guardianItem: externalGuardianList){
 
-			studentItem.clearFromAll();
+			guardianItem.clearFromAll();
 		}
 		
 		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = location.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return location;	
 	
 	}
 
 
-	//disconnect Location with student_id in Student
-	public Location planToRemoveStudentListWithStudentId(Location location, String studentIdId, Map<String,Object> options)throws Exception{
+	//disconnect Location with wechat_user in Guardian
+	public Location planToRemoveGuardianListWithWechatUser(Location location, String wechatUserId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
+		key.put(Guardian.ADDRESS_PROPERTY, location.getId());
+		key.put(Guardian.WECHAT_USER_PROPERTY, wechatUserId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return location;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return location;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearAddress();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearWechatUser();
+			guardianItem.clearAddress();
 			
 		}
 		
 		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = location.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return location;
 	}
 	
-	public int countStudentListWithStudentId(String locationId, String studentIdId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithWechatUser(String locationId, String wechatUserId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
+		key.put(Guardian.ADDRESS_PROPERTY, locationId);
+		key.put(Guardian.WECHAT_USER_PROPERTY, wechatUserId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Location with user in Student
-	public Location planToRemoveStudentListWithUser(Location location, String userId, Map<String,Object> options)throws Exception{
+	//disconnect Location with platform in Guardian
+	public Location planToRemoveGuardianListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.USER_PROPERTY, userId);
+		key.put(Guardian.ADDRESS_PROPERTY, location.getId());
+		key.put(Guardian.PLATFORM_PROPERTY, platformId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return location;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return location;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearUser();
-			studentItem.clearAddress();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearPlatform();
+			guardianItem.clearAddress();
 			
 		}
 		
 		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = location.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return location;
 	}
 	
-	public int countStudentListWithUser(String locationId, String userId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.USER_PROPERTY, userId);
+		key.put(Guardian.ADDRESS_PROPERTY, locationId);
+		key.put(Guardian.PLATFORM_PROPERTY, platformId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Location with platform in Student
-	public Location planToRemoveStudentListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception{
+	//disconnect Location with cq in Guardian
+	public Location planToRemoveGuardianListWithCq(Location location, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.PLATFORM_PROPERTY, platformId);
+		key.put(Guardian.ADDRESS_PROPERTY, location.getId());
+		key.put(Guardian.CQ_PROPERTY, cqId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return location;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return location;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearPlatform();
-			studentItem.clearAddress();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearCq();
+			guardianItem.clearAddress();
 			
 		}
 		
 		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = location.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return location;
 	}
 	
-	public int countStudentListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithCq(String locationId, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.PLATFORM_PROPERTY, platformId);
+		key.put(Guardian.ADDRESS_PROPERTY, locationId);
+		key.put(Guardian.CQ_PROPERTY, cqId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Location with cq in Student
-	public Location planToRemoveStudentListWithCq(Location location, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.CQ_PROPERTY, cqId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return location;
-		}
-		if(externalStudentList.isEmpty()){
-			return location;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearCq();
-			studentItem.clearAddress();
-			
-		}
-		
-		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return location;
-	}
+	public Location planToRemoveWechatUserList(Location location, String wechatUserIds[], Map<String,Object> options)throws Exception{
 	
-	public int countStudentListWithCq(String locationId, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(WechatUser.ADDRESS_PROPERTY, location.getId());
+		key.put(WechatUser.ID_PROPERTY, wechatUserIds);
+		
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
+			return location;
+		}
+		if(externalWechatUserList.isEmpty()){
+			return location;
+		}
+		
+		for(WechatUser wechatUserItem: externalWechatUserList){
 
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.CQ_PROPERTY, cqId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
-	public Location planToRemoveUserList(Location location, String userIds[], Map<String,Object> options)throws Exception{
-	
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, location.getId());
-		key.put(User.ID_PROPERTY, userIds);
-		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
-			return location;
-		}
-		if(externalUserList.isEmpty()){
-			return location;
-		}
-		
-		for(User userItem: externalUserList){
-
-			userItem.clearFromAll();
+			wechatUserItem.clearFromAll();
 		}
 		
 		
-		SmartList<User> userList = location.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
 		return location;	
 	
 	}
 
 
-	//disconnect Location with platform in User
-	public Location planToRemoveUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception{
+	//disconnect Location with user_type in WechatUser
+	public Location planToRemoveWechatUserListWithUserType(Location location, String userTypeId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, location.getId());
-		key.put(User.PLATFORM_PROPERTY, platformId);
+		key.put(WechatUser.ADDRESS_PROPERTY, location.getId());
+		key.put(WechatUser.USER_TYPE_PROPERTY, userTypeId);
 		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
 			return location;
 		}
-		if(externalUserList.isEmpty()){
+		if(externalWechatUserList.isEmpty()){
 			return location;
 		}
 		
-		for(User userItem: externalUserList){
-			userItem.clearPlatform();
-			userItem.clearAddress();
+		for(WechatUser wechatUserItem: externalWechatUserList){
+			wechatUserItem.clearUserType();
+			wechatUserItem.clearAddress();
 			
 		}
 		
 		
-		SmartList<User> userList = location.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
 		return location;
 	}
 	
-	public int countUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception{
+	public int countWechatUserListWithUserType(String locationId, String userTypeId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, locationId);
-		key.put(User.PLATFORM_PROPERTY, platformId);
+		key.put(WechatUser.ADDRESS_PROPERTY, locationId);
+		key.put(WechatUser.USER_TYPE_PROPERTY, userTypeId);
 		
-		int count = getUserDAO().countUserWithKey(key, options);
+		int count = getWechatUserDAO().countWechatUserWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Location with platform in WechatUser
+	public Location planToRemoveWechatUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(WechatUser.ADDRESS_PROPERTY, location.getId());
+		key.put(WechatUser.PLATFORM_PROPERTY, platformId);
+		
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
+			return location;
+		}
+		if(externalWechatUserList.isEmpty()){
+			return location;
+		}
+		
+		for(WechatUser wechatUserItem: externalWechatUserList){
+			wechatUserItem.clearPlatform();
+			wechatUserItem.clearAddress();
+			
+		}
+		
+		
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
+		return location;
+	}
+	
+	public int countWechatUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(WechatUser.ADDRESS_PROPERTY, locationId);
+		key.put(WechatUser.PLATFORM_PROPERTY, platformId);
+		
+		int count = getWechatUserDAO().countWechatUserWithKey(key, options);
 		return count;
 	}
 	
 
 		
-	protected Location saveStudentList(Location location, Map<String,Object> options){
+	protected Location saveGuardianList(Location location, Map<String,Object> options){
 		
 		
 		
 		
-		SmartList<Student> studentList = location.getStudentList();
-		if(studentList == null){
+		SmartList<Guardian> guardianList = location.getGuardianList();
+		if(guardianList == null){
 			//null list means nothing
 			return location;
 		}
-		SmartList<Student> mergedUpdateStudentList = new SmartList<Student>();
+		SmartList<Guardian> mergedUpdateGuardianList = new SmartList<Guardian>();
 		
 		
-		mergedUpdateStudentList.addAll(studentList); 
-		if(studentList.getToRemoveList() != null){
+		mergedUpdateGuardianList.addAll(guardianList); 
+		if(guardianList.getToRemoveList() != null){
 			//ensures the toRemoveList is not null
-			mergedUpdateStudentList.addAll(studentList.getToRemoveList());
-			studentList.removeAll(studentList.getToRemoveList());
+			mergedUpdateGuardianList.addAll(guardianList.getToRemoveList());
+			guardianList.removeAll(guardianList.getToRemoveList());
 			//OK for now, need fix later
 		}
 
 		//adding new size can improve performance
 	
-		getStudentDAO().saveStudentList(mergedUpdateStudentList,options);
+		getGuardianDAO().saveGuardianList(mergedUpdateGuardianList,options);
 		
-		if(studentList.getToRemoveList() != null){
-			studentList.removeAll(studentList.getToRemoveList());
+		if(guardianList.getToRemoveList() != null){
+			guardianList.removeAll(guardianList.getToRemoveList());
 		}
 		
 		
@@ -1161,25 +1161,25 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	
 	}
 	
-	protected Location removeStudentList(Location location, Map<String,Object> options){
+	protected Location removeGuardianList(Location location, Map<String,Object> options){
 	
 	
-		SmartList<Student> studentList = location.getStudentList();
-		if(studentList == null){
+		SmartList<Guardian> guardianList = location.getGuardianList();
+		if(guardianList == null){
 			return location;
 		}	
 	
-		SmartList<Student> toRemoveStudentList = studentList.getToRemoveList();
+		SmartList<Guardian> toRemoveGuardianList = guardianList.getToRemoveList();
 		
-		if(toRemoveStudentList == null){
+		if(toRemoveGuardianList == null){
 			return location;
 		}
-		if(toRemoveStudentList.isEmpty()){
+		if(toRemoveGuardianList.isEmpty()){
 			return location;// Does this mean delete all from the parent object?
 		}
 		//Call DAO to remove the list
 		
-		getStudentDAO().removeStudentList(toRemoveStudentList,options);
+		getGuardianDAO().removeGuardianList(toRemoveGuardianList,options);
 		
 		return location;
 	
@@ -1193,33 +1193,33 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	
 	
 		
-	protected Location saveUserList(Location location, Map<String,Object> options){
+	protected Location saveWechatUserList(Location location, Map<String,Object> options){
 		
 		
 		
 		
-		SmartList<User> userList = location.getUserList();
-		if(userList == null){
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();
+		if(wechatUserList == null){
 			//null list means nothing
 			return location;
 		}
-		SmartList<User> mergedUpdateUserList = new SmartList<User>();
+		SmartList<WechatUser> mergedUpdateWechatUserList = new SmartList<WechatUser>();
 		
 		
-		mergedUpdateUserList.addAll(userList); 
-		if(userList.getToRemoveList() != null){
+		mergedUpdateWechatUserList.addAll(wechatUserList); 
+		if(wechatUserList.getToRemoveList() != null){
 			//ensures the toRemoveList is not null
-			mergedUpdateUserList.addAll(userList.getToRemoveList());
-			userList.removeAll(userList.getToRemoveList());
+			mergedUpdateWechatUserList.addAll(wechatUserList.getToRemoveList());
+			wechatUserList.removeAll(wechatUserList.getToRemoveList());
 			//OK for now, need fix later
 		}
 
 		//adding new size can improve performance
 	
-		getUserDAO().saveUserList(mergedUpdateUserList,options);
+		getWechatUserDAO().saveWechatUserList(mergedUpdateWechatUserList,options);
 		
-		if(userList.getToRemoveList() != null){
-			userList.removeAll(userList.getToRemoveList());
+		if(wechatUserList.getToRemoveList() != null){
+			wechatUserList.removeAll(wechatUserList.getToRemoveList());
 		}
 		
 		
@@ -1227,25 +1227,25 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	
 	}
 	
-	protected Location removeUserList(Location location, Map<String,Object> options){
+	protected Location removeWechatUserList(Location location, Map<String,Object> options){
 	
 	
-		SmartList<User> userList = location.getUserList();
-		if(userList == null){
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();
+		if(wechatUserList == null){
 			return location;
 		}	
 	
-		SmartList<User> toRemoveUserList = userList.getToRemoveList();
+		SmartList<WechatUser> toRemoveWechatUserList = wechatUserList.getToRemoveList();
 		
-		if(toRemoveUserList == null){
+		if(toRemoveWechatUserList == null){
 			return location;
 		}
-		if(toRemoveUserList.isEmpty()){
+		if(toRemoveWechatUserList.isEmpty()){
 			return location;// Does this mean delete all from the parent object?
 		}
 		//Call DAO to remove the list
 		
-		getUserDAO().removeUserList(toRemoveUserList,options);
+		getWechatUserDAO().removeWechatUserList(toRemoveWechatUserList,options);
 		
 		return location;
 	
@@ -1262,48 +1262,48 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 
 	public Location present(Location location,Map<String, Object> options){
 	
-		presentStudentList(location,options);
-		presentUserList(location,options);
+		presentGuardianList(location,options);
+		presentWechatUserList(location,options);
 
 		return location;
 	
 	}
 		
 	//Using java8 feature to reduce the code significantly
- 	protected Location presentStudentList(
+ 	protected Location presentGuardianList(
 			Location location,
 			Map<String, Object> options) {
 
-		SmartList<Student> studentList = location.getStudentList();		
-				SmartList<Student> newList= presentSubList(location.getId(),
-				studentList,
+		SmartList<Guardian> guardianList = location.getGuardianList();		
+				SmartList<Guardian> newList= presentSubList(location.getId(),
+				guardianList,
 				options,
-				getStudentDAO()::countStudentByAddress,
-				getStudentDAO()::findStudentByAddress
+				getGuardianDAO()::countGuardianByAddress,
+				getGuardianDAO()::findGuardianByAddress
 				);
 
 		
-		location.setStudentList(newList);
+		location.setGuardianList(newList);
 		
 
 		return location;
 	}			
 		
 	//Using java8 feature to reduce the code significantly
- 	protected Location presentUserList(
+ 	protected Location presentWechatUserList(
 			Location location,
 			Map<String, Object> options) {
 
-		SmartList<User> userList = location.getUserList();		
-				SmartList<User> newList= presentSubList(location.getId(),
-				userList,
+		SmartList<WechatUser> wechatUserList = location.getWechatUserList();		
+				SmartList<WechatUser> newList= presentSubList(location.getId(),
+				wechatUserList,
 				options,
-				getUserDAO()::countUserByAddress,
-				getUserDAO()::findUserByAddress
+				getWechatUserDAO()::countWechatUserByAddress,
+				getWechatUserDAO()::findWechatUserByAddress
 				);
 
 		
-		location.setUserList(newList);
+		location.setWechatUserList(newList);
 		
 
 		return location;
@@ -1311,13 +1311,13 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		
 
 	
-    public SmartList<Location> requestCandidateLocationForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+    public SmartList<Location> requestCandidateLocationForGuardian(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(LocationTable.COLUMN_NAME, filterKey, pageNo, pageSize, getLocationMapper());
     }
 		
-    public SmartList<Location> requestCandidateLocationForUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+    public SmartList<Location> requestCandidateLocationForWechatUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(LocationTable.COLUMN_NAME, filterKey, pageNo, pageSize, getLocationMapper());
@@ -1335,48 +1335,48 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	}
 	
 	
-	// 需要一个加载引用我的对象的enhance方法:Student的address的StudentList
-	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception{
+	// 需要一个加载引用我的对象的enhance方法:Guardian的address的GuardianList
+	public SmartList<Guardian> loadOurGuardianList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
 			return new SmartList<>();
 		}
 		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<Student> loadedObjs = userContext.getDAOGroup().getStudentDAO().findStudentWithKey(key, options);
-		Map<String, List<Student>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getAddress().getId()));
+		key.put(Guardian.ADDRESS_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<Guardian> loadedObjs = userContext.getDAOGroup().getGuardianDAO().findGuardianWithKey(key, options);
+		Map<String, List<Guardian>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getAddress().getId()));
 		us.forEach(it->{
 			String id = it.getId();
-			List<Student> loadedList = loadedMap.get(id);
+			List<Guardian> loadedList = loadedMap.get(id);
 			if (loadedList == null || loadedList.isEmpty()) {
 				return;
 			}
-			SmartList<Student> loadedSmartList = new SmartList<>();
+			SmartList<Guardian> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
-			it.setStudentList(loadedSmartList);
+			it.setGuardianList(loadedSmartList);
 		});
 		return loadedObjs;
 	}
 	
-	// 需要一个加载引用我的对象的enhance方法:User的address的UserList
-	public SmartList<User> loadOurUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception{
+	// 需要一个加载引用我的对象的enhance方法:WechatUser的address的WechatUserList
+	public SmartList<WechatUser> loadOurWechatUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
 			return new SmartList<>();
 		}
 		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<User> loadedObjs = userContext.getDAOGroup().getUserDAO().findUserWithKey(key, options);
-		Map<String, List<User>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getAddress().getId()));
+		key.put(WechatUser.ADDRESS_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<WechatUser> loadedObjs = userContext.getDAOGroup().getWechatUserDAO().findWechatUserWithKey(key, options);
+		Map<String, List<WechatUser>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getAddress().getId()));
 		us.forEach(it->{
 			String id = it.getId();
-			List<User> loadedList = loadedMap.get(id);
+			List<WechatUser> loadedList = loadedMap.get(id);
 			if (loadedList == null || loadedList.isEmpty()) {
 				return;
 			}
-			SmartList<User> loadedSmartList = new SmartList<>();
+			SmartList<WechatUser> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
-			it.setUserList(loadedSmartList);
+			it.setWechatUserList(loadedSmartList);
 		});
 		return loadedObjs;
 	}

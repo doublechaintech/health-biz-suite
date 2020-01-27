@@ -38,7 +38,7 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 const addStudentHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}surveyStatusManager/addStudentHealthSurvey/surveyStatusId/studentId/answerTime/teacherId/classDailyHealthSurveyId/cqId/tokensExpr/`
+  const url = `${PREFIX}surveyStatusManager/addStudentHealthSurvey/surveyStatusId/studentId/answerTime/schoolClassId/classDailyHealthSurveyId/cqId/tokensExpr/`
   const surveyStatusId = targetObjectId
   const requestParameters = { ...parameters, surveyStatusId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})

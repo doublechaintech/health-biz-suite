@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	
@@ -13,7 +13,7 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 		WechatLoginInfo wechatLoginInfo = getWechatLoginInfo();		
 		 		
  		setId(wechatLoginInfo, rs, rowNumber); 		
- 		setUser(wechatLoginInfo, rs, rowNumber); 		
+ 		setWechatUser(wechatLoginInfo, rs, rowNumber); 		
  		setAppId(wechatLoginInfo, rs, rowNumber); 		
  		setOpenId(wechatLoginInfo, rs, rowNumber); 		
  		setSessionKey(wechatLoginInfo, rs, rowNumber); 		
@@ -39,22 +39,22 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 		wechatLoginInfo.setId(id);
 	}
 		 		
- 	protected void setUser(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
- 		String userId = rs.getString(WechatLoginInfoTable.COLUMN_USER);
- 		if( userId == null){
+ 	protected void setWechatUser(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
+ 		String wechatUserId = rs.getString(WechatLoginInfoTable.COLUMN_WECHAT_USER);
+ 		if( wechatUserId == null){
  			return;
  		}
- 		if( userId.isEmpty()){
+ 		if( wechatUserId.isEmpty()){
  			return;
  		}
- 		User user = wechatLoginInfo.getUser();
- 		if( user != null ){
+ 		WechatUser wechatUser = wechatLoginInfo.getWechatUser();
+ 		if( wechatUser != null ){
  			//if the root object 'wechatLoginInfo' already have the property, just set the id for it;
- 			user.setId(userId);
+ 			wechatUser.setId(wechatUserId);
  			
  			return;
  		}
- 		wechatLoginInfo.setUser(createEmptyUser(userId));
+ 		wechatLoginInfo.setWechatUser(createEmptyWechatUser(wechatUserId));
  	}
  	
 	protected void setAppId(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
@@ -119,11 +119,11 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 		
 		
 
- 	protected User  createEmptyUser(String userId){
- 		User user = new User();
- 		user.setId(userId);
- 		user.setVersion(Integer.MAX_VALUE);
- 		return user;
+ 	protected WechatUser  createEmptyWechatUser(String wechatUserId){
+ 		WechatUser wechatUser = new WechatUser();
+ 		wechatUser.setId(wechatUserId);
+ 		wechatUser.setVersion(Integer.MAX_VALUE);
+ 		return wechatUser;
  	}
  	
 }

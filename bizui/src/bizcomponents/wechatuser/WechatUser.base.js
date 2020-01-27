@@ -37,7 +37,7 @@ const renderReferenceCell=defaultRenderReferenceCell
 
 const menuData = {menuName: window.trans('wechat_user'), menuFor: "wechatUser",
   		subItems: [
-  {name: 'parentList', displayName: window.mtrans('parent','wechat_user.parent_list',false), type:'parent',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'guardianList', displayName: window.mtrans('guardian','wechat_user.guardian_list',false), type:'guardian',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'classQuestionList', displayName: window.mtrans('class_question','wechat_user.class_question_list',false), type:'classQuestion',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','wechat_user.class_daily_health_survey_list',false), type:'classDailyHealthSurvey',icon:'th',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'wechatLoginInfoList', displayName: window.mtrans('wechat_login_info','wechat_user.wechat_login_info_list',false), type:'wechatLoginInfo',icon:'info',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},

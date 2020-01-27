@@ -52,44 +52,44 @@ const transferToAnotherProvince = (id, parameters) => {
 
 
 
-const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/addStudent/locationId/studentName/studentId/guardianName/guardianMobile/userId/platformId/cqId/tokensExpr/`
+const addGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/addGuardian/locationId/name/mobile/wechatUserId/platformId/cqId/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/updateStudentProperties/locationId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
+const updateGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/updateGuardianProperties/locationId/id/name/mobile/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeStudentList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/removeStudentList/locationId/studentIds/tokensExpr/`
+const removeGuardianList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/removeGuardianList/locationId/guardianIds/tokensExpr/`
   const requestParameters = { ...parameters, locationId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 
 
-const addUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/addUser/locationId/name/avatar/platformId/tokensExpr/`
+const addWechatUser = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/addWechatUser/locationId/name/avatar/userTypeId/platformId/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/updateUserProperties/locationId/id/name/avatar/tokensExpr/`
+const updateWechatUser = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/updateWechatUserProperties/locationId/id/name/avatar/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeUserList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/removeUserList/locationId/userIds/tokensExpr/`
+const removeWechatUserList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}locationManager/removeWechatUserList/locationId/wechatUserIds/tokensExpr/`
   const requestParameters = { ...parameters, locationId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -124,12 +124,12 @@ const  processRequest = (data) => {
 
 const LocationService = { view,
   load,
-  addStudent,
-  addUser,
-  updateStudent,
-  updateUser,
-  removeStudentList,
-  removeUserList,
+  addGuardian,
+  addWechatUser,
+  updateGuardian,
+  updateWechatUser,
+  removeGuardianList,
+  removeWechatUserList,
   requestCandidateDistrict,
   requestCandidateProvince,
   transferToAnotherDistrict,

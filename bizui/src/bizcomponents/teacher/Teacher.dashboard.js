@@ -119,8 +119,7 @@ const internalSummaryOf = (teacher,targetComponent) =>{
 <Description term="ID" style={{wordBreak: 'break-all'}}>{teacher.id}</Description> 
 <Description term="名称" style={{wordBreak: 'break-all'}}>{teacher.name}</Description> 
 <Description term="手机号码" style={{wordBreak: 'break-all'}}>{teacher.mobile}</Description> 
-<Description term="学校" style={{wordBreak: 'break-all'}}>{teacher.school}</Description> 
-<Description term="学校类" style={{wordBreak: 'break-all'}}>{teacher.schoolClass}</Description> 
+<Description term="Schoole" style={{wordBreak: 'break-all'}}>{teacher.schoole}</Description> 
 <Description term="创建时间">{ moment(teacher.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
 <Description term="Cq">{teacher.cq==null?appLocaleName(userContext,"NotAssigned"):`${teacher.cq.displayName}(${teacher.cq.id})`}
  <Icon type="swap" onClick={()=>
@@ -159,7 +158,7 @@ class TeacherDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, classDailyHealthSurveyListMetaInfo, studentHealthSurveyListMetaInfo, classDailyHealthSurveyCount, studentHealthSurveyCount } = this.props.teacher
+    const { id,displayName, schoolClassListMetaInfo, schoolClassCount } = this.props.teacher
     if(!this.props.teacher.class){
       return null
     }
@@ -168,8 +167,7 @@ class TeacherDashboard extends Component {
     const cardsData = {cardsName:"老师",cardsFor: "teacher",
     	cardsSource: this.props.teacher,returnURL,displayName,
   		subItems: [
-{name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','teacher.class_daily_health_survey_list',false) ,viewGroup:'__no_group', type:'classDailyHealthSurvey',count:classDailyHealthSurveyCount,addFunction: true, role: 'classDailyHealthSurvey', metaInfo: classDailyHealthSurveyListMetaInfo, renderItem: GlobalComponents.ClassDailyHealthSurveyBase.renderItemOfList},
-{name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','teacher.student_health_survey_list',false) ,viewGroup:'__no_group', type:'studentHealthSurvey',count:studentHealthSurveyCount,addFunction: true, role: 'studentHealthSurvey', metaInfo: studentHealthSurveyListMetaInfo, renderItem: GlobalComponents.StudentHealthSurveyBase.renderItemOfList},
+{name: 'schoolClassList', displayName: window.mtrans('school_class','teacher.school_class_list',false) ,viewGroup:'__no_group', type:'schoolClass',count:schoolClassCount,addFunction: true, role: 'schoolClass', metaInfo: schoolClassListMetaInfo, renderItem: GlobalComponents.SchoolClassBase.renderItemOfList},
     
       	],
    		subSettingItems: [

@@ -76,7 +76,7 @@ class WechatUserAssociateForm extends Component {
     const {WechatUserService} = GlobalComponents
     const userContext = null
     
- const {ParentModalTable} = GlobalComponents;
+ const {GuardianModalTable} = GlobalComponents;
  const {ClassQuestionModalTable} = GlobalComponents;
  const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
  const {WechatLoginInfoModalTable} = GlobalComponents;
@@ -238,7 +238,7 @@ class WechatUserAssociateForm extends Component {
 			
         </Card>
         
-	<ParentModalTable data={data.parentList} owner={owner} />
+	<GuardianModalTable data={data.guardianList} owner={owner} />
 	<ClassQuestionModalTable data={data.classQuestionList} owner={owner} />
 	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />
 	<WechatLoginInfoModalTable data={data.wechatLoginInfoList} owner={owner} />

@@ -20,8 +20,7 @@ const testValues = {};
 const testValues = {
   name: '白山水',
   mobile: '18012341234',
-  school: '益州小学',
-  schoolClass: '教科院一年级5班',
+  schoole: '益州小学',
   platformId: 'P000001',
   cqId: 'CR000001',
 }
@@ -77,8 +76,7 @@ class TeacherAssociateForm extends Component {
     const {TeacherService} = GlobalComponents
     const userContext = null
     
- const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
- const {StudentHealthSurveyModalTable} = GlobalComponents;
+ const {SchoolClassModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -160,21 +158,11 @@ class TeacherAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.school} {...formItemLayout}>
-                  {getFieldDecorator('school', {
+                <Form.Item label={fieldLabels.schoole} {...formItemLayout}>
+                  {getFieldDecorator('schoole', {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.school} />
-                  )}
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
-                  {getFieldDecorator('schoolClass', {
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                    <Input size="large"  placeHolder={fieldLabels.schoolClass} />
+                    <Input size="large"  placeHolder={fieldLabels.schoole} />
                   )}
                 </Form.Item>
               </Col>
@@ -237,8 +225,7 @@ class TeacherAssociateForm extends Component {
 			
         </Card>
         
-	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />
-	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
+	<SchoolClassModalTable data={data.schoolClassList} owner={owner} />
         
         
         

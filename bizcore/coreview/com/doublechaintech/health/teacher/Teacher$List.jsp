@@ -104,11 +104,8 @@
 <c:if test="${param.referName ne 'mobile'}">
 	<th>${userContext.localeMap['teacher.mobile']}</th>
 </c:if>
-<c:if test="${param.referName ne 'school'}">
-	<th>${userContext.localeMap['teacher.school']}</th>
-</c:if>
-<c:if test="${param.referName ne 'schoolClass'}">
-	<th>${userContext.localeMap['teacher.school_class']}</th>
+<c:if test="${param.referName ne 'schoole'}">
+	<th>${userContext.localeMap['teacher.schoole']}</th>
 </c:if>
 <c:if test="${param.referName ne 'createTime'}">
 	<th>${userContext.localeMap['teacher.create_time']}</th>
@@ -127,8 +124,7 @@
 				<tr currentVersion='${item.version}' id="teacher-${item.id}" ><td><a class="link-action-removed" href="./teacherManager/view/${item.id}/"> ${item.id}</a></td>
 <c:if test="${param.referName ne 'name'}">	<td contenteditable='true' class='edit-value'  propertyToChange='name' storedCellValue='${item.name}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.name}</td>
 </c:if><c:if test="${param.referName ne 'mobile'}">	<td contenteditable='true' class='edit-value'  propertyToChange='mobile' storedCellValue='${item.maskedMobile}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.maskedMobile}</td>
-</c:if><c:if test="${param.referName ne 'school'}">	<td contenteditable='true' class='edit-value'  propertyToChange='school' storedCellValue='${item.school}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.school}</td>
-</c:if><c:if test="${param.referName ne 'schoolClass'}">	<td contenteditable='true' class='edit-value'  propertyToChange='schoolClass' storedCellValue='${item.schoolClass}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.schoolClass}</td>
+</c:if><c:if test="${param.referName ne 'schoole'}">	<td contenteditable='true' class='edit-value'  propertyToChange='schoole' storedCellValue='${item.schoole}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'>${item.schoole}</td>
 </c:if><c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateTeacher/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
 </c:if><c:if test="${param.referName ne 'platform'}">
 	<td class="select_candidate_td"

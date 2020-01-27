@@ -75,6 +75,7 @@ class QuestionTypeAssociateForm extends Component {
     const userContext = null
     
  const {QuestionModalTable} = GlobalComponents;
+ const {ClassQuestionModalTable} = GlobalComponents;
  const {DailySurveyQuestionModalTable} = GlobalComponents;
 
 
@@ -200,6 +201,7 @@ class QuestionTypeAssociateForm extends Component {
         </Card>
         
 	<QuestionModalTable data={data.questionList} owner={owner} />
+	<ClassQuestionModalTable data={data.classQuestionList} owner={owner} />
 	<DailySurveyQuestionModalTable data={data.dailySurveyQuestionList} owner={owner} />
         
         

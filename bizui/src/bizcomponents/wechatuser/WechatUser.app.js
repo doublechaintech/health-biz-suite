@@ -182,56 +182,56 @@ constructor(props) {
 
 
 
-  getParentSearch = () => {
-    const {ParentSearch} = GlobalComponents;
+  getGuardianSearch = () => {
+    const {GuardianSearch} = GlobalComponents;
     const userContext = null
     return connect(state => ({
       rule: state.rule,
-      name: window.mtrans('parent','wechat_user.parent_list',false),
-      role: "parent",
-      data: state._wechatUser.parentList,
-      metaInfo: state._wechatUser.parentListMetaInfo,
-      count: state._wechatUser.parentCount,
+      name: window.mtrans('guardian','wechat_user.guardian_list',false),
+      role: "guardian",
+      data: state._wechatUser.guardianList,
+      metaInfo: state._wechatUser.guardianListMetaInfo,
+      count: state._wechatUser.guardianCount,
       returnURL: `/wechatUser/${state._wechatUser.id}/dashboard`,
-      currentPage: state._wechatUser.parentCurrentPageNumber,
-      searchFormParameters: state._wechatUser.parentSearchFormParameters,
+      currentPage: state._wechatUser.guardianCurrentPageNumber,
+      searchFormParameters: state._wechatUser.guardianSearchFormParameters,
       searchParameters: {...state._wechatUser.searchParameters},
       expandForm: state._wechatUser.expandForm,
       loading: state._wechatUser.loading,
       partialList: state._wechatUser.partialList,
       owner: { type: '_wechatUser', id: state._wechatUser.id, 
       referenceName: 'wechatUser', 
-      listName: 'parentList', ref:state._wechatUser, 
+      listName: 'guardianList', ref:state._wechatUser, 
       listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ParentSearch)
+    }))(GuardianSearch)
   }
   
-  getParentCreateForm = () => {
-   	const {ParentCreateForm} = GlobalComponents;
+  getGuardianCreateForm = () => {
+   	const {GuardianCreateForm} = GlobalComponents;
    	const userContext = null
     return connect(state => ({
       rule: state.rule,
-      role: "parent",
-      data: state._wechatUser.parentList,
-      metaInfo: state._wechatUser.parentListMetaInfo,
-      count: state._wechatUser.parentCount,
+      role: "guardian",
+      data: state._wechatUser.guardianList,
+      metaInfo: state._wechatUser.guardianListMetaInfo,
+      count: state._wechatUser.guardianCount,
       returnURL: `/wechatUser/${state._wechatUser.id}/list`,
-      currentPage: state._wechatUser.parentCurrentPageNumber,
-      searchFormParameters: state._wechatUser.parentSearchFormParameters,
+      currentPage: state._wechatUser.guardianCurrentPageNumber,
+      searchFormParameters: state._wechatUser.guardianSearchFormParameters,
       loading: state._wechatUser.loading,
-      owner: { type: '_wechatUser', id: state._wechatUser.id, referenceName: 'wechatUser', listName: 'parentList', ref:state._wechatUser, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(ParentCreateForm)
+      owner: { type: '_wechatUser', id: state._wechatUser.id, referenceName: 'wechatUser', listName: 'guardianList', ref:state._wechatUser, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(GuardianCreateForm)
   }
   
-  getParentUpdateForm = () => {
+  getGuardianUpdateForm = () => {
     const userContext = null
-  	const {ParentUpdateForm} = GlobalComponents;
+  	const {GuardianUpdateForm} = GlobalComponents;
     return connect(state => ({
       selectedRows: state._wechatUser.selectedRows,
-      role: "parent",
+      role: "guardian",
       currentUpdateIndex: state._wechatUser.currentUpdateIndex,
-      owner: { type: '_wechatUser', id: state._wechatUser.id, listName: 'parentList', ref:state._wechatUser, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(ParentUpdateForm)
+      owner: { type: '_wechatUser', id: state._wechatUser.id, listName: 'guardianList', ref:state._wechatUser, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(GuardianUpdateForm)
   }
 
   getClassQuestionSearch = () => {
@@ -415,9 +415,9 @@ constructor(props) {
   	
   	
   	
-  	{path:"/wechatUser/:id/list/parentList", component: this.getParentSearch()},
-  	{path:"/wechatUser/:id/list/parentCreateForm", component: this.getParentCreateForm()},
-  	{path:"/wechatUser/:id/list/parentUpdateForm", component: this.getParentUpdateForm()},
+  	{path:"/wechatUser/:id/list/guardianList", component: this.getGuardianSearch()},
+  	{path:"/wechatUser/:id/list/guardianCreateForm", component: this.getGuardianCreateForm()},
+  	{path:"/wechatUser/:id/list/guardianUpdateForm", component: this.getGuardianUpdateForm()},
    	
   	{path:"/wechatUser/:id/list/classQuestionList", component: this.getClassQuestionSearch()},
   	{path:"/wechatUser/:id/list/classQuestionCreateForm", component: this.getClassQuestionCreateForm()},

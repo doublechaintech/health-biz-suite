@@ -75,6 +75,21 @@ import LocationProfile from './location/Location.profile';
 import LocationCreateFormBody from './location/Location.createformbody';
 import LocationService from './location/Location.service';
 import LocationUpdateForm from './location/Location.updateform';
+import SchoolClassBase from './schoolclass/SchoolClass.base';
+import SchoolClassBizApp from './schoolclass/SchoolClass.app';
+import SchoolClassModel from './schoolclass/SchoolClass.model';
+import SchoolClassDashboard from './schoolclass/SchoolClass.dashboard';
+import SchoolClassModalTable from './schoolclass/SchoolClass.modaltable';
+import SchoolClassSearch from './schoolclass/SchoolClass.search';
+import SchoolClassSearchForm from './schoolclass/SchoolClass.searchform';
+import SchoolClassCreateForm from './schoolclass/SchoolClass.createform';
+import SchoolClassAssociateForm from './schoolclass/SchoolClass.associateform';
+import SchoolClassTable from './schoolclass/SchoolClass.table';
+import SchoolClassPermission from './schoolclass/SchoolClass.permission';
+import SchoolClassProfile from './schoolclass/SchoolClass.profile';
+import SchoolClassCreateFormBody from './schoolclass/SchoolClass.createformbody';
+import SchoolClassService from './schoolclass/SchoolClass.service';
+import SchoolClassUpdateForm from './schoolclass/SchoolClass.updateform';
 import TeacherBase from './teacher/Teacher.base';
 import TeacherBizApp from './teacher/Teacher.app';
 import TeacherModel from './teacher/Teacher.model';
@@ -90,21 +105,21 @@ import TeacherProfile from './teacher/Teacher.profile';
 import TeacherCreateFormBody from './teacher/Teacher.createformbody';
 import TeacherService from './teacher/Teacher.service';
 import TeacherUpdateForm from './teacher/Teacher.updateform';
-import StudentBase from './student/Student.base';
-import StudentBizApp from './student/Student.app';
-import StudentModel from './student/Student.model';
-import StudentDashboard from './student/Student.dashboard';
-import StudentModalTable from './student/Student.modaltable';
-import StudentSearch from './student/Student.search';
-import StudentSearchForm from './student/Student.searchform';
-import StudentCreateForm from './student/Student.createform';
-import StudentAssociateForm from './student/Student.associateform';
-import StudentTable from './student/Student.table';
-import StudentPermission from './student/Student.permission';
-import StudentProfile from './student/Student.profile';
-import StudentCreateFormBody from './student/Student.createformbody';
-import StudentService from './student/Student.service';
-import StudentUpdateForm from './student/Student.updateform';
+import GuardianBase from './guardian/Guardian.base';
+import GuardianBizApp from './guardian/Guardian.app';
+import GuardianModel from './guardian/Guardian.model';
+import GuardianDashboard from './guardian/Guardian.dashboard';
+import GuardianModalTable from './guardian/Guardian.modaltable';
+import GuardianSearch from './guardian/Guardian.search';
+import GuardianSearchForm from './guardian/Guardian.searchform';
+import GuardianCreateForm from './guardian/Guardian.createform';
+import GuardianAssociateForm from './guardian/Guardian.associateform';
+import GuardianTable from './guardian/Guardian.table';
+import GuardianPermission from './guardian/Guardian.permission';
+import GuardianProfile from './guardian/Guardian.profile';
+import GuardianCreateFormBody from './guardian/Guardian.createformbody';
+import GuardianService from './guardian/Guardian.service';
+import GuardianUpdateForm from './guardian/Guardian.updateform';
 import QuestionBase from './question/Question.base';
 import QuestionBizApp from './question/Question.app';
 import QuestionModel from './question/Question.model';
@@ -135,6 +150,36 @@ import QuestionTypeProfile from './questiontype/QuestionType.profile';
 import QuestionTypeCreateFormBody from './questiontype/QuestionType.createformbody';
 import QuestionTypeService from './questiontype/QuestionType.service';
 import QuestionTypeUpdateForm from './questiontype/QuestionType.updateform';
+import QuestionSourceBase from './questionsource/QuestionSource.base';
+import QuestionSourceBizApp from './questionsource/QuestionSource.app';
+import QuestionSourceModel from './questionsource/QuestionSource.model';
+import QuestionSourceDashboard from './questionsource/QuestionSource.dashboard';
+import QuestionSourceModalTable from './questionsource/QuestionSource.modaltable';
+import QuestionSourceSearch from './questionsource/QuestionSource.search';
+import QuestionSourceSearchForm from './questionsource/QuestionSource.searchform';
+import QuestionSourceCreateForm from './questionsource/QuestionSource.createform';
+import QuestionSourceAssociateForm from './questionsource/QuestionSource.associateform';
+import QuestionSourceTable from './questionsource/QuestionSource.table';
+import QuestionSourcePermission from './questionsource/QuestionSource.permission';
+import QuestionSourceProfile from './questionsource/QuestionSource.profile';
+import QuestionSourceCreateFormBody from './questionsource/QuestionSource.createformbody';
+import QuestionSourceService from './questionsource/QuestionSource.service';
+import QuestionSourceUpdateForm from './questionsource/QuestionSource.updateform';
+import ClassQuestionBase from './classquestion/ClassQuestion.base';
+import ClassQuestionBizApp from './classquestion/ClassQuestion.app';
+import ClassQuestionModel from './classquestion/ClassQuestion.model';
+import ClassQuestionDashboard from './classquestion/ClassQuestion.dashboard';
+import ClassQuestionModalTable from './classquestion/ClassQuestion.modaltable';
+import ClassQuestionSearch from './classquestion/ClassQuestion.search';
+import ClassQuestionSearchForm from './classquestion/ClassQuestion.searchform';
+import ClassQuestionCreateForm from './classquestion/ClassQuestion.createform';
+import ClassQuestionAssociateForm from './classquestion/ClassQuestion.associateform';
+import ClassQuestionTable from './classquestion/ClassQuestion.table';
+import ClassQuestionPermission from './classquestion/ClassQuestion.permission';
+import ClassQuestionProfile from './classquestion/ClassQuestion.profile';
+import ClassQuestionCreateFormBody from './classquestion/ClassQuestion.createformbody';
+import ClassQuestionService from './classquestion/ClassQuestion.service';
+import ClassQuestionUpdateForm from './classquestion/ClassQuestion.updateform';
 import ClassDailyHealthSurveyBase from './classdailyhealthsurvey/ClassDailyHealthSurvey.base';
 import ClassDailyHealthSurveyBizApp from './classdailyhealthsurvey/ClassDailyHealthSurvey.app';
 import ClassDailyHealthSurveyModel from './classdailyhealthsurvey/ClassDailyHealthSurvey.model';
@@ -165,6 +210,21 @@ import DailySurveyQuestionProfile from './dailysurveyquestion/DailySurveyQuestio
 import DailySurveyQuestionCreateFormBody from './dailysurveyquestion/DailySurveyQuestion.createformbody';
 import DailySurveyQuestionService from './dailysurveyquestion/DailySurveyQuestion.service';
 import DailySurveyQuestionUpdateForm from './dailysurveyquestion/DailySurveyQuestion.updateform';
+import StudentBase from './student/Student.base';
+import StudentBizApp from './student/Student.app';
+import StudentModel from './student/Student.model';
+import StudentDashboard from './student/Student.dashboard';
+import StudentModalTable from './student/Student.modaltable';
+import StudentSearch from './student/Student.search';
+import StudentSearchForm from './student/Student.searchform';
+import StudentCreateForm from './student/Student.createform';
+import StudentAssociateForm from './student/Student.associateform';
+import StudentTable from './student/Student.table';
+import StudentPermission from './student/Student.permission';
+import StudentProfile from './student/Student.profile';
+import StudentCreateFormBody from './student/Student.createformbody';
+import StudentService from './student/Student.service';
+import StudentUpdateForm from './student/Student.updateform';
 import StudentHealthSurveyBase from './studenthealthsurvey/StudentHealthSurvey.base';
 import StudentHealthSurveyBizApp from './studenthealthsurvey/StudentHealthSurvey.app';
 import StudentHealthSurveyModel from './studenthealthsurvey/StudentHealthSurvey.model';
@@ -210,21 +270,36 @@ import SurveyStatusProfile from './surveystatus/SurveyStatus.profile';
 import SurveyStatusCreateFormBody from './surveystatus/SurveyStatus.createformbody';
 import SurveyStatusService from './surveystatus/SurveyStatus.service';
 import SurveyStatusUpdateForm from './surveystatus/SurveyStatus.updateform';
-import UserBase from './user/User.base';
-import UserBizApp from './user/User.app';
-import UserModel from './user/User.model';
-import UserDashboard from './user/User.dashboard';
-import UserModalTable from './user/User.modaltable';
-import UserSearch from './user/User.search';
-import UserSearchForm from './user/User.searchform';
-import UserCreateForm from './user/User.createform';
-import UserAssociateForm from './user/User.associateform';
-import UserTable from './user/User.table';
-import UserPermission from './user/User.permission';
-import UserProfile from './user/User.profile';
-import UserCreateFormBody from './user/User.createformbody';
-import UserService from './user/User.service';
-import UserUpdateForm from './user/User.updateform';
+import WechatUserBase from './wechatuser/WechatUser.base';
+import WechatUserBizApp from './wechatuser/WechatUser.app';
+import WechatUserModel from './wechatuser/WechatUser.model';
+import WechatUserDashboard from './wechatuser/WechatUser.dashboard';
+import WechatUserModalTable from './wechatuser/WechatUser.modaltable';
+import WechatUserSearch from './wechatuser/WechatUser.search';
+import WechatUserSearchForm from './wechatuser/WechatUser.searchform';
+import WechatUserCreateForm from './wechatuser/WechatUser.createform';
+import WechatUserAssociateForm from './wechatuser/WechatUser.associateform';
+import WechatUserTable from './wechatuser/WechatUser.table';
+import WechatUserPermission from './wechatuser/WechatUser.permission';
+import WechatUserProfile from './wechatuser/WechatUser.profile';
+import WechatUserCreateFormBody from './wechatuser/WechatUser.createformbody';
+import WechatUserService from './wechatuser/WechatUser.service';
+import WechatUserUpdateForm from './wechatuser/WechatUser.updateform';
+import UserTypeBase from './usertype/UserType.base';
+import UserTypeBizApp from './usertype/UserType.app';
+import UserTypeModel from './usertype/UserType.model';
+import UserTypeDashboard from './usertype/UserType.dashboard';
+import UserTypeModalTable from './usertype/UserType.modaltable';
+import UserTypeSearch from './usertype/UserType.search';
+import UserTypeSearchForm from './usertype/UserType.searchform';
+import UserTypeCreateForm from './usertype/UserType.createform';
+import UserTypeAssociateForm from './usertype/UserType.associateform';
+import UserTypeTable from './usertype/UserType.table';
+import UserTypePermission from './usertype/UserType.permission';
+import UserTypeProfile from './usertype/UserType.profile';
+import UserTypeCreateFormBody from './usertype/UserType.createformbody';
+import UserTypeService from './usertype/UserType.service';
+import UserTypeUpdateForm from './usertype/UserType.updateform';
 import WechatLoginInfoBase from './wechatlogininfo/WechatLoginInfo.base';
 import WechatLoginInfoBizApp from './wechatlogininfo/WechatLoginInfo.app';
 import WechatLoginInfoModel from './wechatlogininfo/WechatLoginInfo.model';
@@ -534,16 +609,21 @@ const BizModels = [
 	CityModel,
 	DistrictModel,
 	LocationModel,
+	SchoolClassModel,
 	TeacherModel,
-	StudentModel,
+	GuardianModel,
 	QuestionModel,
 	QuestionTypeModel,
+	QuestionSourceModel,
+	ClassQuestionModel,
 	ClassDailyHealthSurveyModel,
 	DailySurveyQuestionModel,
+	StudentModel,
 	StudentHealthSurveyModel,
 	StudentDailyAnswerModel,
 	SurveyStatusModel,
-	UserModel,
+	WechatUserModel,
+	UserTypeModel,
 	WechatLoginInfoModel,
 	ChangeRequestModel,
 	ChangeRequestTypeModel,
@@ -586,16 +666,21 @@ menuLibrary.province = ProvinceBase.menuData
 menuLibrary.city = CityBase.menuData
 menuLibrary.district = DistrictBase.menuData
 menuLibrary.location = LocationBase.menuData
+menuLibrary.schoolClass = SchoolClassBase.menuData
 menuLibrary.teacher = TeacherBase.menuData
-menuLibrary.student = StudentBase.menuData
+menuLibrary.guardian = GuardianBase.menuData
 menuLibrary.question = QuestionBase.menuData
 menuLibrary.questionType = QuestionTypeBase.menuData
+menuLibrary.questionSource = QuestionSourceBase.menuData
+menuLibrary.classQuestion = ClassQuestionBase.menuData
 menuLibrary.classDailyHealthSurvey = ClassDailyHealthSurveyBase.menuData
 menuLibrary.dailySurveyQuestion = DailySurveyQuestionBase.menuData
+menuLibrary.student = StudentBase.menuData
 menuLibrary.studentHealthSurvey = StudentHealthSurveyBase.menuData
 menuLibrary.studentDailyAnswer = StudentDailyAnswerBase.menuData
 menuLibrary.surveyStatus = SurveyStatusBase.menuData
-menuLibrary.user = UserBase.menuData
+menuLibrary.wechatUser = WechatUserBase.menuData
+menuLibrary.userType = UserTypeBase.menuData
 menuLibrary.wechatLoginInfo = WechatLoginInfoBase.menuData
 menuLibrary.changeRequest = ChangeRequestBase.menuData
 menuLibrary.changeRequestType = ChangeRequestTypeBase.menuData
@@ -641,16 +726,21 @@ const ViewMapping = {
   'com.doublechaintech.health.city.City': {name:'city'},
   'com.doublechaintech.health.district.District': {name:'district'},
   'com.doublechaintech.health.location.Location': {name:'location'},
+  'com.doublechaintech.health.schoolclass.SchoolClass': {name:'schoolClass'},
   'com.doublechaintech.health.teacher.Teacher': {name:'teacher'},
-  'com.doublechaintech.health.student.Student': {name:'student'},
+  'com.doublechaintech.health.guardian.Guardian': {name:'guardian'},
   'com.doublechaintech.health.question.Question': {name:'question'},
   'com.doublechaintech.health.questiontype.QuestionType': {name:'questionType'},
+  'com.doublechaintech.health.questionsource.QuestionSource': {name:'questionSource'},
+  'com.doublechaintech.health.classquestion.ClassQuestion': {name:'classQuestion'},
   'com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey': {name:'classDailyHealthSurvey'},
   'com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion': {name:'dailySurveyQuestion'},
+  'com.doublechaintech.health.student.Student': {name:'student'},
   'com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey': {name:'studentHealthSurvey'},
   'com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer': {name:'studentDailyAnswer'},
   'com.doublechaintech.health.surveystatus.SurveyStatus': {name:'surveyStatus'},
-  'com.doublechaintech.health.user.User': {name:'user'},
+  'com.doublechaintech.health.wechatuser.WechatUser': {name:'wechatUser'},
+  'com.doublechaintech.health.usertype.UserType': {name:'userType'},
   'com.doublechaintech.health.wechatlogininfo.WechatLoginInfo': {name:'wechatLoginInfo'},
   'com.doublechaintech.health.changerequest.ChangeRequest': {name:'changeRequest'},
   'com.doublechaintech.health.changerequesttype.ChangeRequestType': {name:'changeRequestType'},
@@ -791,6 +881,21 @@ const OOTBComponents={
     LocationCreateFormBody,
     LocationService,
     LocationUpdateForm,
+    SchoolClassBase,
+    SchoolClassBizApp,
+    SchoolClassModel,
+    SchoolClassDashboard,
+    SchoolClassModalTable,
+    SchoolClassSearch,
+    SchoolClassSearchForm,
+    SchoolClassCreateForm,
+    SchoolClassAssociateForm,
+    SchoolClassTable,
+    SchoolClassPermission,
+    SchoolClassProfile,
+    SchoolClassCreateFormBody,
+    SchoolClassService,
+    SchoolClassUpdateForm,
     TeacherBase,
     TeacherBizApp,
     TeacherModel,
@@ -806,21 +911,21 @@ const OOTBComponents={
     TeacherCreateFormBody,
     TeacherService,
     TeacherUpdateForm,
-    StudentBase,
-    StudentBizApp,
-    StudentModel,
-    StudentDashboard,
-    StudentModalTable,
-    StudentSearch,
-    StudentSearchForm,
-    StudentCreateForm,
-    StudentAssociateForm,
-    StudentTable,
-    StudentPermission,
-    StudentProfile,
-    StudentCreateFormBody,
-    StudentService,
-    StudentUpdateForm,
+    GuardianBase,
+    GuardianBizApp,
+    GuardianModel,
+    GuardianDashboard,
+    GuardianModalTable,
+    GuardianSearch,
+    GuardianSearchForm,
+    GuardianCreateForm,
+    GuardianAssociateForm,
+    GuardianTable,
+    GuardianPermission,
+    GuardianProfile,
+    GuardianCreateFormBody,
+    GuardianService,
+    GuardianUpdateForm,
     QuestionBase,
     QuestionBizApp,
     QuestionModel,
@@ -851,6 +956,36 @@ const OOTBComponents={
     QuestionTypeCreateFormBody,
     QuestionTypeService,
     QuestionTypeUpdateForm,
+    QuestionSourceBase,
+    QuestionSourceBizApp,
+    QuestionSourceModel,
+    QuestionSourceDashboard,
+    QuestionSourceModalTable,
+    QuestionSourceSearch,
+    QuestionSourceSearchForm,
+    QuestionSourceCreateForm,
+    QuestionSourceAssociateForm,
+    QuestionSourceTable,
+    QuestionSourcePermission,
+    QuestionSourceProfile,
+    QuestionSourceCreateFormBody,
+    QuestionSourceService,
+    QuestionSourceUpdateForm,
+    ClassQuestionBase,
+    ClassQuestionBizApp,
+    ClassQuestionModel,
+    ClassQuestionDashboard,
+    ClassQuestionModalTable,
+    ClassQuestionSearch,
+    ClassQuestionSearchForm,
+    ClassQuestionCreateForm,
+    ClassQuestionAssociateForm,
+    ClassQuestionTable,
+    ClassQuestionPermission,
+    ClassQuestionProfile,
+    ClassQuestionCreateFormBody,
+    ClassQuestionService,
+    ClassQuestionUpdateForm,
     ClassDailyHealthSurveyBase,
     ClassDailyHealthSurveyBizApp,
     ClassDailyHealthSurveyModel,
@@ -881,6 +1016,21 @@ const OOTBComponents={
     DailySurveyQuestionCreateFormBody,
     DailySurveyQuestionService,
     DailySurveyQuestionUpdateForm,
+    StudentBase,
+    StudentBizApp,
+    StudentModel,
+    StudentDashboard,
+    StudentModalTable,
+    StudentSearch,
+    StudentSearchForm,
+    StudentCreateForm,
+    StudentAssociateForm,
+    StudentTable,
+    StudentPermission,
+    StudentProfile,
+    StudentCreateFormBody,
+    StudentService,
+    StudentUpdateForm,
     StudentHealthSurveyBase,
     StudentHealthSurveyBizApp,
     StudentHealthSurveyModel,
@@ -926,21 +1076,36 @@ const OOTBComponents={
     SurveyStatusCreateFormBody,
     SurveyStatusService,
     SurveyStatusUpdateForm,
-    UserBase,
-    UserBizApp,
-    UserModel,
-    UserDashboard,
-    UserModalTable,
-    UserSearch,
-    UserSearchForm,
-    UserCreateForm,
-    UserAssociateForm,
-    UserTable,
-    UserPermission,
-    UserProfile,
-    UserCreateFormBody,
-    UserService,
-    UserUpdateForm,
+    WechatUserBase,
+    WechatUserBizApp,
+    WechatUserModel,
+    WechatUserDashboard,
+    WechatUserModalTable,
+    WechatUserSearch,
+    WechatUserSearchForm,
+    WechatUserCreateForm,
+    WechatUserAssociateForm,
+    WechatUserTable,
+    WechatUserPermission,
+    WechatUserProfile,
+    WechatUserCreateFormBody,
+    WechatUserService,
+    WechatUserUpdateForm,
+    UserTypeBase,
+    UserTypeBizApp,
+    UserTypeModel,
+    UserTypeDashboard,
+    UserTypeModalTable,
+    UserTypeSearch,
+    UserTypeSearchForm,
+    UserTypeCreateForm,
+    UserTypeAssociateForm,
+    UserTypeTable,
+    UserTypePermission,
+    UserTypeProfile,
+    UserTypeCreateFormBody,
+    UserTypeService,
+    UserTypeUpdateForm,
     WechatLoginInfoBase,
     WechatLoginInfoBizApp,
     WechatLoginInfoModel,

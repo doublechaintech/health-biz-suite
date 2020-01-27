@@ -51,18 +51,22 @@ const completeStep = ()=>{
 const buildSteps=(targetComponent, stepCode)=>{
 
 	const changeRequestStepOf = GlobalComponents.ChangeRequestBase.stepOf
+	const schoolClassStepOf = GlobalComponents.SchoolClassBase.stepOf
 	const teacherStepOf = GlobalComponents.TeacherBase.stepOf
-	const studentStepOf = GlobalComponents.StudentBase.stepOf
-	const questionStepOf = GlobalComponents.QuestionBase.stepOf
+	const guardianStepOf = GlobalComponents.GuardianBase.stepOf
+	const classQuestionStepOf = GlobalComponents.ClassQuestionBase.stepOf
 	const classDailyHealthSurveyStepOf = GlobalComponents.ClassDailyHealthSurveyBase.stepOf
+	const studentStepOf = GlobalComponents.StudentBase.stepOf
 	const studentHealthSurveyStepOf = GlobalComponents.StudentHealthSurveyBase.stepOf
 	const studentDailyAnswerStepOf = GlobalComponents.StudentDailyAnswerBase.stepOf
 
 	const {ChangeRequestCreateFormBody} = GlobalComponents
+	const {SchoolClassCreateFormBody} = GlobalComponents
 	const {TeacherCreateFormBody} = GlobalComponents
-	const {StudentCreateFormBody} = GlobalComponents
-	const {QuestionCreateFormBody} = GlobalComponents
+	const {GuardianCreateFormBody} = GlobalComponents
+	const {ClassQuestionCreateFormBody} = GlobalComponents
 	const {ClassDailyHealthSurveyCreateFormBody} = GlobalComponents
+	const {StudentCreateFormBody} = GlobalComponents
 	const {StudentHealthSurveyCreateFormBody} = GlobalComponents
 	const {StudentDailyAnswerCreateFormBody} = GlobalComponents
 
@@ -70,12 +74,19 @@ const buildSteps=(targetComponent, stepCode)=>{
   const stepCollection = {};
   
 
-  stepCollection['LOGIN'] =[
-	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
+  stepCollection['AnswerQuestion'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
+	studentDailyAnswerStepOf(targetComponent, '创建学生每天回答', <StudentDailyAnswerCreateFormBody {...targetComponent.props} hideTitle />, "studentDailyAnswerList", 0),
 	completeStep()]
 
   
-  return stepCollection[stepCode];
+  if(stepCollection[stepCode]){
+  	return stepCollection[stepCode]
+  }
+  
+  alert(`Step with code '' is empty`)
+  return []
+  
 
 }
 

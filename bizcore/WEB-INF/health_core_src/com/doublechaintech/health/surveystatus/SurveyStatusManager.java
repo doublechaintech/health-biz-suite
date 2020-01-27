@@ -34,9 +34,9 @@ public interface SurveyStatusManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentHealthSurveyManager getStudentHealthSurveyManager(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String teacherId, String classDailyHealthSurveyId, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentHealthSurveyManager getStudentHealthSurveyManager(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String schoolClassId, String classDailyHealthSurveyId, String cqId ,String [] tokensExpr)  throws Exception;
 	
-	public  SurveyStatus addStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String teacherId, String classDailyHealthSurveyId, String cqId , String [] tokensExpr)  throws Exception;
+	public  SurveyStatus addStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentId, DateTime answerTime, String schoolClassId, String classDailyHealthSurveyId, String cqId , String [] tokensExpr)  throws Exception;
 	public  SurveyStatus removeStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr)  throws Exception;
 	public  SurveyStatus updateStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

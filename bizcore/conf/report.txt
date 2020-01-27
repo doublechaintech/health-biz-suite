@@ -1,10 +1,11 @@
 
+@warning school_class.schoole: word 'schoole' seems not found in library
 @warning object definition: wechat_workapp_identify: word 'workapp' seems not found in library
 @warning object definition: wechat_miniapp_identify: word 'miniapp' seems not found in library
 
 
 
-=================Execute Report (Model Time 200126T1427) @Sun Jan 26 18:32:04 CST 2020, 35 objects and 268 fields===========================
+=================Execute Report (Model Time 200126T1313) @Mon Jan 27 11:58:25 CST 2020, 40 objects and 301 fields===========================
 
 
 
@@ -65,6 +66,27 @@ Info: Add virtual field [locations(es)] to <province>
 	location.province
 
 
+ processing: school_class
+
+
+ processing: school_class.teacher.class_teacher
+
+Info: Add virtual field [school_classs(es)] to <teacher>
+	school_class.class_teacher
+
+
+ processing: school_class.platform.platform
+
+Info: Add virtual field [school_classs(es)] to <platform>
+	school_class.platform
+
+
+ processing: school_class.change_request.cq
+
+Info: Add virtual field [school_classs(es)] to <change_request>
+	school_class.cq
+
+
  processing: teacher
 
 
@@ -80,31 +102,31 @@ Info: Add virtual field [teachers(es)] to <change_request>
 	teacher.cq
 
 
- processing: student
+ processing: guardian
 
 
- processing: student.location.address
+ processing: guardian.location.address
 
-Info: Add virtual field [students(es)] to <location>
-	student.address
-
-
- processing: student.user.user
-
-Info: Add virtual field [students(es)] to <user>
-	student.user
+Info: Add virtual field [guardians(es)] to <location>
+	guardian.address
 
 
- processing: student.platform.platform
+ processing: guardian.wechat_user.wechat_user
 
-Info: Add virtual field [students(es)] to <platform>
-	student.platform
+Info: Add virtual field [guardians(es)] to <wechat_user>
+	guardian.wechat_user
 
 
- processing: student.change_request.cq
+ processing: guardian.platform.platform
 
-Info: Add virtual field [students(es)] to <change_request>
-	student.cq
+Info: Add virtual field [guardians(es)] to <platform>
+	guardian.platform
+
+
+ processing: guardian.change_request.cq
+
+Info: Add virtual field [guardians(es)] to <change_request>
+	guardian.cq
 
 
  processing: question
@@ -122,18 +144,6 @@ Info: Add virtual field [questions(es)] to <platform>
 	question.platform
 
 
- processing: question.user.creator
-
-Info: Add virtual field [questions(es)] to <user>
-	question.creator
-
-
- processing: question.change_request.cq
-
-Info: Add virtual field [questions(es)] to <change_request>
-	question.cq
-
-
  processing: question_type
 
 
@@ -143,18 +153,54 @@ Info: Add virtual field [question_types(es)] to <platform>
 	question_type.platform
 
 
+ processing: question_source
+
+
+ processing: question_source.platform.platform
+
+Info: Add virtual field [question_sources(es)] to <platform>
+	question_source.platform
+
+
+ processing: class_question
+
+
+ processing: class_question.question_type.question_type
+
+Info: Add virtual field [class_questions(es)] to <question_type>
+	class_question.question_type
+
+
+ processing: class_question.question_source.question_source
+
+Info: Add virtual field [class_questions(es)] to <question_source>
+	class_question.question_source
+
+
+ processing: class_question.wechat_user.creator
+
+Info: Add virtual field [class_questions(es)] to <wechat_user>
+	class_question.creator
+
+
+ processing: class_question.change_request.cq
+
+Info: Add virtual field [class_questions(es)] to <change_request>
+	class_question.cq
+
+
  processing: class_daily_health_survey
 
 
- processing: class_daily_health_survey.teacher.teacher
+ processing: class_daily_health_survey.school_class.school_class
 
-Info: Add virtual field [class_daily_health_surveys(es)] to <teacher>
-	class_daily_health_survey.teacher
+Info: Add virtual field [class_daily_health_surveys(es)] to <school_class>
+	class_daily_health_survey.school_class
 
 
- processing: class_daily_health_survey.user.creator
+ processing: class_daily_health_survey.wechat_user.creator
 
-Info: Add virtual field [class_daily_health_surveys(es)] to <user>
+Info: Add virtual field [class_daily_health_surveys(es)] to <wechat_user>
 	class_daily_health_survey.creator
 
 
@@ -179,10 +225,31 @@ Info: Add virtual field [daily_survey_questions(es)] to <class_daily_health_surv
 	daily_survey_question.class_daily_health_survey
 
 
- processing: daily_survey_question.question.survey_question
+ processing: daily_survey_question.class_question.class_question
 
-Info: Add virtual field [daily_survey_questions(es)] to <question>
-	daily_survey_question.survey_question
+Info: Add virtual field [daily_survey_questions(es)] to <class_question>
+	daily_survey_question.class_question
+
+
+ processing: student
+
+
+ processing: student.guardian.guardian
+
+Info: Add virtual field [students(es)] to <guardian>
+	student.guardian
+
+
+ processing: student.school_class.school_class
+
+Info: Add virtual field [students(es)] to <school_class>
+	student.school_class
+
+
+ processing: student.change_request.cq
+
+Info: Add virtual field [students(es)] to <change_request>
+	student.cq
 
 
  processing: student_health_survey
@@ -200,10 +267,10 @@ Info: Add virtual field [student_health_surveys(es)] to <survey_status>
 	student_health_survey.survey_status
 
 
- processing: student_health_survey.teacher.teacher
+ processing: student_health_survey.school_class.school_class
 
-Info: Add virtual field [student_health_surveys(es)] to <teacher>
-	student_health_survey.teacher
+Info: Add virtual field [student_health_surveys(es)] to <school_class>
+	student_health_survey.school_class
 
 
  processing: student_health_survey.class_daily_health_survey.class_daily_health_survey
@@ -248,28 +315,43 @@ Info: Add virtual field [survey_statuss(es)] to <platform>
 	survey_status.platform
 
 
- processing: user
+ processing: wechat_user
 
 
- processing: user.location.address
+ processing: wechat_user.location.address
 
-Info: Add virtual field [users(es)] to <location>
-	user.address
+Info: Add virtual field [wechat_users(es)] to <location>
+	wechat_user.address
 
 
- processing: user.platform.platform
+ processing: wechat_user.user_type.user_type
 
-Info: Add virtual field [users(es)] to <platform>
-	user.platform
+Info: Add virtual field [wechat_users(es)] to <user_type>
+	wechat_user.user_type
+
+
+ processing: wechat_user.platform.platform
+
+Info: Add virtual field [wechat_users(es)] to <platform>
+	wechat_user.platform
+
+
+ processing: user_type
+
+
+ processing: user_type.platform.platform
+
+Info: Add virtual field [user_types(es)] to <platform>
+	user_type.platform
 
 
  processing: wechat_login_info
 
 
- processing: wechat_login_info.user.user
+ processing: wechat_login_info.wechat_user.wechat_user
 
-Info: Add virtual field [wechat_login_infos(es)] to <user>
-	wechat_login_info.user
+Info: Add virtual field [wechat_login_infos(es)] to <wechat_user>
+	wechat_login_info.wechat_user
 
 
  processing: change_request
@@ -305,16 +387,19 @@ platform{
 		string_longtext	description('text()'), verb: false, required: true;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(11){
+	references field(14){
 		provinceList	platform(__no_group)--platform;
 		cityList	platform(__no_group)--platform;
 		districtList	platform(__no_group)--platform;
+		schoolClassList	platform(__no_group)--platform;
 		teacherList	platform(__no_group)--platform;
-		studentList	platform(__no_group)--platform;
+		guardianList	platform(__no_group)--platform;
 		questionList	platform(__no_group)--platform;
 		questionTypeList	platform(__no_group)--platform;
+		questionSourceList	platform(__no_group)--platform;
 		surveyStatusList	platform(__no_group)--platform;
-		userList	platform(__no_group)--platform;
+		wechatUserList	platform(__no_group)--platform;
+		userTypeList	platform(__no_group)--platform;
 		changeRequestList	platform(变更)--platform;
 		changeRequestTypeList	platform(__no_group)--platform;
 	}
@@ -374,50 +459,64 @@ location{
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(2){
-		studentList	address(__no_group)--address;
-		userList	address(__no_group)--address;
+		guardianList	address(__no_group)--address;
+		wechatUserList	address(__no_group)--address;
+	}
+} depth=4; isRoot = false
+
+school_class{
+	fields(8){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('教科院一年级5班|教科院二年级3班'), verb: false, required: true;
+		teacher	class_teacher('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		date_time_create	create_time('createTime()'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		string	schoole('益州小学|大源中学|南山中学'), verb: false, required: true;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(3){
+		classDailyHealthSurveyList	school_class(__no_group)--school_class;
+		studentList	school_class(__no_group)--school_class;
+		studentHealthSurveyList	school_class(__no_group)--school_class;
 	}
 } depth=4; isRoot = false
 
 teacher{
-	fields(9){
+	fields(8){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('白山水|胡一刀|苗人凤'), verb: false, required: true;
 		string_china_mobile_phone	mobile('18012341234'), verb: false, required: true;
-		string	school('益州小学|大源中学|南山中学'), verb: false, required: true;
-		string	school_class('教科院一年级5班|教科院二年级3班'), verb: false, required: true;
+		string	schoole('益州小学|大源中学|南山中学'), verb: false, required: true;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: teacherList;
 		change_request	cq('$(object)'), verb: false, required: true, referenceBy: teacherList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(2){
-		classDailyHealthSurveyList	teacher(__no_group)--teacher;
-		studentHealthSurveyList	teacher(__no_group)--teacher;
+	references field(1){
+		schoolClassList	class_teacher(__no_group)--class_teacher;
 	}
 } depth=3; isRoot = false
 
-student{
-	fields(11){
+guardian{
+	fields(9){
 		string	id('ABCD'), verb: false, required: true;
-		string	student_name('刘婵|刘阿斗|李天一'), verb: false, required: true;
-		string	student_id('A01'), verb: false, required: true;
-		string	guardian_name('刘备|刘玄德|张飞|张翼德'), verb: false, required: true;
-		string_china_mobile_phone	guardian_mobile('18012341234'), verb: false, required: true;
-		location	address('$(object)'), verb: false, required: true, referenceBy: studentList;
-		user	user('$(object)'), verb: false, required: true, referenceBy: studentList;
+		string	name('刘备|刘玄德|张飞|张翼德'), verb: false, required: true;
+		string_china_mobile_phone	mobile('18012341234'), verb: false, required: true;
+		location	address('$(object)'), verb: false, required: true, referenceBy: guardianList;
+		wechat_user	wechat_user('$(object)'), verb: false, required: true, referenceBy: guardianList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
-		platform	platform('$(object)'), verb: false, required: true, referenceBy: studentList;
-		change_request	cq('$(object)'), verb: false, required: true, referenceBy: studentList;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: guardianList;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: guardianList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(1){
-		studentHealthSurveyList	student(__no_group)--student;
+		studentList	guardian(__no_group)--guardian;
 	}
 } depth=6; isRoot = false
 
 question{
-	fields(11){
+	fields(9){
 		string	id('ABCD'), verb: false, required: true;
 		string	topic('节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状'), verb: false, required: true;
 		question_type	question_type('$(object)'), verb: false, required: true, referenceBy: questionList;
@@ -426,14 +525,11 @@ question{
 		string	option_c('不确定'), verb: false, required: true;
 		string	option_d('不知道'), verb: false, required: true;
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionList;
-		user	creator('$(object)'), verb: false, required: false, referenceBy: questionList;
-		change_request	cq('$(object)'), verb: false, required: true, referenceBy: questionList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(1){
-		dailySurveyQuestionList	survey_question(__no_group)--survey_question;
+	references field(0){
 	}
-} depth=6; isRoot = false
+} depth=2; isRoot = false
 
 question_type{
 	fields(5){
@@ -443,19 +539,52 @@ question_type{
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionTypeList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(2){
+	references field(3){
 		questionList	question_type(__no_group)--question_type;
+		classQuestionList	question_type(__no_group)--question_type;
 		dailySurveyQuestionList	question_type(__no_group)--question_type;
 	}
 } depth=1; isRoot = false
+
+question_source{
+	fields(5){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('题库|用户自己录入'), verb: false, required: true;
+		string	code('System|UGC'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionSourceList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		classQuestionList	question_source(__no_group)--question_source;
+	}
+} depth=1; isRoot = false
+
+class_question{
+	fields(11){
+		string	id('ABCD'), verb: false, required: true;
+		string	topic('节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状'), verb: false, required: true;
+		question_type	question_type('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		string	option_a('没有'), verb: false, required: true;
+		string	option_b('有'), verb: false, required: true;
+		string	option_c('不确定'), verb: false, required: true;
+		string	option_d('不知道'), verb: false, required: true;
+		question_source	question_source('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		wechat_user	creator('$(object)'), verb: false, required: false, referenceBy: classQuestionList;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		dailySurveyQuestionList	class_question(__no_group)--class_question;
+	}
+} depth=6; isRoot = false
 
 class_daily_health_survey{
 	fields(7){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('2020年1月25日益州小学学生健康调查问卷'), verb: false, required: true;
-		teacher	teacher('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		date_time	survey_time('2099-12-31T23:59:59'), verb: false, required: true;
-		user	creator('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
+		wechat_user	creator('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		change_request	cq('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		int	version('2147483647'), verb: false, required: true;
 	}
@@ -475,11 +604,27 @@ daily_survey_question{
 		string	option_c('不确定'), verb: false, required: true;
 		string	option_d('不知道'), verb: false, required: true;
 		class_daily_health_survey	class_daily_health_survey('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
-		question	survey_question('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
+		class_question	class_question('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(1){
 		studentDailyAnswerList	question(__no_group)--question;
+	}
+} depth=7; isRoot = false
+
+student{
+	fields(8){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('刘婵|刘阿斗|李天一'), verb: false, required: true;
+		string_gender	gender('male|female'), verb: false, required: true;
+		guardian	guardian('$(object)'), verb: false, required: true, referenceBy: studentList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: studentList;
+		string	student_id('A01'), verb: false, required: true;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: studentList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		studentHealthSurveyList	student(__no_group)--student;
 	}
 } depth=7; isRoot = false
 
@@ -489,7 +634,7 @@ student_health_survey{
 		student	student('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		date_time	answer_time('2099-12-31T23:59:59'), verb: false, required: true;
 		survey_status	survey_status('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
-		teacher	teacher('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		class_daily_health_survey	class_daily_health_survey('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
 		date_time_update	last_update_time('updateTime()'), verb: false, required: true;
@@ -499,7 +644,7 @@ student_health_survey{
 	references field(1){
 		studentDailyAnswerList	student_health_survey(__no_group)--student_health_survey;
 	}
-} depth=7; isRoot = false
+} depth=8; isRoot = false
 
 student_daily_answer{
 	fields(8){
@@ -514,7 +659,7 @@ student_daily_answer{
 	}
 	references field(0){
 	}
-} depth=8; isRoot = false
+} depth=9; isRoot = false
 
 survey_status{
 	fields(5){
@@ -529,28 +674,42 @@ survey_status{
 	}
 } depth=1; isRoot = false
 
-user{
-	fields(7){
+wechat_user{
+	fields(8){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('张三|李四|王五'), verb: false, required: true;
 		string_image	avatar('wechat.jpg'), verb: false, required: true;
-		location	address('$(object)'), verb: false, required: true, referenceBy: userList;
+		location	address('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
+		user_type	user_type('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
-		platform	platform('$(object)'), verb: false, required: true, referenceBy: userList;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(4){
-		studentList	user(__no_group)--user;
-		questionList	creator(__no_group)--creator;
+		guardianList	wechat_user(__no_group)--wechat_user;
+		classQuestionList	creator(__no_group)--creator;
 		classDailyHealthSurveyList	creator(__no_group)--creator;
-		wechatLoginInfoList	user(__no_group)--user;
+		wechatLoginInfoList	wechat_user(__no_group)--wechat_user;
 	}
 } depth=5; isRoot = false
+
+user_type{
+	fields(5){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('老师|家长|学生'), verb: false, required: true;
+		string	code('Teacher|Guardian|Student'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: userTypeList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		wechatUserList	user_type(__no_group)--user_type;
+	}
+} depth=1; isRoot = false
 
 wechat_login_info{
 	fields(7){
 		string	id('ABCD'), verb: false, required: true;
-		user	user('$(object)'), verb: false, required: true, referenceBy: wechatLoginInfoList;
+		wechat_user	wechat_user('$(object)'), verb: false, required: true, referenceBy: wechatLoginInfoList;
 		string	app_id('user123'), verb: false, required: true;
 		string	open_id('user123'), verb: false, required: true;
 		string	session_key('session123'), verb: false, required: true;
@@ -571,11 +730,13 @@ change_request{
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: changeRequestList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(6){
+	references field(8){
+		schoolClassList	cq(__no_group)--cq;
 		teacherList	cq(__no_group)--cq;
-		studentList	cq(__no_group)--cq;
-		questionList	cq(__no_group)--cq;
+		guardianList	cq(__no_group)--cq;
+		classQuestionList	cq(__no_group)--cq;
 		classDailyHealthSurveyList	cq(__no_group)--cq;
+		studentList	cq(__no_group)--cq;
 		studentHealthSurveyList	cq(__no_group)--cq;
 		studentDailyAnswerList	cq(__no_group)--cq;
 	}
@@ -584,8 +745,8 @@ change_request{
 change_request_type{
 	fields(9){
 		string	id('ABCD'), verb: false, required: true;
-		string	name('登录'), verb: false, required: true;
-		string	code('LOGIN'), verb: false, required: true;
+		string	name('答题'), verb: false, required: true;
+		string	code('AnswerQuestion'), verb: false, required: true;
 		string	icon('book'), verb: false, required: true;
 		int	display_order('1'), verb: false, required: true;
 		string_longtext	bind_types('text()'), verb: false, required: true;
@@ -605,16 +766,19 @@ platform{
 		string_longtext	description('text()'), verb: false, required: true;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(11){
+	references field(14){
 		provinceList	platform(__no_group)--platform;
 		cityList	platform(__no_group)--platform;
 		districtList	platform(__no_group)--platform;
+		schoolClassList	platform(__no_group)--platform;
 		teacherList	platform(__no_group)--platform;
-		studentList	platform(__no_group)--platform;
+		guardianList	platform(__no_group)--platform;
 		questionList	platform(__no_group)--platform;
 		questionTypeList	platform(__no_group)--platform;
+		questionSourceList	platform(__no_group)--platform;
 		surveyStatusList	platform(__no_group)--platform;
-		userList	platform(__no_group)--platform;
+		wechatUserList	platform(__no_group)--platform;
+		userTypeList	platform(__no_group)--platform;
 		changeRequestList	platform(变更)--platform;
 		changeRequestTypeList	platform(__no_group)--platform;
 	}
@@ -674,50 +838,64 @@ location{
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(2){
-		studentList	address(__no_group)--address;
-		userList	address(__no_group)--address;
+		guardianList	address(__no_group)--address;
+		wechatUserList	address(__no_group)--address;
+	}
+} depth=4; isRoot = false
+
+school_class{
+	fields(8){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('教科院一年级5班|教科院二年级3班'), verb: false, required: true;
+		teacher	class_teacher('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		date_time_create	create_time('createTime()'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		string	schoole('益州小学|大源中学|南山中学'), verb: false, required: true;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: schoolClassList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(3){
+		classDailyHealthSurveyList	school_class(__no_group)--school_class;
+		studentList	school_class(__no_group)--school_class;
+		studentHealthSurveyList	school_class(__no_group)--school_class;
 	}
 } depth=4; isRoot = false
 
 teacher{
-	fields(9){
+	fields(8){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('白山水|胡一刀|苗人凤'), verb: false, required: true;
 		string_china_mobile_phone	mobile('18012341234'), verb: false, required: true;
-		string	school('益州小学|大源中学|南山中学'), verb: false, required: true;
-		string	school_class('教科院一年级5班|教科院二年级3班'), verb: false, required: true;
+		string	schoole('益州小学|大源中学|南山中学'), verb: false, required: true;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: teacherList;
 		change_request	cq('$(object)'), verb: false, required: true, referenceBy: teacherList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(2){
-		classDailyHealthSurveyList	teacher(__no_group)--teacher;
-		studentHealthSurveyList	teacher(__no_group)--teacher;
+	references field(1){
+		schoolClassList	class_teacher(__no_group)--class_teacher;
 	}
 } depth=3; isRoot = false
 
-student{
-	fields(11){
+guardian{
+	fields(9){
 		string	id('ABCD'), verb: false, required: true;
-		string	student_name('刘婵|刘阿斗|李天一'), verb: false, required: true;
-		string	student_id('A01'), verb: false, required: true;
-		string	guardian_name('刘备|刘玄德|张飞|张翼德'), verb: false, required: true;
-		string_china_mobile_phone	guardian_mobile('18012341234'), verb: false, required: true;
-		location	address('$(object)'), verb: false, required: true, referenceBy: studentList;
-		user	user('$(object)'), verb: false, required: true, referenceBy: studentList;
+		string	name('刘备|刘玄德|张飞|张翼德'), verb: false, required: true;
+		string_china_mobile_phone	mobile('18012341234'), verb: false, required: true;
+		location	address('$(object)'), verb: false, required: true, referenceBy: guardianList;
+		wechat_user	wechat_user('$(object)'), verb: false, required: true, referenceBy: guardianList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
-		platform	platform('$(object)'), verb: false, required: true, referenceBy: studentList;
-		change_request	cq('$(object)'), verb: false, required: true, referenceBy: studentList;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: guardianList;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: guardianList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(1){
-		studentHealthSurveyList	student(__no_group)--student;
+		studentList	guardian(__no_group)--guardian;
 	}
 } depth=6; isRoot = false
 
 question{
-	fields(11){
+	fields(9){
 		string	id('ABCD'), verb: false, required: true;
 		string	topic('节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状'), verb: false, required: true;
 		question_type	question_type('$(object)'), verb: false, required: true, referenceBy: questionList;
@@ -726,14 +904,11 @@ question{
 		string	option_c('不确定'), verb: false, required: true;
 		string	option_d('不知道'), verb: false, required: true;
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionList;
-		user	creator('$(object)'), verb: false, required: false, referenceBy: questionList;
-		change_request	cq('$(object)'), verb: false, required: true, referenceBy: questionList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(1){
-		dailySurveyQuestionList	survey_question(__no_group)--survey_question;
+	references field(0){
 	}
-} depth=6; isRoot = false
+} depth=2; isRoot = false
 
 question_type{
 	fields(5){
@@ -743,19 +918,52 @@ question_type{
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionTypeList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(2){
+	references field(3){
 		questionList	question_type(__no_group)--question_type;
+		classQuestionList	question_type(__no_group)--question_type;
 		dailySurveyQuestionList	question_type(__no_group)--question_type;
 	}
 } depth=1; isRoot = false
+
+question_source{
+	fields(5){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('题库|用户自己录入'), verb: false, required: true;
+		string	code('System|UGC'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: questionSourceList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		classQuestionList	question_source(__no_group)--question_source;
+	}
+} depth=1; isRoot = false
+
+class_question{
+	fields(11){
+		string	id('ABCD'), verb: false, required: true;
+		string	topic('节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状'), verb: false, required: true;
+		question_type	question_type('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		string	option_a('没有'), verb: false, required: true;
+		string	option_b('有'), verb: false, required: true;
+		string	option_c('不确定'), verb: false, required: true;
+		string	option_d('不知道'), verb: false, required: true;
+		question_source	question_source('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		wechat_user	creator('$(object)'), verb: false, required: false, referenceBy: classQuestionList;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: classQuestionList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		dailySurveyQuestionList	class_question(__no_group)--class_question;
+	}
+} depth=6; isRoot = false
 
 class_daily_health_survey{
 	fields(7){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('2020年1月25日益州小学学生健康调查问卷'), verb: false, required: true;
-		teacher	teacher('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		date_time	survey_time('2099-12-31T23:59:59'), verb: false, required: true;
-		user	creator('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
+		wechat_user	creator('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		change_request	cq('$(object)'), verb: false, required: true, referenceBy: classDailyHealthSurveyList;
 		int	version('2147483647'), verb: false, required: true;
 	}
@@ -775,11 +983,27 @@ daily_survey_question{
 		string	option_c('不确定'), verb: false, required: true;
 		string	option_d('不知道'), verb: false, required: true;
 		class_daily_health_survey	class_daily_health_survey('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
-		question	survey_question('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
+		class_question	class_question('$(object)'), verb: false, required: true, referenceBy: dailySurveyQuestionList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(1){
 		studentDailyAnswerList	question(__no_group)--question;
+	}
+} depth=7; isRoot = false
+
+student{
+	fields(8){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('刘婵|刘阿斗|李天一'), verb: false, required: true;
+		string_gender	gender('male|female'), verb: false, required: true;
+		guardian	guardian('$(object)'), verb: false, required: true, referenceBy: studentList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: studentList;
+		string	student_id('A01'), verb: false, required: true;
+		change_request	cq('$(object)'), verb: false, required: true, referenceBy: studentList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		studentHealthSurveyList	student(__no_group)--student;
 	}
 } depth=7; isRoot = false
 
@@ -789,7 +1013,7 @@ student_health_survey{
 		student	student('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		date_time	answer_time('2099-12-31T23:59:59'), verb: false, required: true;
 		survey_status	survey_status('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
-		teacher	teacher('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
+		school_class	school_class('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		class_daily_health_survey	class_daily_health_survey('$(object)'), verb: false, required: true, referenceBy: studentHealthSurveyList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
 		date_time_update	last_update_time('updateTime()'), verb: false, required: true;
@@ -799,7 +1023,7 @@ student_health_survey{
 	references field(1){
 		studentDailyAnswerList	student_health_survey(__no_group)--student_health_survey;
 	}
-} depth=7; isRoot = false
+} depth=8; isRoot = false
 
 student_daily_answer{
 	fields(8){
@@ -814,7 +1038,7 @@ student_daily_answer{
 	}
 	references field(0){
 	}
-} depth=8; isRoot = false
+} depth=9; isRoot = false
 
 survey_status{
 	fields(5){
@@ -829,28 +1053,42 @@ survey_status{
 	}
 } depth=1; isRoot = false
 
-user{
-	fields(7){
+wechat_user{
+	fields(8){
 		string	id('ABCD'), verb: false, required: true;
 		string	name('张三|李四|王五'), verb: false, required: true;
 		string_image	avatar('wechat.jpg'), verb: false, required: true;
-		location	address('$(object)'), verb: false, required: true, referenceBy: userList;
+		location	address('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
+		user_type	user_type('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
 		date_time_create	create_time('createTime()'), verb: false, required: true;
-		platform	platform('$(object)'), verb: false, required: true, referenceBy: userList;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: wechatUserList;
 		int	version('2147483647'), verb: false, required: true;
 	}
 	references field(4){
-		studentList	user(__no_group)--user;
-		questionList	creator(__no_group)--creator;
+		guardianList	wechat_user(__no_group)--wechat_user;
+		classQuestionList	creator(__no_group)--creator;
 		classDailyHealthSurveyList	creator(__no_group)--creator;
-		wechatLoginInfoList	user(__no_group)--user;
+		wechatLoginInfoList	wechat_user(__no_group)--wechat_user;
 	}
 } depth=5; isRoot = false
+
+user_type{
+	fields(5){
+		string	id('ABCD'), verb: false, required: true;
+		string	name('老师|家长|学生'), verb: false, required: true;
+		string	code('Teacher|Guardian|Student'), verb: false, required: true;
+		platform	platform('$(object)'), verb: false, required: true, referenceBy: userTypeList;
+		int	version('2147483647'), verb: false, required: true;
+	}
+	references field(1){
+		wechatUserList	user_type(__no_group)--user_type;
+	}
+} depth=1; isRoot = false
 
 wechat_login_info{
 	fields(7){
 		string	id('ABCD'), verb: false, required: true;
-		user	user('$(object)'), verb: false, required: true, referenceBy: wechatLoginInfoList;
+		wechat_user	wechat_user('$(object)'), verb: false, required: true, referenceBy: wechatLoginInfoList;
 		string	app_id('user123'), verb: false, required: true;
 		string	open_id('user123'), verb: false, required: true;
 		string	session_key('session123'), verb: false, required: true;
@@ -871,11 +1109,13 @@ change_request{
 		platform	platform('$(object)'), verb: false, required: true, referenceBy: changeRequestList;
 		int	version('2147483647'), verb: false, required: true;
 	}
-	references field(6){
+	references field(8){
+		schoolClassList	cq(__no_group)--cq;
 		teacherList	cq(__no_group)--cq;
-		studentList	cq(__no_group)--cq;
-		questionList	cq(__no_group)--cq;
+		guardianList	cq(__no_group)--cq;
+		classQuestionList	cq(__no_group)--cq;
 		classDailyHealthSurveyList	cq(__no_group)--cq;
+		studentList	cq(__no_group)--cq;
 		studentHealthSurveyList	cq(__no_group)--cq;
 		studentDailyAnswerList	cq(__no_group)--cq;
 	}
@@ -884,8 +1124,8 @@ change_request{
 change_request_type{
 	fields(9){
 		string	id('ABCD'), verb: false, required: true;
-		string	name('登录'), verb: false, required: true;
-		string	code('LOGIN'), verb: false, required: true;
+		string	name('答题'), verb: false, required: true;
+		string	code('AnswerQuestion'), verb: false, required: true;
 		string	icon('book'), verb: false, required: true;
 		int	display_order('1'), verb: false, required: true;
 		string_longtext	bind_types('text()'), verb: false, required: true;

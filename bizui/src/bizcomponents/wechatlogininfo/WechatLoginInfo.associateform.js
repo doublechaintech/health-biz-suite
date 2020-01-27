@@ -21,7 +21,7 @@ const testValues = {
   appId: 'user123',
   openId: 'user123',
   sessionKey: 'session123',
-  userId: 'U000001',
+  wechatUserId: 'WU000001',
 }
 */
 
@@ -183,15 +183,15 @@ class WechatLoginInfoAssociateForm extends Component {
             <Row gutter={16}>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.user} {...formItemLayout}>
-                  {getFieldDecorator('userId', {
-                  	initialValue: tryinit('user'),
+                <Form.Item label={fieldLabels.wechatUser} {...formItemLayout}>
+                  {getFieldDecorator('wechatUserId', {
+                  	initialValue: tryinit('wechatUser'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('user')}
-                    targetType={"user"} 
-                    requestFunction={WechatLoginInfoService.requestCandidateUser}/>
+                    disabled={!availableForEdit('wechatUser')}
+                    targetType={"wechatUser"} 
+                    requestFunction={WechatLoginInfoService.requestCandidateWechatUser}/>
   
                   )}
                 </Form.Item>

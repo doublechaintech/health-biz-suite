@@ -20,28 +20,34 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 
-import com.doublechaintech.health.city.City;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.questiontype.QuestionType;
-import com.doublechaintech.health.changerequesttype.ChangeRequestType;
-import com.doublechaintech.health.student.Student;
-import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.district.District;
+import com.doublechaintech.health.guardian.Guardian;
 import com.doublechaintech.health.question.Question;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.city.City;
+import com.doublechaintech.health.schoolclass.SchoolClass;
+import com.doublechaintech.health.changerequesttype.ChangeRequestType;
+import com.doublechaintech.health.surveystatus.SurveyStatus;
+import com.doublechaintech.health.district.District;
+import com.doublechaintech.health.questionsource.QuestionSource;
+import com.doublechaintech.health.usertype.UserType;
 
 import com.doublechaintech.health.city.CityDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
-import com.doublechaintech.health.province.ProvinceDAO;
-import com.doublechaintech.health.student.StudentDAO;
-import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
+import com.doublechaintech.health.schoolclass.SchoolClassDAO;
+import com.doublechaintech.health.usertype.UserTypeDAO;
+import com.doublechaintech.health.province.ProvinceDAO;
+import com.doublechaintech.health.guardian.GuardianDAO;
+import com.doublechaintech.health.teacher.TeacherDAO;
+import com.doublechaintech.health.questionsource.QuestionSourceDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 import com.doublechaintech.health.district.DistrictDAO;
-import com.doublechaintech.health.user.UserDAO;
 import com.doublechaintech.health.changerequesttype.ChangeRequestTypeDAO;
 
 
@@ -114,6 +120,25 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 			
 		
 	
+  	private  SchoolClassDAO  schoolClassDAO;
+ 	public void setSchoolClassDAO(SchoolClassDAO pSchoolClassDAO){
+ 	
+ 		if(pSchoolClassDAO == null){
+ 			throw new IllegalStateException("Do not try to set schoolClassDAO to null.");
+ 		}
+	 	this.schoolClassDAO = pSchoolClassDAO;
+ 	}
+ 	public SchoolClassDAO getSchoolClassDAO(){
+ 		if(this.schoolClassDAO == null){
+ 			throw new IllegalStateException("The schoolClassDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.schoolClassDAO;
+ 	}	
+ 	
+			
+		
+	
   	private  TeacherDAO  teacherDAO;
  	public void setTeacherDAO(TeacherDAO pTeacherDAO){
  	
@@ -133,20 +158,20 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 			
 		
 	
-  	private  StudentDAO  studentDAO;
- 	public void setStudentDAO(StudentDAO pStudentDAO){
+  	private  GuardianDAO  guardianDAO;
+ 	public void setGuardianDAO(GuardianDAO pGuardianDAO){
  	
- 		if(pStudentDAO == null){
- 			throw new IllegalStateException("Do not try to set studentDAO to null.");
+ 		if(pGuardianDAO == null){
+ 			throw new IllegalStateException("Do not try to set guardianDAO to null.");
  		}
-	 	this.studentDAO = pStudentDAO;
+	 	this.guardianDAO = pGuardianDAO;
  	}
- 	public StudentDAO getStudentDAO(){
- 		if(this.studentDAO == null){
- 			throw new IllegalStateException("The studentDAO is not configured yet, please config it some where.");
+ 	public GuardianDAO getGuardianDAO(){
+ 		if(this.guardianDAO == null){
+ 			throw new IllegalStateException("The guardianDAO is not configured yet, please config it some where.");
  		}
  		
-	 	return this.studentDAO;
+	 	return this.guardianDAO;
  	}	
  	
 			
@@ -190,6 +215,25 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 			
 		
 	
+  	private  QuestionSourceDAO  questionSourceDAO;
+ 	public void setQuestionSourceDAO(QuestionSourceDAO pQuestionSourceDAO){
+ 	
+ 		if(pQuestionSourceDAO == null){
+ 			throw new IllegalStateException("Do not try to set questionSourceDAO to null.");
+ 		}
+	 	this.questionSourceDAO = pQuestionSourceDAO;
+ 	}
+ 	public QuestionSourceDAO getQuestionSourceDAO(){
+ 		if(this.questionSourceDAO == null){
+ 			throw new IllegalStateException("The questionSourceDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.questionSourceDAO;
+ 	}	
+ 	
+			
+		
+	
   	private  SurveyStatusDAO  surveyStatusDAO;
  	public void setSurveyStatusDAO(SurveyStatusDAO pSurveyStatusDAO){
  	
@@ -209,20 +253,39 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 			
 		
 	
-  	private  UserDAO  userDAO;
- 	public void setUserDAO(UserDAO pUserDAO){
+  	private  WechatUserDAO  wechatUserDAO;
+ 	public void setWechatUserDAO(WechatUserDAO pWechatUserDAO){
  	
- 		if(pUserDAO == null){
- 			throw new IllegalStateException("Do not try to set userDAO to null.");
+ 		if(pWechatUserDAO == null){
+ 			throw new IllegalStateException("Do not try to set wechatUserDAO to null.");
  		}
-	 	this.userDAO = pUserDAO;
+	 	this.wechatUserDAO = pWechatUserDAO;
  	}
- 	public UserDAO getUserDAO(){
- 		if(this.userDAO == null){
- 			throw new IllegalStateException("The userDAO is not configured yet, please config it some where.");
+ 	public WechatUserDAO getWechatUserDAO(){
+ 		if(this.wechatUserDAO == null){
+ 			throw new IllegalStateException("The wechatUserDAO is not configured yet, please config it some where.");
  		}
  		
-	 	return this.userDAO;
+	 	return this.wechatUserDAO;
+ 	}	
+ 	
+			
+		
+	
+  	private  UserTypeDAO  userTypeDAO;
+ 	public void setUserTypeDAO(UserTypeDAO pUserTypeDAO){
+ 	
+ 		if(pUserTypeDAO == null){
+ 			throw new IllegalStateException("Do not try to set userTypeDAO to null.");
+ 		}
+	 	this.userTypeDAO = pUserTypeDAO;
+ 	}
+ 	public UserTypeDAO getUserTypeDAO(){
+ 		if(this.userTypeDAO == null){
+ 			throw new IllegalStateException("The userTypeDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.userTypeDAO;
  	}	
  	
 			
@@ -336,6 +399,13 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
 		
  		
+ 		if(isSaveSchoolClassListEnabled(options)){
+ 			for(SchoolClass item: newPlatform.getSchoolClassList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
+		
+ 		
  		if(isSaveTeacherListEnabled(options)){
  			for(Teacher item: newPlatform.getTeacherList()){
  				item.setVersion(0);
@@ -343,8 +413,8 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
 		
  		
- 		if(isSaveStudentListEnabled(options)){
- 			for(Student item: newPlatform.getStudentList()){
+ 		if(isSaveGuardianListEnabled(options)){
+ 			for(Guardian item: newPlatform.getGuardianList()){
  				item.setVersion(0);
  			}
  		}
@@ -364,6 +434,13 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
 		
  		
+ 		if(isSaveQuestionSourceListEnabled(options)){
+ 			for(QuestionSource item: newPlatform.getQuestionSourceList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
+		
+ 		
  		if(isSaveSurveyStatusListEnabled(options)){
  			for(SurveyStatus item: newPlatform.getSurveyStatusList()){
  				item.setVersion(0);
@@ -371,8 +448,15 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
 		
  		
- 		if(isSaveUserListEnabled(options)){
- 			for(User item: newPlatform.getUserList()){
+ 		if(isSaveWechatUserListEnabled(options)){
+ 			for(WechatUser item: newPlatform.getWechatUserList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
+		
+ 		
+ 		if(isSaveUserTypeListEnabled(options)){
+ 			for(UserType item: newPlatform.getUserTypeList()){
  				item.setVersion(0);
  			}
  		}
@@ -525,6 +609,20 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  	
 		
 	
+	protected boolean isExtractSchoolClassListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,PlatformTokens.SCHOOL_CLASS_LIST);
+ 	}
+ 	protected boolean isAnalyzeSchoolClassListEnabled(Map<String,Object> options){		 		
+ 		return PlatformTokens.of(options).analyzeSchoolClassListEnabled();
+ 	}
+	
+	protected boolean isSaveSchoolClassListEnabled(Map<String,Object> options){
+		return checkOptions(options, PlatformTokens.SCHOOL_CLASS_LIST);
+		
+ 	}
+ 	
+		
+	
 	protected boolean isExtractTeacherListEnabled(Map<String,Object> options){		
  		return checkOptions(options,PlatformTokens.TEACHER_LIST);
  	}
@@ -539,15 +637,15 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  	
 		
 	
-	protected boolean isExtractStudentListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,PlatformTokens.STUDENT_LIST);
+	protected boolean isExtractGuardianListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,PlatformTokens.GUARDIAN_LIST);
  	}
- 	protected boolean isAnalyzeStudentListEnabled(Map<String,Object> options){		 		
- 		return PlatformTokens.of(options).analyzeStudentListEnabled();
+ 	protected boolean isAnalyzeGuardianListEnabled(Map<String,Object> options){		 		
+ 		return PlatformTokens.of(options).analyzeGuardianListEnabled();
  	}
 	
-	protected boolean isSaveStudentListEnabled(Map<String,Object> options){
-		return checkOptions(options, PlatformTokens.STUDENT_LIST);
+	protected boolean isSaveGuardianListEnabled(Map<String,Object> options){
+		return checkOptions(options, PlatformTokens.GUARDIAN_LIST);
 		
  	}
  	
@@ -581,6 +679,20 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  	
 		
 	
+	protected boolean isExtractQuestionSourceListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,PlatformTokens.QUESTION_SOURCE_LIST);
+ 	}
+ 	protected boolean isAnalyzeQuestionSourceListEnabled(Map<String,Object> options){		 		
+ 		return PlatformTokens.of(options).analyzeQuestionSourceListEnabled();
+ 	}
+	
+	protected boolean isSaveQuestionSourceListEnabled(Map<String,Object> options){
+		return checkOptions(options, PlatformTokens.QUESTION_SOURCE_LIST);
+		
+ 	}
+ 	
+		
+	
 	protected boolean isExtractSurveyStatusListEnabled(Map<String,Object> options){		
  		return checkOptions(options,PlatformTokens.SURVEY_STATUS_LIST);
  	}
@@ -595,15 +707,29 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  	
 		
 	
-	protected boolean isExtractUserListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,PlatformTokens.USER_LIST);
+	protected boolean isExtractWechatUserListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,PlatformTokens.WECHAT_USER_LIST);
  	}
- 	protected boolean isAnalyzeUserListEnabled(Map<String,Object> options){		 		
- 		return PlatformTokens.of(options).analyzeUserListEnabled();
+ 	protected boolean isAnalyzeWechatUserListEnabled(Map<String,Object> options){		 		
+ 		return PlatformTokens.of(options).analyzeWechatUserListEnabled();
  	}
 	
-	protected boolean isSaveUserListEnabled(Map<String,Object> options){
-		return checkOptions(options, PlatformTokens.USER_LIST);
+	protected boolean isSaveWechatUserListEnabled(Map<String,Object> options){
+		return checkOptions(options, PlatformTokens.WECHAT_USER_LIST);
+		
+ 	}
+ 	
+		
+	
+	protected boolean isExtractUserTypeListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,PlatformTokens.USER_TYPE_LIST);
+ 	}
+ 	protected boolean isAnalyzeUserTypeListEnabled(Map<String,Object> options){		 		
+ 		return PlatformTokens.of(options).analyzeUserTypeListEnabled();
+ 	}
+	
+	protected boolean isSaveUserTypeListEnabled(Map<String,Object> options){
+		return checkOptions(options, PlatformTokens.USER_TYPE_LIST);
 		
  	}
  	
@@ -687,6 +813,14 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
  		
 		
+		if(isExtractSchoolClassListEnabled(loadOptions)){
+	 		extractSchoolClassList(platform, loadOptions);
+ 		}	
+ 		if(isAnalyzeSchoolClassListEnabled(loadOptions)){
+	 		analyzeSchoolClassList(platform, loadOptions);
+ 		}
+ 		
+		
 		if(isExtractTeacherListEnabled(loadOptions)){
 	 		extractTeacherList(platform, loadOptions);
  		}	
@@ -695,11 +829,11 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
  		
 		
-		if(isExtractStudentListEnabled(loadOptions)){
-	 		extractStudentList(platform, loadOptions);
+		if(isExtractGuardianListEnabled(loadOptions)){
+	 		extractGuardianList(platform, loadOptions);
  		}	
- 		if(isAnalyzeStudentListEnabled(loadOptions)){
-	 		analyzeStudentList(platform, loadOptions);
+ 		if(isAnalyzeGuardianListEnabled(loadOptions)){
+	 		analyzeGuardianList(platform, loadOptions);
  		}
  		
 		
@@ -719,6 +853,14 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
  		
 		
+		if(isExtractQuestionSourceListEnabled(loadOptions)){
+	 		extractQuestionSourceList(platform, loadOptions);
+ 		}	
+ 		if(isAnalyzeQuestionSourceListEnabled(loadOptions)){
+	 		analyzeQuestionSourceList(platform, loadOptions);
+ 		}
+ 		
+		
 		if(isExtractSurveyStatusListEnabled(loadOptions)){
 	 		extractSurveyStatusList(platform, loadOptions);
  		}	
@@ -727,11 +869,19 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  		}
  		
 		
-		if(isExtractUserListEnabled(loadOptions)){
-	 		extractUserList(platform, loadOptions);
+		if(isExtractWechatUserListEnabled(loadOptions)){
+	 		extractWechatUserList(platform, loadOptions);
  		}	
- 		if(isAnalyzeUserListEnabled(loadOptions)){
-	 		analyzeUserList(platform, loadOptions);
+ 		if(isAnalyzeWechatUserListEnabled(loadOptions)){
+	 		analyzeWechatUserList(platform, loadOptions);
+ 		}
+ 		
+		
+		if(isExtractUserTypeListEnabled(loadOptions)){
+	 		extractUserTypeList(platform, loadOptions);
+ 		}	
+ 		if(isAnalyzeUserTypeListEnabled(loadOptions)){
+	 		analyzeUserTypeList(platform, loadOptions);
  		}
  		
 		
@@ -907,6 +1057,56 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}	
 	
 		
+	protected void enhanceSchoolClassList(SmartList<SchoolClass> schoolClassList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected Platform extractSchoolClassList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<SchoolClass> schoolClassList = getSchoolClassDAO().findSchoolClassByPlatform(platform.getId(),options);
+		if(schoolClassList != null){
+			enhanceSchoolClassList(schoolClassList,options);
+			platform.setSchoolClassList(schoolClassList);
+		}
+		
+		return platform;
+	
+	}	
+	
+	protected Platform analyzeSchoolClassList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();
+		if(schoolClassList != null){
+			getSchoolClassDAO().analyzeSchoolClassByPlatform(schoolClassList, platform.getId(), options);
+			
+		}
+		
+		return platform;
+	
+	}	
+	
+		
 	protected void enhanceTeacherList(SmartList<Teacher> teacherList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
@@ -957,12 +1157,12 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}	
 	
 		
-	protected void enhanceStudentList(SmartList<Student> studentList,Map<String,Object> options){
+	protected void enhanceGuardianList(SmartList<Guardian> guardianList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
 	}
 	
-	protected Platform extractStudentList(Platform platform, Map<String,Object> options){
+	protected Platform extractGuardianList(Platform platform, Map<String,Object> options){
 		
 		
 		if(platform == null){
@@ -974,17 +1174,17 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 
 		
 		
-		SmartList<Student> studentList = getStudentDAO().findStudentByPlatform(platform.getId(),options);
-		if(studentList != null){
-			enhanceStudentList(studentList,options);
-			platform.setStudentList(studentList);
+		SmartList<Guardian> guardianList = getGuardianDAO().findGuardianByPlatform(platform.getId(),options);
+		if(guardianList != null){
+			enhanceGuardianList(guardianList,options);
+			platform.setGuardianList(guardianList);
 		}
 		
 		return platform;
 	
 	}	
 	
-	protected Platform analyzeStudentList(Platform platform, Map<String,Object> options){
+	protected Platform analyzeGuardianList(Platform platform, Map<String,Object> options){
 		
 		
 		if(platform == null){
@@ -996,9 +1196,9 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();
-		if(studentList != null){
-			getStudentDAO().analyzeStudentByPlatform(studentList, platform.getId(), options);
+		SmartList<Guardian> guardianList = platform.getGuardianList();
+		if(guardianList != null){
+			getGuardianDAO().analyzeGuardianByPlatform(guardianList, platform.getId(), options);
 			
 		}
 		
@@ -1107,6 +1307,56 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}	
 	
 		
+	protected void enhanceQuestionSourceList(SmartList<QuestionSource> questionSourceList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected Platform extractQuestionSourceList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<QuestionSource> questionSourceList = getQuestionSourceDAO().findQuestionSourceByPlatform(platform.getId(),options);
+		if(questionSourceList != null){
+			enhanceQuestionSourceList(questionSourceList,options);
+			platform.setQuestionSourceList(questionSourceList);
+		}
+		
+		return platform;
+	
+	}	
+	
+	protected Platform analyzeQuestionSourceList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<QuestionSource> questionSourceList = platform.getQuestionSourceList();
+		if(questionSourceList != null){
+			getQuestionSourceDAO().analyzeQuestionSourceByPlatform(questionSourceList, platform.getId(), options);
+			
+		}
+		
+		return platform;
+	
+	}	
+	
+		
 	protected void enhanceSurveyStatusList(SmartList<SurveyStatus> surveyStatusList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
@@ -1157,12 +1407,12 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}	
 	
 		
-	protected void enhanceUserList(SmartList<User> userList,Map<String,Object> options){
+	protected void enhanceWechatUserList(SmartList<WechatUser> wechatUserList,Map<String,Object> options){
 		//extract multiple list from difference sources
 		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
 	}
 	
-	protected Platform extractUserList(Platform platform, Map<String,Object> options){
+	protected Platform extractWechatUserList(Platform platform, Map<String,Object> options){
 		
 		
 		if(platform == null){
@@ -1174,17 +1424,17 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 
 		
 		
-		SmartList<User> userList = getUserDAO().findUserByPlatform(platform.getId(),options);
-		if(userList != null){
-			enhanceUserList(userList,options);
-			platform.setUserList(userList);
+		SmartList<WechatUser> wechatUserList = getWechatUserDAO().findWechatUserByPlatform(platform.getId(),options);
+		if(wechatUserList != null){
+			enhanceWechatUserList(wechatUserList,options);
+			platform.setWechatUserList(wechatUserList);
 		}
 		
 		return platform;
 	
 	}	
 	
-	protected Platform analyzeUserList(Platform platform, Map<String,Object> options){
+	protected Platform analyzeWechatUserList(Platform platform, Map<String,Object> options){
 		
 		
 		if(platform == null){
@@ -1196,9 +1446,59 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 
 		
 		
-		SmartList<User> userList = platform.getUserList();
-		if(userList != null){
-			getUserDAO().analyzeUserByPlatform(userList, platform.getId(), options);
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();
+		if(wechatUserList != null){
+			getWechatUserDAO().analyzeWechatUserByPlatform(wechatUserList, platform.getId(), options);
+			
+		}
+		
+		return platform;
+	
+	}	
+	
+		
+	protected void enhanceUserTypeList(SmartList<UserType> userTypeList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected Platform extractUserTypeList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<UserType> userTypeList = getUserTypeDAO().findUserTypeByPlatform(platform.getId(),options);
+		if(userTypeList != null){
+			enhanceUserTypeList(userTypeList,options);
+			platform.setUserTypeList(userTypeList);
+		}
+		
+		return platform;
+	
+	}	
+	
+	protected Platform analyzeUserTypeList(Platform platform, Map<String,Object> options){
+		
+		
+		if(platform == null){
+			return null;
+		}
+		if(platform.getId() == null){
+			return platform;
+		}
+
+		
+		
+		SmartList<UserType> userTypeList = platform.getUserTypeList();
+		if(userTypeList != null){
+			getUserTypeDAO().analyzeUserTypeByPlatform(userTypeList, platform.getId(), options);
 			
 		}
 		
@@ -1498,6 +1798,13 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	 		
  		}		
 		
+		if(isSaveSchoolClassListEnabled(options)){
+	 		saveSchoolClassList(platform, options);
+	 		//removeSchoolClassList(platform, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
 		if(isSaveTeacherListEnabled(options)){
 	 		saveTeacherList(platform, options);
 	 		//removeTeacherList(platform, options);
@@ -1505,9 +1812,9 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	 		
  		}		
 		
-		if(isSaveStudentListEnabled(options)){
-	 		saveStudentList(platform, options);
-	 		//removeStudentList(platform, options);
+		if(isSaveGuardianListEnabled(options)){
+	 		saveGuardianList(platform, options);
+	 		//removeGuardianList(platform, options);
 	 		//Not delete the record
 	 		
  		}		
@@ -1526,6 +1833,13 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	 		
  		}		
 		
+		if(isSaveQuestionSourceListEnabled(options)){
+	 		saveQuestionSourceList(platform, options);
+	 		//removeQuestionSourceList(platform, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
 		if(isSaveSurveyStatusListEnabled(options)){
 	 		saveSurveyStatusList(platform, options);
 	 		//removeSurveyStatusList(platform, options);
@@ -1533,9 +1847,16 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	 		
  		}		
 		
-		if(isSaveUserListEnabled(options)){
-	 		saveUserList(platform, options);
-	 		//removeUserList(platform, options);
+		if(isSaveWechatUserListEnabled(options)){
+	 		saveWechatUserList(platform, options);
+	 		//removeWechatUserList(platform, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
+		if(isSaveUserTypeListEnabled(options)){
+	 		saveUserTypeList(platform, options);
+	 		//removeUserTypeList(platform, options);
 	 		//Not delete the record
 	 		
  		}		
@@ -1736,6 +2057,122 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return count;
 	}
 	
+	public Platform planToRemoveSchoolClassList(Platform platform, String schoolClassIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, platform.getId());
+		key.put(SchoolClass.ID_PROPERTY, schoolClassIds);
+		
+		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
+				findSchoolClassWithKey(key, options);
+		if(externalSchoolClassList == null){
+			return platform;
+		}
+		if(externalSchoolClassList.isEmpty()){
+			return platform;
+		}
+		
+		for(SchoolClass schoolClassItem: externalSchoolClassList){
+
+			schoolClassItem.clearFromAll();
+		}
+		
+		
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();		
+		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		return platform;	
+	
+	}
+
+
+	//disconnect Platform with class_teacher in SchoolClass
+	public Platform planToRemoveSchoolClassListWithClassTeacher(Platform platform, String classTeacherId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, platform.getId());
+		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, classTeacherId);
+		
+		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
+				findSchoolClassWithKey(key, options);
+		if(externalSchoolClassList == null){
+			return platform;
+		}
+		if(externalSchoolClassList.isEmpty()){
+			return platform;
+		}
+		
+		for(SchoolClass schoolClassItem: externalSchoolClassList){
+			schoolClassItem.clearClassTeacher();
+			schoolClassItem.clearPlatform();
+			
+		}
+		
+		
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();		
+		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		return platform;
+	}
+	
+	public int countSchoolClassListWithClassTeacher(String platformId, String classTeacherId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, platformId);
+		key.put(SchoolClass.CLASS_TEACHER_PROPERTY, classTeacherId);
+		
+		int count = getSchoolClassDAO().countSchoolClassWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect Platform with cq in SchoolClass
+	public Platform planToRemoveSchoolClassListWithCq(Platform platform, String cqId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, platform.getId());
+		key.put(SchoolClass.CQ_PROPERTY, cqId);
+		
+		SmartList<SchoolClass> externalSchoolClassList = getSchoolClassDAO().
+				findSchoolClassWithKey(key, options);
+		if(externalSchoolClassList == null){
+			return platform;
+		}
+		if(externalSchoolClassList.isEmpty()){
+			return platform;
+		}
+		
+		for(SchoolClass schoolClassItem: externalSchoolClassList){
+			schoolClassItem.clearCq();
+			schoolClassItem.clearPlatform();
+			
+		}
+		
+		
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();		
+		schoolClassList.addAllToRemoveList(externalSchoolClassList);
+		return platform;
+	}
+	
+	public int countSchoolClassListWithCq(String platformId, String cqId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, platformId);
+		key.put(SchoolClass.CQ_PROPERTY, cqId);
+		
+		int count = getSchoolClassDAO().countSchoolClassWithKey(key, options);
+		return count;
+	}
+	
 	public Platform planToRemoveTeacherList(Platform platform, String teacherIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
@@ -1808,207 +2245,163 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return count;
 	}
 	
-	public Platform planToRemoveStudentList(Platform platform, String studentIds[], Map<String,Object> options)throws Exception{
+	public Platform planToRemoveGuardianList(Platform platform, String guardianIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.ID_PROPERTY, studentIds);
+		key.put(Guardian.PLATFORM_PROPERTY, platform.getId());
+		key.put(Guardian.ID_PROPERTY, guardianIds);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return platform;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return platform;
 		}
 		
-		for(Student studentItem: externalStudentList){
+		for(Guardian guardianItem: externalGuardianList){
 
-			studentItem.clearFromAll();
+			guardianItem.clearFromAll();
 		}
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = platform.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return platform;	
 	
 	}
 
 
-	//disconnect Platform with student_id in Student
-	public Platform planToRemoveStudentListWithStudentId(Platform platform, String studentIdId, Map<String,Object> options)throws Exception{
+	//disconnect Platform with address in Guardian
+	public Platform planToRemoveGuardianListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
+		key.put(Guardian.PLATFORM_PROPERTY, platform.getId());
+		key.put(Guardian.ADDRESS_PROPERTY, addressId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return platform;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return platform;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearPlatform();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearAddress();
+			guardianItem.clearPlatform();
 			
 		}
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = platform.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return platform;
 	}
 	
-	public int countStudentListWithStudentId(String platformId, String studentIdId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
+		key.put(Guardian.PLATFORM_PROPERTY, platformId);
+		key.put(Guardian.ADDRESS_PROPERTY, addressId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Platform with address in Student
-	public Platform planToRemoveStudentListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
+	//disconnect Platform with wechat_user in Guardian
+	public Platform planToRemoveGuardianListWithWechatUser(Platform platform, String wechatUserId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.ADDRESS_PROPERTY, addressId);
+		key.put(Guardian.PLATFORM_PROPERTY, platform.getId());
+		key.put(Guardian.WECHAT_USER_PROPERTY, wechatUserId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return platform;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return platform;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearAddress();
-			studentItem.clearPlatform();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearWechatUser();
+			guardianItem.clearPlatform();
 			
 		}
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = platform.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return platform;
 	}
 	
-	public int countStudentListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithWechatUser(String platformId, String wechatUserId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.ADDRESS_PROPERTY, addressId);
+		key.put(Guardian.PLATFORM_PROPERTY, platformId);
+		key.put(Guardian.WECHAT_USER_PROPERTY, wechatUserId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
-	//disconnect Platform with user in Student
-	public Platform planToRemoveStudentListWithUser(Platform platform, String userId, Map<String,Object> options)throws Exception{
+	//disconnect Platform with cq in Guardian
+	public Platform planToRemoveGuardianListWithCq(Platform platform, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.USER_PROPERTY, userId);
+		key.put(Guardian.PLATFORM_PROPERTY, platform.getId());
+		key.put(Guardian.CQ_PROPERTY, cqId);
 		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
+		SmartList<Guardian> externalGuardianList = getGuardianDAO().
+				findGuardianWithKey(key, options);
+		if(externalGuardianList == null){
 			return platform;
 		}
-		if(externalStudentList.isEmpty()){
+		if(externalGuardianList.isEmpty()){
 			return platform;
 		}
 		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearUser();
-			studentItem.clearPlatform();
+		for(Guardian guardianItem: externalGuardianList){
+			guardianItem.clearCq();
+			guardianItem.clearPlatform();
 			
 		}
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
+		SmartList<Guardian> guardianList = platform.getGuardianList();		
+		guardianList.addAllToRemoveList(externalGuardianList);
 		return platform;
 	}
 	
-	public int countStudentListWithUser(String platformId, String userId, Map<String,Object> options)throws Exception{
+	public int countGuardianListWithCq(String platformId, String cqId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.USER_PROPERTY, userId);
+		key.put(Guardian.PLATFORM_PROPERTY, platformId);
+		key.put(Guardian.CQ_PROPERTY, cqId);
 		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect Platform with cq in Student
-	public Platform planToRemoveStudentListWithCq(Platform platform, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.CQ_PROPERTY, cqId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return platform;
-		}
-		if(externalStudentList.isEmpty()){
-			return platform;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearCq();
-			studentItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return platform;
-	}
-	
-	public int countStudentListWithCq(String platformId, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.CQ_PROPERTY, cqId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
+		int count = getGuardianDAO().countGuardianWithKey(key, options);
 		return count;
 	}
 	
@@ -2084,94 +2477,6 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return count;
 	}
 	
-	//disconnect Platform with creator in Question
-	public Platform planToRemoveQuestionListWithCreator(Platform platform, String creatorId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Question.PLATFORM_PROPERTY, platform.getId());
-		key.put(Question.CREATOR_PROPERTY, creatorId);
-		
-		SmartList<Question> externalQuestionList = getQuestionDAO().
-				findQuestionWithKey(key, options);
-		if(externalQuestionList == null){
-			return platform;
-		}
-		if(externalQuestionList.isEmpty()){
-			return platform;
-		}
-		
-		for(Question questionItem: externalQuestionList){
-			questionItem.clearCreator();
-			questionItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Question> questionList = platform.getQuestionList();		
-		questionList.addAllToRemoveList(externalQuestionList);
-		return platform;
-	}
-	
-	public int countQuestionListWithCreator(String platformId, String creatorId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Question.PLATFORM_PROPERTY, platformId);
-		key.put(Question.CREATOR_PROPERTY, creatorId);
-		
-		int count = getQuestionDAO().countQuestionWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect Platform with cq in Question
-	public Platform planToRemoveQuestionListWithCq(Platform platform, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Question.PLATFORM_PROPERTY, platform.getId());
-		key.put(Question.CQ_PROPERTY, cqId);
-		
-		SmartList<Question> externalQuestionList = getQuestionDAO().
-				findQuestionWithKey(key, options);
-		if(externalQuestionList == null){
-			return platform;
-		}
-		if(externalQuestionList.isEmpty()){
-			return platform;
-		}
-		
-		for(Question questionItem: externalQuestionList){
-			questionItem.clearCq();
-			questionItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Question> questionList = platform.getQuestionList();		
-		questionList.addAllToRemoveList(externalQuestionList);
-		return platform;
-	}
-	
-	public int countQuestionListWithCq(String platformId, String cqId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Question.PLATFORM_PROPERTY, platformId);
-		key.put(Question.CQ_PROPERTY, cqId);
-		
-		int count = getQuestionDAO().countQuestionWithKey(key, options);
-		return count;
-	}
-	
 	public Platform planToRemoveQuestionTypeList(Platform platform, String questionTypeIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
@@ -2195,6 +2500,34 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		
 		SmartList<QuestionType> questionTypeList = platform.getQuestionTypeList();		
 		questionTypeList.addAllToRemoveList(externalQuestionTypeList);
+		return platform;	
+	
+	}
+
+
+	public Platform planToRemoveQuestionSourceList(Platform platform, String questionSourceIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(QuestionSource.PLATFORM_PROPERTY, platform.getId());
+		key.put(QuestionSource.ID_PROPERTY, questionSourceIds);
+		
+		SmartList<QuestionSource> externalQuestionSourceList = getQuestionSourceDAO().
+				findQuestionSourceWithKey(key, options);
+		if(externalQuestionSourceList == null){
+			return platform;
+		}
+		if(externalQuestionSourceList.isEmpty()){
+			return platform;
+		}
+		
+		for(QuestionSource questionSourceItem: externalQuestionSourceList){
+
+			questionSourceItem.clearFromAll();
+		}
+		
+		
+		SmartList<QuestionSource> questionSourceList = platform.getQuestionSourceList();		
+		questionSourceList.addAllToRemoveList(externalQuestionSourceList);
 		return platform;	
 	
 	}
@@ -2228,78 +2561,150 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
-	public Platform planToRemoveUserList(Platform platform, String userIds[], Map<String,Object> options)throws Exception{
+	public Platform planToRemoveWechatUserList(Platform platform, String wechatUserIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, platform.getId());
-		key.put(User.ID_PROPERTY, userIds);
+		key.put(WechatUser.PLATFORM_PROPERTY, platform.getId());
+		key.put(WechatUser.ID_PROPERTY, wechatUserIds);
 		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
 			return platform;
 		}
-		if(externalUserList.isEmpty()){
+		if(externalWechatUserList.isEmpty()){
 			return platform;
 		}
 		
-		for(User userItem: externalUserList){
+		for(WechatUser wechatUserItem: externalWechatUserList){
 
-			userItem.clearFromAll();
+			wechatUserItem.clearFromAll();
 		}
 		
 		
-		SmartList<User> userList = platform.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
 		return platform;	
 	
 	}
 
 
-	//disconnect Platform with address in User
-	public Platform planToRemoveUserListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
+	//disconnect Platform with address in WechatUser
+	public Platform planToRemoveWechatUserListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 		
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, platform.getId());
-		key.put(User.ADDRESS_PROPERTY, addressId);
+		key.put(WechatUser.PLATFORM_PROPERTY, platform.getId());
+		key.put(WechatUser.ADDRESS_PROPERTY, addressId);
 		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
 			return platform;
 		}
-		if(externalUserList.isEmpty()){
+		if(externalWechatUserList.isEmpty()){
 			return platform;
 		}
 		
-		for(User userItem: externalUserList){
-			userItem.clearAddress();
-			userItem.clearPlatform();
+		for(WechatUser wechatUserItem: externalWechatUserList){
+			wechatUserItem.clearAddress();
+			wechatUserItem.clearPlatform();
 			
 		}
 		
 		
-		SmartList<User> userList = platform.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
 		return platform;
 	}
 	
-	public int countUserListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception{
+	public int countWechatUserListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
 		//the list will not be null here, empty, maybe
 		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
 
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, platformId);
-		key.put(User.ADDRESS_PROPERTY, addressId);
+		key.put(WechatUser.PLATFORM_PROPERTY, platformId);
+		key.put(WechatUser.ADDRESS_PROPERTY, addressId);
 		
-		int count = getUserDAO().countUserWithKey(key, options);
+		int count = getWechatUserDAO().countWechatUserWithKey(key, options);
 		return count;
 	}
 	
+	//disconnect Platform with user_type in WechatUser
+	public Platform planToRemoveWechatUserListWithUserType(Platform platform, String userTypeId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(WechatUser.PLATFORM_PROPERTY, platform.getId());
+		key.put(WechatUser.USER_TYPE_PROPERTY, userTypeId);
+		
+		SmartList<WechatUser> externalWechatUserList = getWechatUserDAO().
+				findWechatUserWithKey(key, options);
+		if(externalWechatUserList == null){
+			return platform;
+		}
+		if(externalWechatUserList.isEmpty()){
+			return platform;
+		}
+		
+		for(WechatUser wechatUserItem: externalWechatUserList){
+			wechatUserItem.clearUserType();
+			wechatUserItem.clearPlatform();
+			
+		}
+		
+		
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();		
+		wechatUserList.addAllToRemoveList(externalWechatUserList);
+		return platform;
+	}
+	
+	public int countWechatUserListWithUserType(String platformId, String userTypeId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(WechatUser.PLATFORM_PROPERTY, platformId);
+		key.put(WechatUser.USER_TYPE_PROPERTY, userTypeId);
+		
+		int count = getWechatUserDAO().countWechatUserWithKey(key, options);
+		return count;
+	}
+	
+	public Platform planToRemoveUserTypeList(Platform platform, String userTypeIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(UserType.PLATFORM_PROPERTY, platform.getId());
+		key.put(UserType.ID_PROPERTY, userTypeIds);
+		
+		SmartList<UserType> externalUserTypeList = getUserTypeDAO().
+				findUserTypeWithKey(key, options);
+		if(externalUserTypeList == null){
+			return platform;
+		}
+		if(externalUserTypeList.isEmpty()){
+			return platform;
+		}
+		
+		for(UserType userTypeItem: externalUserTypeList){
+
+			userTypeItem.clearFromAll();
+		}
+		
+		
+		SmartList<UserType> userTypeList = platform.getUserTypeList();		
+		userTypeList.addAllToRemoveList(externalUserTypeList);
+		return platform;	
+	
+	}
+
+
 	public Platform planToRemoveChangeRequestList(Platform platform, String changeRequestIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
@@ -2600,6 +3005,72 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	
 		
+	protected Platform saveSchoolClassList(Platform platform, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();
+		if(schoolClassList == null){
+			//null list means nothing
+			return platform;
+		}
+		SmartList<SchoolClass> mergedUpdateSchoolClassList = new SmartList<SchoolClass>();
+		
+		
+		mergedUpdateSchoolClassList.addAll(schoolClassList); 
+		if(schoolClassList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateSchoolClassList.addAll(schoolClassList.getToRemoveList());
+			schoolClassList.removeAll(schoolClassList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getSchoolClassDAO().saveSchoolClassList(mergedUpdateSchoolClassList,options);
+		
+		if(schoolClassList.getToRemoveList() != null){
+			schoolClassList.removeAll(schoolClassList.getToRemoveList());
+		}
+		
+		
+		return platform;
+	
+	}
+	
+	protected Platform removeSchoolClassList(Platform platform, Map<String,Object> options){
+	
+	
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();
+		if(schoolClassList == null){
+			return platform;
+		}	
+	
+		SmartList<SchoolClass> toRemoveSchoolClassList = schoolClassList.getToRemoveList();
+		
+		if(toRemoveSchoolClassList == null){
+			return platform;
+		}
+		if(toRemoveSchoolClassList.isEmpty()){
+			return platform;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getSchoolClassDAO().removeSchoolClassList(toRemoveSchoolClassList,options);
+		
+		return platform;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
+		
 	protected Platform saveTeacherList(Platform platform, Map<String,Object> options){
 		
 		
@@ -2666,33 +3137,33 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	
 		
-	protected Platform saveStudentList(Platform platform, Map<String,Object> options){
+	protected Platform saveGuardianList(Platform platform, Map<String,Object> options){
 		
 		
 		
 		
-		SmartList<Student> studentList = platform.getStudentList();
-		if(studentList == null){
+		SmartList<Guardian> guardianList = platform.getGuardianList();
+		if(guardianList == null){
 			//null list means nothing
 			return platform;
 		}
-		SmartList<Student> mergedUpdateStudentList = new SmartList<Student>();
+		SmartList<Guardian> mergedUpdateGuardianList = new SmartList<Guardian>();
 		
 		
-		mergedUpdateStudentList.addAll(studentList); 
-		if(studentList.getToRemoveList() != null){
+		mergedUpdateGuardianList.addAll(guardianList); 
+		if(guardianList.getToRemoveList() != null){
 			//ensures the toRemoveList is not null
-			mergedUpdateStudentList.addAll(studentList.getToRemoveList());
-			studentList.removeAll(studentList.getToRemoveList());
+			mergedUpdateGuardianList.addAll(guardianList.getToRemoveList());
+			guardianList.removeAll(guardianList.getToRemoveList());
 			//OK for now, need fix later
 		}
 
 		//adding new size can improve performance
 	
-		getStudentDAO().saveStudentList(mergedUpdateStudentList,options);
+		getGuardianDAO().saveGuardianList(mergedUpdateGuardianList,options);
 		
-		if(studentList.getToRemoveList() != null){
-			studentList.removeAll(studentList.getToRemoveList());
+		if(guardianList.getToRemoveList() != null){
+			guardianList.removeAll(guardianList.getToRemoveList());
 		}
 		
 		
@@ -2700,25 +3171,25 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	}
 	
-	protected Platform removeStudentList(Platform platform, Map<String,Object> options){
+	protected Platform removeGuardianList(Platform platform, Map<String,Object> options){
 	
 	
-		SmartList<Student> studentList = platform.getStudentList();
-		if(studentList == null){
+		SmartList<Guardian> guardianList = platform.getGuardianList();
+		if(guardianList == null){
 			return platform;
 		}	
 	
-		SmartList<Student> toRemoveStudentList = studentList.getToRemoveList();
+		SmartList<Guardian> toRemoveGuardianList = guardianList.getToRemoveList();
 		
-		if(toRemoveStudentList == null){
+		if(toRemoveGuardianList == null){
 			return platform;
 		}
-		if(toRemoveStudentList.isEmpty()){
+		if(toRemoveGuardianList.isEmpty()){
 			return platform;// Does this mean delete all from the parent object?
 		}
 		//Call DAO to remove the list
 		
-		getStudentDAO().removeStudentList(toRemoveStudentList,options);
+		getGuardianDAO().removeGuardianList(toRemoveGuardianList,options);
 		
 		return platform;
 	
@@ -2864,6 +3335,72 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	
 		
+	protected Platform saveQuestionSourceList(Platform platform, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<QuestionSource> questionSourceList = platform.getQuestionSourceList();
+		if(questionSourceList == null){
+			//null list means nothing
+			return platform;
+		}
+		SmartList<QuestionSource> mergedUpdateQuestionSourceList = new SmartList<QuestionSource>();
+		
+		
+		mergedUpdateQuestionSourceList.addAll(questionSourceList); 
+		if(questionSourceList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateQuestionSourceList.addAll(questionSourceList.getToRemoveList());
+			questionSourceList.removeAll(questionSourceList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getQuestionSourceDAO().saveQuestionSourceList(mergedUpdateQuestionSourceList,options);
+		
+		if(questionSourceList.getToRemoveList() != null){
+			questionSourceList.removeAll(questionSourceList.getToRemoveList());
+		}
+		
+		
+		return platform;
+	
+	}
+	
+	protected Platform removeQuestionSourceList(Platform platform, Map<String,Object> options){
+	
+	
+		SmartList<QuestionSource> questionSourceList = platform.getQuestionSourceList();
+		if(questionSourceList == null){
+			return platform;
+		}	
+	
+		SmartList<QuestionSource> toRemoveQuestionSourceList = questionSourceList.getToRemoveList();
+		
+		if(toRemoveQuestionSourceList == null){
+			return platform;
+		}
+		if(toRemoveQuestionSourceList.isEmpty()){
+			return platform;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getQuestionSourceDAO().removeQuestionSourceList(toRemoveQuestionSourceList,options);
+		
+		return platform;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
+		
 	protected Platform saveSurveyStatusList(Platform platform, Map<String,Object> options){
 		
 		
@@ -2930,33 +3467,33 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	
 		
-	protected Platform saveUserList(Platform platform, Map<String,Object> options){
+	protected Platform saveWechatUserList(Platform platform, Map<String,Object> options){
 		
 		
 		
 		
-		SmartList<User> userList = platform.getUserList();
-		if(userList == null){
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();
+		if(wechatUserList == null){
 			//null list means nothing
 			return platform;
 		}
-		SmartList<User> mergedUpdateUserList = new SmartList<User>();
+		SmartList<WechatUser> mergedUpdateWechatUserList = new SmartList<WechatUser>();
 		
 		
-		mergedUpdateUserList.addAll(userList); 
-		if(userList.getToRemoveList() != null){
+		mergedUpdateWechatUserList.addAll(wechatUserList); 
+		if(wechatUserList.getToRemoveList() != null){
 			//ensures the toRemoveList is not null
-			mergedUpdateUserList.addAll(userList.getToRemoveList());
-			userList.removeAll(userList.getToRemoveList());
+			mergedUpdateWechatUserList.addAll(wechatUserList.getToRemoveList());
+			wechatUserList.removeAll(wechatUserList.getToRemoveList());
 			//OK for now, need fix later
 		}
 
 		//adding new size can improve performance
 	
-		getUserDAO().saveUserList(mergedUpdateUserList,options);
+		getWechatUserDAO().saveWechatUserList(mergedUpdateWechatUserList,options);
 		
-		if(userList.getToRemoveList() != null){
-			userList.removeAll(userList.getToRemoveList());
+		if(wechatUserList.getToRemoveList() != null){
+			wechatUserList.removeAll(wechatUserList.getToRemoveList());
 		}
 		
 		
@@ -2964,25 +3501,91 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	
 	}
 	
-	protected Platform removeUserList(Platform platform, Map<String,Object> options){
+	protected Platform removeWechatUserList(Platform platform, Map<String,Object> options){
 	
 	
-		SmartList<User> userList = platform.getUserList();
-		if(userList == null){
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();
+		if(wechatUserList == null){
 			return platform;
 		}	
 	
-		SmartList<User> toRemoveUserList = userList.getToRemoveList();
+		SmartList<WechatUser> toRemoveWechatUserList = wechatUserList.getToRemoveList();
 		
-		if(toRemoveUserList == null){
+		if(toRemoveWechatUserList == null){
 			return platform;
 		}
-		if(toRemoveUserList.isEmpty()){
+		if(toRemoveWechatUserList.isEmpty()){
 			return platform;// Does this mean delete all from the parent object?
 		}
 		//Call DAO to remove the list
 		
-		getUserDAO().removeUserList(toRemoveUserList,options);
+		getWechatUserDAO().removeWechatUserList(toRemoveWechatUserList,options);
+		
+		return platform;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
+		
+	protected Platform saveUserTypeList(Platform platform, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<UserType> userTypeList = platform.getUserTypeList();
+		if(userTypeList == null){
+			//null list means nothing
+			return platform;
+		}
+		SmartList<UserType> mergedUpdateUserTypeList = new SmartList<UserType>();
+		
+		
+		mergedUpdateUserTypeList.addAll(userTypeList); 
+		if(userTypeList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateUserTypeList.addAll(userTypeList.getToRemoveList());
+			userTypeList.removeAll(userTypeList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getUserTypeDAO().saveUserTypeList(mergedUpdateUserTypeList,options);
+		
+		if(userTypeList.getToRemoveList() != null){
+			userTypeList.removeAll(userTypeList.getToRemoveList());
+		}
+		
+		
+		return platform;
+	
+	}
+	
+	protected Platform removeUserTypeList(Platform platform, Map<String,Object> options){
+	
+	
+		SmartList<UserType> userTypeList = platform.getUserTypeList();
+		if(userTypeList == null){
+			return platform;
+		}	
+	
+		SmartList<UserType> toRemoveUserTypeList = userTypeList.getToRemoveList();
+		
+		if(toRemoveUserTypeList == null){
+			return platform;
+		}
+		if(toRemoveUserTypeList.isEmpty()){
+			return platform;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getUserTypeDAO().removeUserTypeList(toRemoveUserTypeList,options);
 		
 		return platform;
 	
@@ -3134,12 +3737,15 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		presentProvinceList(platform,options);
 		presentCityList(platform,options);
 		presentDistrictList(platform,options);
+		presentSchoolClassList(platform,options);
 		presentTeacherList(platform,options);
-		presentStudentList(platform,options);
+		presentGuardianList(platform,options);
 		presentQuestionList(platform,options);
 		presentQuestionTypeList(platform,options);
+		presentQuestionSourceList(platform,options);
 		presentSurveyStatusList(platform,options);
-		presentUserList(platform,options);
+		presentWechatUserList(platform,options);
+		presentUserTypeList(platform,options);
 		presentChangeRequestList(platform,options);
 		presentChangeRequestTypeList(platform,options);
 
@@ -3208,6 +3814,26 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}			
 		
 	//Using java8 feature to reduce the code significantly
+ 	protected Platform presentSchoolClassList(
+			Platform platform,
+			Map<String, Object> options) {
+
+		SmartList<SchoolClass> schoolClassList = platform.getSchoolClassList();		
+				SmartList<SchoolClass> newList= presentSubList(platform.getId(),
+				schoolClassList,
+				options,
+				getSchoolClassDAO()::countSchoolClassByPlatform,
+				getSchoolClassDAO()::findSchoolClassByPlatform
+				);
+
+		
+		platform.setSchoolClassList(newList);
+		
+
+		return platform;
+	}			
+		
+	//Using java8 feature to reduce the code significantly
  	protected Platform presentTeacherList(
 			Platform platform,
 			Map<String, Object> options) {
@@ -3228,20 +3854,20 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}			
 		
 	//Using java8 feature to reduce the code significantly
- 	protected Platform presentStudentList(
+ 	protected Platform presentGuardianList(
 			Platform platform,
 			Map<String, Object> options) {
 
-		SmartList<Student> studentList = platform.getStudentList();		
-				SmartList<Student> newList= presentSubList(platform.getId(),
-				studentList,
+		SmartList<Guardian> guardianList = platform.getGuardianList();		
+				SmartList<Guardian> newList= presentSubList(platform.getId(),
+				guardianList,
 				options,
-				getStudentDAO()::countStudentByPlatform,
-				getStudentDAO()::findStudentByPlatform
+				getGuardianDAO()::countGuardianByPlatform,
+				getGuardianDAO()::findGuardianByPlatform
 				);
 
 		
-		platform.setStudentList(newList);
+		platform.setGuardianList(newList);
 		
 
 		return platform;
@@ -3288,6 +3914,26 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}			
 		
 	//Using java8 feature to reduce the code significantly
+ 	protected Platform presentQuestionSourceList(
+			Platform platform,
+			Map<String, Object> options) {
+
+		SmartList<QuestionSource> questionSourceList = platform.getQuestionSourceList();		
+				SmartList<QuestionSource> newList= presentSubList(platform.getId(),
+				questionSourceList,
+				options,
+				getQuestionSourceDAO()::countQuestionSourceByPlatform,
+				getQuestionSourceDAO()::findQuestionSourceByPlatform
+				);
+
+		
+		platform.setQuestionSourceList(newList);
+		
+
+		return platform;
+	}			
+		
+	//Using java8 feature to reduce the code significantly
  	protected Platform presentSurveyStatusList(
 			Platform platform,
 			Map<String, Object> options) {
@@ -3308,20 +3954,40 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}			
 		
 	//Using java8 feature to reduce the code significantly
- 	protected Platform presentUserList(
+ 	protected Platform presentWechatUserList(
 			Platform platform,
 			Map<String, Object> options) {
 
-		SmartList<User> userList = platform.getUserList();		
-				SmartList<User> newList= presentSubList(platform.getId(),
-				userList,
+		SmartList<WechatUser> wechatUserList = platform.getWechatUserList();		
+				SmartList<WechatUser> newList= presentSubList(platform.getId(),
+				wechatUserList,
 				options,
-				getUserDAO()::countUserByPlatform,
-				getUserDAO()::findUserByPlatform
+				getWechatUserDAO()::countWechatUserByPlatform,
+				getWechatUserDAO()::findWechatUserByPlatform
 				);
 
 		
-		platform.setUserList(newList);
+		platform.setWechatUserList(newList);
+		
+
+		return platform;
+	}			
+		
+	//Using java8 feature to reduce the code significantly
+ 	protected Platform presentUserTypeList(
+			Platform platform,
+			Map<String, Object> options) {
+
+		SmartList<UserType> userTypeList = platform.getUserTypeList();		
+				SmartList<UserType> newList= presentSubList(platform.getId(),
+				userTypeList,
+				options,
+				getUserTypeDAO()::countUserTypeByPlatform,
+				getUserTypeDAO()::findUserTypeByPlatform
+				);
+
+		
+		platform.setUserTypeList(newList);
 		
 
 		return platform;
@@ -3387,13 +4053,19 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
     }
 		
+    public SmartList<Platform> requestCandidatePlatformForSchoolClass(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
+    }
+		
     public SmartList<Platform> requestCandidatePlatformForTeacher(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
     }
 		
-    public SmartList<Platform> requestCandidatePlatformForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+    public SmartList<Platform> requestCandidatePlatformForGuardian(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
@@ -3411,13 +4083,25 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
     }
 		
+    public SmartList<Platform> requestCandidatePlatformForQuestionSource(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
+    }
+		
     public SmartList<Platform> requestCandidatePlatformForSurveyStatus(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
     }
 		
-    public SmartList<Platform> requestCandidatePlatformForUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+    public SmartList<Platform> requestCandidatePlatformForWechatUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
+    }
+		
+    public SmartList<Platform> requestCandidatePlatformForUserType(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(PlatformTable.COLUMN_NAME, filterKey, pageNo, pageSize, getPlatformMapper());
@@ -3516,6 +4200,29 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return loadedObjs;
 	}
 	
+	// 需要一个加载引用我的对象的enhance方法:SchoolClass的platform的SchoolClassList
+	public SmartList<SchoolClass> loadOurSchoolClassList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(SchoolClass.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<SchoolClass> loadedObjs = userContext.getDAOGroup().getSchoolClassDAO().findSchoolClassWithKey(key, options);
+		Map<String, List<SchoolClass>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<SchoolClass> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<SchoolClass> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setSchoolClassList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
+	
 	// 需要一个加载引用我的对象的enhance方法:Teacher的platform的TeacherList
 	public SmartList<Teacher> loadOurTeacherList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
@@ -3539,25 +4246,25 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return loadedObjs;
 	}
 	
-	// 需要一个加载引用我的对象的enhance方法:Student的platform的StudentList
-	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
+	// 需要一个加载引用我的对象的enhance方法:Guardian的platform的GuardianList
+	public SmartList<Guardian> loadOurGuardianList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
 			return new SmartList<>();
 		}
 		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<Student> loadedObjs = userContext.getDAOGroup().getStudentDAO().findStudentWithKey(key, options);
-		Map<String, List<Student>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
+		key.put(Guardian.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<Guardian> loadedObjs = userContext.getDAOGroup().getGuardianDAO().findGuardianWithKey(key, options);
+		Map<String, List<Guardian>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
 		us.forEach(it->{
 			String id = it.getId();
-			List<Student> loadedList = loadedMap.get(id);
+			List<Guardian> loadedList = loadedMap.get(id);
 			if (loadedList == null || loadedList.isEmpty()) {
 				return;
 			}
-			SmartList<Student> loadedSmartList = new SmartList<>();
+			SmartList<Guardian> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
-			it.setStudentList(loadedSmartList);
+			it.setGuardianList(loadedSmartList);
 		});
 		return loadedObjs;
 	}
@@ -3608,6 +4315,29 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return loadedObjs;
 	}
 	
+	// 需要一个加载引用我的对象的enhance方法:QuestionSource的platform的QuestionSourceList
+	public SmartList<QuestionSource> loadOurQuestionSourceList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(QuestionSource.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<QuestionSource> loadedObjs = userContext.getDAOGroup().getQuestionSourceDAO().findQuestionSourceWithKey(key, options);
+		Map<String, List<QuestionSource>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<QuestionSource> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<QuestionSource> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setQuestionSourceList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
+	
 	// 需要一个加载引用我的对象的enhance方法:SurveyStatus的platform的SurveyStatusList
 	public SmartList<SurveyStatus> loadOurSurveyStatusList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
@@ -3631,25 +4361,48 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		return loadedObjs;
 	}
 	
-	// 需要一个加载引用我的对象的enhance方法:User的platform的UserList
-	public SmartList<User> loadOurUserList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
+	// 需要一个加载引用我的对象的enhance方法:WechatUser的platform的WechatUserList
+	public SmartList<WechatUser> loadOurWechatUserList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
 		if (us == null || us.isEmpty()){
 			return new SmartList<>();
 		}
 		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
 		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<User> loadedObjs = userContext.getDAOGroup().getUserDAO().findUserWithKey(key, options);
-		Map<String, List<User>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
+		key.put(WechatUser.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<WechatUser> loadedObjs = userContext.getDAOGroup().getWechatUserDAO().findWechatUserWithKey(key, options);
+		Map<String, List<WechatUser>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
 		us.forEach(it->{
 			String id = it.getId();
-			List<User> loadedList = loadedMap.get(id);
+			List<WechatUser> loadedList = loadedMap.get(id);
 			if (loadedList == null || loadedList.isEmpty()) {
 				return;
 			}
-			SmartList<User> loadedSmartList = new SmartList<>();
+			SmartList<WechatUser> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
-			it.setUserList(loadedSmartList);
+			it.setWechatUserList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
+	
+	// 需要一个加载引用我的对象的enhance方法:UserType的platform的UserTypeList
+	public SmartList<UserType> loadOurUserTypeList(HealthUserContext userContext, List<Platform> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(UserType.PLATFORM_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<UserType> loadedObjs = userContext.getDAOGroup().getUserTypeDAO().findUserTypeWithKey(key, options);
+		Map<String, List<UserType>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getPlatform().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<UserType> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<UserType> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setUserTypeList(loadedSmartList);
 		});
 		return loadedObjs;
 	}

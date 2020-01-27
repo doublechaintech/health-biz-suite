@@ -23,12 +23,12 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
+import com.doublechaintech.health.classquestion.ClassQuestionDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
-import com.doublechaintech.health.question.QuestionDAO;
 
 
 
@@ -58,12 +58,12 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	}
  
  	
- 	private  QuestionDAO  questionDAO;
- 	public void setQuestionDAO(QuestionDAO questionDAO){
-	 	this.questionDAO = questionDAO;
+ 	private  ClassQuestionDAO  classQuestionDAO;
+ 	public void setClassQuestionDAO(ClassQuestionDAO classQuestionDAO){
+	 	this.classQuestionDAO = classQuestionDAO;
  	}
- 	public QuestionDAO getQuestionDAO(){
-	 	return this.questionDAO;
+ 	public ClassQuestionDAO getClassQuestionDAO(){
+	 	return this.classQuestionDAO;
  	}
 
 
@@ -263,14 +263,14 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	
   
 
- 	protected boolean isExtractSurveyQuestionEnabled(Map<String,Object> options){
+ 	protected boolean isExtractClassQuestionEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, DailySurveyQuestionTokens.SURVEYQUESTION);
+	 	return checkOptions(options, DailySurveyQuestionTokens.CLASSQUESTION);
  	}
 
- 	protected boolean isSaveSurveyQuestionEnabled(Map<String,Object> options){
+ 	protected boolean isSaveClassQuestionEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, DailySurveyQuestionTokens.SURVEYQUESTION);
+ 		return checkOptions(options, DailySurveyQuestionTokens.CLASSQUESTION);
  	}
  	
 
@@ -325,8 +325,8 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	 		extractClassDailyHealthSurvey(dailySurveyQuestion, loadOptions);
  		}
   	
- 		if(isExtractSurveyQuestionEnabled(loadOptions)){
-	 		extractSurveyQuestion(dailySurveyQuestion, loadOptions);
+ 		if(isExtractClassQuestionEnabled(loadOptions)){
+	 		extractClassQuestion(dailySurveyQuestion, loadOptions);
  		}
  
 		
@@ -384,18 +384,18 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
   
 
- 	protected DailySurveyQuestion extractSurveyQuestion(DailySurveyQuestion dailySurveyQuestion, Map<String,Object> options) throws Exception{
+ 	protected DailySurveyQuestion extractClassQuestion(DailySurveyQuestion dailySurveyQuestion, Map<String,Object> options) throws Exception{
 
-		if(dailySurveyQuestion.getSurveyQuestion() == null){
+		if(dailySurveyQuestion.getClassQuestion() == null){
 			return dailySurveyQuestion;
 		}
-		String surveyQuestionId = dailySurveyQuestion.getSurveyQuestion().getId();
-		if( surveyQuestionId == null){
+		String classQuestionId = dailySurveyQuestion.getClassQuestion().getId();
+		if( classQuestionId == null){
 			return dailySurveyQuestion;
 		}
-		Question surveyQuestion = getQuestionDAO().load(surveyQuestionId,options);
-		if(surveyQuestion != null){
-			dailySurveyQuestion.setSurveyQuestion(surveyQuestion);
+		ClassQuestion classQuestion = getClassQuestionDAO().load(classQuestionId,options);
+		if(classQuestion != null){
+			dailySurveyQuestion.setClassQuestion(classQuestion);
 		}
 		
  		
@@ -542,28 +542,28 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	}
  	
   	
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId,Map<String,Object> options){
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId,Map<String,Object> options){
  	
-  		SmartList<DailySurveyQuestion> resultList = queryWith(DailySurveyQuestionTable.COLUMN_SURVEY_QUESTION, questionId, options, getDailySurveyQuestionMapper());
-		// analyzeDailySurveyQuestionBySurveyQuestion(resultList, questionId, options);
+  		SmartList<DailySurveyQuestion> resultList = queryWith(DailySurveyQuestionTable.COLUMN_CLASS_QUESTION, classQuestionId, options, getDailySurveyQuestionMapper());
+		// analyzeDailySurveyQuestionByClassQuestion(resultList, classQuestionId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId, int start, int count,Map<String,Object> options){
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<DailySurveyQuestion> resultList =  queryWithRange(DailySurveyQuestionTable.COLUMN_SURVEY_QUESTION, questionId, options, getDailySurveyQuestionMapper(), start, count);
- 		//analyzeDailySurveyQuestionBySurveyQuestion(resultList, questionId, options);
+ 		SmartList<DailySurveyQuestion> resultList =  queryWithRange(DailySurveyQuestionTable.COLUMN_CLASS_QUESTION, classQuestionId, options, getDailySurveyQuestionMapper(), start, count);
+ 		//analyzeDailySurveyQuestionByClassQuestion(resultList, classQuestionId, options);
  		return resultList;
  		
  	}
- 	public void analyzeDailySurveyQuestionBySurveyQuestion(SmartList<DailySurveyQuestion> resultList, String questionId, Map<String,Object> options){
+ 	public void analyzeDailySurveyQuestionByClassQuestion(SmartList<DailySurveyQuestion> resultList, String classQuestionId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(DailySurveyQuestion.SURVEY_QUESTION_PROPERTY, questionId);
+ 		filterKey.put(DailySurveyQuestion.CLASS_QUESTION_PROPERTY, classQuestionId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -575,13 +575,13 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  	}
  	@Override
- 	public int countDailySurveyQuestionBySurveyQuestion(String questionId,Map<String,Object> options){
+ 	public int countDailySurveyQuestionByClassQuestion(String classQuestionId,Map<String,Object> options){
 
- 		return countWith(DailySurveyQuestionTable.COLUMN_SURVEY_QUESTION, questionId, options);
+ 		return countWith(DailySurveyQuestionTable.COLUMN_CLASS_QUESTION, classQuestionId, options);
  	}
  	@Override
-	public Map<String, Integer> countDailySurveyQuestionBySurveyQuestionIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(DailySurveyQuestionTable.COLUMN_SURVEY_QUESTION, ids, options);
+	public Map<String, Integer> countDailySurveyQuestionByClassQuestionIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(DailySurveyQuestionTable.COLUMN_CLASS_QUESTION, ids, options);
 	}
  	
  	
@@ -741,8 +741,8 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  			parameters[6] = dailySurveyQuestion.getClassDailyHealthSurvey().getId();
  		}
   	
- 		if(dailySurveyQuestion.getSurveyQuestion() != null){
- 			parameters[7] = dailySurveyQuestion.getSurveyQuestion().getId();
+ 		if(dailySurveyQuestion.getClassQuestion() != null){
+ 			parameters[7] = dailySurveyQuestion.getClassQuestion().getId();
  		}
  		
  		parameters[8] = dailySurveyQuestion.nextVersion();
@@ -772,8 +772,8 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  		}
  		 	
- 		if(dailySurveyQuestion.getSurveyQuestion() != null){
- 			parameters[8] = dailySurveyQuestion.getSurveyQuestion().getId();
+ 		if(dailySurveyQuestion.getClassQuestion() != null){
+ 			parameters[8] = dailySurveyQuestion.getClassQuestion().getId();
  		
  		}
  				
@@ -793,8 +793,8 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	 		saveClassDailyHealthSurvey(dailySurveyQuestion, options);
  		}
   	
- 		if(isSaveSurveyQuestionEnabled(options)){
-	 		saveSurveyQuestion(dailySurveyQuestion, options);
+ 		if(isSaveClassQuestionEnabled(options)){
+	 		saveClassQuestion(dailySurveyQuestion, options);
  		}
  
 		
@@ -848,13 +848,13 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 	
   
  
- 	protected DailySurveyQuestion saveSurveyQuestion(DailySurveyQuestion dailySurveyQuestion, Map<String,Object> options){
+ 	protected DailySurveyQuestion saveClassQuestion(DailySurveyQuestion dailySurveyQuestion, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(dailySurveyQuestion.getSurveyQuestion() == null){
+ 		if(dailySurveyQuestion.getClassQuestion() == null){
  			return dailySurveyQuestion;//do nothing when it is null
  		}
  		
- 		getQuestionDAO().save(dailySurveyQuestion.getSurveyQuestion(),options);
+ 		getClassQuestionDAO().save(dailySurveyQuestion.getClassQuestion(),options);
  		return dailySurveyQuestion;
  		
  	}

@@ -20,8 +20,7 @@ const testValues = {};
 const testValues = {
   name: '白山水',
   mobile: '18012341234',
-  school: '益州小学',
-  schoolClass: '教科院一年级5班',
+  schoole: '益州小学',
   platformId: 'P000001',
   cqId: 'CR000001',
 }

@@ -98,8 +98,8 @@
 		<c:if test="${param.referName ne 'id'}">
 	<th>${userContext.localeMap['wechat_login_info.id']}</th>
 </c:if>
-<c:if test="${param.referName ne 'user'}">
-	<th>${userContext.localeMap['wechat_login_info.user']}</th>
+<c:if test="${param.referName ne 'wechatUser'}">
+	<th>${userContext.localeMap['wechat_login_info.wechat_user']}</th>
 </c:if>
 <c:if test="${param.referName ne 'appId'}">
 	<th>${userContext.localeMap['wechat_login_info.app_id']}</th>
@@ -119,16 +119,16 @@
 			
 			<c:forEach var="item" items="${wechatLoginInfoList}">
 				<tr currentVersion='${item.version}' id="wechatLoginInfo-${item.id}" ><td><a class="link-action-removed" href="./wechatLoginInfoManager/view/${item.id}/"> ${item.id}</a></td>
-<c:if test="${param.referName ne 'user'}">
+<c:if test="${param.referName ne 'wechatUser'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./wechatLoginInfoManager/requestCandidateUser/${ownerBeanName}/${item.id}/"
-			data-switch-method="./wechatLoginInfoManager/transferToAnotherUser/${item.id}/"
-			data-link-template="./userManager/view/${'$'}{ID}/">
+			data-candidate-method="./wechatLoginInfoManager/requestCandidateWechatUser/${ownerBeanName}/${item.id}/"
+			data-switch-method="./wechatLoginInfoManager/transferToAnotherWechatUser/${item.id}/"
+			data-link-template="./wechatUserManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.user}">
-			<a href='./userManager/view/${item.user.id}/'>${item.user.displayName}</a>
+			<c:if test="${not empty  item.wechatUser}">
+			<a href='./wechatUserManager/view/${item.wechatUser.id}/'>${item.wechatUser.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.user}">
+			<c:if test="${empty  item.wechatUser}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>

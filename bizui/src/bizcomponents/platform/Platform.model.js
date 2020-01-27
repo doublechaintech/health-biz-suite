@@ -324,6 +324,75 @@ export default {
 
 
 
+    *addSchoolClass({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;
+
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.addSchoolClass, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+      yield put({ type: 'updateState', payload: newPlayload })
+      // yield put(routerRedux.push(`/platform/${id}/list/${role}CreateForm'))
+      notifySuccess(userContext)
+      if (continueNext) {
+        return
+      }
+      const partialList = true
+      const newState = {...data, partialList}
+      const location = { pathname: `/platform/${id}/list/SchoolClassList/学校类+${appLocaleName(userContext,'List')}`, state: newState }
+      yield put(routerRedux.push(location))
+    },
+    *updateSchoolClass({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;      
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.updateSchoolClass, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const partialList = true
+      
+      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+      
+      if (continueNext) {
+        return
+      }
+      const location = { pathname: `/platform/${id}/list/SchoolClassList/学校类列表`, state: newPlayload }
+      yield put(routerRedux.push(location))
+    },
+    *gotoNextSchoolClassUpdateRow({ payload }, { call, put }) {
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
+      yield put({ type: 'updateState', payload: newPlayload })
+    },
+    *removeSchoolClassList({ payload }, { call, put }) {
+     const userContext = null
+      const {PlatformService} = GlobalComponents; 
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.removeSchoolClassList, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+    },
+
+
+
+
     *addTeacher({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;
@@ -393,13 +462,13 @@ export default {
 
 
 
-    *addStudent({ payload }, { call, put }) {
+    *addGuardian({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.addStudent, id, parameters)
+      const data = yield call(PlatformService.addGuardian, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -413,15 +482,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/platform/${id}/list/StudentList/学生+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/platform/${id}/list/GuardianList/《卫报》+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateStudent({ payload }, { call, put }) {
+    *updateGuardian({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.updateStudent, id, parameters)
+      const data = yield call(PlatformService.updateGuardian, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -435,20 +504,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/platform/${id}/list/StudentList/学生列表`, state: newPlayload }
+      const location = { pathname: `/platform/${id}/list/GuardianList/《卫报》列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextStudentUpdateRow({ payload }, { call, put }) {
+    *gotoNextGuardianUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeStudentList({ payload }, { call, put }) {
+    *removeGuardianList({ payload }, { call, put }) {
      const userContext = null
       const {PlatformService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.removeStudentList, id, parameters)
+      const data = yield call(PlatformService.removeGuardianList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -600,6 +669,75 @@ export default {
 
 
 
+    *addQuestionSource({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;
+
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.addQuestionSource, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+      yield put({ type: 'updateState', payload: newPlayload })
+      // yield put(routerRedux.push(`/platform/${id}/list/${role}CreateForm'))
+      notifySuccess(userContext)
+      if (continueNext) {
+        return
+      }
+      const partialList = true
+      const newState = {...data, partialList}
+      const location = { pathname: `/platform/${id}/list/QuestionSourceList/问题的来源+${appLocaleName(userContext,'List')}`, state: newState }
+      yield put(routerRedux.push(location))
+    },
+    *updateQuestionSource({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;      
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.updateQuestionSource, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const partialList = true
+      
+      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+      
+      if (continueNext) {
+        return
+      }
+      const location = { pathname: `/platform/${id}/list/QuestionSourceList/问题的来源列表`, state: newPlayload }
+      yield put(routerRedux.push(location))
+    },
+    *gotoNextQuestionSourceUpdateRow({ payload }, { call, put }) {
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
+      yield put({ type: 'updateState', payload: newPlayload })
+    },
+    *removeQuestionSourceList({ payload }, { call, put }) {
+     const userContext = null
+      const {PlatformService} = GlobalComponents; 
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.removeQuestionSourceList, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+    },
+
+
+
+
     *addSurveyStatus({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;
@@ -669,13 +807,13 @@ export default {
 
 
 
-    *addUser({ payload }, { call, put }) {
+    *addWechatUser({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.addUser, id, parameters)
+      const data = yield call(PlatformService.addWechatUser, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -689,15 +827,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/platform/${id}/list/UserList/用户+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/platform/${id}/list/WechatUserList/微信用户+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateUser({ payload }, { call, put }) {
+    *updateWechatUser({ payload }, { call, put }) {
       const userContext = null
       const {PlatformService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.updateUser, id, parameters)
+      const data = yield call(PlatformService.updateWechatUser, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -711,20 +849,89 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/platform/${id}/list/UserList/用户列表`, state: newPlayload }
+      const location = { pathname: `/platform/${id}/list/WechatUserList/微信用户列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextUserUpdateRow({ payload }, { call, put }) {
+    *gotoNextWechatUserUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeUserList({ payload }, { call, put }) {
+    *removeWechatUserList({ payload }, { call, put }) {
      const userContext = null
       const {PlatformService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(PlatformService.removeUserList, id, parameters)
+      const data = yield call(PlatformService.removeWechatUserList, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+    },
+
+
+
+
+    *addUserType({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;
+
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.addUserType, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+      yield put({ type: 'updateState', payload: newPlayload })
+      // yield put(routerRedux.push(`/platform/${id}/list/${role}CreateForm'))
+      notifySuccess(userContext)
+      if (continueNext) {
+        return
+      }
+      const partialList = true
+      const newState = {...data, partialList}
+      const location = { pathname: `/platform/${id}/list/UserTypeList/用户类型+${appLocaleName(userContext,'List')}`, state: newState }
+      yield put(routerRedux.push(location))
+    },
+    *updateUserType({ payload }, { call, put }) {
+      const userContext = null
+      const {PlatformService} = GlobalComponents;      
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.updateUserType, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const partialList = true
+      
+      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+      
+      if (continueNext) {
+        return
+      }
+      const location = { pathname: `/platform/${id}/list/UserTypeList/用户类型列表`, state: newPlayload }
+      yield put(routerRedux.push(location))
+    },
+    *gotoNextUserTypeUpdateRow({ payload }, { call, put }) {
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
+      yield put({ type: 'updateState', payload: newPlayload })
+    },
+    *removeUserTypeList({ payload }, { call, put }) {
+     const userContext = null
+      const {PlatformService} = GlobalComponents; 
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(PlatformService.removeUserTypeList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return

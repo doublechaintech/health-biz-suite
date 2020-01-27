@@ -19,7 +19,7 @@ const testValues = {};
 /*
 const testValues = {
   name: '答题',
-  requestTypeId: 'LOGIN',
+  requestTypeId: 'AnswerQuestion',
   platformId: 'P000001',
 }
 */
@@ -74,10 +74,12 @@ class ChangeRequestAssociateForm extends Component {
     const {ChangeRequestService} = GlobalComponents
     const userContext = null
     
+ const {SchoolClassModalTable} = GlobalComponents;
  const {TeacherModalTable} = GlobalComponents;
- const {StudentModalTable} = GlobalComponents;
- const {QuestionModalTable} = GlobalComponents;
+ const {GuardianModalTable} = GlobalComponents;
+ const {ClassQuestionModalTable} = GlobalComponents;
  const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
+ const {StudentModalTable} = GlobalComponents;
  const {StudentHealthSurveyModalTable} = GlobalComponents;
  const {StudentDailyAnswerModalTable} = GlobalComponents;
 
@@ -208,10 +210,12 @@ class ChangeRequestAssociateForm extends Component {
 			
         </Card>
         
+	<SchoolClassModalTable data={data.schoolClassList} owner={owner} />
 	<TeacherModalTable data={data.teacherList} owner={owner} />
-	<StudentModalTable data={data.studentList} owner={owner} />
-	<QuestionModalTable data={data.questionList} owner={owner} />
+	<GuardianModalTable data={data.guardianList} owner={owner} />
+	<ClassQuestionModalTable data={data.classQuestionList} owner={owner} />
 	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />
+	<StudentModalTable data={data.studentList} owner={owner} />
 	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
 	<StudentDailyAnswerModalTable data={data.studentDailyAnswerList} owner={owner} />
         

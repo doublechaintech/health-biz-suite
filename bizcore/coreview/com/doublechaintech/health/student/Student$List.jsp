@@ -98,29 +98,20 @@
 		<c:if test="${param.referName ne 'id'}">
 	<th>${userContext.localeMap['student.id']}</th>
 </c:if>
-<c:if test="${param.referName ne 'studentName'}">
-	<th>${userContext.localeMap['student.student_name']}</th>
+<c:if test="${param.referName ne 'name'}">
+	<th>${userContext.localeMap['student.name']}</th>
+</c:if>
+<c:if test="${param.referName ne 'gender'}">
+	<th>${userContext.localeMap['student.gender']}</th>
+</c:if>
+<c:if test="${param.referName ne 'guardian'}">
+	<th>${userContext.localeMap['student.guardian']}</th>
+</c:if>
+<c:if test="${param.referName ne 'schoolClass'}">
+	<th>${userContext.localeMap['student.school_class']}</th>
 </c:if>
 <c:if test="${param.referName ne 'studentId'}">
 	<th>${userContext.localeMap['student.student_id']}</th>
-</c:if>
-<c:if test="${param.referName ne 'guardianName'}">
-	<th>${userContext.localeMap['student.guardian_name']}</th>
-</c:if>
-<c:if test="${param.referName ne 'guardianMobile'}">
-	<th>${userContext.localeMap['student.guardian_mobile']}</th>
-</c:if>
-<c:if test="${param.referName ne 'address'}">
-	<th>${userContext.localeMap['student.address']}</th>
-</c:if>
-<c:if test="${param.referName ne 'user'}">
-	<th>${userContext.localeMap['student.user']}</th>
-</c:if>
-<c:if test="${param.referName ne 'createTime'}">
-	<th>${userContext.localeMap['student.create_time']}</th>
-</c:if>
-<c:if test="${param.referName ne 'platform'}">
-	<th>${userContext.localeMap['student.platform']}</th>
 </c:if>
 <c:if test="${param.referName ne 'cq'}">
 	<th>${userContext.localeMap['student.cq']}</th>
@@ -131,20 +122,18 @@
 			
 			<c:forEach var="item" items="${studentList}">
 				<tr currentVersion='${item.version}' id="student-${item.id}" ><td><a class="link-action-removed" href="./studentManager/view/${item.id}/"> ${item.id}</a></td>
-<c:if test="${param.referName ne 'studentName'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentName' storedCellValue='${item.studentName}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentName}</td>
-</c:if><c:if test="${param.referName ne 'studentId'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentId' storedCellValue='${item.studentId}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentId}</td>
-</c:if><c:if test="${param.referName ne 'guardianName'}">	<td contenteditable='true' class='edit-value'  propertyToChange='guardianName' storedCellValue='${item.guardianName}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.guardianName}</td>
-</c:if><c:if test="${param.referName ne 'guardianMobile'}">	<td contenteditable='true' class='edit-value'  propertyToChange='guardianMobile' storedCellValue='${item.maskedGuardianMobile}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.maskedGuardianMobile}</td>
-</c:if><c:if test="${param.referName ne 'address'}">
+<c:if test="${param.referName ne 'name'}">	<td contenteditable='true' class='edit-value'  propertyToChange='name' storedCellValue='${item.name}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.name}</td>
+</c:if><c:if test="${param.referName ne 'gender'}">	<td contenteditable='true' class='edit-value'  propertyToChange='gender' storedCellValue='${item.gender}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.gender}</td>
+</c:if><c:if test="${param.referName ne 'guardian'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./studentManager/requestCandidateAddress/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentManager/transferToAnotherAddress/${item.id}/"
-			data-link-template="./locationManager/view/${'$'}{ID}/">
+			data-candidate-method="./studentManager/requestCandidateGuardian/${ownerBeanName}/${item.id}/"
+			data-switch-method="./studentManager/transferToAnotherGuardian/${item.id}/"
+			data-link-template="./guardianManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.address}">
-			<a href='./locationManager/view/${item.address.id}/'>${item.address.displayName}</a>
+			<c:if test="${not empty  item.guardian}">
+			<a href='./guardianManager/view/${item.guardian.id}/'>${item.guardian.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.address}">
+			<c:if test="${empty  item.guardian}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>
@@ -154,16 +143,16 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'user'}">
+<c:if test="${param.referName ne 'schoolClass'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./studentManager/requestCandidateUser/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentManager/transferToAnotherUser/${item.id}/"
-			data-link-template="./userManager/view/${'$'}{ID}/">
+			data-candidate-method="./studentManager/requestCandidateSchoolClass/${ownerBeanName}/${item.id}/"
+			data-switch-method="./studentManager/transferToAnotherSchoolClass/${item.id}/"
+			data-link-template="./schoolClassManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.user}">
-			<a href='./userManager/view/${item.user.id}/'>${item.user.displayName}</a>
+			<c:if test="${not empty  item.schoolClass}">
+			<a href='./schoolClassManager/view/${item.schoolClass.id}/'>${item.schoolClass.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.user}">
+			<c:if test="${empty  item.schoolClass}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>
@@ -173,27 +162,8 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
-</c:if><c:if test="${param.referName ne 'platform'}">
-	<td class="select_candidate_td"
-			data-candidate-method="./studentManager/requestCandidatePlatform/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentManager/transferToAnotherPlatform/${item.id}/"
-			data-link-template="./platformManager/view/${'$'}{ID}/">
-		<span class="display_span">
-			<c:if test="${not empty  item.platform}">
-			<a href='./platformManager/view/${item.platform.id}/'>${item.platform.displayName}</a>
-			</c:if>
-			<c:if test="${empty  item.platform}">
-			<a href='#'></a>
-			</c:if>
-			<button class="btn btn-link candidate-action">...</button>
-		</span>
-		<div class="candidate_span" style="display:none;">
-			<input type="text" data-provide="typeahead" class="input-sm form-control candidate-filter-input" autocomplete="off" />
-		</div>
-	</td>
-</c:if>
-<c:if test="${param.referName ne 'cq'}">
+<c:if test="${param.referName ne 'studentId'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentId' storedCellValue='${item.studentId}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentId}</td>
+</c:if><c:if test="${param.referName ne 'cq'}">
 	<td class="select_candidate_td"
 			data-candidate-method="./studentManager/requestCandidateCq/${ownerBeanName}/${item.id}/"
 			data-switch-method="./studentManager/transferToAnotherCq/${item.id}/"

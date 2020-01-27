@@ -18,10 +18,10 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  answerTime: '2020-01-16 12:26:40',
+  answerTime: '2020-01-13 00:14:21',
   studentId: 'S000001',
   surveyStatusId: 'UnSubmitted',
-  teacherId: 'T000001',
+  schoolClassId: 'SC000001',
   classDailyHealthSurveyId: 'CDHS000001',
   cqId: 'CR000001',
 }
@@ -196,15 +196,15 @@ class StudentHealthSurveyAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.teacher} {...formItemLayout}>
-                  {getFieldDecorator('teacherId', {
-                  	initialValue: tryinit('teacher'),
+                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
+                  {getFieldDecorator('schoolClassId', {
+                  	initialValue: tryinit('schoolClass'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('teacher')}
-                    targetType={"teacher"} 
-                    requestFunction={StudentHealthSurveyService.requestCandidateTeacher}/>
+                    disabled={!availableForEdit('schoolClass')}
+                    targetType={"schoolClass"} 
+                    requestFunction={StudentHealthSurveyService.requestCandidateSchoolClass}/>
   
                   )}
                 </Form.Item>

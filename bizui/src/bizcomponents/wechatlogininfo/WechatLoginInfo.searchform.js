@@ -132,7 +132,7 @@ componentDidMount() {
       const {listName} = owner
      
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'id'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'user'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'wechatUser'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'appId'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'openId'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'sessionKey'))
@@ -201,13 +201,13 @@ componentDidMount() {
          </FormItem>
        </Col>
  <Col md={8} sm={24}>
-                 <Form.Item label={fieldLabels.user}>
-               {getFieldDecorator('user', {initialValue: tryinit('user')})(
+                 <Form.Item label={fieldLabels.wechatUser}>
+               {getFieldDecorator('wechatUser', {initialValue: tryinit('wechatUser')})(
                
                <SelectObject 
-                 disabled={!availableForEdit('user')}
-                 targetType={"user"} 
-                 requestFunction={WechatLoginInfoService.requestCandidateUser} useForSearch />
+                 disabled={!availableForEdit('wechatUser')}
+                 targetType={"wechatUser"} 
+                 requestFunction={WechatLoginInfoService.requestCandidateWechatUser} useForSearch />
                	 
        
                )}
@@ -260,13 +260,13 @@ componentDidMount() {
             </FormItem>
           </Col>
  <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.user}>
-                  {getFieldDecorator('user', {initialValue: tryinit('user')})(
+                    <Form.Item label={fieldLabels.wechatUser}>
+                  {getFieldDecorator('wechatUser', {initialValue: tryinit('wechatUser')})(
                   
                   <SelectObject 
-                    disabled={!availableForEdit('user')}
-                    targetType={"user"} 
-                    requestFunction={WechatLoginInfoService.requestCandidateUser} useForSearch />
+                    disabled={!availableForEdit('wechatUser')}
+                    targetType={"wechatUser"} 
+                    requestFunction={WechatLoginInfoService.requestCandidateWechatUser} useForSearch />
                   	
                  
                   )}

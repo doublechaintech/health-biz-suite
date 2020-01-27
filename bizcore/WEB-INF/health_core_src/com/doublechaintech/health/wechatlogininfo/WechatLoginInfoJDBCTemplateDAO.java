@@ -20,9 +20,9 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
-import com.doublechaintech.health.user.UserDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
 
 
 
@@ -34,12 +34,12 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements WechatLoginInfoDAO{
  
  	
- 	private  UserDAO  userDAO;
- 	public void setUserDAO(UserDAO userDAO){
-	 	this.userDAO = userDAO;
+ 	private  WechatUserDAO  wechatUserDAO;
+ 	public void setWechatUserDAO(WechatUserDAO wechatUserDAO){
+	 	this.wechatUserDAO = wechatUserDAO;
  	}
- 	public UserDAO getUserDAO(){
-	 	return this.userDAO;
+ 	public WechatUserDAO getWechatUserDAO(){
+	 	return this.wechatUserDAO;
  	}
 
 
@@ -185,14 +185,14 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 
  
 
- 	protected boolean isExtractUserEnabled(Map<String,Object> options){
+ 	protected boolean isExtractWechatUserEnabled(Map<String,Object> options){
  		
-	 	return checkOptions(options, WechatLoginInfoTokens.USER);
+	 	return checkOptions(options, WechatLoginInfoTokens.WECHATUSER);
  	}
 
- 	protected boolean isSaveUserEnabled(Map<String,Object> options){
+ 	protected boolean isSaveWechatUserEnabled(Map<String,Object> options){
 	 	
- 		return checkOptions(options, WechatLoginInfoTokens.USER);
+ 		return checkOptions(options, WechatLoginInfoTokens.WECHATUSER);
  	}
  	
 
@@ -225,8 +225,8 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 		
 		WechatLoginInfo wechatLoginInfo = extractWechatLoginInfo(accessKey, loadOptions);
  	
- 		if(isExtractUserEnabled(loadOptions)){
-	 		extractUser(wechatLoginInfo, loadOptions);
+ 		if(isExtractWechatUserEnabled(loadOptions)){
+	 		extractWechatUser(wechatLoginInfo, loadOptions);
  		}
  
 		
@@ -236,18 +236,18 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 
 	 
 
- 	protected WechatLoginInfo extractUser(WechatLoginInfo wechatLoginInfo, Map<String,Object> options) throws Exception{
+ 	protected WechatLoginInfo extractWechatUser(WechatLoginInfo wechatLoginInfo, Map<String,Object> options) throws Exception{
 
-		if(wechatLoginInfo.getUser() == null){
+		if(wechatLoginInfo.getWechatUser() == null){
 			return wechatLoginInfo;
 		}
-		String userId = wechatLoginInfo.getUser().getId();
-		if( userId == null){
+		String wechatUserId = wechatLoginInfo.getWechatUser().getId();
+		if( wechatUserId == null){
 			return wechatLoginInfo;
 		}
-		User user = getUserDAO().load(userId,options);
-		if(user != null){
-			wechatLoginInfo.setUser(user);
+		WechatUser wechatUser = getWechatUserDAO().load(wechatUserId,options);
+		if(wechatUser != null){
+			wechatLoginInfo.setWechatUser(wechatUser);
 		}
 		
  		
@@ -258,28 +258,28 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 		
 		
   	
- 	public SmartList<WechatLoginInfo> findWechatLoginInfoByUser(String userId,Map<String,Object> options){
+ 	public SmartList<WechatLoginInfo> findWechatLoginInfoByWechatUser(String wechatUserId,Map<String,Object> options){
  	
-  		SmartList<WechatLoginInfo> resultList = queryWith(WechatLoginInfoTable.COLUMN_USER, userId, options, getWechatLoginInfoMapper());
-		// analyzeWechatLoginInfoByUser(resultList, userId, options);
+  		SmartList<WechatLoginInfo> resultList = queryWith(WechatLoginInfoTable.COLUMN_WECHAT_USER, wechatUserId, options, getWechatLoginInfoMapper());
+		// analyzeWechatLoginInfoByWechatUser(resultList, wechatUserId, options);
 		return resultList;
  	}
  	 
  
- 	public SmartList<WechatLoginInfo> findWechatLoginInfoByUser(String userId, int start, int count,Map<String,Object> options){
+ 	public SmartList<WechatLoginInfo> findWechatLoginInfoByWechatUser(String wechatUserId, int start, int count,Map<String,Object> options){
  		
- 		SmartList<WechatLoginInfo> resultList =  queryWithRange(WechatLoginInfoTable.COLUMN_USER, userId, options, getWechatLoginInfoMapper(), start, count);
- 		//analyzeWechatLoginInfoByUser(resultList, userId, options);
+ 		SmartList<WechatLoginInfo> resultList =  queryWithRange(WechatLoginInfoTable.COLUMN_WECHAT_USER, wechatUserId, options, getWechatLoginInfoMapper(), start, count);
+ 		//analyzeWechatLoginInfoByWechatUser(resultList, wechatUserId, options);
  		return resultList;
  		
  	}
- 	public void analyzeWechatLoginInfoByUser(SmartList<WechatLoginInfo> resultList, String userId, Map<String,Object> options){
+ 	public void analyzeWechatLoginInfoByWechatUser(SmartList<WechatLoginInfo> resultList, String wechatUserId, Map<String,Object> options){
 		if(resultList==null){
 			return;//do nothing when the list is null.
 		}
 		
  		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(WechatLoginInfo.USER_PROPERTY, userId);
+ 		filterKey.put(WechatLoginInfo.WECHAT_USER_PROPERTY, wechatUserId);
  		Map<String,Object> emptyOptions = new HashMap<String,Object>();
  		
  		StatsInfo info = new StatsInfo();
@@ -298,13 +298,13 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
  		
  	}
  	@Override
- 	public int countWechatLoginInfoByUser(String userId,Map<String,Object> options){
+ 	public int countWechatLoginInfoByWechatUser(String wechatUserId,Map<String,Object> options){
 
- 		return countWith(WechatLoginInfoTable.COLUMN_USER, userId, options);
+ 		return countWith(WechatLoginInfoTable.COLUMN_WECHAT_USER, wechatUserId, options);
  	}
  	@Override
-	public Map<String, Integer> countWechatLoginInfoByUserIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(WechatLoginInfoTable.COLUMN_USER, ids, options);
+	public Map<String, Integer> countWechatLoginInfoByWechatUserIds(String[] ids, Map<String, Object> options) {
+		return countWithIds(WechatLoginInfoTable.COLUMN_WECHAT_USER, ids, options);
 	}
  	
  	
@@ -451,8 +451,8 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
  	protected Object[] prepareWechatLoginInfoUpdateParameters(WechatLoginInfo wechatLoginInfo){
  		Object[] parameters = new Object[8];
   	
- 		if(wechatLoginInfo.getUser() != null){
- 			parameters[0] = wechatLoginInfo.getUser().getId();
+ 		if(wechatLoginInfo.getWechatUser() != null){
+ 			parameters[0] = wechatLoginInfo.getWechatUser().getId();
  		}
  
  		parameters[1] = wechatLoginInfo.getAppId();
@@ -471,8 +471,8 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 		wechatLoginInfo.setId(newWechatLoginInfoId);
 		parameters[0] =  wechatLoginInfo.getId();
   	
- 		if(wechatLoginInfo.getUser() != null){
- 			parameters[1] = wechatLoginInfo.getUser().getId();
+ 		if(wechatLoginInfo.getWechatUser() != null){
+ 			parameters[1] = wechatLoginInfo.getWechatUser().getId();
  		
  		}
  		
@@ -488,8 +488,8 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 		
 		saveWechatLoginInfo(wechatLoginInfo);
  	
- 		if(isSaveUserEnabled(options)){
-	 		saveUser(wechatLoginInfo, options);
+ 		if(isSaveWechatUserEnabled(options)){
+	 		saveWechatUser(wechatLoginInfo, options);
  		}
  
 		
@@ -502,13 +502,13 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
 	//======================================================================================
 	 
  
- 	protected WechatLoginInfo saveUser(WechatLoginInfo wechatLoginInfo, Map<String,Object> options){
+ 	protected WechatLoginInfo saveWechatUser(WechatLoginInfo wechatLoginInfo, Map<String,Object> options){
  		//Call inject DAO to execute this method
- 		if(wechatLoginInfo.getUser() == null){
+ 		if(wechatLoginInfo.getWechatUser() == null){
  			return wechatLoginInfo;//do nothing when it is null
  		}
  		
- 		getUserDAO().save(wechatLoginInfo.getUser(),options);
+ 		getWechatUserDAO().save(wechatLoginInfo.getWechatUser(),options);
  		return wechatLoginInfo;
  		
  	}

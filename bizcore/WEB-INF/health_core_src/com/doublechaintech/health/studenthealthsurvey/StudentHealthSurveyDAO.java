@@ -10,16 +10,16 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 
+import com.doublechaintech.health.schoolclass.SchoolClassDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.student.StudentDAO;
-import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
 
@@ -89,11 +89,11 @@ public interface StudentHealthSurveyDAO extends BaseDAO{
 
  
   
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
- 	public int countStudentHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentHealthSurveyByTeacherIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyByTeacher(String teacherId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentHealthSurveyByTeacher(SmartList<StudentHealthSurvey> resultList, String teacherId, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
+ 	public int countStudentHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
+ 	public Map<String, Integer> countStudentHealthSurveyBySchoolClassIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<StudentHealthSurvey> findStudentHealthSurveyBySchoolClass(String schoolClassId, int start, int count, Map<String,Object> options);
+ 	public void analyzeStudentHealthSurveyBySchoolClass(SmartList<StudentHealthSurvey> resultList, String schoolClassId, Map<String,Object> options);
 
  
   

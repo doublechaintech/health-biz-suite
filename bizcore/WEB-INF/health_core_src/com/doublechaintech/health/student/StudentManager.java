@@ -13,15 +13,14 @@ public interface StudentManager extends BaseManager{
 
 		
 
-	public Student createStudent(HealthUserContext userContext, String studentName,String studentId,String guardianName,String guardianMobile,String addressId,String userId,String platformId,String cqId) throws Exception;	
+	public Student createStudent(HealthUserContext userContext, String name,String gender,String guardianId,String schoolClassId,String studentId,String cqId) throws Exception;	
 	public Student updateStudent(HealthUserContext userContext,String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception;
 	public Student loadStudent(HealthUserContext userContext, String studentId, String [] tokensExpr) throws Exception;
 	public Student internalSaveStudent(HealthUserContext userContext, Student student) throws Exception;
 	public Student internalSaveStudent(HealthUserContext userContext, Student student,Map<String,Object>option) throws Exception;
 	
-	public Student transferToAnotherAddress(HealthUserContext userContext, String studentId, String anotherAddressId)  throws Exception;
- 	public Student transferToAnotherUser(HealthUserContext userContext, String studentId, String anotherUserId)  throws Exception;
- 	public Student transferToAnotherPlatform(HealthUserContext userContext, String studentId, String anotherPlatformId)  throws Exception;
+	public Student transferToAnotherGuardian(HealthUserContext userContext, String studentId, String anotherGuardianId)  throws Exception;
+ 	public Student transferToAnotherSchoolClass(HealthUserContext userContext, String studentId, String anotherSchoolClassId)  throws Exception;
  	public Student transferToAnotherCq(HealthUserContext userContext, String studentId, String anotherCqId)  throws Exception;
  
 
@@ -32,9 +31,9 @@ public interface StudentManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentHealthSurveyManager getStudentHealthSurveyManager(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId, String cqId ,String [] tokensExpr)  throws Exception;
+	//public  StudentHealthSurveyManager getStudentHealthSurveyManager(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String classDailyHealthSurveyId, String cqId ,String [] tokensExpr)  throws Exception;
 	
-	public  Student addStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId, String cqId , String [] tokensExpr)  throws Exception;
+	public  Student addStudentHealthSurvey(HealthUserContext userContext, String studentId, DateTime answerTime, String surveyStatusId, String schoolClassId, String classDailyHealthSurveyId, String cqId , String [] tokensExpr)  throws Exception;
 	public  Student removeStudentHealthSurvey(HealthUserContext userContext, String studentId, String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr)  throws Exception;
 	public  Student updateStudentHealthSurvey(HealthUserContext userContext, String studentId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

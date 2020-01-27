@@ -13,7 +13,7 @@ import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.student.Student;
@@ -27,7 +27,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 	public static final String STUDENT_PROPERTY               = "student"           ;
 	public static final String ANSWER_TIME_PROPERTY           = "answerTime"        ;
 	public static final String SURVEY_STATUS_PROPERTY         = "surveyStatus"      ;
-	public static final String TEACHER_PROPERTY               = "teacher"           ;
+	public static final String SCHOOL_CLASS_PROPERTY          = "schoolClass"       ;
 	public static final String CLASS_DAILY_HEALTH_SURVEY_PROPERTY = "classDailyHealthSurvey";
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String LAST_UPDATE_TIME_PROPERTY      = "lastUpdateTime"    ;
@@ -59,7 +59,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 	protected		Student             	mStudent            ;
 	protected		DateTime            	mAnswerTime         ;
 	protected		SurveyStatus        	mSurveyStatus       ;
-	protected		Teacher             	mTeacher            ;
+	protected		SchoolClass         	mSchoolClass        ;
 	protected		ClassDailyHealthSurvey	mClassDailyHealthSurvey;
 	protected		DateTime            	mCreateTime         ;
 	protected		DateTime            	mLastUpdateTime     ;
@@ -87,7 +87,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 	public 	void clearFromAll(){
 		setStudent( null );
 		setSurveyStatus( null );
-		setTeacher( null );
+		setSchoolClass( null );
 		setClassDailyHealthSurvey( null );
 		setCq( null );
 
@@ -172,8 +172,8 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		if(SURVEY_STATUS_PROPERTY.equals(property)){
 			return getSurveyStatus();
 		}
-		if(TEACHER_PROPERTY.equals(property)){
-			return getTeacher();
+		if(SCHOOL_CLASS_PROPERTY.equals(property)){
+			return getSchoolClass();
 		}
 		if(CLASS_DAILY_HEALTH_SURVEY_PROPERTY.equals(property)){
 			return getClassDailyHealthSurvey();
@@ -276,24 +276,24 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		this.changed = true;
 	}
 	
-	public void setTeacher(Teacher teacher){
-		this.mTeacher = teacher;;
+	public void setSchoolClass(SchoolClass schoolClass){
+		this.mSchoolClass = schoolClass;;
 	}
-	public Teacher getTeacher(){
-		return this.mTeacher;
+	public SchoolClass getSchoolClass(){
+		return this.mSchoolClass;
 	}
-	public StudentHealthSurvey updateTeacher(Teacher teacher){
-		this.mTeacher = teacher;;
+	public StudentHealthSurvey updateSchoolClass(SchoolClass schoolClass){
+		this.mSchoolClass = schoolClass;;
 		this.changed = true;
 		return this;
 	}
-	public void mergeTeacher(Teacher teacher){
-		if(teacher != null) { setTeacher(teacher);}
+	public void mergeSchoolClass(SchoolClass schoolClass){
+		if(schoolClass != null) { setSchoolClass(schoolClass);}
 	}
 	
 	
-	public void clearTeacher(){
-		setTeacher ( null );
+	public void clearSchoolClass(){
+		setSchoolClass ( null );
 		this.changed = true;
 	}
 	
@@ -499,7 +499,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 
 		addToEntityList(this, entityList, getStudent(), internalType);
 		addToEntityList(this, entityList, getSurveyStatus(), internalType);
-		addToEntityList(this, entityList, getTeacher(), internalType);
+		addToEntityList(this, entityList, getSchoolClass(), internalType);
 		addToEntityList(this, entityList, getClassDailyHealthSurvey(), internalType);
 		addToEntityList(this, entityList, getCq(), internalType);
 
@@ -531,7 +531,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		appendKeyValuePair(result, STUDENT_PROPERTY, getStudent());
 		appendKeyValuePair(result, ANSWER_TIME_PROPERTY, getAnswerTime());
 		appendKeyValuePair(result, SURVEY_STATUS_PROPERTY, getSurveyStatus());
-		appendKeyValuePair(result, TEACHER_PROPERTY, getTeacher());
+		appendKeyValuePair(result, SCHOOL_CLASS_PROPERTY, getSchoolClass());
 		appendKeyValuePair(result, CLASS_DAILY_HEALTH_SURVEY_PROPERTY, getClassDailyHealthSurvey());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, LAST_UPDATE_TIME_PROPERTY, getLastUpdateTime());
@@ -560,7 +560,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 			dest.setStudent(getStudent());
 			dest.setAnswerTime(getAnswerTime());
 			dest.setSurveyStatus(getSurveyStatus());
-			dest.setTeacher(getTeacher());
+			dest.setSchoolClass(getSchoolClass());
 			dest.setClassDailyHealthSurvey(getClassDailyHealthSurvey());
 			dest.setCreateTime(getCreateTime());
 			dest.setLastUpdateTime(getLastUpdateTime());
@@ -584,7 +584,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 			dest.mergeStudent(getStudent());
 			dest.mergeAnswerTime(getAnswerTime());
 			dest.mergeSurveyStatus(getSurveyStatus());
-			dest.mergeTeacher(getTeacher());
+			dest.mergeSchoolClass(getSchoolClass());
 			dest.mergeClassDailyHealthSurvey(getClassDailyHealthSurvey());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergeLastUpdateTime(getLastUpdateTime());
@@ -615,7 +615,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getStudent(), getAnswerTime(), getSurveyStatus(), getTeacher(), getClassDailyHealthSurvey(), getCreateTime(), getLastUpdateTime(), getCq(), getVersion()};
+		return new Object[]{getId(), getStudent(), getAnswerTime(), getSurveyStatus(), getSchoolClass(), getClassDailyHealthSurvey(), getCreateTime(), getLastUpdateTime(), getCq(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -629,8 +629,8 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		if(getSurveyStatus() != null ){
  			stringBuilder.append("\tsurveyStatus='SurveyStatus("+getSurveyStatus().getId()+")';");
  		}
-		if(getTeacher() != null ){
- 			stringBuilder.append("\tteacher='Teacher("+getTeacher().getId()+")';");
+		if(getSchoolClass() != null ){
+ 			stringBuilder.append("\tschoolClass='SchoolClass("+getSchoolClass().getId()+")';");
  		}
 		if(getClassDailyHealthSurvey() != null ){
  			stringBuilder.append("\tclassDailyHealthSurvey='ClassDailyHealthSurvey("+getClassDailyHealthSurvey().getId()+")';");

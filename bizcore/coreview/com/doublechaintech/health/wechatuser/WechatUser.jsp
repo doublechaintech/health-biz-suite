@@ -101,7 +101,7 @@
 	  <li class="active"><a data-toggle="tab" href="#summary" class="disabled"><i class="fa  fa-home"></i> ${userContext.localeMap['@summary']}</a></li>
 	 
 	<% WechatUser result = (WechatUser)request.getAttribute("result");  %>
-			<li><a data-toggle="tab" href="#parentList" class="disabled"> ${userContext.localeMap['parent']}</a></li>
+			<li><a data-toggle="tab" href="#guardianList" class="disabled"> ${userContext.localeMap['guardian']}</a></li>
 			<li><a data-toggle="tab" href="#classQuestionList" class="disabled"> ${userContext.localeMap['class_question']}</a></li>
 			<li><a data-toggle="tab" href="#classDailyHealthSurveyList" class="disabled"> ${userContext.localeMap['class_daily_health_survey']}</a></li>
 			<li><a data-toggle="tab" href="#wechatLoginInfoList" class="disabled"> ${userContext.localeMap['wechat_login_info']}</a></li>
@@ -162,11 +162,11 @@
 
 	
 
-		<c:if test='${not empty userContext.accessTokens["parentList"] or ignoreListAccessControl}'>
-		<c:set var="parentList" value="${result.parentList}" scope="request"/>
-		<c:set var="parentListName" value="parentList" scope="request"/>
-		<div id="parentList" class="tab-pane fade sublist" refer-name="wechat_user">
-			<sky:include page="com/doublechaintech/health/parent/Parent$List.jsp"
+		<c:if test='${not empty userContext.accessTokens["guardianList"] or ignoreListAccessControl}'>
+		<c:set var="guardianList" value="${result.guardianList}" scope="request"/>
+		<c:set var="guardianListName" value="guardianList" scope="request"/>
+		<div id="guardianList" class="tab-pane fade sublist" refer-name="wechat_user">
+			<sky:include page="com/doublechaintech/health/guardian/Guardian$List.jsp"
 					referName="wechatUser"/>
 		</div>
 	</c:if>

@@ -152,7 +152,7 @@ class PlatformDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, provinceListMetaInfo, cityListMetaInfo, districtListMetaInfo, teacherListMetaInfo, studentListMetaInfo, questionListMetaInfo, questionTypeListMetaInfo, surveyStatusListMetaInfo, userListMetaInfo, changeRequestListMetaInfo, changeRequestTypeListMetaInfo, provinceCount, cityCount, districtCount, teacherCount, studentCount, questionCount, questionTypeCount, surveyStatusCount, userCount, changeRequestCount, changeRequestTypeCount } = this.props.platform
+    const { id,displayName, provinceListMetaInfo, cityListMetaInfo, districtListMetaInfo, schoolClassListMetaInfo, teacherListMetaInfo, guardianListMetaInfo, questionListMetaInfo, questionTypeListMetaInfo, questionSourceListMetaInfo, surveyStatusListMetaInfo, wechatUserListMetaInfo, userTypeListMetaInfo, changeRequestListMetaInfo, changeRequestTypeListMetaInfo, provinceCount, cityCount, districtCount, schoolClassCount, teacherCount, guardianCount, questionCount, questionTypeCount, questionSourceCount, surveyStatusCount, wechatUserCount, userTypeCount, changeRequestCount, changeRequestTypeCount } = this.props.platform
     if(!this.props.platform.class){
       return null
     }
@@ -161,10 +161,11 @@ class PlatformDashboard extends Component {
     const cardsData = {cardsName:"平台",cardsFor: "platform",
     	cardsSource: this.props.platform,returnURL,displayName,
   		subItems: [
+{name: 'schoolClassList', displayName: window.mtrans('school_class','platform.school_class_list',false) ,viewGroup:'__no_group', type:'schoolClass',count:schoolClassCount,addFunction: true, role: 'schoolClass', metaInfo: schoolClassListMetaInfo, renderItem: GlobalComponents.SchoolClassBase.renderItemOfList},
 {name: 'teacherList', displayName: window.mtrans('teacher','platform.teacher_list',false) ,viewGroup:'__no_group', type:'teacher',count:teacherCount,addFunction: true, role: 'teacher', metaInfo: teacherListMetaInfo, renderItem: GlobalComponents.TeacherBase.renderItemOfList},
-{name: 'studentList', displayName: window.mtrans('student','platform.student_list',false) ,viewGroup:'__no_group', type:'student',count:studentCount,addFunction: true, role: 'student', metaInfo: studentListMetaInfo, renderItem: GlobalComponents.StudentBase.renderItemOfList},
+{name: 'guardianList', displayName: window.mtrans('guardian','platform.guardian_list',false) ,viewGroup:'__no_group', type:'guardian',count:guardianCount,addFunction: true, role: 'guardian', metaInfo: guardianListMetaInfo, renderItem: GlobalComponents.GuardianBase.renderItemOfList},
 {name: 'questionList', displayName: window.mtrans('question','platform.question_list',false) ,viewGroup:'__no_group', type:'question',count:questionCount,addFunction: true, role: 'question', metaInfo: questionListMetaInfo, renderItem: GlobalComponents.QuestionBase.renderItemOfList},
-{name: 'userList', displayName: window.mtrans('user','platform.user_list',false) ,viewGroup:'__no_group', type:'user',count:userCount,addFunction: true, role: 'user', metaInfo: userListMetaInfo, renderItem: GlobalComponents.UserBase.renderItemOfList},
+{name: 'wechatUserList', displayName: window.mtrans('wechat_user','platform.wechat_user_list',false) ,viewGroup:'__no_group', type:'wechatUser',count:wechatUserCount,addFunction: true, role: 'wechatUser', metaInfo: wechatUserListMetaInfo, renderItem: GlobalComponents.WechatUserBase.renderItemOfList},
 {name: 'changeRequestList', displayName: window.mtrans('change_request','platform.change_request_list',false) ,viewGroup:'变更', type:'changeRequest',count:changeRequestCount,addFunction: true, role: 'changeRequest', metaInfo: changeRequestListMetaInfo, renderItem: GlobalComponents.ChangeRequestBase.renderItemOfList},
     
       	],
@@ -173,7 +174,9 @@ class PlatformDashboard extends Component {
 {name: 'cityList', displayName:'城市',type:'city',count:cityCount,addFunction: true, role: 'city', metaInfo: cityListMetaInfo, renderItem: GlobalComponents.CityBase.renderItemOfList},
 {name: 'districtList', displayName:'区/县',type:'district',count:districtCount,addFunction: true, role: 'district', metaInfo: districtListMetaInfo, renderItem: GlobalComponents.DistrictBase.renderItemOfList},
 {name: 'questionTypeList', displayName:'问题类型',type:'questionType',count:questionTypeCount,addFunction: false, role: 'questionType', metaInfo: questionTypeListMetaInfo, renderItem: GlobalComponents.QuestionTypeBase.renderItemOfList},
+{name: 'questionSourceList', displayName:'问题的来源',type:'questionSource',count:questionSourceCount,addFunction: false, role: 'questionSource', metaInfo: questionSourceListMetaInfo, renderItem: GlobalComponents.QuestionSourceBase.renderItemOfList},
 {name: 'surveyStatusList', displayName:'调查现状',type:'surveyStatus',count:surveyStatusCount,addFunction: false, role: 'surveyStatus', metaInfo: surveyStatusListMetaInfo, renderItem: GlobalComponents.SurveyStatusBase.renderItemOfList},
+{name: 'userTypeList', displayName:'用户类型',type:'userType',count:userTypeCount,addFunction: false, role: 'userType', metaInfo: userTypeListMetaInfo, renderItem: GlobalComponents.UserTypeBase.renderItemOfList},
 {name: 'changeRequestTypeList', displayName:'变更请求类型',type:'changeRequestType',count:changeRequestTypeCount,addFunction: false, role: 'changeRequestType', metaInfo: changeRequestTypeListMetaInfo, renderItem: GlobalComponents.ChangeRequestTypeBase.renderItemOfList},
     
       	],     	

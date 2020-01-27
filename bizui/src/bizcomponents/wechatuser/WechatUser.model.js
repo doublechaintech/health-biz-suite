@@ -117,13 +117,13 @@ export default {
 
 
 
-    *addParent({ payload }, { call, put }) {
+    *addGuardian({ payload }, { call, put }) {
       const userContext = null
       const {WechatUserService} = GlobalComponents;
 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(WechatUserService.addParent, id, parameters)
+      const data = yield call(WechatUserService.addGuardian, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -137,15 +137,15 @@ export default {
       }
       const partialList = true
       const newState = {...data, partialList}
-      const location = { pathname: `/wechatUser/${id}/list/ParentList/父+${appLocaleName(userContext,'List')}`, state: newState }
+      const location = { pathname: `/wechatUser/${id}/list/GuardianList/《卫报》+${appLocaleName(userContext,'List')}`, state: newState }
       yield put(routerRedux.push(location))
     },
-    *updateParent({ payload }, { call, put }) {
+    *updateGuardian({ payload }, { call, put }) {
       const userContext = null
       const {WechatUserService} = GlobalComponents;      
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(WechatUserService.updateParent, id, parameters)
+      const data = yield call(WechatUserService.updateGuardian, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return
@@ -159,20 +159,20 @@ export default {
       if (continueNext) {
         return
       }
-      const location = { pathname: `/wechatUser/${id}/list/ParentList/父列表`, state: newPlayload }
+      const location = { pathname: `/wechatUser/${id}/list/GuardianList/《卫报》列表`, state: newPlayload }
       yield put(routerRedux.push(location))
     },
-    *gotoNextParentUpdateRow({ payload }, { call, put }) {
+    *gotoNextGuardianUpdateRow({ payload }, { call, put }) {
       const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
       const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
       yield put({ type: 'updateState', payload: newPlayload })
     },
-    *removeParentList({ payload }, { call, put }) {
+    *removeGuardianList({ payload }, { call, put }) {
      const userContext = null
       const {WechatUserService} = GlobalComponents; 
       const { id, role, parameters, continueNext } = payload
       console.log('get form parameters', parameters)
-      const data = yield call(WechatUserService.removeParentList, id, parameters)
+      const data = yield call(WechatUserService.removeGuardianList, id, parameters)
       if (hasError(data)) {
         handleServerError(data)
         return

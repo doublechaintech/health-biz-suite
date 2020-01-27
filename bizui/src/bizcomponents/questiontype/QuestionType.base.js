@@ -38,6 +38,7 @@ const renderReferenceCell=defaultRenderReferenceCell
 const menuData = {menuName: window.trans('question_type'), menuFor: "questionType",
   		subItems: [
   {name: 'questionList', displayName: window.mtrans('question','question_type.question_list',false), type:'question',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'classQuestionList', displayName: window.mtrans('class_question','question_type.class_question_list',false), type:'classQuestion',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','question_type.daily_survey_question_list',false), type:'dailySurveyQuestion',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],

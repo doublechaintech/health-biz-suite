@@ -74,7 +74,7 @@ public class DailySurveyQuestionTokens extends CommonTokens{
 		return start()
 			.withQuestionType()
 			.withClassDailyHealthSurvey()
-			.withSurveyQuestion()
+			.withClassQuestion()
 			.withStudentDailyAnswerList();
 	
 	}
@@ -83,7 +83,7 @@ public class DailySurveyQuestionTokens extends CommonTokens{
 		return start()
 			.withQuestionType()
 			.withClassDailyHealthSurvey()
-			.withSurveyQuestion();
+			.withClassQuestion();
 	
 	}
 	
@@ -122,12 +122,12 @@ public class DailySurveyQuestionTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String SURVEYQUESTION = "surveyQuestion";
-	public String getSurveyQuestion(){
-		return SURVEYQUESTION;
+	protected static final String CLASSQUESTION = "classQuestion";
+	public String getClassQuestion(){
+		return CLASSQUESTION;
 	}
-	public DailySurveyQuestionTokens withSurveyQuestion(){		
-		addSimpleOptions(SURVEYQUESTION);
+	public DailySurveyQuestionTokens withClassQuestion(){		
+		addSimpleOptions(CLASSQUESTION);
 		return this;
 	}
 	

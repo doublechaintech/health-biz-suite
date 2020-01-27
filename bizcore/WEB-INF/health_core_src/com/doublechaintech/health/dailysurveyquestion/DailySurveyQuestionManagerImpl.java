@@ -22,11 +22,11 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.questiontype.CandidateQuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.CandidateClassDailyHealthSurvey;
-import com.doublechaintech.health.question.CandidateQuestion;
+import com.doublechaintech.health.classquestion.CandidateClassQuestion;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
@@ -164,7 +164,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_question_type","transferToAnotherQuestionType","transferToAnotherQuestionType/"+dailySurveyQuestion.getId()+"/","main","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_class_daily_health_survey","transferToAnotherClassDailyHealthSurvey","transferToAnotherClassDailyHealthSurvey/"+dailySurveyQuestion.getId()+"/","main","primary");
-		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_survey_question","transferToAnotherSurveyQuestion","transferToAnotherSurveyQuestion/"+dailySurveyQuestion.getId()+"/","main","primary");
+		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.transfer_to_class_question","transferToAnotherClassQuestion","transferToAnotherClassQuestion/"+dailySurveyQuestion.getId()+"/","main","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.addStudentDailyAnswer","addStudentDailyAnswer","addStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.removeStudentDailyAnswer","removeStudentDailyAnswer","removeStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
 		addAction(userContext, dailySurveyQuestion, tokens,"daily_survey_question.updateStudentDailyAnswer","updateStudentDailyAnswer","updateStudentDailyAnswer/"+dailySurveyQuestion.getId()+"/","studentDailyAnswerList","primary");
@@ -180,8 +180,8 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
  	
  	
 
-	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String surveyQuestionId) throws Exception
-	//public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String surveyQuestionId) throws Exception
+	public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic,String questionTypeId,String optionA,String optionB,String optionC,String optionD,String classDailyHealthSurveyId,String classQuestionId) throws Exception
+	//public DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext,String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String classQuestionId) throws Exception
 	{
 
 		
@@ -215,8 +215,8 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 		
 			
-		Question surveyQuestion = loadQuestion(userContext, surveyQuestionId,emptyOptions());
-		dailySurveyQuestion.setSurveyQuestion(surveyQuestion);
+		ClassQuestion classQuestion = loadClassQuestion(userContext, classQuestionId,emptyOptions());
+		dailySurveyQuestion.setClassQuestion(classQuestion);
 		
 		
 
@@ -495,24 +495,24 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherSurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherSurveyQuestionId) throws Exception
+ 	protected void checkParamsForTransferingAnotherClassQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassQuestionId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
- 		checkerOf(userContext).checkIdOfQuestion(anotherSurveyQuestionId);//check for optional reference
+ 		checkerOf(userContext).checkIdOfClassQuestion(anotherClassQuestionId);//check for optional reference
  		checkerOf(userContext).throwExceptionIfHasErrors(DailySurveyQuestionManagerException.class);
 
  	}
- 	public DailySurveyQuestion transferToAnotherSurveyQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherSurveyQuestionId) throws Exception
+ 	public DailySurveyQuestion transferToAnotherClassQuestion(HealthUserContext userContext, String dailySurveyQuestionId, String anotherClassQuestionId) throws Exception
  	{
- 		checkParamsForTransferingAnotherSurveyQuestion(userContext, dailySurveyQuestionId,anotherSurveyQuestionId);
+ 		checkParamsForTransferingAnotherClassQuestion(userContext, dailySurveyQuestionId,anotherClassQuestionId);
  
 		DailySurveyQuestion dailySurveyQuestion = loadDailySurveyQuestion(userContext, dailySurveyQuestionId, allTokens());	
 		synchronized(dailySurveyQuestion){
 			//will be good when the dailySurveyQuestion loaded from this JVM process cache.
 			//also good when there is a ram based DAO implementation
-			Question surveyQuestion = loadQuestion(userContext, anotherSurveyQuestionId, emptyOptions());		
-			dailySurveyQuestion.updateSurveyQuestion(surveyQuestion);		
+			ClassQuestion classQuestion = loadClassQuestion(userContext, anotherClassQuestionId, emptyOptions());		
+			dailySurveyQuestion.updateClassQuestion(classQuestion);		
 			dailySurveyQuestion = saveDailySurveyQuestion(userContext, dailySurveyQuestion, emptyOptions());
 			
 			return present(userContext,dailySurveyQuestion, allTokens());
@@ -524,9 +524,9 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 	
 
 
-	public CandidateQuestion requestCandidateSurveyQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
+	public CandidateClassQuestion requestCandidateClassQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
 
-		CandidateQuestion result = new CandidateQuestion();
+		CandidateClassQuestion result = new CandidateClassQuestion();
 		result.setOwnerClass(ownerClass);
 		result.setOwnerId(id);
 		result.setFilterKey(filterKey==null?"":filterKey.trim());
@@ -537,7 +537,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		pageNo = Math.max(1, pageNo);
 		int pageSize = 20;
 		//requestCandidateProductForSkuAsOwner
-		SmartList<Question> candidateList = questionDaoOf(userContext).requestCandidateQuestionForDailySurveyQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
+		SmartList<ClassQuestion> candidateList = classQuestionDaoOf(userContext).requestCandidateClassQuestionForDailySurveyQuestion(userContext,ownerClass, id, filterKey, pageNo, pageSize);
 		result.setCandidates(candidateList);
 		int totalCount = candidateList.getTotalCount();
 		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
@@ -574,10 +574,10 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 
 	
 
- 	protected Question loadQuestion(HealthUserContext userContext, String newSurveyQuestionId, Map<String,Object> options) throws Exception
+ 	protected ClassQuestion loadClassQuestion(HealthUserContext userContext, String newClassQuestionId, Map<String,Object> options) throws Exception
  	{
 
- 		return questionDaoOf(userContext).load(newSurveyQuestionId, options);
+ 		return classQuestionDaoOf(userContext).load(newClassQuestionId, options);
  	}
  	
 

@@ -19,9 +19,9 @@ const testValues = {};
 /*
 const testValues = {
   name: '2020年1月25日益州小学学生健康调查问卷',
-  surveyTime: '2020-01-15 12:53:28',
-  teacherId: 'T000001',
-  creatorId: 'U000001',
+  surveyTime: '2020-01-22 20:45:08',
+  schoolClassId: 'SC000001',
+  creatorId: 'WU000001',
   cqId: 'CR000001',
 }
 */
@@ -176,15 +176,15 @@ class ClassDailyHealthSurveyAssociateForm extends Component {
             <Row gutter={16}>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.teacher} {...formItemLayout}>
-                  {getFieldDecorator('teacherId', {
-                  	initialValue: tryinit('teacher'),
+                <Form.Item label={fieldLabels.schoolClass} {...formItemLayout}>
+                  {getFieldDecorator('schoolClassId', {
+                  	initialValue: tryinit('schoolClass'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('teacher')}
-                    targetType={"teacher"} 
-                    requestFunction={ClassDailyHealthSurveyService.requestCandidateTeacher}/>
+                    disabled={!availableForEdit('schoolClass')}
+                    targetType={"schoolClass"} 
+                    requestFunction={ClassDailyHealthSurveyService.requestCandidateSchoolClass}/>
   
                   )}
                 </Form.Item>

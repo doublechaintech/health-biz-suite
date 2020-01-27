@@ -21,7 +21,7 @@ const testValues = {
   appId: 'user123',
   openId: 'user123',
   sessionKey: 'session123',
-  userId: 'U000001',
+  wechatUserId: 'WU000001',
 }
 */
 

@@ -35,35 +35,45 @@
     latitude="30.31251|[-180.00,180.00]"
     longitude="104.02931|[-180.00,180.00]"
   />
+  <school_class
+    name="教科院一年级5班|教科院二年级3班|[1,99]"
+    class_teacher="$(teacher)"
+    create_time="createTime()"
+    platform="$(platform)"
+    schoole="益州小学|大源中学|南山中学"
+
+    cq="$(change_request)"
+    _features="event"
+    _reg_func="CreateClass"
+  />
   <teacher
     name="白山水|胡一刀|苗人凤|[1,20]"
     mobile="18012341234"
-    school="益州小学|大源中学|南山中学"
-    school_class="教科院一年级5班|教科院二年级3班|[1,99]"
+    schoole="益州小学|大源中学|南山中学"
     create_time="createTime()"
     platform="$(platform)"
 
     cq="$(change_request)"
     _features="event"
-    _reg_func="REGISTER_TEACHER"
+    _reg_func="RegisterTeacher"
   />
-
-  <student
-    student_name="刘婵|刘阿斗|李天一|[1,20]"
-    student_id="A01|[1,3]"
-    guardian_name="刘备|刘玄德|张飞|张翼德|[1,20]"
-    guardian_mobile="18012341234"
+  <!-- <schoole
+    name="益州小学|大源中学|南山中学"
     address="$(location)"
-    user="$(user)"
+    platform="$(platform)"
+  /> -->
+  <guardian
+    name="刘备|刘玄德|张飞|张翼德|[1,20]"
+    mobile="18012341234"
+    address="$(location)"
+    wechat_user="$(wechat_user)"
     create_time="createTime()"
     platform="$(platform)"
 
     cq="$(change_request)"
     _features="event"
-    _reg_func="REGISTER_STUDENT"
+    _reg_func="Registerguardian"
   />
-
-
   <!-- 系统题库 -->
   <question
     topic="节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状|[1,50]"
@@ -73,11 +83,6 @@
     option_c="不确定|[0,99]"
     option_d="不知道|[0,99]"
     platform="$(platform)"
-    creator="$(user?)"
-
-    cq="$(change_request)"
-    _features="event"
-    _reg_func="CREATE_QUESTION"
   />
 
   <question_type
@@ -87,15 +92,15 @@
     _features="status"
     _identified_by="code"
   />
-  <!-- <question_source
+  <question_source
     name="题库|用户自己录入"
     code="System|UGC"
     platform="$(platform)"
     _features="status"
     _identified_by="code"
-  /> -->
+  />
   <!-- 班级题库：两个来源，一个来源是系统题库复制，另外一个来源是老师创建的 -->
-  <!-- <class_question
+  <class_question
     topic="节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状|[1,50]"
     question_type="$(question_type)"
     option_a="没有|[1,99]"
@@ -103,23 +108,23 @@
     option_c="不确定|[0,99]"
     option_d="不知道|[0,99]"
     question_source="$(question_source)"
-    creator="$(user?)"
+    creator="$(wechat_user?)"
 
     cq="$(change_request)"
     _features="event"
     _reg_func="CreateQuestion"
-  /> -->
+  />
 
 
   <class_daily_health_survey
     name="2020年1月25日益州小学学生健康调查问卷"
-    teacher="$(teacher)"
+    school_class="$(school_class)"
     survey_time="2099-12-31T23:59:59"
-    creator="$(user)"
+    creator="$(wechat_user)"
 
     cq="$(change_request)"
     _features="event"
-    _reg_func="CREATE_SURVEY"
+    _reg_func="CreateSurvey"
   />
   <!-- 调查报告中的问题肯定是班级题库中问题复制的副本，这样，当班级问题以及题库问题发生改动以后，曾经答过的题不会受影响 -->
   <daily_survey_question
@@ -131,7 +136,23 @@
     option_d="不知道|[0,99]"
 
     class_daily_health_survey="$(class_daily_health_survey)"
-    survey_question="$(question)"
+    class_question="$(class_question)"
+  />
+  <!-- TODO:
+  <daily_survey_report
+
+  /> -->
+
+  <student
+    name="刘婵|刘阿斗|李天一|[1,20]"
+    gender="male|female"
+    guardian="$(guardian)"
+    school_class="$(school_class)"
+    student_id="A01|[1,3]"
+
+    cq="$(change_request)"
+    _features="event"
+    _reg_func="RegisterStudent"
   />
 
   <!-- 学生X 在某天 的健康调差 -->
@@ -139,14 +160,14 @@
     student="$(student)"
     answer_time="2099-12-31T23:59:59"
     survey_status="$(survey_status)"
-    teacher="$(teacher)"
+    school_class="$(school_class)"
     class_daily_health_survey="$(class_daily_health_survey)"
     create_time="createTime()"
     last_update_time="updateTime()"
 
     cq="$(change_request)"
     _features="event"
-    _reg_func="ANSWER_SURVEY"
+    _reg_func="AnswerSurvey"
   />
   <!-- 学生X 各项健康状态调查的结果 -->
   <student_daily_answer
@@ -158,7 +179,7 @@
 
     cq="$(change_request)"
     _features="event"
-    _reg_func="ANSWER_QUESTION"
+    _reg_func="AnswerQuestion"
   />
   <survey_status
     name="未提交|已提交|草稿"
@@ -167,19 +188,24 @@
     _features="status"
     _identified_by="code"
   />
-
-
-  <user
+  <wechat_user
 		name="张三|李四|王五|[1,200]"
 		avatar="wechat.jpg"
     address="$(location)"
+    user_type="$(user_type)"
 		create_time="createTime()"
 		platform="$(platform)"
     _features="merchant"
 	/>
-
+  <user_type
+    name="老师|家长|学生"
+    code="Teacher|Guardian|Student"
+    _identified_by="code"
+    _features="status"
+    platform="$(platform)"
+  />
 	<wechat_login_info
-    user="$(user)"
+    wechat_user="$(wechat_user)"
     app_id="user123|[0,100]"
     open_id="user123|[1,100]"
     session_key="session123|[1,200]"
@@ -200,8 +226,8 @@
 	/>
 
   <change_request_type
-		name="登录|[1,100]"
-		code="LOGIN"
+		name="答题|[1,100]"
+		code="AnswerQuestion"
 		icon="book"
 		display_order="1"
 		bind_types="text()"
@@ -214,7 +240,7 @@
   <!-- CR models -->
   <!-- <answer_question
 		nick_name="豆豆鬼参与考试|[0,200]"
-		user="$(user)"
+		user="$(wechat_user)"
 		user_answer="$(user_answer)"
 		answer="A|B|C|[0,20]"
 		change_request="$(change_request)"

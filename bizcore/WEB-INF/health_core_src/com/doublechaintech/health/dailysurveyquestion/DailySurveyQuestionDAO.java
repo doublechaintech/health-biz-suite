@@ -12,12 +12,12 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
-import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.questiontype.QuestionTypeDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
+import com.doublechaintech.health.classquestion.ClassQuestionDAO;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
-import com.doublechaintech.health.question.QuestionDAO;
 
 
 public interface DailySurveyQuestionDAO extends BaseDAO{
@@ -85,11 +85,11 @@ public interface DailySurveyQuestionDAO extends BaseDAO{
 
  
   
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId, Map<String,Object> options);
- 	public int countDailySurveyQuestionBySurveyQuestion(String questionId, Map<String,Object> options);
- 	public Map<String, Integer> countDailySurveyQuestionBySurveyQuestionIds(String[] ids, Map<String,Object> options);
- 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionBySurveyQuestion(String questionId, int start, int count, Map<String,Object> options);
- 	public void analyzeDailySurveyQuestionBySurveyQuestion(SmartList<DailySurveyQuestion> resultList, String questionId, Map<String,Object> options);
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId, Map<String,Object> options);
+ 	public int countDailySurveyQuestionByClassQuestion(String classQuestionId, Map<String,Object> options);
+ 	public Map<String, Integer> countDailySurveyQuestionByClassQuestionIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<DailySurveyQuestion> findDailySurveyQuestionByClassQuestion(String classQuestionId, int start, int count, Map<String,Object> options);
+ 	public void analyzeDailySurveyQuestionByClassQuestion(SmartList<DailySurveyQuestion> resultList, String classQuestionId, Map<String,Object> options);
 
  
  

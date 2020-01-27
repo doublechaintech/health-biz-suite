@@ -121,25 +121,37 @@ public class BaseRelation{
 		String [] locationRelatedObjectNames = {"district:District","province:Province"};
 		addRelationIndex("Location",locationRelatedObjectNames);
 
+		String [] schoolClassRelatedObjectNames = {"class_teacher:Teacher","platform:Platform","cq:ChangeRequest"};
+		addRelationIndex("SchoolClass",schoolClassRelatedObjectNames);
+
 		String [] teacherRelatedObjectNames = {"platform:Platform","cq:ChangeRequest"};
 		addRelationIndex("Teacher",teacherRelatedObjectNames);
 
-		String [] studentRelatedObjectNames = {"address:Location","user:User","platform:Platform","cq:ChangeRequest"};
-		addRelationIndex("Student",studentRelatedObjectNames);
+		String [] guardianRelatedObjectNames = {"address:Location","wechat_user:WechatUser","platform:Platform","cq:ChangeRequest"};
+		addRelationIndex("Guardian",guardianRelatedObjectNames);
 
-		String [] questionRelatedObjectNames = {"question_type:QuestionType","platform:Platform","creator:User","cq:ChangeRequest"};
+		String [] questionRelatedObjectNames = {"question_type:QuestionType","platform:Platform"};
 		addRelationIndex("Question",questionRelatedObjectNames);
 
 		String [] questionTypeRelatedObjectNames = {"platform:Platform"};
 		addRelationIndex("QuestionType",questionTypeRelatedObjectNames);
 
-		String [] classDailyHealthSurveyRelatedObjectNames = {"teacher:Teacher","creator:User","cq:ChangeRequest"};
+		String [] questionSourceRelatedObjectNames = {"platform:Platform"};
+		addRelationIndex("QuestionSource",questionSourceRelatedObjectNames);
+
+		String [] classQuestionRelatedObjectNames = {"question_type:QuestionType","question_source:QuestionSource","creator:WechatUser","cq:ChangeRequest"};
+		addRelationIndex("ClassQuestion",classQuestionRelatedObjectNames);
+
+		String [] classDailyHealthSurveyRelatedObjectNames = {"school_class:SchoolClass","creator:WechatUser","cq:ChangeRequest"};
 		addRelationIndex("ClassDailyHealthSurvey",classDailyHealthSurveyRelatedObjectNames);
 
-		String [] dailySurveyQuestionRelatedObjectNames = {"question_type:QuestionType","class_daily_health_survey:ClassDailyHealthSurvey","survey_question:Question"};
+		String [] dailySurveyQuestionRelatedObjectNames = {"question_type:QuestionType","class_daily_health_survey:ClassDailyHealthSurvey","class_question:ClassQuestion"};
 		addRelationIndex("DailySurveyQuestion",dailySurveyQuestionRelatedObjectNames);
 
-		String [] studentHealthSurveyRelatedObjectNames = {"student:Student","survey_status:SurveyStatus","teacher:Teacher","class_daily_health_survey:ClassDailyHealthSurvey","cq:ChangeRequest"};
+		String [] studentRelatedObjectNames = {"guardian:Guardian","school_class:SchoolClass","cq:ChangeRequest"};
+		addRelationIndex("Student",studentRelatedObjectNames);
+
+		String [] studentHealthSurveyRelatedObjectNames = {"student:Student","survey_status:SurveyStatus","school_class:SchoolClass","class_daily_health_survey:ClassDailyHealthSurvey","cq:ChangeRequest"};
 		addRelationIndex("StudentHealthSurvey",studentHealthSurveyRelatedObjectNames);
 
 		String [] studentDailyAnswerRelatedObjectNames = {"student_health_survey:StudentHealthSurvey","question:DailySurveyQuestion","cq:ChangeRequest"};
@@ -148,10 +160,13 @@ public class BaseRelation{
 		String [] surveyStatusRelatedObjectNames = {"platform:Platform"};
 		addRelationIndex("SurveyStatus",surveyStatusRelatedObjectNames);
 
-		String [] userRelatedObjectNames = {"address:Location","platform:Platform"};
-		addRelationIndex("User",userRelatedObjectNames);
+		String [] wechatUserRelatedObjectNames = {"address:Location","user_type:UserType","platform:Platform"};
+		addRelationIndex("WechatUser",wechatUserRelatedObjectNames);
 
-		String [] wechatLoginInfoRelatedObjectNames = {"user:User"};
+		String [] userTypeRelatedObjectNames = {"platform:Platform"};
+		addRelationIndex("UserType",userTypeRelatedObjectNames);
+
+		String [] wechatLoginInfoRelatedObjectNames = {"wechat_user:WechatUser"};
 		addRelationIndex("WechatLoginInfo",wechatLoginInfoRelatedObjectNames);
 
 		String [] changeRequestRelatedObjectNames = {"request_type:ChangeRequestType","platform:Platform"};
@@ -229,35 +244,46 @@ public class BaseRelation{
 		addGenericRelation("District"                              ,TRUST_CHAIN_READ,"platform");
 		addGenericRelation("Location"                              ,TRUST_CHAIN_READ,"district");
 		addGenericRelation("Location"                              ,TRUST_CHAIN_READ,"province");
+		addGenericRelation("SchoolClass"                           ,TRUST_CHAIN_READ,"classTeacher");
+		addGenericRelation("SchoolClass"                           ,TRUST_CHAIN_READ,"platform");
+		addGenericRelation("SchoolClass"                           ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("Teacher"                               ,TRUST_CHAIN_READ,"platform");
 		addGenericRelation("Teacher"                               ,TRUST_CHAIN_READ,"cq");
-		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"address");
-		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"user");
-		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"platform");
-		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"cq");
+		addGenericRelation("Guardian"                              ,TRUST_CHAIN_READ,"address");
+		addGenericRelation("Guardian"                              ,TRUST_CHAIN_READ,"wechatUser");
+		addGenericRelation("Guardian"                              ,TRUST_CHAIN_READ,"platform");
+		addGenericRelation("Guardian"                              ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("Question"                              ,TRUST_CHAIN_READ,"questionType");
 		addGenericRelation("Question"                              ,TRUST_CHAIN_READ,"platform");
-		addGenericRelation("Question"                              ,TRUST_CHAIN_READ,"creator");
-		addGenericRelation("Question"                              ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("QuestionType"                          ,TRUST_CHAIN_READ,"platform");
-		addGenericRelation("ClassDailyHealthSurvey"                ,TRUST_CHAIN_READ,"teacher");
+		addGenericRelation("QuestionSource"                        ,TRUST_CHAIN_READ,"platform");
+		addGenericRelation("ClassQuestion"                         ,TRUST_CHAIN_READ,"questionType");
+		addGenericRelation("ClassQuestion"                         ,TRUST_CHAIN_READ,"questionSource");
+		addGenericRelation("ClassQuestion"                         ,TRUST_CHAIN_READ,"creator");
+		addGenericRelation("ClassQuestion"                         ,TRUST_CHAIN_READ,"cq");
+		addGenericRelation("ClassDailyHealthSurvey"                ,TRUST_CHAIN_READ,"schoolClass");
 		addGenericRelation("ClassDailyHealthSurvey"                ,TRUST_CHAIN_READ,"creator");
 		addGenericRelation("ClassDailyHealthSurvey"                ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("DailySurveyQuestion"                   ,TRUST_CHAIN_READ,"questionType");
 		addGenericRelation("DailySurveyQuestion"                   ,TRUST_CHAIN_READ,"classDailyHealthSurvey");
-		addGenericRelation("DailySurveyQuestion"                   ,TRUST_CHAIN_READ,"surveyQuestion");
+		addGenericRelation("DailySurveyQuestion"                   ,TRUST_CHAIN_READ,"classQuestion");
+		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"guardian");
+		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"schoolClass");
+		addGenericRelation("Student"                               ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"student");
 		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"surveyStatus");
-		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"teacher");
+		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"schoolClass");
 		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"classDailyHealthSurvey");
 		addGenericRelation("StudentHealthSurvey"                   ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("StudentDailyAnswer"                    ,TRUST_CHAIN_READ,"studentHealthSurvey");
 		addGenericRelation("StudentDailyAnswer"                    ,TRUST_CHAIN_READ,"question");
 		addGenericRelation("StudentDailyAnswer"                    ,TRUST_CHAIN_READ,"cq");
 		addGenericRelation("SurveyStatus"                          ,TRUST_CHAIN_READ,"platform");
-		addGenericRelation("User"                                  ,TRUST_CHAIN_READ,"address");
-		addGenericRelation("User"                                  ,TRUST_CHAIN_READ,"platform");
-		addGenericRelation("WechatLoginInfo"                       ,TRUST_CHAIN_READ,"user");
+		addGenericRelation("WechatUser"                            ,TRUST_CHAIN_READ,"address");
+		addGenericRelation("WechatUser"                            ,TRUST_CHAIN_READ,"userType");
+		addGenericRelation("WechatUser"                            ,TRUST_CHAIN_READ,"platform");
+		addGenericRelation("UserType"                              ,TRUST_CHAIN_READ,"platform");
+		addGenericRelation("WechatLoginInfo"                       ,TRUST_CHAIN_READ,"wechatUser");
 		addGenericRelation("ChangeRequest"                         ,TRUST_CHAIN_READ,"requestType");
 		addGenericRelation("ChangeRequest"                         ,TRUST_CHAIN_READ,"platform");
 		addGenericRelation("ChangeRequestType"                     ,TRUST_CHAIN_READ,"platform");

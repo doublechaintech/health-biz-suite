@@ -101,8 +101,8 @@
 <c:if test="${param.referName ne 'name'}">
 	<th>${userContext.localeMap['class_daily_health_survey.name']}</th>
 </c:if>
-<c:if test="${param.referName ne 'teacher'}">
-	<th>${userContext.localeMap['class_daily_health_survey.teacher']}</th>
+<c:if test="${param.referName ne 'schoolClass'}">
+	<th>${userContext.localeMap['class_daily_health_survey.school_class']}</th>
 </c:if>
 <c:if test="${param.referName ne 'surveyTime'}">
 	<th>${userContext.localeMap['class_daily_health_survey.survey_time']}</th>
@@ -120,16 +120,16 @@
 			<c:forEach var="item" items="${classDailyHealthSurveyList}">
 				<tr currentVersion='${item.version}' id="classDailyHealthSurvey-${item.id}" ><td><a class="link-action-removed" href="./classDailyHealthSurveyManager/view/${item.id}/"> ${item.id}</a></td>
 <c:if test="${param.referName ne 'name'}">	<td contenteditable='true' class='edit-value'  propertyToChange='name' storedCellValue='${item.name}' prefix='${ownerBeanName}Manager/updateClassDailyHealthSurvey/${result.id}/${item.id}/'>${item.name}</td>
-</c:if><c:if test="${param.referName ne 'teacher'}">
+</c:if><c:if test="${param.referName ne 'schoolClass'}">
 	<td class="select_candidate_td"
-			data-candidate-method="./classDailyHealthSurveyManager/requestCandidateTeacher/${ownerBeanName}/${item.id}/"
-			data-switch-method="./classDailyHealthSurveyManager/transferToAnotherTeacher/${item.id}/"
-			data-link-template="./teacherManager/view/${'$'}{ID}/">
+			data-candidate-method="./classDailyHealthSurveyManager/requestCandidateSchoolClass/${ownerBeanName}/${item.id}/"
+			data-switch-method="./classDailyHealthSurveyManager/transferToAnotherSchoolClass/${item.id}/"
+			data-link-template="./schoolClassManager/view/${'$'}{ID}/">
 		<span class="display_span">
-			<c:if test="${not empty  item.teacher}">
-			<a href='./teacherManager/view/${item.teacher.id}/'>${item.teacher.displayName}</a>
+			<c:if test="${not empty  item.schoolClass}">
+			<a href='./schoolClassManager/view/${item.schoolClass.id}/'>${item.schoolClass.displayName}</a>
 			</c:if>
-			<c:if test="${empty  item.teacher}">
+			<c:if test="${empty  item.schoolClass}">
 			<a href='#'></a>
 			</c:if>
 			<button class="btn btn-link candidate-action">...</button>
@@ -144,10 +144,10 @@
 	<td class="select_candidate_td"
 			data-candidate-method="./classDailyHealthSurveyManager/requestCandidateCreator/${ownerBeanName}/${item.id}/"
 			data-switch-method="./classDailyHealthSurveyManager/transferToAnotherCreator/${item.id}/"
-			data-link-template="./userManager/view/${'$'}{ID}/">
+			data-link-template="./wechatUserManager/view/${'$'}{ID}/">
 		<span class="display_span">
 			<c:if test="${not empty  item.creator}">
-			<a href='./userManager/view/${item.creator.id}/'>${item.creator.displayName}</a>
+			<a href='./wechatUserManager/view/${item.creator.id}/'>${item.creator.displayName}</a>
 			</c:if>
 			<c:if test="${empty  item.creator}">
 			<a href='#'></a>

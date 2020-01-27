@@ -48,15 +48,15 @@ const transferToAnotherSurveyStatus = (id, parameters) => {
 
 
 
-const requestCandidateTeacher = (ownerClass, id, filterKey, pageNo) => {
+const requestCandidateSchoolClass = (ownerClass, id, filterKey, pageNo) => {
  
-  const url = `${PREFIX}studentHealthSurveyManager/requestCandidateTeacher/ownerClass/id/filterKey/pageNo/`
+  const url = `${PREFIX}studentHealthSurveyManager/requestCandidateSchoolClass/ownerClass/id/filterKey/pageNo/`
   const requestParameters = {id, ownerClass,filterKey, pageNo}
   return postForm({url,requestParameters})
 }	
 
-const transferToAnotherTeacher = (id, parameters) => {
-  const url = `${PREFIX}studentHealthSurveyManager/transferToAnotherTeacher/id/anotherTeacherId/`
+const transferToAnotherSchoolClass = (id, parameters) => {
+  const url = `${PREFIX}studentHealthSurveyManager/transferToAnotherSchoolClass/id/anotherSchoolClassId/`
   const requestParameters = {id, ...parameters}
   return postForm({url,requestParameters})
 }
@@ -152,12 +152,12 @@ const StudentHealthSurveyService = { view,
   removeStudentDailyAnswerList,
   requestCandidateStudent,
   requestCandidateSurveyStatus,
-  requestCandidateTeacher,
+  requestCandidateSchoolClass,
   requestCandidateClassDailyHealthSurvey,
   requestCandidateCq,
   transferToAnotherStudent,
   transferToAnotherSurveyStatus,
-  transferToAnotherTeacher,
+  transferToAnotherSchoolClass,
   transferToAnotherClassDailyHealthSurvey,
   transferToAnotherCq, listFunctions, saveRequest, processRequest}
 export default StudentHealthSurveyService

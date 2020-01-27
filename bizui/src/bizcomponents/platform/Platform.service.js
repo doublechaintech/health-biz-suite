@@ -88,15 +88,37 @@ const removeDistrictList = (targetObjectId, parameters) => {
 
 
 
+const addSchoolClass = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/addSchoolClass/platformId/name/classTeacherId/schoole/cqId/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateSchoolClass = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/updateSchoolClassProperties/platformId/id/name/schoole/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeSchoolClassList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/removeSchoolClassList/platformId/schoolClassIds/tokensExpr/`
+  const requestParameters = { ...parameters, platformId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
 const addTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addTeacher/platformId/name/mobile/school/schoolClass/cqId/tokensExpr/`
+  const url = `${PREFIX}platformManager/addTeacher/platformId/name/mobile/schoole/cqId/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/updateTeacherProperties/platformId/id/name/mobile/school/schoolClass/tokensExpr/`
+  const url = `${PREFIX}platformManager/updateTeacherProperties/platformId/id/name/mobile/schoole/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -110,22 +132,22 @@ const removeTeacherList = (targetObjectId, parameters) => {
 
 
 
-const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addStudent/platformId/studentName/studentId/guardianName/guardianMobile/addressId/userId/cqId/tokensExpr/`
+const addGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/addGuardian/platformId/name/mobile/addressId/wechatUserId/cqId/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/updateStudentProperties/platformId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
+const updateGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/updateGuardianProperties/platformId/id/name/mobile/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeStudentList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/removeStudentList/platformId/studentIds/tokensExpr/`
+const removeGuardianList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/removeGuardianList/platformId/guardianIds/tokensExpr/`
   const requestParameters = { ...parameters, platformId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -133,7 +155,7 @@ const removeStudentList = (targetObjectId, parameters) => {
 
 
 const addQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addQuestion/platformId/topic/questionTypeId/optionA/optionB/optionC/optionD/creatorId/cqId/tokensExpr/`
+  const url = `${PREFIX}platformManager/addQuestion/platformId/topic/questionTypeId/optionA/optionB/optionC/optionD/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -176,6 +198,28 @@ const removeQuestionTypeList = (targetObjectId, parameters) => {
 
 
 
+const addQuestionSource = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/addQuestionSource/platformId/name/code/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateQuestionSource = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/updateQuestionSourceProperties/platformId/id/name/code/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeQuestionSourceList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/removeQuestionSourceList/platformId/questionSourceIds/tokensExpr/`
+  const requestParameters = { ...parameters, platformId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
 const addSurveyStatus = (targetObjectId, parameters) => {
   const url = `${PREFIX}platformManager/addSurveyStatus/platformId/name/code/tokensExpr/`
   const platformId = targetObjectId
@@ -198,22 +242,44 @@ const removeSurveyStatusList = (targetObjectId, parameters) => {
 
 
 
-const addUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addUser/platformId/name/avatar/addressId/tokensExpr/`
+const addWechatUser = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/addWechatUser/platformId/name/avatar/addressId/userTypeId/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/updateUserProperties/platformId/id/name/avatar/tokensExpr/`
+const updateWechatUser = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/updateWechatUserProperties/platformId/id/name/avatar/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeUserList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/removeUserList/platformId/userIds/tokensExpr/`
+const removeWechatUserList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/removeWechatUserList/platformId/wechatUserIds/tokensExpr/`
+  const requestParameters = { ...parameters, platformId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
+const addUserType = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/addUserType/platformId/name/code/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateUserType = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/updateUserTypeProperties/platformId/id/name/code/tokensExpr/`
+  const platformId = targetObjectId
+  const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeUserTypeList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}platformManager/removeUserTypeList/platformId/userTypeIds/tokensExpr/`
   const requestParameters = { ...parameters, platformId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -295,34 +361,43 @@ const PlatformService = { view,
   addProvince,
   addCity,
   addDistrict,
+  addSchoolClass,
   addTeacher,
-  addStudent,
+  addGuardian,
   addQuestion,
   addQuestionType,
+  addQuestionSource,
   addSurveyStatus,
-  addUser,
+  addWechatUser,
+  addUserType,
   addChangeRequest,
   addChangeRequestType,
   updateProvince,
   updateCity,
   updateDistrict,
+  updateSchoolClass,
   updateTeacher,
-  updateStudent,
+  updateGuardian,
   updateQuestion,
   updateQuestionType,
+  updateQuestionSource,
   updateSurveyStatus,
-  updateUser,
+  updateWechatUser,
+  updateUserType,
   updateChangeRequest,
   updateChangeRequestType,
   removeProvinceList,
   removeCityList,
   removeDistrictList,
+  removeSchoolClassList,
   removeTeacherList,
-  removeStudentList,
+  removeGuardianList,
   removeQuestionList,
   removeQuestionTypeList,
+  removeQuestionSourceList,
   removeSurveyStatusList,
-  removeUserList,
+  removeWechatUserList,
+  removeUserTypeList,
   removeChangeRequestList,
   removeChangeRequestTypeList, listFunctions, saveRequest, processRequest}
 export default PlatformService

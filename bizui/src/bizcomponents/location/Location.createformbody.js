@@ -19,8 +19,8 @@ const testValues = {};
 const testValues = {
   name: '公司地址',
   address: '四川省成都市高新区南华路100号',
-  latitude: '30.17152292212142',
-  longitude: '103.28539859404928',
+  latitude: '30.444702090172083',
+  longitude: '103.44923241272731',
   districtId: 'D000001',
   provinceId: 'P000001',
 }

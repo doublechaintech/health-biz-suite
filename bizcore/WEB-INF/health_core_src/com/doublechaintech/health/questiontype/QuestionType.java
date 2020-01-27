@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 @JsonSerialize(using = QuestionTypeSerializer.class)
 public class QuestionType extends BaseEntity implements  java.io.Serializable{
@@ -36,6 +37,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String QUESTION_LIST                            = "questionList"      ;
+	public static final String CLASS_QUESTION_LIST                      = "classQuestionList" ;
 	public static final String DAILY_SURVEY_QUESTION_LIST               = "dailySurveyQuestionList";
 
 	public static final String INTERNAL_TYPE="QuestionType";
@@ -65,6 +67,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 	
 	
 	protected		SmartList<Question> 	mQuestionList       ;
+	protected		SmartList<ClassQuestion>	mClassQuestionList  ;
 	protected		SmartList<DailySurveyQuestion>	mDailySurveyQuestionList;
 	
 		
@@ -150,6 +153,10 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		}
 		if(QUESTION_LIST.equals(property)){
 			List<BaseEntity> list = getQuestionList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
+		if(CLASS_QUESTION_LIST.equals(property)){
+			List<BaseEntity> list = getClassQuestionList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 		if(DAILY_SURVEY_QUESTION_LIST.equals(property)){
@@ -360,6 +367,113 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 	
 
 
+	public  SmartList<ClassQuestion> getClassQuestionList(){
+		if(this.mClassQuestionList == null){
+			this.mClassQuestionList = new SmartList<ClassQuestion>();
+			this.mClassQuestionList.setListInternalName (CLASS_QUESTION_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mClassQuestionList;	
+	}
+	public  void setClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		for( ClassQuestion classQuestion:classQuestionList){
+			classQuestion.setQuestionType(this);
+		}
+
+		this.mClassQuestionList = classQuestionList;
+		this.mClassQuestionList.setListInternalName (CLASS_QUESTION_LIST );
+		
+	}
+	
+	public  void addClassQuestion(ClassQuestion classQuestion){
+		classQuestion.setQuestionType(this);
+		getClassQuestionList().add(classQuestion);
+	}
+	public  void addClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		for( ClassQuestion classQuestion:classQuestionList){
+			classQuestion.setQuestionType(this);
+		}
+		getClassQuestionList().addAll(classQuestionList);
+	}
+	public  void mergeClassQuestionList(SmartList<ClassQuestion> classQuestionList){
+		if(classQuestionList==null){
+			return;
+		}
+		if(classQuestionList.isEmpty()){
+			return;
+		}
+		addClassQuestionList( classQuestionList );
+		
+	}
+	public  ClassQuestion removeClassQuestion(ClassQuestion classQuestionIndex){
+		
+		int index = getClassQuestionList().indexOf(classQuestionIndex);
+        if(index < 0){
+        	String message = "ClassQuestion("+classQuestionIndex.getId()+") with version='"+classQuestionIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        ClassQuestion classQuestion = getClassQuestionList().get(index);        
+        // classQuestion.clearQuestionType(); //disconnect with QuestionType
+        classQuestion.clearFromAll(); //disconnect with QuestionType
+		
+		boolean result = getClassQuestionList().planToRemove(classQuestion);
+        if(!result){
+        	String message = "ClassQuestion("+classQuestionIndex.getId()+") with version='"+classQuestionIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return classQuestion;
+        
+	
+	}
+	//断舍离
+	public  void breakWithClassQuestion(ClassQuestion classQuestion){
+		
+		if(classQuestion == null){
+			return;
+		}
+		classQuestion.setQuestionType(null);
+		//getClassQuestionList().remove();
+	
+	}
+	
+	public  boolean hasClassQuestion(ClassQuestion classQuestion){
+	
+		return getClassQuestionList().contains(classQuestion);
+  
+	}
+	
+	public void copyClassQuestionFrom(ClassQuestion classQuestion) {
+
+		ClassQuestion classQuestionInList = findTheClassQuestion(classQuestion);
+		ClassQuestion newClassQuestion = new ClassQuestion();
+		classQuestionInList.copyTo(newClassQuestion);
+		newClassQuestion.setVersion(0);//will trigger copy
+		getClassQuestionList().add(newClassQuestion);
+		addItemToFlexiableObject(COPIED_CHILD, newClassQuestion);
+	}
+	
+	public  ClassQuestion findTheClassQuestion(ClassQuestion classQuestion){
+		
+		int index =  getClassQuestionList().indexOf(classQuestion);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "ClassQuestion("+classQuestion.getId()+") with version='"+classQuestion.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getClassQuestionList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpClassQuestionList(){
+		getClassQuestionList().clear();
+	}
+	
+	
+	
+
+
 	public  SmartList<DailySurveyQuestion> getDailySurveyQuestionList(){
 		if(this.mDailySurveyQuestionList == null){
 			this.mDailySurveyQuestionList = new SmartList<DailySurveyQuestion>();
@@ -478,6 +592,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
 		collectFromList(this, entityList, getQuestionList(), internalType);
+		collectFromList(this, entityList, getClassQuestionList(), internalType);
 		collectFromList(this, entityList, getDailySurveyQuestionList(), internalType);
 
 		return entityList;
@@ -487,6 +602,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
 		listOfList.add( getQuestionList());
+		listOfList.add( getClassQuestionList());
 		listOfList.add( getDailySurveyQuestionList());
 			
 
@@ -506,6 +622,11 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		if(!getQuestionList().isEmpty()){
 			appendKeyValuePair(result, "questionCount", getQuestionList().getTotalCount());
 			appendKeyValuePair(result, "questionCurrentPageNumber", getQuestionList().getCurrentPageNumber());
+		}
+		appendKeyValuePair(result, CLASS_QUESTION_LIST, getClassQuestionList());
+		if(!getClassQuestionList().isEmpty()){
+			appendKeyValuePair(result, "classQuestionCount", getClassQuestionList().getTotalCount());
+			appendKeyValuePair(result, "classQuestionCurrentPageNumber", getClassQuestionList().getCurrentPageNumber());
 		}
 		appendKeyValuePair(result, DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionList());
 		if(!getDailySurveyQuestionList().isEmpty()){
@@ -532,6 +653,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 			dest.setPlatform(getPlatform());
 			dest.setVersion(getVersion());
 			dest.setQuestionList(getQuestionList());
+			dest.setClassQuestionList(getClassQuestionList());
 			dest.setDailySurveyQuestionList(getDailySurveyQuestionList());
 
 		}
@@ -552,6 +674,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 			dest.mergePlatform(getPlatform());
 			dest.mergeVersion(getVersion());
 			dest.mergeQuestionList(getQuestionList());
+			dest.mergeClassQuestionList(getClassQuestionList());
 			dest.mergeDailySurveyQuestionList(getDailySurveyQuestionList());
 
 		}

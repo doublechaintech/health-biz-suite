@@ -19,10 +19,10 @@ import com.doublechaintech.health.userapp.UserApp;
 import com.terapico.uccaf.BaseUserContext;
 
 
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.guardian.Guardian;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 import com.doublechaintech.health.district.CandidateDistrict;
 import com.doublechaintech.health.province.CandidateProvince;
@@ -30,7 +30,8 @@ import com.doublechaintech.health.province.CandidateProvince;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.usertype.UserType;
 
 
 
@@ -164,14 +165,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		
 		addAction(userContext, location, tokens,"location.transfer_to_district","transferToAnotherDistrict","transferToAnotherDistrict/"+location.getId()+"/","main","primary");
 		addAction(userContext, location, tokens,"location.transfer_to_province","transferToAnotherProvince","transferToAnotherProvince/"+location.getId()+"/","main","primary");
-		addAction(userContext, location, tokens,"location.addStudent","addStudent","addStudent/"+location.getId()+"/","studentList","primary");
-		addAction(userContext, location, tokens,"location.removeStudent","removeStudent","removeStudent/"+location.getId()+"/","studentList","primary");
-		addAction(userContext, location, tokens,"location.updateStudent","updateStudent","updateStudent/"+location.getId()+"/","studentList","primary");
-		addAction(userContext, location, tokens,"location.copyStudentFrom","copyStudentFrom","copyStudentFrom/"+location.getId()+"/","studentList","primary");
-		addAction(userContext, location, tokens,"location.addUser","addUser","addUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.removeUser","removeUser","removeUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.updateUser","updateUser","updateUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.copyUserFrom","copyUserFrom","copyUserFrom/"+location.getId()+"/","userList","primary");
+		addAction(userContext, location, tokens,"location.addGuardian","addGuardian","addGuardian/"+location.getId()+"/","guardianList","primary");
+		addAction(userContext, location, tokens,"location.removeGuardian","removeGuardian","removeGuardian/"+location.getId()+"/","guardianList","primary");
+		addAction(userContext, location, tokens,"location.updateGuardian","updateGuardian","updateGuardian/"+location.getId()+"/","guardianList","primary");
+		addAction(userContext, location, tokens,"location.copyGuardianFrom","copyGuardianFrom","copyGuardianFrom/"+location.getId()+"/","guardianList","primary");
+		addAction(userContext, location, tokens,"location.addWechatUser","addWechatUser","addWechatUser/"+location.getId()+"/","wechatUserList","primary");
+		addAction(userContext, location, tokens,"location.removeWechatUser","removeWechatUser","removeWechatUser/"+location.getId()+"/","wechatUserList","primary");
+		addAction(userContext, location, tokens,"location.updateWechatUser","updateWechatUser","updateWechatUser/"+location.getId()+"/","wechatUserList","primary");
+		addAction(userContext, location, tokens,"location.copyWechatUserFrom","copyWechatUserFrom","copyWechatUserFrom/"+location.getId()+"/","wechatUserList","primary");
 	
 		
 		
@@ -353,8 +354,8 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
-		.sortStudentListWith("id","desc")
-		.sortUserListWith("id","desc")
+		.sortGuardianListWith("id","desc")
+		.sortWechatUserListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -522,8 +523,8 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 
 
-	//disconnect Location with student_id in Student
-	protected Location breakWithStudentByStudentId(HealthUserContext userContext, String locationId, String studentIdId,  String [] tokensExpr)
+	//disconnect Location with wechat_user in Guardian
+	protected Location breakWithGuardianByWechatUser(HealthUserContext userContext, String locationId, String wechatUserId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -534,14 +535,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				locationDaoOf(userContext).planToRemoveStudentListWithStudentId(location, studentIdId, this.emptyOptions());
+				locationDaoOf(userContext).planToRemoveGuardianListWithWechatUser(location, wechatUserId, this.emptyOptions());
 
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
+				location = saveLocation(userContext, location, tokens().withGuardianList().done());
 				return location;
 			}
 	}
-	//disconnect Location with user in Student
-	protected Location breakWithStudentByUser(HealthUserContext userContext, String locationId, String userId,  String [] tokensExpr)
+	//disconnect Location with platform in Guardian
+	protected Location breakWithGuardianByPlatform(HealthUserContext userContext, String locationId, String platformId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -552,14 +553,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				locationDaoOf(userContext).planToRemoveStudentListWithUser(location, userId, this.emptyOptions());
+				locationDaoOf(userContext).planToRemoveGuardianListWithPlatform(location, platformId, this.emptyOptions());
 
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
+				location = saveLocation(userContext, location, tokens().withGuardianList().done());
 				return location;
 			}
 	}
-	//disconnect Location with platform in Student
-	protected Location breakWithStudentByPlatform(HealthUserContext userContext, String locationId, String platformId,  String [] tokensExpr)
+	//disconnect Location with cq in Guardian
+	protected Location breakWithGuardianByCq(HealthUserContext userContext, String locationId, String cqId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -570,14 +571,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				locationDaoOf(userContext).planToRemoveStudentListWithPlatform(location, platformId, this.emptyOptions());
+				locationDaoOf(userContext).planToRemoveGuardianListWithCq(location, cqId, this.emptyOptions());
 
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
+				location = saveLocation(userContext, location, tokens().withGuardianList().done());
 				return location;
 			}
 	}
-	//disconnect Location with cq in Student
-	protected Location breakWithStudentByCq(HealthUserContext userContext, String locationId, String cqId,  String [] tokensExpr)
+	//disconnect Location with user_type in WechatUser
+	protected Location breakWithWechatUserByUserType(HealthUserContext userContext, String locationId, String userTypeId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -588,14 +589,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				locationDaoOf(userContext).planToRemoveStudentListWithCq(location, cqId, this.emptyOptions());
+				locationDaoOf(userContext).planToRemoveWechatUserListWithUserType(location, userTypeId, this.emptyOptions());
 
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
+				location = saveLocation(userContext, location, tokens().withWechatUserList().done());
 				return location;
 			}
 	}
-	//disconnect Location with platform in User
-	protected Location breakWithUserByPlatform(HealthUserContext userContext, String locationId, String platformId,  String [] tokensExpr)
+	//disconnect Location with platform in WechatUser
+	protected Location breakWithWechatUserByPlatform(HealthUserContext userContext, String locationId, String platformId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -606,9 +607,9 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				locationDaoOf(userContext).planToRemoveUserListWithPlatform(location, platformId, this.emptyOptions());
+				locationDaoOf(userContext).planToRemoveWechatUserListWithPlatform(location, platformId, this.emptyOptions());
 
-				location = saveLocation(userContext, location, tokens().withUserList().done());
+				location = saveLocation(userContext, location, tokens().withWechatUserList().done());
 				return location;
 			}
 	}
@@ -618,196 +619,186 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingGuardian(HealthUserContext userContext, String locationId, String name, String mobile, String wechatUserId, String platformId, String cqId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfLocation(locationId);
 
 		
-		checkerOf(userContext).checkStudentNameOfStudent(studentName);
+		checkerOf(userContext).checkNameOfGuardian(name);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkMobileOfGuardian(mobile);
 		
-		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
+		checkerOf(userContext).checkWechatUserIdOfGuardian(wechatUserId);
 		
-		checkerOf(userContext).checkGuardianMobileOfStudent(guardianMobile);
+		checkerOf(userContext).checkPlatformIdOfGuardian(platformId);
 		
-		checkerOf(userContext).checkUserIdOfStudent(userId);
-		
-		checkerOf(userContext).checkPlatformIdOfStudent(platformId);
-		
-		checkerOf(userContext).checkCqIdOfStudent(cqId);
+		checkerOf(userContext).checkCqIdOfGuardian(cqId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 
 	}
-	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String cqId, String [] tokensExpr) throws Exception
+	public  Location addGuardian(HealthUserContext userContext, String locationId, String name, String mobile, String wechatUserId, String platformId, String cqId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,locationId,studentName, studentId, guardianName, guardianMobile, userId, platformId, cqId,tokensExpr);
+		checkParamsForAddingGuardian(userContext,locationId,name, mobile, wechatUserId, platformId, cqId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, userId, platformId, cqId);
+		Guardian guardian = createGuardian(userContext,name, mobile, wechatUserId, platformId, cqId);
 
 		Location location = loadLocation(userContext, locationId, emptyOptions());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			location.addStudent( student );
-			location = saveLocation(userContext, location, tokens().withStudentList().done());
+			location.addGuardian( guardian );
+			location = saveLocation(userContext, location, tokens().withGuardianList().done());
 			
-			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, student);
+			userContext.getManagerGroup().getGuardianManager().onNewInstanceCreated(userContext, guardian);
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String locationId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingGuardianProperties(HealthUserContext userContext, String locationId,String id,String name,String mobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfStudent(id);
+		checkerOf(userContext).checkIdOfGuardian(id);
 
-		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
-		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
-		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
+		checkerOf(userContext).checkNameOfGuardian( name);
+		checkerOf(userContext).checkMobileOfGuardian( mobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location updateStudentProperties(HealthUserContext userContext, String locationId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  Location updateGuardianProperties(HealthUserContext userContext, String locationId, String id,String name,String mobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,locationId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingGuardianProperties(userContext,locationId,id,name,mobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				//.withStudentListList()
-				.searchStudentListWith(Student.ID_PROPERTY, "is", id).done();
+				//.withGuardianListList()
+				.searchGuardianListWith(Guardian.ID_PROPERTY, "is", id).done();
 
 		Location locationToUpdate = loadLocation(userContext, locationId, options);
 
-		if(locationToUpdate.getStudentList().isEmpty()){
-			throw new LocationManagerException("Student is NOT FOUND with id: '"+id+"'");
+		if(locationToUpdate.getGuardianList().isEmpty()){
+			throw new LocationManagerException("Guardian is NOT FOUND with id: '"+id+"'");
 		}
 
-		Student item = locationToUpdate.getStudentList().first();
+		Guardian item = locationToUpdate.getGuardianList().first();
 
-		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
-		item.updateGuardianName( guardianName );
-		item.updateGuardianMobile( guardianMobile );
+		item.updateName( name );
+		item.updateMobile( mobile );
 
 
-		//checkParamsForAddingStudent(userContext,locationId,name, code, used,tokensExpr);
-		Location location = saveLocation(userContext, locationToUpdate, tokens().withStudentList().done());
+		//checkParamsForAddingGuardian(userContext,locationId,name, code, used,tokensExpr);
+		Location location = saveLocation(userContext, locationToUpdate, tokens().withGuardianList().done());
 		synchronized(location){
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String cqId) throws Exception{
+	protected Guardian createGuardian(HealthUserContext userContext, String name, String mobile, String wechatUserId, String platformId, String cqId) throws Exception{
 
-		Student student = new Student();
+		Guardian guardian = new Guardian();
 		
 		
-		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
-		student.setGuardianName(guardianName);		
-		student.setGuardianMobile(guardianMobile);		
-		User  user = new User();
-		user.setId(userId);		
-		student.setUser(user);		
-		student.setCreateTime(userContext.now());		
+		guardian.setName(name);		
+		guardian.setMobile(mobile);		
+		WechatUser  wechatUser = new WechatUser();
+		wechatUser.setId(wechatUserId);		
+		guardian.setWechatUser(wechatUser);		
+		guardian.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		student.setPlatform(platform);		
+		guardian.setPlatform(platform);		
 		ChangeRequest  cq = new ChangeRequest();
 		cq.setId(cqId);		
-		student.setCq(cq);
+		guardian.setCq(cq);
 	
 		
-		return student;
+		return guardian;
 
 
 	}
 
-	protected Student createIndexedStudent(String id, int version){
+	protected Guardian createIndexedGuardian(String id, int version){
 
-		Student student = new Student();
-		student.setId(id);
-		student.setVersion(version);
-		return student;
+		Guardian guardian = new Guardian();
+		guardian.setId(id);
+		guardian.setVersion(version);
+		return guardian;
 
 	}
 
-	protected void checkParamsForRemovingStudentList(HealthUserContext userContext, String locationId,
-			String studentIds[],String [] tokensExpr) throws Exception {
+	protected void checkParamsForRemovingGuardianList(HealthUserContext userContext, String locationId,
+			String guardianIds[],String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		for(String studentIdItem: studentIds){
-			checkerOf(userContext).checkIdOfStudent(studentIdItem);
+		for(String guardianIdItem: guardianIds){
+			checkerOf(userContext).checkIdOfGuardian(guardianIdItem);
 		}
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location removeStudentList(HealthUserContext userContext, String locationId,
-			String studentIds[],String [] tokensExpr) throws Exception{
+	public  Location removeGuardianList(HealthUserContext userContext, String locationId,
+			String guardianIds[],String [] tokensExpr) throws Exception{
 
-			checkParamsForRemovingStudentList(userContext, locationId,  studentIds, tokensExpr);
+			checkParamsForRemovingGuardianList(userContext, locationId,  guardianIds, tokensExpr);
 
 
 			Location location = loadLocation(userContext, locationId, allTokens());
 			synchronized(location){
 				//Will be good when the location loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
-				locationDaoOf(userContext).planToRemoveStudentList(location, studentIds, allTokens());
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
-				deleteRelationListInGraph(userContext, location.getStudentList());
+				locationDaoOf(userContext).planToRemoveGuardianList(location, guardianIds, allTokens());
+				location = saveLocation(userContext, location, tokens().withGuardianList().done());
+				deleteRelationListInGraph(userContext, location.getGuardianList());
 				return present(userContext,location, mergedAllTokens(tokensExpr));
 			}
 	}
 
-	protected void checkParamsForRemovingStudent(HealthUserContext userContext, String locationId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForRemovingGuardian(HealthUserContext userContext, String locationId,
+		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
+		checkerOf(userContext).checkIdOfGuardian(guardianId);
+		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location removeStudent(HealthUserContext userContext, String locationId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
+	public  Location removeGuardian(HealthUserContext userContext, String locationId,
+		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForRemovingStudent(userContext,locationId, studentId, studentVersion,tokensExpr);
+		checkParamsForRemovingGuardian(userContext,locationId, guardianId, guardianVersion,tokensExpr);
 
-		Student student = createIndexedStudent(studentId, studentVersion);
+		Guardian guardian = createIndexedGuardian(guardianId, guardianVersion);
 		Location location = loadLocation(userContext, locationId, allTokens());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			location.removeStudent( student );
-			location = saveLocation(userContext, location, tokens().withStudentList().done());
-			deleteRelationInGraph(userContext, student);
+			location.removeGuardian( guardian );
+			location = saveLocation(userContext, location, tokens().withGuardianList().done());
+			deleteRelationInGraph(userContext, guardian);
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 
 
 	}
-	protected void checkParamsForCopyingStudent(HealthUserContext userContext, String locationId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForCopyingGuardian(HealthUserContext userContext, String locationId,
+		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
+		checkerOf(userContext).checkIdOfGuardian(guardianId);
+		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location copyStudentFrom(HealthUserContext userContext, String locationId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
+	public  Location copyGuardianFrom(HealthUserContext userContext, String locationId,
+		String guardianId, int guardianVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForCopyingStudent(userContext,locationId, studentId, studentVersion,tokensExpr);
+		checkParamsForCopyingGuardian(userContext,locationId, guardianId, guardianVersion,tokensExpr);
 
-		Student student = createIndexedStudent(studentId, studentVersion);
+		Guardian guardian = createIndexedGuardian(guardianId, guardianVersion);
 		Location location = loadLocation(userContext, locationId, allTokens());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
@@ -815,38 +806,30 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 			
 
-			location.copyStudentFrom( student );
-			location = saveLocation(userContext, location, tokens().withStudentList().done());
+			location.copyGuardianFrom( guardian );
+			location = saveLocation(userContext, location, tokens().withGuardianList().done());
 			
-			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, (Student)location.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			userContext.getManagerGroup().getGuardianManager().onNewInstanceCreated(userContext, (Guardian)location.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 
 	}
 
-	protected void checkParamsForUpdatingStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+	protected void checkParamsForUpdatingGuardian(HealthUserContext userContext, String locationId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
 		
 
 		
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
+		checkerOf(userContext).checkIdOfGuardian(guardianId);
+		checkerOf(userContext).checkVersionOfGuardian(guardianVersion);
 		
 
-		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
+		if(Guardian.NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkNameOfGuardian(parseString(newValueExpr));
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
-		}
-		
-		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
-		}
-		
-		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
+		if(Guardian.MOBILE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkMobileOfGuardian(parseString(newValueExpr));
 		}
 		
 	
@@ -854,12 +837,12 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 	}
 
-	public  Location updateStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)
+	public  Location updateGuardian(HealthUserContext userContext, String locationId, String guardianId, int guardianVersion, String property, String newValueExpr,String [] tokensExpr)
 			throws Exception{
 
-		checkParamsForUpdatingStudent(userContext, locationId, studentId, studentVersion, property, newValueExpr,  tokensExpr);
+		checkParamsForUpdatingGuardian(userContext, locationId, guardianId, guardianVersion, property, newValueExpr,  tokensExpr);
 
-		Map<String,Object> loadTokens = this.tokens().withStudentList().searchStudentListWith(Student.ID_PROPERTY, "eq", studentId).done();
+		Map<String,Object> loadTokens = this.tokens().withGuardianList().searchGuardianListWith(Guardian.ID_PROPERTY, "eq", guardianId).done();
 
 
 
@@ -868,18 +851,18 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			//location.removeStudent( student );
+			//location.removeGuardian( guardian );
 			//make changes to AcceleraterAccount.
-			Student studentIndex = createIndexedStudent(studentId, studentVersion);
+			Guardian guardianIndex = createIndexedGuardian(guardianId, guardianVersion);
 
-			Student student = location.findTheStudent(studentIndex);
-			if(student == null){
-				throw new LocationManagerException(student+" is NOT FOUND" );
+			Guardian guardian = location.findTheGuardian(guardianIndex);
+			if(guardian == null){
+				throw new LocationManagerException(guardian+" is NOT FOUND" );
 			}
 
-			student.changeProperty(property, newValueExpr);
+			guardian.changeProperty(property, newValueExpr);
 			
-			location = saveLocation(userContext, location, tokens().withStudentList().done());
+			location = saveLocation(userContext, location, tokens().withGuardianList().done());
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 
@@ -891,176 +874,181 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 
 
-	protected void checkParamsForAddingUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingWechatUser(HealthUserContext userContext, String locationId, String name, String avatar, String userTypeId, String platformId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfLocation(locationId);
 
 		
-		checkerOf(userContext).checkNameOfUser(name);
+		checkerOf(userContext).checkNameOfWechatUser(name);
 		
-		checkerOf(userContext).checkAvatarOfUser(avatar);
+		checkerOf(userContext).checkAvatarOfWechatUser(avatar);
 		
-		checkerOf(userContext).checkPlatformIdOfUser(platformId);
+		checkerOf(userContext).checkUserTypeIdOfWechatUser(userTypeId);
+		
+		checkerOf(userContext).checkPlatformIdOfWechatUser(platformId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 
 	}
-	public  Location addUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId, String [] tokensExpr) throws Exception
+	public  Location addWechatUser(HealthUserContext userContext, String locationId, String name, String avatar, String userTypeId, String platformId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingUser(userContext,locationId,name, avatar, platformId,tokensExpr);
+		checkParamsForAddingWechatUser(userContext,locationId,name, avatar, userTypeId, platformId,tokensExpr);
 
-		User user = createUser(userContext,name, avatar, platformId);
+		WechatUser wechatUser = createWechatUser(userContext,name, avatar, userTypeId, platformId);
 
 		Location location = loadLocation(userContext, locationId, emptyOptions());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			location.addUser( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
+			location.addWechatUser( wechatUser );
+			location = saveLocation(userContext, location, tokens().withWechatUserList().done());
 			
-			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, user);
+			userContext.getManagerGroup().getWechatUserManager().onNewInstanceCreated(userContext, wechatUser);
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingUserProperties(HealthUserContext userContext, String locationId,String id,String name,String avatar,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingWechatUserProperties(HealthUserContext userContext, String locationId,String id,String name,String avatar,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfUser(id);
+		checkerOf(userContext).checkIdOfWechatUser(id);
 
-		checkerOf(userContext).checkNameOfUser( name);
-		checkerOf(userContext).checkAvatarOfUser( avatar);
+		checkerOf(userContext).checkNameOfWechatUser( name);
+		checkerOf(userContext).checkAvatarOfWechatUser( avatar);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location updateUserProperties(HealthUserContext userContext, String locationId, String id,String name,String avatar, String [] tokensExpr) throws Exception
+	public  Location updateWechatUserProperties(HealthUserContext userContext, String locationId, String id,String name,String avatar, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingUserProperties(userContext,locationId,id,name,avatar,tokensExpr);
+		checkParamsForUpdatingWechatUserProperties(userContext,locationId,id,name,avatar,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				//.withUserListList()
-				.searchUserListWith(User.ID_PROPERTY, "is", id).done();
+				//.withWechatUserListList()
+				.searchWechatUserListWith(WechatUser.ID_PROPERTY, "is", id).done();
 
 		Location locationToUpdate = loadLocation(userContext, locationId, options);
 
-		if(locationToUpdate.getUserList().isEmpty()){
-			throw new LocationManagerException("User is NOT FOUND with id: '"+id+"'");
+		if(locationToUpdate.getWechatUserList().isEmpty()){
+			throw new LocationManagerException("WechatUser is NOT FOUND with id: '"+id+"'");
 		}
 
-		User item = locationToUpdate.getUserList().first();
+		WechatUser item = locationToUpdate.getWechatUserList().first();
 
 		item.updateName( name );
 		item.updateAvatar( avatar );
 
 
-		//checkParamsForAddingUser(userContext,locationId,name, code, used,tokensExpr);
-		Location location = saveLocation(userContext, locationToUpdate, tokens().withUserList().done());
+		//checkParamsForAddingWechatUser(userContext,locationId,name, code, used,tokensExpr);
+		Location location = saveLocation(userContext, locationToUpdate, tokens().withWechatUserList().done());
 		synchronized(location){
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
 
 
-	protected User createUser(HealthUserContext userContext, String name, String avatar, String platformId) throws Exception{
+	protected WechatUser createWechatUser(HealthUserContext userContext, String name, String avatar, String userTypeId, String platformId) throws Exception{
 
-		User user = new User();
+		WechatUser wechatUser = new WechatUser();
 		
 		
-		user.setName(name);		
-		user.setAvatar(avatar);		
-		user.setCreateTime(userContext.now());		
+		wechatUser.setName(name);		
+		wechatUser.setAvatar(avatar);		
+		UserType  userType = new UserType();
+		userType.setId(userTypeId);		
+		wechatUser.setUserType(userType);		
+		wechatUser.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		user.setPlatform(platform);
+		wechatUser.setPlatform(platform);
 	
 		
-		return user;
+		return wechatUser;
 
 
 	}
 
-	protected User createIndexedUser(String id, int version){
+	protected WechatUser createIndexedWechatUser(String id, int version){
 
-		User user = new User();
-		user.setId(id);
-		user.setVersion(version);
-		return user;
+		WechatUser wechatUser = new WechatUser();
+		wechatUser.setId(id);
+		wechatUser.setVersion(version);
+		return wechatUser;
 
 	}
 
-	protected void checkParamsForRemovingUserList(HealthUserContext userContext, String locationId,
-			String userIds[],String [] tokensExpr) throws Exception {
+	protected void checkParamsForRemovingWechatUserList(HealthUserContext userContext, String locationId,
+			String wechatUserIds[],String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		for(String userIdItem: userIds){
-			checkerOf(userContext).checkIdOfUser(userIdItem);
+		for(String wechatUserIdItem: wechatUserIds){
+			checkerOf(userContext).checkIdOfWechatUser(wechatUserIdItem);
 		}
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location removeUserList(HealthUserContext userContext, String locationId,
-			String userIds[],String [] tokensExpr) throws Exception{
+	public  Location removeWechatUserList(HealthUserContext userContext, String locationId,
+			String wechatUserIds[],String [] tokensExpr) throws Exception{
 
-			checkParamsForRemovingUserList(userContext, locationId,  userIds, tokensExpr);
+			checkParamsForRemovingWechatUserList(userContext, locationId,  wechatUserIds, tokensExpr);
 
 
 			Location location = loadLocation(userContext, locationId, allTokens());
 			synchronized(location){
 				//Will be good when the location loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
-				locationDaoOf(userContext).planToRemoveUserList(location, userIds, allTokens());
-				location = saveLocation(userContext, location, tokens().withUserList().done());
-				deleteRelationListInGraph(userContext, location.getUserList());
+				locationDaoOf(userContext).planToRemoveWechatUserList(location, wechatUserIds, allTokens());
+				location = saveLocation(userContext, location, tokens().withWechatUserList().done());
+				deleteRelationListInGraph(userContext, location.getWechatUserList());
 				return present(userContext,location, mergedAllTokens(tokensExpr));
 			}
 	}
 
-	protected void checkParamsForRemovingUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForRemovingWechatUser(HealthUserContext userContext, String locationId,
+		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
+		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
+		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location removeUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
+	public  Location removeWechatUser(HealthUserContext userContext, String locationId,
+		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForRemovingUser(userContext,locationId, userId, userVersion,tokensExpr);
+		checkParamsForRemovingWechatUser(userContext,locationId, wechatUserId, wechatUserVersion,tokensExpr);
 
-		User user = createIndexedUser(userId, userVersion);
+		WechatUser wechatUser = createIndexedWechatUser(wechatUserId, wechatUserVersion);
 		Location location = loadLocation(userContext, locationId, allTokens());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			location.removeUser( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
-			deleteRelationInGraph(userContext, user);
+			location.removeWechatUser( wechatUser );
+			location = saveLocation(userContext, location, tokens().withWechatUserList().done());
+			deleteRelationInGraph(userContext, wechatUser);
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 
 
 	}
-	protected void checkParamsForCopyingUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
+	protected void checkParamsForCopyingWechatUser(HealthUserContext userContext, String locationId,
+		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
 		
 		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
+		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
+		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location copyUserFrom(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
+	public  Location copyWechatUserFrom(HealthUserContext userContext, String locationId,
+		String wechatUserId, int wechatUserVersion,String [] tokensExpr) throws Exception{
 
-		checkParamsForCopyingUser(userContext,locationId, userId, userVersion,tokensExpr);
+		checkParamsForCopyingWechatUser(userContext,locationId, wechatUserId, wechatUserVersion,tokensExpr);
 
-		User user = createIndexedUser(userId, userVersion);
+		WechatUser wechatUser = createIndexedWechatUser(wechatUserId, wechatUserVersion);
 		Location location = loadLocation(userContext, locationId, allTokens());
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
@@ -1068,30 +1056,30 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 			
 
-			location.copyUserFrom( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
+			location.copyWechatUserFrom( wechatUser );
+			location = saveLocation(userContext, location, tokens().withWechatUserList().done());
 			
-			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, (User)location.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			userContext.getManagerGroup().getWechatUserManager().onNewInstanceCreated(userContext, (WechatUser)location.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 
 	}
 
-	protected void checkParamsForUpdatingUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+	protected void checkParamsForUpdatingWechatUser(HealthUserContext userContext, String locationId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
 		
 
 		
 		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
+		checkerOf(userContext).checkIdOfWechatUser(wechatUserId);
+		checkerOf(userContext).checkVersionOfWechatUser(wechatUserVersion);
 		
 
-		if(User.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfUser(parseString(newValueExpr));
+		if(WechatUser.NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkNameOfWechatUser(parseString(newValueExpr));
 		}
 		
-		if(User.AVATAR_PROPERTY.equals(property)){
-			checkerOf(userContext).checkAvatarOfUser(parseString(newValueExpr));
+		if(WechatUser.AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkAvatarOfWechatUser(parseString(newValueExpr));
 		}
 		
 	
@@ -1099,12 +1087,12 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 	}
 
-	public  Location updateUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)
+	public  Location updateWechatUser(HealthUserContext userContext, String locationId, String wechatUserId, int wechatUserVersion, String property, String newValueExpr,String [] tokensExpr)
 			throws Exception{
 
-		checkParamsForUpdatingUser(userContext, locationId, userId, userVersion, property, newValueExpr,  tokensExpr);
+		checkParamsForUpdatingWechatUser(userContext, locationId, wechatUserId, wechatUserVersion, property, newValueExpr,  tokensExpr);
 
-		Map<String,Object> loadTokens = this.tokens().withUserList().searchUserListWith(User.ID_PROPERTY, "eq", userId).done();
+		Map<String,Object> loadTokens = this.tokens().withWechatUserList().searchWechatUserListWith(WechatUser.ID_PROPERTY, "eq", wechatUserId).done();
 
 
 
@@ -1113,18 +1101,18 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		synchronized(location){
 			//Will be good when the location loaded from this JVM process cache.
 			//Also good when there is a RAM based DAO implementation
-			//location.removeUser( user );
+			//location.removeWechatUser( wechatUser );
 			//make changes to AcceleraterAccount.
-			User userIndex = createIndexedUser(userId, userVersion);
+			WechatUser wechatUserIndex = createIndexedWechatUser(wechatUserId, wechatUserVersion);
 
-			User user = location.findTheUser(userIndex);
-			if(user == null){
-				throw new LocationManagerException(user+" is NOT FOUND" );
+			WechatUser wechatUser = location.findTheWechatUser(wechatUserIndex);
+			if(wechatUser == null){
+				throw new LocationManagerException(wechatUser+" is NOT FOUND" );
 			}
 
-			user.changeProperty(property, newValueExpr);
+			wechatUser.changeProperty(property, newValueExpr);
 			
-			location = saveLocation(userContext, location, tokens().withUserList().done());
+			location = saveLocation(userContext, location, tokens().withWechatUserList().done());
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 

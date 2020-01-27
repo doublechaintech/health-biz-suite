@@ -25,7 +25,7 @@ const testValues = {
   optionD: '不知道',
   questionTypeId: 'OptionSelect',
   classDailyHealthSurveyId: 'CDHS000001',
-  surveyQuestionId: 'Q000001',
+  classQuestionId: 'CQ000001',
 }
 */
 

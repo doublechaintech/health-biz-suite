@@ -179,17 +179,23 @@ public class HealthCheckerManager extends BaseManagerImpl {
 	public com.doublechaintech.health.location.LocationDAO locationDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getLocationDAO();
 	}
+	public com.doublechaintech.health.schoolclass.SchoolClassManager schoolClassManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getSchoolClassManager();
+	}
+	public com.doublechaintech.health.schoolclass.SchoolClassDAO schoolClassDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getSchoolClassDAO();
+	}
 	public com.doublechaintech.health.teacher.TeacherManager teacherManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getTeacherManager();
 	}
 	public com.doublechaintech.health.teacher.TeacherDAO teacherDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getTeacherDAO();
 	}
-	public com.doublechaintech.health.student.StudentManager studentManagerOf(HealthUserContext userContext){
-		return userContext.getManagerGroup().getStudentManager();
+	public com.doublechaintech.health.guardian.GuardianManager guardianManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getGuardianManager();
 	}
-	public com.doublechaintech.health.student.StudentDAO studentDaoOf(HealthUserContext userContext){
-		return userContext.getDAOGroup().getStudentDAO();
+	public com.doublechaintech.health.guardian.GuardianDAO guardianDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getGuardianDAO();
 	}
 	public com.doublechaintech.health.question.QuestionManager questionManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getQuestionManager();
@@ -203,6 +209,18 @@ public class HealthCheckerManager extends BaseManagerImpl {
 	public com.doublechaintech.health.questiontype.QuestionTypeDAO questionTypeDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getQuestionTypeDAO();
 	}
+	public com.doublechaintech.health.questionsource.QuestionSourceManager questionSourceManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getQuestionSourceManager();
+	}
+	public com.doublechaintech.health.questionsource.QuestionSourceDAO questionSourceDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getQuestionSourceDAO();
+	}
+	public com.doublechaintech.health.classquestion.ClassQuestionManager classQuestionManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getClassQuestionManager();
+	}
+	public com.doublechaintech.health.classquestion.ClassQuestionDAO classQuestionDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getClassQuestionDAO();
+	}
 	public com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyManager classDailyHealthSurveyManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getClassDailyHealthSurveyManager();
 	}
@@ -214,6 +232,12 @@ public class HealthCheckerManager extends BaseManagerImpl {
 	}
 	public com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO dailySurveyQuestionDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getDailySurveyQuestionDAO();
+	}
+	public com.doublechaintech.health.student.StudentManager studentManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getStudentManager();
+	}
+	public com.doublechaintech.health.student.StudentDAO studentDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getStudentDAO();
 	}
 	public com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyManager studentHealthSurveyManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getStudentHealthSurveyManager();
@@ -233,11 +257,17 @@ public class HealthCheckerManager extends BaseManagerImpl {
 	public com.doublechaintech.health.surveystatus.SurveyStatusDAO surveyStatusDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getSurveyStatusDAO();
 	}
-	public com.doublechaintech.health.user.UserManager userManagerOf(HealthUserContext userContext){
-		return userContext.getManagerGroup().getUserManager();
+	public com.doublechaintech.health.wechatuser.WechatUserManager wechatUserManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getWechatUserManager();
 	}
-	public com.doublechaintech.health.user.UserDAO userDaoOf(HealthUserContext userContext){
-		return userContext.getDAOGroup().getUserDAO();
+	public com.doublechaintech.health.wechatuser.WechatUserDAO wechatUserDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getWechatUserDAO();
+	}
+	public com.doublechaintech.health.usertype.UserTypeManager userTypeManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getUserTypeManager();
+	}
+	public com.doublechaintech.health.usertype.UserTypeDAO userTypeDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getUserTypeDAO();
 	}
 	public com.doublechaintech.health.wechatlogininfo.WechatLoginInfoManager wechatLoginInfoManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getWechatLoginInfoManager();

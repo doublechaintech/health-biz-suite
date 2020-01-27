@@ -38,7 +38,7 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 const addQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}questionTypeManager/addQuestion/questionTypeId/topic/optionA/optionB/optionC/optionD/platformId/creatorId/cqId/tokensExpr/`
+  const url = `${PREFIX}questionTypeManager/addQuestion/questionTypeId/topic/optionA/optionB/optionC/optionD/platformId/tokensExpr/`
   const questionTypeId = targetObjectId
   const requestParameters = { ...parameters, questionTypeId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -59,8 +59,30 @@ const removeQuestionList = (targetObjectId, parameters) => {
 
 
 
+const addClassQuestion = (targetObjectId, parameters) => {
+  const url = `${PREFIX}questionTypeManager/addClassQuestion/questionTypeId/topic/optionA/optionB/optionC/optionD/questionSourceId/creatorId/cqId/tokensExpr/`
+  const questionTypeId = targetObjectId
+  const requestParameters = { ...parameters, questionTypeId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateClassQuestion = (targetObjectId, parameters) => {
+  const url = `${PREFIX}questionTypeManager/updateClassQuestionProperties/questionTypeId/id/topic/optionA/optionB/optionC/optionD/tokensExpr/`
+  const questionTypeId = targetObjectId
+  const requestParameters = { ...parameters, questionTypeId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeClassQuestionList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}questionTypeManager/removeClassQuestionList/questionTypeId/classQuestionIds/tokensExpr/`
+  const requestParameters = { ...parameters, questionTypeId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
 const addDailySurveyQuestion = (targetObjectId, parameters) => {
-  const url = `${PREFIX}questionTypeManager/addDailySurveyQuestion/questionTypeId/topic/optionA/optionB/optionC/optionD/classDailyHealthSurveyId/surveyQuestionId/tokensExpr/`
+  const url = `${PREFIX}questionTypeManager/addDailySurveyQuestion/questionTypeId/topic/optionA/optionB/optionC/optionD/classDailyHealthSurveyId/classQuestionId/tokensExpr/`
   const questionTypeId = targetObjectId
   const requestParameters = { ...parameters, questionTypeId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -110,10 +132,13 @@ const  processRequest = (data) => {
 const QuestionTypeService = { view,
   load,
   addQuestion,
+  addClassQuestion,
   addDailySurveyQuestion,
   updateQuestion,
+  updateClassQuestion,
   updateDailySurveyQuestion,
   removeQuestionList,
+  removeClassQuestionList,
   removeDailySurveyQuestionList,
   requestCandidatePlatform,
   transferToAnotherPlatform, listFunctions, saveRequest, processRequest}

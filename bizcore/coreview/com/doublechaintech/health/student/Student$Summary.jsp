@@ -37,24 +37,16 @@
 <span >${result.id}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['student.student_name']}</span>
-<span >${result.studentName}</span>
+<span class="summary-label">${userContext.localeMap['student.name']}</span>
+<span >${result.name}</span>
+</div>
+<div class="col-xs-12 col-md-3 summary-section">
+<span class="summary-label">${userContext.localeMap['student.gender']}</span>
+<span >${result.gender}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
 <span class="summary-label">${userContext.localeMap['student.student_id']}</span>
 <span >${result.studentId}</span>
-</div>
-<div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['student.guardian_name']}</span>
-<span >${result.guardianName}</span>
-</div>
-<div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['student.guardian_mobile']}</span>
-<span >${result.maskedGuardianMobile}</span>
-</div>
-<div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['student.create_time']}</span>
-<span ><fmt:formatDate pattern="yyyy-MM-dd" value="${result.createTime}" /></span>
 </div>
 
 	</div>

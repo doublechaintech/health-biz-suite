@@ -25,7 +25,7 @@ const testValues = {
   optionD: '不知道',
   questionTypeId: 'OptionSelect',
   classDailyHealthSurveyId: 'CDHS000001',
-  surveyQuestionId: 'Q000001',
+  classQuestionId: 'CQ000001',
 }
 */
 
@@ -238,15 +238,15 @@ class DailySurveyQuestionAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.surveyQuestion} {...formItemLayout}>
-                  {getFieldDecorator('surveyQuestionId', {
-                  	initialValue: tryinit('surveyQuestion'),
+                <Form.Item label={fieldLabels.classQuestion} {...formItemLayout}>
+                  {getFieldDecorator('classQuestionId', {
+                  	initialValue: tryinit('classQuestion'),
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
-                    disabled={!availableForEdit('surveyQuestion')}
-                    targetType={"surveyQuestion"} 
-                    requestFunction={DailySurveyQuestionService.requestCandidateSurveyQuestion}/>
+                    disabled={!availableForEdit('classQuestion')}
+                    targetType={"classQuestion"} 
+                    requestFunction={DailySurveyQuestionService.requestCandidateClassQuestion}/>
   
                   )}
                 </Form.Item>

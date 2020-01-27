@@ -6,7 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
@@ -20,7 +20,7 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
  		setStudent(studentHealthSurvey, rs, rowNumber); 		
  		setAnswerTime(studentHealthSurvey, rs, rowNumber); 		
  		setSurveyStatus(studentHealthSurvey, rs, rowNumber); 		
- 		setTeacher(studentHealthSurvey, rs, rowNumber); 		
+ 		setSchoolClass(studentHealthSurvey, rs, rowNumber); 		
  		setClassDailyHealthSurvey(studentHealthSurvey, rs, rowNumber); 		
  		setCreateTime(studentHealthSurvey, rs, rowNumber); 		
  		setLastUpdateTime(studentHealthSurvey, rs, rowNumber); 		
@@ -94,22 +94,22 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
  		studentHealthSurvey.setSurveyStatus(createEmptySurveyStatus(surveyStatusId));
  	}
  	 		
- 	protected void setTeacher(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
- 		String teacherId = rs.getString(StudentHealthSurveyTable.COLUMN_TEACHER);
- 		if( teacherId == null){
+ 	protected void setSchoolClass(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
+ 		String schoolClassId = rs.getString(StudentHealthSurveyTable.COLUMN_SCHOOL_CLASS);
+ 		if( schoolClassId == null){
  			return;
  		}
- 		if( teacherId.isEmpty()){
+ 		if( schoolClassId.isEmpty()){
  			return;
  		}
- 		Teacher teacher = studentHealthSurvey.getTeacher();
- 		if( teacher != null ){
+ 		SchoolClass schoolClass = studentHealthSurvey.getSchoolClass();
+ 		if( schoolClass != null ){
  			//if the root object 'studentHealthSurvey' already have the property, just set the id for it;
- 			teacher.setId(teacherId);
+ 			schoolClass.setId(schoolClassId);
  			
  			return;
  		}
- 		studentHealthSurvey.setTeacher(createEmptyTeacher(teacherId));
+ 		studentHealthSurvey.setSchoolClass(createEmptySchoolClass(schoolClassId));
  	}
  	 		
  	protected void setClassDailyHealthSurvey(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
@@ -200,11 +200,11 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
  		return surveyStatus;
  	}
  	
- 	protected Teacher  createEmptyTeacher(String teacherId){
- 		Teacher teacher = new Teacher();
- 		teacher.setId(teacherId);
- 		teacher.setVersion(Integer.MAX_VALUE);
- 		return teacher;
+ 	protected SchoolClass  createEmptySchoolClass(String schoolClassId){
+ 		SchoolClass schoolClass = new SchoolClass();
+ 		schoolClass.setId(schoolClassId);
+ 		schoolClass.setVersion(Integer.MAX_VALUE);
+ 		return schoolClass;
  	}
  	
  	protected ClassDailyHealthSurvey  createEmptyClassDailyHealthSurvey(String classDailyHealthSurveyId){

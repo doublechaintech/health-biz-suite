@@ -182,58 +182,6 @@ constructor(props) {
 
 
 
-  getDailySurveyQuestionSearch = () => {
-    const {DailySurveyQuestionSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('daily_survey_question','question.daily_survey_question_list',false),
-      role: "dailySurveyQuestion",
-      data: state._question.dailySurveyQuestionList,
-      metaInfo: state._question.dailySurveyQuestionListMetaInfo,
-      count: state._question.dailySurveyQuestionCount,
-      returnURL: `/question/${state._question.id}/dashboard`,
-      currentPage: state._question.dailySurveyQuestionCurrentPageNumber,
-      searchFormParameters: state._question.dailySurveyQuestionSearchFormParameters,
-      searchParameters: {...state._question.searchParameters},
-      expandForm: state._question.expandForm,
-      loading: state._question.loading,
-      partialList: state._question.partialList,
-      owner: { type: '_question', id: state._question.id, 
-      referenceName: 'surveyQuestion', 
-      listName: 'dailySurveyQuestionList', ref:state._question, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(DailySurveyQuestionSearch)
-  }
-  
-  getDailySurveyQuestionCreateForm = () => {
-   	const {DailySurveyQuestionCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "dailySurveyQuestion",
-      data: state._question.dailySurveyQuestionList,
-      metaInfo: state._question.dailySurveyQuestionListMetaInfo,
-      count: state._question.dailySurveyQuestionCount,
-      returnURL: `/question/${state._question.id}/list`,
-      currentPage: state._question.dailySurveyQuestionCurrentPageNumber,
-      searchFormParameters: state._question.dailySurveyQuestionSearchFormParameters,
-      loading: state._question.loading,
-      owner: { type: '_question', id: state._question.id, referenceName: 'surveyQuestion', listName: 'dailySurveyQuestionList', ref:state._question, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(DailySurveyQuestionCreateForm)
-  }
-  
-  getDailySurveyQuestionUpdateForm = () => {
-    const userContext = null
-  	const {DailySurveyQuestionUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._question.selectedRows,
-      role: "dailySurveyQuestion",
-      currentUpdateIndex: state._question.currentUpdateIndex,
-      owner: { type: '_question', id: state._question.id, listName: 'dailySurveyQuestionList', ref:state._question, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(DailySurveyQuestionUpdateForm)
-  }
-
 
   
 
@@ -258,11 +206,7 @@ constructor(props) {
   	{path:"/question/:id/permission", component: QuestionPermission},
   	
   	
-  	
-  	{path:"/question/:id/list/dailySurveyQuestionList", component: this.getDailySurveyQuestionSearch()},
-  	{path:"/question/:id/list/dailySurveyQuestionCreateForm", component: this.getDailySurveyQuestionCreateForm()},
-  	{path:"/question/:id/list/dailySurveyQuestionUpdateForm", component: this.getDailySurveyQuestionUpdateForm()},
-   	{path:"/question/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
+  	{path:"/question/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 
   	]

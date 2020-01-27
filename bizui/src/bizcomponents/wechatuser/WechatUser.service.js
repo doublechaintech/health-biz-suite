@@ -67,22 +67,22 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 
-const addParent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}wechatUserManager/addParent/wechatUserId/name/mobile/addressId/platformId/cqId/tokensExpr/`
+const addGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}wechatUserManager/addGuardian/wechatUserId/name/mobile/addressId/platformId/cqId/tokensExpr/`
   const wechatUserId = targetObjectId
   const requestParameters = { ...parameters, wechatUserId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const updateParent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}wechatUserManager/updateParentProperties/wechatUserId/id/name/mobile/tokensExpr/`
+const updateGuardian = (targetObjectId, parameters) => {
+  const url = `${PREFIX}wechatUserManager/updateGuardianProperties/wechatUserId/id/name/mobile/tokensExpr/`
   const wechatUserId = targetObjectId
   const requestParameters = { ...parameters, wechatUserId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
-const removeParentList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}wechatUserManager/removeParentList/wechatUserId/parentIds/tokensExpr/`
+const removeGuardianList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}wechatUserManager/removeGuardianList/wechatUserId/guardianIds/tokensExpr/`
   const requestParameters = { ...parameters, wechatUserId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -112,7 +112,7 @@ const removeClassQuestionList = (targetObjectId, parameters) => {
 
 
 const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}wechatUserManager/addClassDailyHealthSurvey/wechatUserId/name/schooleClassId/surveyTime/cqId/tokensExpr/`
+  const url = `${PREFIX}wechatUserManager/addClassDailyHealthSurvey/wechatUserId/name/schoolClassId/surveyTime/cqId/tokensExpr/`
   const wechatUserId = targetObjectId
   const requestParameters = { ...parameters, wechatUserId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -183,15 +183,15 @@ const  processRequest = (data) => {
 
 const WechatUserService = { view,
   load,
-  addParent,
+  addGuardian,
   addClassQuestion,
   addClassDailyHealthSurvey,
   addWechatLoginInfo,
-  updateParent,
+  updateGuardian,
   updateClassQuestion,
   updateClassDailyHealthSurvey,
   updateWechatLoginInfo,
-  removeParentList,
+  removeGuardianList,
   removeClassQuestionList,
   removeClassDailyHealthSurveyList,
   removeWechatLoginInfoList,

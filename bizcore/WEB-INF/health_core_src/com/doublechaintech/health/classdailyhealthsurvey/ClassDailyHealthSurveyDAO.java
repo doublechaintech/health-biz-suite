@@ -11,15 +11,15 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
-import com.doublechaintech.health.teacher.Teacher;
+import com.doublechaintech.health.schoolclass.SchoolClass;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
-import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.wechatuser.WechatUser;
 
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
+import com.doublechaintech.health.schoolclass.SchoolClassDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
-import com.doublechaintech.health.teacher.TeacherDAO;
-import com.doublechaintech.health.user.UserDAO;
+import com.doublechaintech.health.wechatuser.WechatUserDAO;
 
 
 public interface ClassDailyHealthSurveyDAO extends BaseDAO{
@@ -67,9 +67,9 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionListWithQuestionType(ClassDailyHealthSurvey classDailyHealthSurvey, String questionTypeId, Map<String,Object> options)throws Exception;
 	public int countDailySurveyQuestionListWithQuestionType(String classDailyHealthSurveyId, String questionTypeId, Map<String,Object> options)throws Exception;
 	
-	//disconnect ClassDailyHealthSurvey with survey_question in DailySurveyQuestion
-	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionListWithSurveyQuestion(ClassDailyHealthSurvey classDailyHealthSurvey, String surveyQuestionId, Map<String,Object> options)throws Exception;
-	public int countDailySurveyQuestionListWithSurveyQuestion(String classDailyHealthSurveyId, String surveyQuestionId, Map<String,Object> options)throws Exception;
+	//disconnect ClassDailyHealthSurvey with class_question in DailySurveyQuestion
+	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionListWithClassQuestion(ClassDailyHealthSurvey classDailyHealthSurvey, String classQuestionId, Map<String,Object> options)throws Exception;
+	public int countDailySurveyQuestionListWithClassQuestion(String classDailyHealthSurveyId, String classQuestionId, Map<String,Object> options)throws Exception;
 	
 	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyList(ClassDailyHealthSurvey classDailyHealthSurvey, String studentHealthSurveyIds[], Map<String,Object> options)throws Exception;
 
@@ -82,9 +82,9 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithSurveyStatus(ClassDailyHealthSurvey classDailyHealthSurvey, String surveyStatusId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithSurveyStatus(String classDailyHealthSurveyId, String surveyStatusId, Map<String,Object> options)throws Exception;
 	
-	//disconnect ClassDailyHealthSurvey with teacher in StudentHealthSurvey
-	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, String teacherId, Map<String,Object> options)throws Exception;
-	public int countStudentHealthSurveyListWithTeacher(String classDailyHealthSurveyId, String teacherId, Map<String,Object> options)throws Exception;
+	//disconnect ClassDailyHealthSurvey with school_class in StudentHealthSurvey
+	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithSchoolClass(ClassDailyHealthSurvey classDailyHealthSurvey, String schoolClassId, Map<String,Object> options)throws Exception;
+	public int countStudentHealthSurveyListWithSchoolClass(String classDailyHealthSurveyId, String schoolClassId, Map<String,Object> options)throws Exception;
 	
 	//disconnect ClassDailyHealthSurvey with cq in StudentHealthSurvey
 	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithCq(ClassDailyHealthSurvey classDailyHealthSurvey, String cqId, Map<String,Object> options)throws Exception;
@@ -94,19 +94,19 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 	public SmartList<ClassDailyHealthSurvey> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);
  
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
- 	public int countClassDailyHealthSurveyByTeacher(String teacherId, Map<String,Object> options);
- 	public Map<String, Integer> countClassDailyHealthSurveyByTeacherIds(String[] ids, Map<String,Object> options);
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByTeacher(String teacherId, int start, int count, Map<String,Object> options);
- 	public void analyzeClassDailyHealthSurveyByTeacher(SmartList<ClassDailyHealthSurvey> resultList, String teacherId, Map<String,Object> options);
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
+ 	public int countClassDailyHealthSurveyBySchoolClass(String schoolClassId, Map<String,Object> options);
+ 	public Map<String, Integer> countClassDailyHealthSurveyBySchoolClassIds(String[] ids, Map<String,Object> options);
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyBySchoolClass(String schoolClassId, int start, int count, Map<String,Object> options);
+ 	public void analyzeClassDailyHealthSurveyBySchoolClass(SmartList<ClassDailyHealthSurvey> resultList, String schoolClassId, Map<String,Object> options);
 
  
   
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String userId, Map<String,Object> options);
- 	public int countClassDailyHealthSurveyByCreator(String userId, Map<String,Object> options);
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String wechatUserId, Map<String,Object> options);
+ 	public int countClassDailyHealthSurveyByCreator(String wechatUserId, Map<String,Object> options);
  	public Map<String, Integer> countClassDailyHealthSurveyByCreatorIds(String[] ids, Map<String,Object> options);
- 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String userId, int start, int count, Map<String,Object> options);
- 	public void analyzeClassDailyHealthSurveyByCreator(SmartList<ClassDailyHealthSurvey> resultList, String userId, Map<String,Object> options);
+ 	public SmartList<ClassDailyHealthSurvey> findClassDailyHealthSurveyByCreator(String wechatUserId, int start, int count, Map<String,Object> options);
+ 	public void analyzeClassDailyHealthSurveyByCreator(SmartList<ClassDailyHealthSurvey> resultList, String wechatUserId, Map<String,Object> options);
 
  
   

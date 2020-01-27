@@ -74,7 +74,7 @@ public class StudentHealthSurveyTokens extends CommonTokens{
 		return start()
 			.withStudent()
 			.withSurveyStatus()
-			.withTeacher()
+			.withSchoolClass()
 			.withClassDailyHealthSurvey()
 			.withCq()
 			.withStudentDailyAnswerList();
@@ -85,7 +85,7 @@ public class StudentHealthSurveyTokens extends CommonTokens{
 		return start()
 			.withStudent()
 			.withSurveyStatus()
-			.withTeacher()
+			.withSchoolClass()
 			.withClassDailyHealthSurvey()
 			.withCq();
 	
@@ -126,12 +126,12 @@ public class StudentHealthSurveyTokens extends CommonTokens{
 	}
 	
 	
-	protected static final String TEACHER = "teacher";
-	public String getTeacher(){
-		return TEACHER;
+	protected static final String SCHOOLCLASS = "schoolClass";
+	public String getSchoolClass(){
+		return SCHOOLCLASS;
 	}
-	public StudentHealthSurveyTokens withTeacher(){		
-		addSimpleOptions(TEACHER);
+	public StudentHealthSurveyTokens withSchoolClass(){		
+		addSimpleOptions(SCHOOLCLASS);
 		return this;
 	}
 	

@@ -102,6 +102,7 @@
 	 
 	<% QuestionType result = (QuestionType)request.getAttribute("result");  %>
 			<li><a data-toggle="tab" href="#questionList" class="disabled"> ${userContext.localeMap['question']}</a></li>
+			<li><a data-toggle="tab" href="#classQuestionList" class="disabled"> ${userContext.localeMap['class_question']}</a></li>
 			<li><a data-toggle="tab" href="#dailySurveyQuestionList" class="disabled"> ${userContext.localeMap['daily_survey_question']}</a></li>
  
 	</ul>
@@ -157,6 +158,14 @@
 		<c:set var="questionListName" value="questionList" scope="request"/>
 		<div id="questionList" class="tab-pane fade sublist" refer-name="question_type">
 			<sky:include page="com/doublechaintech/health/question/Question$List.jsp"
+					referName="questionType"/>
+		</div>
+	</c:if>
+	<c:if test='${not empty userContext.accessTokens["classQuestionList"] or ignoreListAccessControl}'>
+		<c:set var="classQuestionList" value="${result.classQuestionList}" scope="request"/>
+		<c:set var="classQuestionListName" value="classQuestionList" scope="request"/>
+		<div id="classQuestionList" class="tab-pane fade sublist" refer-name="question_type">
+			<sky:include page="com/doublechaintech/health/classquestion/ClassQuestion$List.jsp"
 					referName="questionType"/>
 		</div>
 	</c:if>

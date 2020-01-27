@@ -50,7 +50,7 @@ const settingMenuData = {menuName: window.trans('wechat_login_info'), menuFor: "
 
 const fieldLabels = {
   id: window.trans('wechat_login_info.id'),
-  user: window.trans('wechat_login_info.user'),
+  wechatUser: window.trans('wechat_login_info.wechat_user'),
   appId: window.trans('wechat_login_info.app_id'),
   openId: window.trans('wechat_login_info.open_id'),
   sessionKey: window.trans('wechat_login_info.session_key'),
@@ -60,7 +60,7 @@ const fieldLabels = {
 
 const displayColumns = [
   { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'wechatLoginInfo') , sorter: true },
-  { title: fieldLabels.user, dataIndex: 'user', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.wechatUser, dataIndex: 'wechatUser', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.appId, debugtype: 'string', dataIndex: 'appId', width: '11',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.openId, debugtype: 'string', dataIndex: 'openId', width: '11',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.sessionKey, debugtype: 'string', dataIndex: 'sessionKey', width: '14',render: (text, record)=>renderTextCell(text,record)},
@@ -79,7 +79,7 @@ const renderItemOfList=(wechatLoginInfo, targetComponent, columCount)=>{
 	
       <DescriptionList  key={wechatLoginInfo.id} size="small" col="2" >
         <Description term={fieldLabels.id} style={{wordBreak: 'break-all'}}>{wechatLoginInfo.id}</Description> 
-        <Description term={fieldLabels.user}><div>{wechatLoginInfo.user==null?appLocaleName(userContext,"NotAssigned"):`${wechatLoginInfo.user.displayName}(${wechatLoginInfo.user.id})`}
+        <Description term={fieldLabels.wechatUser}><div>{wechatLoginInfo.wechatUser==null?appLocaleName(userContext,"NotAssigned"):`${wechatLoginInfo.wechatUser.displayName}(${wechatLoginInfo.wechatUser.id})`}
         </div></Description>
         <Description term={fieldLabels.appId} style={{wordBreak: 'break-all'}}>{wechatLoginInfo.appId}</Description> 
         <Description term={fieldLabels.openId} style={{wordBreak: 'break-all'}}>{wechatLoginInfo.openId}</Description> 
@@ -95,15 +95,15 @@ const renderItemOfList=(wechatLoginInfo, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {appId, openId, sessionKey, userId} = formValuesToPack
-	const user = {id: userId, version: 2^31}
-	const data = {appId, openId, sessionKey, user}
+	const {appId, openId, sessionKey, wechatUserId} = formValuesToPack
+	const wechatUser = {id: wechatUserId, version: 2^31}
+	const data = {appId, openId, sessionKey, wechatUser}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {appId, openId, sessionKey, user} = objectToUnpack
-	const userId = user ? user.id : null
-	const data = {appId, openId, sessionKey, userId}
+	const {appId, openId, sessionKey, wechatUser} = objectToUnpack
+	const wechatUserId = wechatUser ? wechatUser.id : null
+	const data = {appId, openId, sessionKey, wechatUserId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

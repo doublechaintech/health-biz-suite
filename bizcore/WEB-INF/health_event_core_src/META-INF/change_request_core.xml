@@ -15,13 +15,23 @@
 	</bean>
 	
 	<!-- Start handle for different change request per type -->
-	<bean id="loginHandler" class="com.doublechaintech.health.changerequest.LoginHandler" ></bean>
+	<bean id="answerquestionHandler" class="com.doublechaintech.health.changerequest.AnswerquestionHandler" ></bean>
+	<bean id="createclassHandler" class="com.doublechaintech.health.changerequest.CreateclassHandler" ></bean>
+	<bean id="createquestionHandler" class="com.doublechaintech.health.changerequest.CreatequestionHandler" ></bean>
+	<bean id="registerstudentHandler" class="com.doublechaintech.health.changerequest.RegisterstudentHandler" ></bean>
+	<bean id="createsurveyHandler" class="com.doublechaintech.health.changerequest.CreatesurveyHandler" ></bean>
+	<bean id="registerguardianHandler" class="com.doublechaintech.health.changerequest.RegisterguardianHandler" ></bean>
+	<bean id="answersurveyHandler" class="com.doublechaintech.health.changerequest.AnswersurveyHandler" ></bean>
+	<bean id="answerquestionHandler" class="com.doublechaintech.health.changerequest.AnswerquestionHandler" ></bean>
+	<bean id="registerteacherHandler" class="com.doublechaintech.health.changerequest.RegisterteacherHandler" ></bean>
 
 	<!-- Detail Handler per event -->
+	<bean id="schoolClassProcessor" class="com.doublechaintech.health.changerequest.SchoolClassProcessor" ></bean>
 	<bean id="teacherProcessor" class="com.doublechaintech.health.changerequest.TeacherProcessor" ></bean>
-	<bean id="studentProcessor" class="com.doublechaintech.health.changerequest.StudentProcessor" ></bean>
-	<bean id="questionProcessor" class="com.doublechaintech.health.changerequest.QuestionProcessor" ></bean>
+	<bean id="guardianProcessor" class="com.doublechaintech.health.changerequest.GuardianProcessor" ></bean>
+	<bean id="classQuestionProcessor" class="com.doublechaintech.health.changerequest.ClassQuestionProcessor" ></bean>
 	<bean id="classDailyHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.ClassDailyHealthSurveyProcessor" ></bean>
+	<bean id="studentProcessor" class="com.doublechaintech.health.changerequest.StudentProcessor" ></bean>
 	<bean id="studentHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.StudentHealthSurveyProcessor" ></bean>
 	<bean id="studentDailyAnswerProcessor" class="com.doublechaintech.health.changerequest.StudentDailyAnswerProcessor" ></bean>
 

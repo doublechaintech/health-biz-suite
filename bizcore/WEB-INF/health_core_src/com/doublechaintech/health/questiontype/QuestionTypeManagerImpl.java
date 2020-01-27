@@ -22,6 +22,7 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.classquestion.ClassQuestion;
 
 import com.doublechaintech.health.platform.CandidatePlatform;
 
@@ -29,8 +30,9 @@ import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.user.User;
-import com.doublechaintech.health.question.Question;
+import com.doublechaintech.health.wechatuser.WechatUser;
+import com.doublechaintech.health.classquestion.ClassQuestion;
+import com.doublechaintech.health.questionsource.QuestionSource;
 
 
 
@@ -174,6 +176,10 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		addAction(userContext, questionType, tokens,"question_type.removeQuestion","removeQuestion","removeQuestion/"+questionType.getId()+"/","questionList","primary");
 		addAction(userContext, questionType, tokens,"question_type.updateQuestion","updateQuestion","updateQuestion/"+questionType.getId()+"/","questionList","primary");
 		addAction(userContext, questionType, tokens,"question_type.copyQuestionFrom","copyQuestionFrom","copyQuestionFrom/"+questionType.getId()+"/","questionList","primary");
+		addAction(userContext, questionType, tokens,"question_type.addClassQuestion","addClassQuestion","addClassQuestion/"+questionType.getId()+"/","classQuestionList","primary");
+		addAction(userContext, questionType, tokens,"question_type.removeClassQuestion","removeClassQuestion","removeClassQuestion/"+questionType.getId()+"/","classQuestionList","primary");
+		addAction(userContext, questionType, tokens,"question_type.updateClassQuestion","updateClassQuestion","updateClassQuestion/"+questionType.getId()+"/","classQuestionList","primary");
+		addAction(userContext, questionType, tokens,"question_type.copyClassQuestionFrom","copyClassQuestionFrom","copyClassQuestionFrom/"+questionType.getId()+"/","classQuestionList","primary");
 		addAction(userContext, questionType, tokens,"question_type.addDailySurveyQuestion","addDailySurveyQuestion","addDailySurveyQuestion/"+questionType.getId()+"/","dailySurveyQuestionList","primary");
 		addAction(userContext, questionType, tokens,"question_type.removeDailySurveyQuestion","removeDailySurveyQuestion","removeDailySurveyQuestion/"+questionType.getId()+"/","dailySurveyQuestionList","primary");
 		addAction(userContext, questionType, tokens,"question_type.updateDailySurveyQuestion","updateDailySurveyQuestion","updateDailySurveyQuestion/"+questionType.getId()+"/","dailySurveyQuestionList","primary");
@@ -343,6 +349,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
 		.sortQuestionListWith("id","desc")
+		.sortClassQuestionListWith("id","desc")
 		.sortDailySurveyQuestionListWith("id","desc")
 		.analyzeAllLists().done();
 
@@ -470,8 +477,8 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 				return questionType;
 			}
 	}
-	//disconnect QuestionType with creator in Question
-	protected QuestionType breakWithQuestionByCreator(HealthUserContext userContext, String questionTypeId, String creatorId,  String [] tokensExpr)
+	//disconnect QuestionType with question_source in ClassQuestion
+	protected QuestionType breakWithClassQuestionByQuestionSource(HealthUserContext userContext, String questionTypeId, String questionSourceId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -482,14 +489,14 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				questionTypeDaoOf(userContext).planToRemoveQuestionListWithCreator(questionType, creatorId, this.emptyOptions());
+				questionTypeDaoOf(userContext).planToRemoveClassQuestionListWithQuestionSource(questionType, questionSourceId, this.emptyOptions());
 
-				questionType = saveQuestionType(userContext, questionType, tokens().withQuestionList().done());
+				questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
 				return questionType;
 			}
 	}
-	//disconnect QuestionType with cq in Question
-	protected QuestionType breakWithQuestionByCq(HealthUserContext userContext, String questionTypeId, String cqId,  String [] tokensExpr)
+	//disconnect QuestionType with creator in ClassQuestion
+	protected QuestionType breakWithClassQuestionByCreator(HealthUserContext userContext, String questionTypeId, String creatorId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -500,9 +507,27 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				questionTypeDaoOf(userContext).planToRemoveQuestionListWithCq(questionType, cqId, this.emptyOptions());
+				questionTypeDaoOf(userContext).planToRemoveClassQuestionListWithCreator(questionType, creatorId, this.emptyOptions());
 
-				questionType = saveQuestionType(userContext, questionType, tokens().withQuestionList().done());
+				questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+				return questionType;
+			}
+	}
+	//disconnect QuestionType with cq in ClassQuestion
+	protected QuestionType breakWithClassQuestionByCq(HealthUserContext userContext, String questionTypeId, String cqId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			QuestionType questionType = loadQuestionType(userContext, questionTypeId, allTokens());
+
+			synchronized(questionType){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				questionTypeDaoOf(userContext).planToRemoveClassQuestionListWithCq(questionType, cqId, this.emptyOptions());
+
+				questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
 				return questionType;
 			}
 	}
@@ -524,8 +549,8 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 				return questionType;
 			}
 	}
-	//disconnect QuestionType with survey_question in DailySurveyQuestion
-	protected QuestionType breakWithDailySurveyQuestionBySurveyQuestion(HealthUserContext userContext, String questionTypeId, String surveyQuestionId,  String [] tokensExpr)
+	//disconnect QuestionType with class_question in DailySurveyQuestion
+	protected QuestionType breakWithDailySurveyQuestionByClassQuestion(HealthUserContext userContext, String questionTypeId, String classQuestionId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -536,7 +561,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				questionTypeDaoOf(userContext).planToRemoveDailySurveyQuestionListWithSurveyQuestion(questionType, surveyQuestionId, this.emptyOptions());
+				questionTypeDaoOf(userContext).planToRemoveDailySurveyQuestionListWithClassQuestion(questionType, classQuestionId, this.emptyOptions());
 
 				questionType = saveQuestionType(userContext, questionType, tokens().withDailySurveyQuestionList().done());
 				return questionType;
@@ -548,7 +573,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 
 
 
-	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String platformId, String creatorId, String cqId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String platformId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
 
@@ -564,21 +589,17 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		checkerOf(userContext).checkOptionDOfQuestion(optionD);
 		
 		checkerOf(userContext).checkPlatformIdOfQuestion(platformId);
-		
-		checkerOf(userContext).checkCreatorIdOfQuestion(creatorId);
-		
-		checkerOf(userContext).checkCqIdOfQuestion(cqId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
 
 
 	}
-	public  QuestionType addQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String platformId, String creatorId, String cqId, String [] tokensExpr) throws Exception
+	public  QuestionType addQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String platformId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingQuestion(userContext,questionTypeId,topic, optionA, optionB, optionC, optionD, platformId, creatorId, cqId,tokensExpr);
+		checkParamsForAddingQuestion(userContext,questionTypeId,topic, optionA, optionB, optionC, optionD, platformId,tokensExpr);
 
-		Question question = createQuestion(userContext,topic, optionA, optionB, optionC, optionD, platformId, creatorId, cqId);
+		Question question = createQuestion(userContext,topic, optionA, optionB, optionC, optionD, platformId);
 
 		QuestionType questionType = loadQuestionType(userContext, questionTypeId, emptyOptions());
 		synchronized(questionType){
@@ -637,7 +658,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 	}
 
 
-	protected Question createQuestion(HealthUserContext userContext, String topic, String optionA, String optionB, String optionC, String optionD, String platformId, String creatorId, String cqId) throws Exception{
+	protected Question createQuestion(HealthUserContext userContext, String topic, String optionA, String optionB, String optionC, String optionD, String platformId) throws Exception{
 
 		Question question = new Question();
 		
@@ -649,13 +670,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		question.setOptionD(optionD);		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		question.setPlatform(platform);		
-		User  creator = new User();
-		creator.setId(creatorId);		
-		question.setCreator(creator);		
-		ChangeRequest  cq = new ChangeRequest();
-		cq.setId(cqId);		
-		question.setCq(cq);
+		question.setPlatform(platform);
 	
 		
 		return question;
@@ -823,47 +838,328 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 
 	}
 	/*
-	public  QuestionType associateQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception {
+
+	*/
+
+
+
+
+	protected void checkParamsForAddingClassQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String questionSourceId, String creatorId, String cqId,String [] tokensExpr) throws Exception{
+
+				checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
+
+		
+		checkerOf(userContext).checkTopicOfClassQuestion(topic);
+		
+		checkerOf(userContext).checkOptionAOfClassQuestion(optionA);
+		
+		checkerOf(userContext).checkOptionBOfClassQuestion(optionB);
+		
+		checkerOf(userContext).checkOptionCOfClassQuestion(optionC);
+		
+		checkerOf(userContext).checkOptionDOfClassQuestion(optionD);
+		
+		checkerOf(userContext).checkQuestionSourceIdOfClassQuestion(questionSourceId);
+		
+		checkerOf(userContext).checkCreatorIdOfClassQuestion(creatorId);
+		
+		checkerOf(userContext).checkCqIdOfClassQuestion(cqId);
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+
+	}
+	public  QuestionType addClassQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String questionSourceId, String creatorId, String cqId, String [] tokensExpr) throws Exception
+	{
+
+		checkParamsForAddingClassQuestion(userContext,questionTypeId,topic, optionA, optionB, optionC, optionD, questionSourceId, creatorId, cqId,tokensExpr);
+
+		ClassQuestion classQuestion = createClassQuestion(userContext,topic, optionA, optionB, optionC, optionD, questionSourceId, creatorId, cqId);
+
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, emptyOptions());
+		synchronized(questionType){
+			//Will be good when the questionType loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			questionType.addClassQuestion( classQuestion );
+			questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+			
+			userContext.getManagerGroup().getClassQuestionManager().onNewInstanceCreated(userContext, classQuestion);
+			return present(userContext,questionType, mergedAllTokens(tokensExpr));
+		}
+	}
+	protected void checkParamsForUpdatingClassQuestionProperties(HealthUserContext userContext, String questionTypeId,String id,String topic,String optionA,String optionB,String optionC,String optionD,String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
+		checkerOf(userContext).checkIdOfClassQuestion(id);
+
+		checkerOf(userContext).checkTopicOfClassQuestion( topic);
+		checkerOf(userContext).checkOptionAOfClassQuestion( optionA);
+		checkerOf(userContext).checkOptionBOfClassQuestion( optionB);
+		checkerOf(userContext).checkOptionCOfClassQuestion( optionC);
+		checkerOf(userContext).checkOptionDOfClassQuestion( optionD);
+
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+	}
+	public  QuestionType updateClassQuestionProperties(HealthUserContext userContext, String questionTypeId, String id,String topic,String optionA,String optionB,String optionC,String optionD, String [] tokensExpr) throws Exception
+	{
+		checkParamsForUpdatingClassQuestionProperties(userContext,questionTypeId,id,topic,optionA,optionB,optionC,optionD,tokensExpr);
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				//.withClassQuestionListList()
+				.searchClassQuestionListWith(ClassQuestion.ID_PROPERTY, "is", id).done();
+
+		QuestionType questionTypeToUpdate = loadQuestionType(userContext, questionTypeId, options);
+
+		if(questionTypeToUpdate.getClassQuestionList().isEmpty()){
+			throw new QuestionTypeManagerException("ClassQuestion is NOT FOUND with id: '"+id+"'");
+		}
+
+		ClassQuestion item = questionTypeToUpdate.getClassQuestionList().first();
+
+		item.updateTopic( topic );
+		item.updateOptionA( optionA );
+		item.updateOptionB( optionB );
+		item.updateOptionC( optionC );
+		item.updateOptionD( optionD );
+
+
+		//checkParamsForAddingClassQuestion(userContext,questionTypeId,name, code, used,tokensExpr);
+		QuestionType questionType = saveQuestionType(userContext, questionTypeToUpdate, tokens().withClassQuestionList().done());
+		synchronized(questionType){
+			return present(userContext,questionType, mergedAllTokens(tokensExpr));
+		}
+	}
+
+
+	protected ClassQuestion createClassQuestion(HealthUserContext userContext, String topic, String optionA, String optionB, String optionC, String optionD, String questionSourceId, String creatorId, String cqId) throws Exception{
+
+		ClassQuestion classQuestion = new ClassQuestion();
+		
+		
+		classQuestion.setTopic(topic);		
+		classQuestion.setOptionA(optionA);		
+		classQuestion.setOptionB(optionB);		
+		classQuestion.setOptionC(optionC);		
+		classQuestion.setOptionD(optionD);		
+		QuestionSource  questionSource = new QuestionSource();
+		questionSource.setId(questionSourceId);		
+		classQuestion.setQuestionSource(questionSource);		
+		WechatUser  creator = new WechatUser();
+		creator.setId(creatorId);		
+		classQuestion.setCreator(creator);		
+		ChangeRequest  cq = new ChangeRequest();
+		cq.setId(cqId);		
+		classQuestion.setCq(cq);
+	
+		
+		return classQuestion;
+
+
+	}
+
+	protected ClassQuestion createIndexedClassQuestion(String id, int version){
+
+		ClassQuestion classQuestion = new ClassQuestion();
+		classQuestion.setId(id);
+		classQuestion.setVersion(version);
+		return classQuestion;
+
+	}
+
+	protected void checkParamsForRemovingClassQuestionList(HealthUserContext userContext, String questionTypeId,
+			String classQuestionIds[],String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
+		for(String classQuestionIdItem: classQuestionIds){
+			checkerOf(userContext).checkIdOfClassQuestion(classQuestionIdItem);
+		}
+
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+	}
+	public  QuestionType removeClassQuestionList(HealthUserContext userContext, String questionTypeId,
+			String classQuestionIds[],String [] tokensExpr) throws Exception{
+
+			checkParamsForRemovingClassQuestionList(userContext, questionTypeId,  classQuestionIds, tokensExpr);
+
+
+			QuestionType questionType = loadQuestionType(userContext, questionTypeId, allTokens());
+			synchronized(questionType){
+				//Will be good when the questionType loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+				questionTypeDaoOf(userContext).planToRemoveClassQuestionList(questionType, classQuestionIds, allTokens());
+				questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+				deleteRelationListInGraph(userContext, questionType.getClassQuestionList());
+				return present(userContext,questionType, mergedAllTokens(tokensExpr));
+			}
+	}
+
+	protected void checkParamsForRemovingClassQuestion(HealthUserContext userContext, String questionTypeId,
+		String classQuestionId, int classQuestionVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfQuestionType( questionTypeId);
+		checkerOf(userContext).checkIdOfClassQuestion(classQuestionId);
+		checkerOf(userContext).checkVersionOfClassQuestion(classQuestionVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+	}
+	public  QuestionType removeClassQuestion(HealthUserContext userContext, String questionTypeId,
+		String classQuestionId, int classQuestionVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForRemovingClassQuestion(userContext,questionTypeId, classQuestionId, classQuestionVersion,tokensExpr);
+
+		ClassQuestion classQuestion = createIndexedClassQuestion(classQuestionId, classQuestionVersion);
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, allTokens());
+		synchronized(questionType){
+			//Will be good when the questionType loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			questionType.removeClassQuestion( classQuestion );
+			questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+			deleteRelationInGraph(userContext, classQuestion);
+			return present(userContext,questionType, mergedAllTokens(tokensExpr));
+		}
+
+
+	}
+	protected void checkParamsForCopyingClassQuestion(HealthUserContext userContext, String questionTypeId,
+		String classQuestionId, int classQuestionVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfQuestionType( questionTypeId);
+		checkerOf(userContext).checkIdOfClassQuestion(classQuestionId);
+		checkerOf(userContext).checkVersionOfClassQuestion(classQuestionVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+	}
+	public  QuestionType copyClassQuestionFrom(HealthUserContext userContext, String questionTypeId,
+		String classQuestionId, int classQuestionVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForCopyingClassQuestion(userContext,questionTypeId, classQuestionId, classQuestionVersion,tokensExpr);
+
+		ClassQuestion classQuestion = createIndexedClassQuestion(classQuestionId, classQuestionVersion);
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, allTokens());
+		synchronized(questionType){
+			//Will be good when the questionType loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+
+			
+
+			questionType.copyClassQuestionFrom( classQuestion );
+			questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+			
+			userContext.getManagerGroup().getClassQuestionManager().onNewInstanceCreated(userContext, (ClassQuestion)questionType.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			return present(userContext,questionType, mergedAllTokens(tokensExpr));
+		}
+
+	}
+
+	protected void checkParamsForUpdatingClassQuestion(HealthUserContext userContext, String questionTypeId, String classQuestionId, int classQuestionVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+		
+
+		
+		checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
+		checkerOf(userContext).checkIdOfClassQuestion(classQuestionId);
+		checkerOf(userContext).checkVersionOfClassQuestion(classQuestionVersion);
+		
+
+		if(ClassQuestion.TOPIC_PROPERTY.equals(property)){
+			checkerOf(userContext).checkTopicOfClassQuestion(parseString(newValueExpr));
+		}
+		
+		if(ClassQuestion.OPTION_A_PROPERTY.equals(property)){
+			checkerOf(userContext).checkOptionAOfClassQuestion(parseString(newValueExpr));
+		}
+		
+		if(ClassQuestion.OPTION_B_PROPERTY.equals(property)){
+			checkerOf(userContext).checkOptionBOfClassQuestion(parseString(newValueExpr));
+		}
+		
+		if(ClassQuestion.OPTION_C_PROPERTY.equals(property)){
+			checkerOf(userContext).checkOptionCOfClassQuestion(parseString(newValueExpr));
+		}
+		
+		if(ClassQuestion.OPTION_D_PROPERTY.equals(property)){
+			checkerOf(userContext).checkOptionDOfClassQuestion(parseString(newValueExpr));
+		}
+		
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
+
+	}
+
+	public  QuestionType updateClassQuestion(HealthUserContext userContext, String questionTypeId, String classQuestionId, int classQuestionVersion, String property, String newValueExpr,String [] tokensExpr)
+			throws Exception{
+
+		checkParamsForUpdatingClassQuestion(userContext, questionTypeId, classQuestionId, classQuestionVersion, property, newValueExpr,  tokensExpr);
+
+		Map<String,Object> loadTokens = this.tokens().withClassQuestionList().searchClassQuestionListWith(ClassQuestion.ID_PROPERTY, "eq", classQuestionId).done();
+
+
+
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, loadTokens);
+
+		synchronized(questionType){
+			//Will be good when the questionType loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			//questionType.removeClassQuestion( classQuestion );
+			//make changes to AcceleraterAccount.
+			ClassQuestion classQuestionIndex = createIndexedClassQuestion(classQuestionId, classQuestionVersion);
+
+			ClassQuestion classQuestion = questionType.findTheClassQuestion(classQuestionIndex);
+			if(classQuestion == null){
+				throw new QuestionTypeManagerException(classQuestion+" is NOT FOUND" );
+			}
+
+			classQuestion.changeProperty(property, newValueExpr);
+			
+			questionType = saveQuestionType(userContext, questionType, tokens().withClassQuestionList().done());
+			return present(userContext,questionType, mergedAllTokens(tokensExpr));
+		}
+
+	}
+	/*
+	public  QuestionType associateClassQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  classQuestionIds[], String name, String avatar, String addressId, String userTypeId, String platformId, String [] tokensExpr) throws Exception {
 
 
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+				.searchClassQuestionListWith(ClassQuestion.ID_PROPERTY, "oneof", this.joinArray("|", classQuestionIds)).done();
 
 		QuestionType questionType = loadQuestionType(userContext, questionTypeId, options);
 
-		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, addressId, platformId);
+		WechatUser creator = wechatUserManagerOf(userContext).createWechatUser(userContext,  name,  avatar, addressId, userTypeId, platformId);
 
-		for(Question question: questionType.getQuestionList()) {
+		for(ClassQuestion classQuestion: questionType.getClassQuestionList()) {
 			//TODO: need to check if already associated
-			question.updateCreator(creator);
+			classQuestion.updateCreator(creator);
 		}
 		return this.internalSaveQuestionType(userContext, questionType);
 	}
 	*/
 
-	public  QuestionType associateQuestionListToCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String creatorId, String [] tokensExpr) throws Exception {
+	public  QuestionType associateClassQuestionListToCreator(HealthUserContext userContext, String questionTypeId, String  classQuestionIds[], String creatorId, String [] tokensExpr) throws Exception {
 
 
 
 		Map<String, Object> options = tokens()
 				.allTokens()
-				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+				.searchClassQuestionListWith(ClassQuestion.ID_PROPERTY, "oneof", this.joinArray("|", classQuestionIds)).done();
 
 		QuestionType questionType = loadQuestionType(userContext, questionTypeId, options);
 
-		User creator = userManagerOf(userContext).loadUser(userContext,creatorId,new String[]{"none"} );
+		WechatUser creator = wechatUserManagerOf(userContext).loadWechatUser(userContext,creatorId,new String[]{"none"} );
 
-		for(Question question: questionType.getQuestionList()) {
+		for(ClassQuestion classQuestion: questionType.getClassQuestionList()) {
 			//TODO: need to check if already associated
-			question.updateCreator(creator);
+			classQuestion.updateCreator(creator);
 		}
 		return this.internalSaveQuestionType(userContext, questionType);
 	}
 
 
-	protected void checkParamsForAddingDailySurveyQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String surveyQuestionId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingDailySurveyQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String classQuestionId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfQuestionType(questionTypeId);
 
@@ -880,18 +1176,18 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		
 		checkerOf(userContext).checkClassDailyHealthSurveyIdOfDailySurveyQuestion(classDailyHealthSurveyId);
 		
-		checkerOf(userContext).checkSurveyQuestionIdOfDailySurveyQuestion(surveyQuestionId);
+		checkerOf(userContext).checkClassQuestionIdOfDailySurveyQuestion(classQuestionId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(QuestionTypeManagerException.class);
 
 
 	}
-	public  QuestionType addDailySurveyQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String surveyQuestionId, String [] tokensExpr) throws Exception
+	public  QuestionType addDailySurveyQuestion(HealthUserContext userContext, String questionTypeId, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String classQuestionId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingDailySurveyQuestion(userContext,questionTypeId,topic, optionA, optionB, optionC, optionD, classDailyHealthSurveyId, surveyQuestionId,tokensExpr);
+		checkParamsForAddingDailySurveyQuestion(userContext,questionTypeId,topic, optionA, optionB, optionC, optionD, classDailyHealthSurveyId, classQuestionId,tokensExpr);
 
-		DailySurveyQuestion dailySurveyQuestion = createDailySurveyQuestion(userContext,topic, optionA, optionB, optionC, optionD, classDailyHealthSurveyId, surveyQuestionId);
+		DailySurveyQuestion dailySurveyQuestion = createDailySurveyQuestion(userContext,topic, optionA, optionB, optionC, optionD, classDailyHealthSurveyId, classQuestionId);
 
 		QuestionType questionType = loadQuestionType(userContext, questionTypeId, emptyOptions());
 		synchronized(questionType){
@@ -950,7 +1246,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 	}
 
 
-	protected DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String surveyQuestionId) throws Exception{
+	protected DailySurveyQuestion createDailySurveyQuestion(HealthUserContext userContext, String topic, String optionA, String optionB, String optionC, String optionD, String classDailyHealthSurveyId, String classQuestionId) throws Exception{
 
 		DailySurveyQuestion dailySurveyQuestion = new DailySurveyQuestion();
 		
@@ -963,9 +1259,9 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		ClassDailyHealthSurvey  classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		classDailyHealthSurvey.setId(classDailyHealthSurveyId);		
 		dailySurveyQuestion.setClassDailyHealthSurvey(classDailyHealthSurvey);		
-		Question  surveyQuestion = new Question();
-		surveyQuestion.setId(surveyQuestionId);		
-		dailySurveyQuestion.setSurveyQuestion(surveyQuestion);
+		ClassQuestion  classQuestion = new ClassQuestion();
+		classQuestion.setId(classQuestionId);		
+		dailySurveyQuestion.setClassQuestion(classQuestion);
 	
 		
 		return dailySurveyQuestion;

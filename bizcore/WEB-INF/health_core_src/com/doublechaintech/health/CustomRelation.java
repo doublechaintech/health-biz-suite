@@ -16,35 +16,46 @@ public class CustomRelation extends BaseRelation{
 		//replaceGenericRelation("District"                              , BaseRelation.TRUST_CHAIN_ALL, "platform");
 		//replaceGenericRelation("Location"                              , BaseRelation.TRUST_CHAIN_ALL, "district");
 		//replaceGenericRelation("Location"                              , BaseRelation.TRUST_CHAIN_ALL, "province");
+		//replaceGenericRelation("SchoolClass"                           , BaseRelation.TRUST_CHAIN_ALL, "classTeacher");
+		//replaceGenericRelation("SchoolClass"                           , BaseRelation.TRUST_CHAIN_ALL, "platform");
+		//replaceGenericRelation("SchoolClass"                           , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("Teacher"                               , BaseRelation.TRUST_CHAIN_ALL, "platform");
 		//replaceGenericRelation("Teacher"                               , BaseRelation.TRUST_CHAIN_ALL, "cq");
-		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "address");
-		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "user");
-		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "platform");
-		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "cq");
+		//replaceGenericRelation("Guardian"                              , BaseRelation.TRUST_CHAIN_ALL, "address");
+		//replaceGenericRelation("Guardian"                              , BaseRelation.TRUST_CHAIN_ALL, "wechatUser");
+		//replaceGenericRelation("Guardian"                              , BaseRelation.TRUST_CHAIN_ALL, "platform");
+		//replaceGenericRelation("Guardian"                              , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("Question"                              , BaseRelation.TRUST_CHAIN_ALL, "questionType");
 		//replaceGenericRelation("Question"                              , BaseRelation.TRUST_CHAIN_ALL, "platform");
-		//replaceGenericRelation("Question"                              , BaseRelation.TRUST_CHAIN_ALL, "creator");
-		//replaceGenericRelation("Question"                              , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("QuestionType"                          , BaseRelation.TRUST_CHAIN_ALL, "platform");
-		//replaceGenericRelation("ClassDailyHealthSurvey"                , BaseRelation.TRUST_CHAIN_ALL, "teacher");
+		//replaceGenericRelation("QuestionSource"                        , BaseRelation.TRUST_CHAIN_ALL, "platform");
+		//replaceGenericRelation("ClassQuestion"                         , BaseRelation.TRUST_CHAIN_ALL, "questionType");
+		//replaceGenericRelation("ClassQuestion"                         , BaseRelation.TRUST_CHAIN_ALL, "questionSource");
+		//replaceGenericRelation("ClassQuestion"                         , BaseRelation.TRUST_CHAIN_ALL, "creator");
+		//replaceGenericRelation("ClassQuestion"                         , BaseRelation.TRUST_CHAIN_ALL, "cq");
+		//replaceGenericRelation("ClassDailyHealthSurvey"                , BaseRelation.TRUST_CHAIN_ALL, "schoolClass");
 		//replaceGenericRelation("ClassDailyHealthSurvey"                , BaseRelation.TRUST_CHAIN_ALL, "creator");
 		//replaceGenericRelation("ClassDailyHealthSurvey"                , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("DailySurveyQuestion"                   , BaseRelation.TRUST_CHAIN_ALL, "questionType");
 		//replaceGenericRelation("DailySurveyQuestion"                   , BaseRelation.TRUST_CHAIN_ALL, "classDailyHealthSurvey");
-		//replaceGenericRelation("DailySurveyQuestion"                   , BaseRelation.TRUST_CHAIN_ALL, "surveyQuestion");
+		//replaceGenericRelation("DailySurveyQuestion"                   , BaseRelation.TRUST_CHAIN_ALL, "classQuestion");
+		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "guardian");
+		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "schoolClass");
+		//replaceGenericRelation("Student"                               , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "student");
 		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "surveyStatus");
-		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "teacher");
+		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "schoolClass");
 		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "classDailyHealthSurvey");
 		//replaceGenericRelation("StudentHealthSurvey"                   , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("StudentDailyAnswer"                    , BaseRelation.TRUST_CHAIN_ALL, "studentHealthSurvey");
 		//replaceGenericRelation("StudentDailyAnswer"                    , BaseRelation.TRUST_CHAIN_ALL, "question");
 		//replaceGenericRelation("StudentDailyAnswer"                    , BaseRelation.TRUST_CHAIN_ALL, "cq");
 		//replaceGenericRelation("SurveyStatus"                          , BaseRelation.TRUST_CHAIN_ALL, "platform");
-		//replaceGenericRelation("User"                                  , BaseRelation.TRUST_CHAIN_ALL, "address");
-		//replaceGenericRelation("User"                                  , BaseRelation.TRUST_CHAIN_ALL, "platform");
-		//replaceGenericRelation("WechatLoginInfo"                       , BaseRelation.TRUST_CHAIN_ALL, "user");
+		//replaceGenericRelation("WechatUser"                            , BaseRelation.TRUST_CHAIN_ALL, "address");
+		//replaceGenericRelation("WechatUser"                            , BaseRelation.TRUST_CHAIN_ALL, "userType");
+		//replaceGenericRelation("WechatUser"                            , BaseRelation.TRUST_CHAIN_ALL, "platform");
+		//replaceGenericRelation("UserType"                              , BaseRelation.TRUST_CHAIN_ALL, "platform");
+		//replaceGenericRelation("WechatLoginInfo"                       , BaseRelation.TRUST_CHAIN_ALL, "wechatUser");
 		//replaceGenericRelation("ChangeRequest"                         , BaseRelation.TRUST_CHAIN_ALL, "requestType");
 		//replaceGenericRelation("ChangeRequest"                         , BaseRelation.TRUST_CHAIN_ALL, "platform");
 		//replaceGenericRelation("ChangeRequestType"                     , BaseRelation.TRUST_CHAIN_ALL, "platform");
@@ -86,25 +97,37 @@ public class CustomRelation extends BaseRelation{
 		//String [] locationRelatedObjectNames = {"district:District","province:Province"};
 		//replaceRelationIndex("Location",locationRelatedObjectNames);
 
+		//String [] schoolClassRelatedObjectNames = {"class_teacher:Teacher","platform:Platform","cq:ChangeRequest"};
+		//replaceRelationIndex("SchoolClass",schoolClassRelatedObjectNames);
+
 		//String [] teacherRelatedObjectNames = {"platform:Platform","cq:ChangeRequest"};
 		//replaceRelationIndex("Teacher",teacherRelatedObjectNames);
 
-		//String [] studentRelatedObjectNames = {"address:Location","user:User","platform:Platform","cq:ChangeRequest"};
-		//replaceRelationIndex("Student",studentRelatedObjectNames);
+		//String [] guardianRelatedObjectNames = {"address:Location","wechat_user:WechatUser","platform:Platform","cq:ChangeRequest"};
+		//replaceRelationIndex("Guardian",guardianRelatedObjectNames);
 
-		//String [] questionRelatedObjectNames = {"question_type:QuestionType","platform:Platform","creator:User","cq:ChangeRequest"};
+		//String [] questionRelatedObjectNames = {"question_type:QuestionType","platform:Platform"};
 		//replaceRelationIndex("Question",questionRelatedObjectNames);
 
 		//String [] questionTypeRelatedObjectNames = {"platform:Platform"};
 		//replaceRelationIndex("QuestionType",questionTypeRelatedObjectNames);
 
-		//String [] classDailyHealthSurveyRelatedObjectNames = {"teacher:Teacher","creator:User","cq:ChangeRequest"};
+		//String [] questionSourceRelatedObjectNames = {"platform:Platform"};
+		//replaceRelationIndex("QuestionSource",questionSourceRelatedObjectNames);
+
+		//String [] classQuestionRelatedObjectNames = {"question_type:QuestionType","question_source:QuestionSource","creator:WechatUser","cq:ChangeRequest"};
+		//replaceRelationIndex("ClassQuestion",classQuestionRelatedObjectNames);
+
+		//String [] classDailyHealthSurveyRelatedObjectNames = {"school_class:SchoolClass","creator:WechatUser","cq:ChangeRequest"};
 		//replaceRelationIndex("ClassDailyHealthSurvey",classDailyHealthSurveyRelatedObjectNames);
 
-		//String [] dailySurveyQuestionRelatedObjectNames = {"question_type:QuestionType","class_daily_health_survey:ClassDailyHealthSurvey","survey_question:Question"};
+		//String [] dailySurveyQuestionRelatedObjectNames = {"question_type:QuestionType","class_daily_health_survey:ClassDailyHealthSurvey","class_question:ClassQuestion"};
 		//replaceRelationIndex("DailySurveyQuestion",dailySurveyQuestionRelatedObjectNames);
 
-		//String [] studentHealthSurveyRelatedObjectNames = {"student:Student","survey_status:SurveyStatus","teacher:Teacher","class_daily_health_survey:ClassDailyHealthSurvey","cq:ChangeRequest"};
+		//String [] studentRelatedObjectNames = {"guardian:Guardian","school_class:SchoolClass","cq:ChangeRequest"};
+		//replaceRelationIndex("Student",studentRelatedObjectNames);
+
+		//String [] studentHealthSurveyRelatedObjectNames = {"student:Student","survey_status:SurveyStatus","school_class:SchoolClass","class_daily_health_survey:ClassDailyHealthSurvey","cq:ChangeRequest"};
 		//replaceRelationIndex("StudentHealthSurvey",studentHealthSurveyRelatedObjectNames);
 
 		//String [] studentDailyAnswerRelatedObjectNames = {"student_health_survey:StudentHealthSurvey","question:DailySurveyQuestion","cq:ChangeRequest"};
@@ -113,10 +136,13 @@ public class CustomRelation extends BaseRelation{
 		//String [] surveyStatusRelatedObjectNames = {"platform:Platform"};
 		//replaceRelationIndex("SurveyStatus",surveyStatusRelatedObjectNames);
 
-		//String [] userRelatedObjectNames = {"address:Location","platform:Platform"};
-		//replaceRelationIndex("User",userRelatedObjectNames);
+		//String [] wechatUserRelatedObjectNames = {"address:Location","user_type:UserType","platform:Platform"};
+		//replaceRelationIndex("WechatUser",wechatUserRelatedObjectNames);
 
-		//String [] wechatLoginInfoRelatedObjectNames = {"user:User"};
+		//String [] userTypeRelatedObjectNames = {"platform:Platform"};
+		//replaceRelationIndex("UserType",userTypeRelatedObjectNames);
+
+		//String [] wechatLoginInfoRelatedObjectNames = {"wechat_user:WechatUser"};
 		//replaceRelationIndex("WechatLoginInfo",wechatLoginInfoRelatedObjectNames);
 
 		//String [] changeRequestRelatedObjectNames = {"request_type:ChangeRequestType","platform:Platform"};

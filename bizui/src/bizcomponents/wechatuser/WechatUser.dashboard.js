@@ -163,7 +163,7 @@ class WechatUserDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, parentListMetaInfo, classQuestionListMetaInfo, classDailyHealthSurveyListMetaInfo, wechatLoginInfoListMetaInfo, parentCount, classQuestionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = this.props.wechatUser
+    const { id,displayName, guardianListMetaInfo, classQuestionListMetaInfo, classDailyHealthSurveyListMetaInfo, wechatLoginInfoListMetaInfo, guardianCount, classQuestionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = this.props.wechatUser
     if(!this.props.wechatUser.class){
       return null
     }
@@ -172,7 +172,7 @@ class WechatUserDashboard extends Component {
     const cardsData = {cardsName:"微信用户",cardsFor: "wechatUser",
     	cardsSource: this.props.wechatUser,returnURL,displayName,
   		subItems: [
-{name: 'parentList', displayName: window.mtrans('parent','wechat_user.parent_list',false) ,viewGroup:'__no_group', type:'parent',count:parentCount,addFunction: true, role: 'parent', metaInfo: parentListMetaInfo, renderItem: GlobalComponents.ParentBase.renderItemOfList},
+{name: 'guardianList', displayName: window.mtrans('guardian','wechat_user.guardian_list',false) ,viewGroup:'__no_group', type:'guardian',count:guardianCount,addFunction: true, role: 'guardian', metaInfo: guardianListMetaInfo, renderItem: GlobalComponents.GuardianBase.renderItemOfList},
 {name: 'classQuestionList', displayName: window.mtrans('class_question','wechat_user.class_question_list',false) ,viewGroup:'__no_group', type:'classQuestion',count:classQuestionCount,addFunction: true, role: 'classQuestion', metaInfo: classQuestionListMetaInfo, renderItem: GlobalComponents.ClassQuestionBase.renderItemOfList},
 {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','wechat_user.class_daily_health_survey_list',false) ,viewGroup:'__no_group', type:'classDailyHealthSurvey',count:classDailyHealthSurveyCount,addFunction: true, role: 'classDailyHealthSurvey', metaInfo: classDailyHealthSurveyListMetaInfo, renderItem: GlobalComponents.ClassDailyHealthSurveyBase.renderItemOfList},
 {name: 'wechatLoginInfoList', displayName: window.mtrans('wechat_login_info','wechat_user.wechat_login_info_list',false) ,viewGroup:'__no_group', type:'wechatLoginInfo',count:wechatLoginInfoCount,addFunction: true, role: 'wechatLoginInfo', metaInfo: wechatLoginInfoListMetaInfo, renderItem: GlobalComponents.WechatLoginInfoBase.renderItemOfList},
