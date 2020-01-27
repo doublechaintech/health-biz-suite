@@ -1,0 +1,238 @@
+import React, { Component } from 'react'
+import { Card, Button, Form, Icon, Col, Row, DatePicker, TimePicker, Input, Select, Popover,Switch } from 'antd'
+import { connect } from 'dva'
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import SelectObject from '../../components/SelectObject'
+import {ImageComponent} from '../../axios/tools'
+import FooterToolbar from '../../components/FooterToolbar'
+import styles from './SchooleClass.createform.less'
+import {mapBackToImageValues, mapFromImageValues} from '../../axios/tools'
+import GlobalComponents from '../../custcomponents';
+import SchooleClassBase from './SchooleClass.base'
+import appLocaleName from '../../common/Locale.tool'
+const { Option } = Select
+const { RangePicker } = DatePicker
+const { TextArea } = Input
+const {fieldLabels} = SchooleClassBase
+const testValues = {};
+/*
+const testValues = {
+  name: '教科院一年级5班',
+  schoole: '益州小学',
+  classTeacherId: 'T000001',
+  platformId: 'P000001',
+  cqId: 'CR000001',
+}
+*/
+
+const imageKeys = [
+]
+
+
+class SchooleClassCreateFormBody extends Component {
+  state = {
+    previewVisible: false,
+    previewImage: '',
+    convertedImagesValues: {},
+  }
+
+  componentDidMount() {
+	
+    
+    
+  }
+
+  handlePreview = (file) => {
+    console.log('preview file', file)
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    })
+  }
+
+ 
+
+
+
+  handleChange = (event, source) => {
+    console.log('get file list from change in update change:', source)
+
+    const { fileList } = event
+    const { convertedImagesValues } = this.state
+
+    convertedImagesValues[source] = fileList
+    this.setState({ convertedImagesValues })
+    console.log('/get file list from change in update change:', source)
+  }
+	
+  
+
+  render() {
+    const { form, dispatch, submitting, role } = this.props
+    const { convertedImagesValues } = this.state
+	const userContext = null
+    const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
+    
+    const {SchooleClassService} = GlobalComponents
+    
+    const capFirstChar = (value)=>{
+    	//const upper = value.replace(/^\w/, c => c.toUpperCase());
+  		const upper = value.charAt(0).toUpperCase() + value.substr(1);
+  		return upper
+  	}
+    
+    
+    const tryinit  = (fieldName) => {
+      const { owner } = this.props
+      if(!owner){
+      	return null
+      }
+      const { referenceName } = owner
+      if(referenceName!=fieldName){
+        return null
+      }
+      return owner.id
+    }
+    
+    const availableForEdit= (fieldName) =>{
+      const { owner } = this.props
+      if(!owner){
+      	return true
+      }
+      const { referenceName } = owner
+      if(referenceName!=fieldName){
+        return true
+      }
+      return false
+    
+    }
+	const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 12 },
+    }
+    const switchFormItemLayout = {
+
+      labelCol: { span: 6 },
+      wrapperCol: { span: 12 },
+
+    }
+    
+    const internalRenderTitle = () =>{
+      const linkComp=<a onClick={goback}  > <Icon type="double-left" style={{marginRight:"10px"}} /> </a>
+      return (<div>{linkComp}{appLocaleName(userContext,"CreateNew")}{window.trans('schoole_class')}</div>)
+    }
+	
+	return (
+      <div>
+        <Card title={!this.props.hideTitle&&appLocaleName(userContext,"BasicInfo")} className={styles.card} bordered={false}>
+          <Form >
+          	<Row gutter={16}>
+           
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.name} {...formItemLayout}>
+                  {getFieldDecorator('name', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.name} />
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.schoole} {...formItemLayout}>
+                  {getFieldDecorator('schoole', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.schoole} />
+                  )}
+                </Form.Item>
+              </Col>
+
+
+       
+ 
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.classTeacher} {...formItemLayout}>
+                  {getFieldDecorator('classTeacherId', {
+                  	initialValue: tryinit('classTeacher'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('classTeacher')}
+                    targetType={"classTeacher"} 
+                    requestFunction={SchooleClassService.requestCandidateClassTeacher}/>
+                  
+                 
+                  )}
+                </Form.Item>
+              </Col>
+
+           
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.platform} {...formItemLayout}>
+                  {getFieldDecorator('platformId', {
+                  	initialValue: tryinit('platform'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('platform')}
+                    targetType={"platform"} 
+                    requestFunction={SchooleClassService.requestCandidatePlatform}/>
+                  
+                 
+                  )}
+                </Form.Item>
+              </Col>
+
+           
+
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.cq} {...formItemLayout}>
+                  {getFieldDecorator('cqId', {
+                  	initialValue: tryinit('cq'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('cq')}
+                    targetType={"cq"} 
+                    requestFunction={SchooleClassService.requestCandidateCq}/>
+                  
+                 
+                  )}
+                </Form.Item>
+              </Col>
+
+           
+
+
+
+			 </Row>
+          </Form>
+        </Card>
+
+
+
+
+
+
+
+
+      
+       </div>
+    )
+  }
+}
+
+export default connect(state => ({
+  collapsed: state.global.collapsed,
+}))(Form.create()(SchooleClassCreateFormBody))
+
+
+
+
+

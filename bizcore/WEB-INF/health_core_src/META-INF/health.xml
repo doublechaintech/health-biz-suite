@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- Enable Annotation based Declarative Transaction Management -->
+
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+  	  <property name="poolName" value="health_connection_pool" />
+  	  <property name="dataSourceClassName" value="${app.database.dataSourceClassName}"/>
+  	  <property name="maximumPoolSize" value="10" />
+  	  <property name="maxLifetime" value="60000" />
+  	  <property name="idleTimeout" value="30000" />
+  	  <property name="dataSourceProperties">
+  	   <props>
+  	     <prop key="url">${app.database.jdbcURL}</prop>
+  	     <prop key="user">${app.database.username}</prop>
+  	     <prop key="password">${app.database.password}</prop>
+  	   </props>
+  	  </property>
+  	</bean>
+
+
+	<!-- dbcp 2.6 https://commons.apache.org/proper/commons-dbcp/configuration.html
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	  <property name="poolName" value="health_connection_pool" />
+	  <property name="dataSourceClassName" value="${app.database.dataSourceClassName}"/>
+	  <property name="maximumPoolSize" value="10" />
+	  <property name="maxLifetime" value="60000" />
+	  <property name="idleTimeout" value="30000" />
+	  <property name="dataSourceProperties">
+	   <props>
+	     <prop key="url">${app.database.jdbcURL}</prop>
+	     <prop key="user">${app.database.username}</prop>
+	     <prop key="password">${app.database.password}</prop>
+	     <prop key="prepStmtCacheSize">250</prop>
+	     <prop key="prepStmtCacheSqlLimit">2048</prop>
+	     <prop key="cachePrepStmts">true</prop>
+	     <prop key="useServerPrepStmts">true</prop>
+	   </props>
+	  </property>
+	</bean>
+	-->
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	  <constructor-arg ref="hikariConfig" />
+	</bean>
+
+
+	<bean id="platformDAOBase" class="com.doublechaintech.health.platform.PlatformJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="provinceDAO" ref="provinceDAO" />
+		
+		<property name="cityDAO" ref="cityDAO" />
+		
+		<property name="districtDAO" ref="districtDAO" />
+		
+		<property name="teacherDAO" ref="teacherDAO" />
+		
+		<property name="studentDAO" ref="studentDAO" />
+		
+		<property name="questionDAO" ref="questionDAO" />
+		
+		<property name="questionTypeDAO" ref="questionTypeDAO" />
+		
+		<property name="surveyStatusDAO" ref="surveyStatusDAO" />
+		
+		<property name="userDAO" ref="userDAO" />
+		
+		<property name="changeRequestDAO" ref="changeRequestDAO" />
+		
+		<property name="changeRequestTypeDAO" ref="changeRequestTypeDAO" />
+		
+	</bean>
+	<bean id="platformDAO" parent="platformDAOBase"></bean>
+	
+
+	<bean id="provinceDAOBase" class="com.doublechaintech.health.province.ProvinceJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="platformDAO" ref="platformDAO" />
+		<property name="cityDAO" ref="cityDAO" />
+		
+		<property name="locationDAO" ref="locationDAO" />
+		
+	</bean>
+	<bean id="provinceDAO" parent="provinceDAOBase"></bean>
+	
+
+	<bean id="cityDAOBase" class="com.doublechaintech.health.city.CityJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="provinceDAO" ref="provinceDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="districtDAO" ref="districtDAO" />
+		
+	</bean>
+	<bean id="cityDAO" parent="cityDAOBase"></bean>
+	
+
+	<bean id="districtDAOBase" class="com.doublechaintech.health.district.DistrictJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="cityDAO" ref="cityDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="locationDAO" ref="locationDAO" />
+		
+	</bean>
+	<bean id="districtDAO" parent="districtDAOBase"></bean>
+	
+
+	<bean id="locationDAOBase" class="com.doublechaintech.health.location.LocationJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="districtDAO" ref="districtDAO" /><property name="provinceDAO" ref="provinceDAO" />
+		<property name="studentDAO" ref="studentDAO" />
+		
+		<property name="userDAO" ref="userDAO" />
+		
+	</bean>
+	<bean id="locationDAO" parent="locationDAOBase"></bean>
+	
+
+	<bean id="teacherDAOBase" class="com.doublechaintech.health.teacher.TeacherJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" />
+		
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+	</bean>
+	<bean id="teacherDAO" parent="teacherDAOBase"></bean>
+	
+
+	<bean id="studentDAOBase" class="com.doublechaintech.health.student.StudentJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDAO" ref="userDAO" /><property name="locationDAO" ref="locationDAO" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+	</bean>
+	<bean id="studentDAO" parent="studentDAOBase"></bean>
+	
+
+	<bean id="questionDAOBase" class="com.doublechaintech.health.question.QuestionJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDAO" ref="userDAO" /><property name="questionTypeDAO" ref="questionTypeDAO" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" />
+		
+	</bean>
+	<bean id="questionDAO" parent="questionDAOBase"></bean>
+	
+
+	<bean id="questionTypeDAOBase" class="com.doublechaintech.health.questiontype.QuestionTypeJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="platformDAO" ref="platformDAO" />
+		<property name="questionDAO" ref="questionDAO" />
+		
+		<property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" />
+		
+	</bean>
+	<bean id="questionTypeDAO" parent="questionTypeDAOBase"></bean>
+	
+
+	<bean id="classDailyHealthSurveyDAOBase" class="com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDAO" ref="userDAO" /><property name="teacherDAO" ref="teacherDAO" /><property name="changeRequestDAO" ref="changeRequestDAO" />
+		<property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" />
+		
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+	</bean>
+	<bean id="classDailyHealthSurveyDAO" parent="classDailyHealthSurveyDAOBase"></bean>
+	
+
+	<bean id="dailySurveyQuestionDAOBase" class="com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="questionTypeDAO" ref="questionTypeDAO" /><property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" /><property name="questionDAO" ref="questionDAO" />
+		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO" />
+		
+	</bean>
+	<bean id="dailySurveyQuestionDAO" parent="dailySurveyQuestionDAOBase"></bean>
+	
+
+	<bean id="studentHealthSurveyDAOBase" class="com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="surveyStatusDAO" ref="surveyStatusDAO" /><property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" /><property name="teacherDAO" ref="teacherDAO" /><property name="studentDAO" ref="studentDAO" /><property name="changeRequestDAO" ref="changeRequestDAO" />
+		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO" />
+		
+	</bean>
+	<bean id="studentHealthSurveyDAO" parent="studentHealthSurveyDAOBase"></bean>
+	
+
+	<bean id="studentDailyAnswerDAOBase" class="com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" /><property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" /><property name="changeRequestDAO" ref="changeRequestDAO" />
+	</bean>
+	<bean id="studentDailyAnswerDAO" parent="studentDailyAnswerDAOBase"></bean>
+	
+
+	<bean id="surveyStatusDAOBase" class="com.doublechaintech.health.surveystatus.SurveyStatusJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="platformDAO" ref="platformDAO" />
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+	</bean>
+	<bean id="surveyStatusDAO" parent="surveyStatusDAOBase"></bean>
+	
+
+	<bean id="userDAOBase" class="com.doublechaintech.health.user.UserJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="locationDAO" ref="locationDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="studentDAO" ref="studentDAO" />
+		
+		<property name="questionDAO" ref="questionDAO" />
+		
+		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" />
+		
+		<property name="wechatLoginInfoDAO" ref="wechatLoginInfoDAO" />
+		
+	</bean>
+	<bean id="userDAO" parent="userDAOBase"></bean>
+	
+
+	<bean id="wechatLoginInfoDAOBase" class="com.doublechaintech.health.wechatlogininfo.WechatLoginInfoJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDAO" ref="userDAO" />
+	</bean>
+	<bean id="wechatLoginInfoDAO" parent="wechatLoginInfoDAOBase"></bean>
+	
+
+	<bean id="changeRequestDAOBase" class="com.doublechaintech.health.changerequest.ChangeRequestJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="changeRequestTypeDAO" ref="changeRequestTypeDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="teacherDAO" ref="teacherDAO" />
+		
+		<property name="studentDAO" ref="studentDAO" />
+		
+		<property name="questionDAO" ref="questionDAO" />
+		
+		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" />
+		
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO" />
+		
+	</bean>
+	<bean id="changeRequestDAO" parent="changeRequestDAOBase"></bean>
+	
+
+	<bean id="changeRequestTypeDAOBase" class="com.doublechaintech.health.changerequesttype.ChangeRequestTypeJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="platformDAO" ref="platformDAO" />
+		<property name="changeRequestDAO" ref="changeRequestDAO" />
+		
+	</bean>
+	<bean id="changeRequestTypeDAO" parent="changeRequestTypeDAOBase"></bean>
+	
+
+	<bean id="userDomainDAOBase" class="com.doublechaintech.health.userdomain.UserDomainJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="userWhiteListDAO" ref="userWhiteListDAO" />
+		
+		<property name="secUserDAO" ref="secUserDAO" />
+		
+	</bean>
+	<bean id="userDomainDAO" parent="userDomainDAOBase"></bean>
+	
+
+	<bean id="userWhiteListDAOBase" class="com.doublechaintech.health.userwhitelist.UserWhiteListJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDomainDAO" ref="userDomainDAO" />
+	</bean>
+	<bean id="userWhiteListDAO" parent="userWhiteListDAOBase"></bean>
+	
+
+	<bean id="secUserDAOBase" class="com.doublechaintech.health.secuser.SecUserJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userDomainDAO" ref="userDomainDAO" />
+		<property name="userAppDAO" ref="userAppDAO" />
+		
+		<property name="loginHistoryDAO" ref="loginHistoryDAO" />
+		
+		<property name="wechatWorkappIdentifyDAO" ref="wechatWorkappIdentifyDAO" />
+		
+		<property name="wechatMiniappIdentifyDAO" ref="wechatMiniappIdentifyDAO" />
+		
+	</bean>
+	<bean id="secUserDAO" parent="secUserDAOBase"></bean>
+	
+
+	<bean id="userAppDAOBase" class="com.doublechaintech.health.userapp.UserAppJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="secUserDAO" ref="secUserDAO" />
+		<property name="quickLinkDAO" ref="quickLinkDAO" />
+		
+		<property name="listAccessDAO" ref="listAccessDAO" />
+		
+		<property name="objectAccessDAO" ref="objectAccessDAO" />
+		
+	</bean>
+	<bean id="userAppDAO" parent="userAppDAOBase"></bean>
+	
+
+	<bean id="quickLinkDAOBase" class="com.doublechaintech.health.quicklink.QuickLinkJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userAppDAO" ref="userAppDAO" />
+	</bean>
+	<bean id="quickLinkDAO" parent="quickLinkDAOBase"></bean>
+	
+
+	<bean id="listAccessDAOBase" class="com.doublechaintech.health.listaccess.ListAccessJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userAppDAO" ref="userAppDAO" />
+	</bean>
+	<bean id="listAccessDAO" parent="listAccessDAOBase"></bean>
+	
+
+	<bean id="objectAccessDAOBase" class="com.doublechaintech.health.objectaccess.ObjectAccessJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="userAppDAO" ref="userAppDAO" />
+	</bean>
+	<bean id="objectAccessDAO" parent="objectAccessDAOBase"></bean>
+	
+
+	<bean id="loginHistoryDAOBase" class="com.doublechaintech.health.loginhistory.LoginHistoryJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="secUserDAO" ref="secUserDAO" />
+	</bean>
+	<bean id="loginHistoryDAO" parent="loginHistoryDAOBase"></bean>
+	
+
+	<bean id="genericFormDAOBase" class="com.doublechaintech.health.genericform.GenericFormJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="formMessageDAO" ref="formMessageDAO" />
+		
+		<property name="formFieldMessageDAO" ref="formFieldMessageDAO" />
+		
+		<property name="formFieldDAO" ref="formFieldDAO" />
+		
+		<property name="formActionDAO" ref="formActionDAO" />
+		
+	</bean>
+	<bean id="genericFormDAO" parent="genericFormDAOBase"></bean>
+	
+
+	<bean id="formMessageDAOBase" class="com.doublechaintech.health.formmessage.FormMessageJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="genericFormDAO" ref="genericFormDAO" />
+	</bean>
+	<bean id="formMessageDAO" parent="formMessageDAOBase"></bean>
+	
+
+	<bean id="formFieldMessageDAOBase" class="com.doublechaintech.health.formfieldmessage.FormFieldMessageJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="genericFormDAO" ref="genericFormDAO" />
+	</bean>
+	<bean id="formFieldMessageDAO" parent="formFieldMessageDAOBase"></bean>
+	
+
+	<bean id="formFieldDAOBase" class="com.doublechaintech.health.formfield.FormFieldJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="genericFormDAO" ref="genericFormDAO" />
+	</bean>
+	<bean id="formFieldDAO" parent="formFieldDAOBase"></bean>
+	
+
+	<bean id="formActionDAOBase" class="com.doublechaintech.health.formaction.FormActionJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="genericFormDAO" ref="genericFormDAO" />
+	</bean>
+	<bean id="formActionDAO" parent="formActionDAOBase"></bean>
+	
+
+	<bean id="candidateContainerDAOBase" class="com.doublechaintech.health.candidatecontainer.CandidateContainerJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="candidateElementDAO" ref="candidateElementDAO" />
+		
+	</bean>
+	<bean id="candidateContainerDAO" parent="candidateContainerDAOBase"></bean>
+	
+
+	<bean id="candidateElementDAOBase" class="com.doublechaintech.health.candidateelement.CandidateElementJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="candidateContainerDAO" ref="candidateContainerDAO" />
+	</bean>
+	<bean id="candidateElementDAO" parent="candidateElementDAOBase"></bean>
+	
+
+	<bean id="wechatWorkappIdentifyDAOBase" class="com.doublechaintech.health.wechatworkappidentify.WechatWorkappIdentifyJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="secUserDAO" ref="secUserDAO" />
+	</bean>
+	<bean id="wechatWorkappIdentifyDAO" parent="wechatWorkappIdentifyDAOBase"></bean>
+	
+
+	<bean id="wechatMiniappIdentifyDAOBase" class="com.doublechaintech.health.wechatminiappidentify.WechatMiniappIdentifyJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="secUserDAO" ref="secUserDAO" />
+	</bean>
+	<bean id="wechatMiniappIdentifyDAO" parent="wechatMiniappIdentifyDAOBase"></bean>
+	
+
+
+	<bean id="DAOGroupBase" class="com.doublechaintech.health.DAOGroup">
+		<property name="platformDAO" ref="platformDAO"/>
+		<property name="provinceDAO" ref="provinceDAO"/>
+		<property name="cityDAO" ref="cityDAO"/>
+		<property name="districtDAO" ref="districtDAO"/>
+		<property name="locationDAO" ref="locationDAO"/>
+		<property name="teacherDAO" ref="teacherDAO"/>
+		<property name="studentDAO" ref="studentDAO"/>
+		<property name="questionDAO" ref="questionDAO"/>
+		<property name="questionTypeDAO" ref="questionTypeDAO"/>
+		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO"/>
+		<property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO"/>
+		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO"/>
+		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO"/>
+		<property name="surveyStatusDAO" ref="surveyStatusDAO"/>
+		<property name="userDAO" ref="userDAO"/>
+		<property name="wechatLoginInfoDAO" ref="wechatLoginInfoDAO"/>
+		<property name="changeRequestDAO" ref="changeRequestDAO"/>
+		<property name="changeRequestTypeDAO" ref="changeRequestTypeDAO"/>
+		<property name="userDomainDAO" ref="userDomainDAO"/>
+		<property name="userWhiteListDAO" ref="userWhiteListDAO"/>
+		<property name="secUserDAO" ref="secUserDAO"/>
+		<property name="userAppDAO" ref="userAppDAO"/>
+		<property name="quickLinkDAO" ref="quickLinkDAO"/>
+		<property name="listAccessDAO" ref="listAccessDAO"/>
+		<property name="objectAccessDAO" ref="objectAccessDAO"/>
+		<property name="loginHistoryDAO" ref="loginHistoryDAO"/>
+		<property name="genericFormDAO" ref="genericFormDAO"/>
+		<property name="formMessageDAO" ref="formMessageDAO"/>
+		<property name="formFieldMessageDAO" ref="formFieldMessageDAO"/>
+		<property name="formFieldDAO" ref="formFieldDAO"/>
+		<property name="formActionDAO" ref="formActionDAO"/>
+		<property name="candidateContainerDAO" ref="candidateContainerDAO"/>
+		<property name="candidateElementDAO" ref="candidateElementDAO"/>
+		<property name="wechatWorkappIdentifyDAO" ref="wechatWorkappIdentifyDAO"/>
+		<property name="wechatMiniappIdentifyDAO" ref="wechatMiniappIdentifyDAO"/>
+	</bean>
+	<bean id="DAOGroup" parent="DAOGroupBase"></bean>
+</beans>
+
+
+
+
+<!--
+
+	各种候选配置，可以选择你更为熟悉的类型
+	Creating TransactionManager Bean, since JDBC we are creating of type
+		DataSourceTransactionManager
+
+		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	  <property name="poolName" value="mercatus_connection_pool" />
+	  <property name="dataSourceClassName" value="com.mysql.cj.jdbc.MysqlDataSource"/>
+	  <property name="maximumPoolSize" value="50" />
+	  <property name="maxLifetime" value="60000" />
+	  <property name="idleTimeout" value="30000" />
+	  <property name="dataSourceProperties">
+	   <props>
+	     <prop key="url">${app.database.jdbcURL}</prop>
+	     <prop key="user">${app.database.username}</prop>
+	     <prop key="password">${app.database.password}</prop>
+	     <prop key="prepStmtCacheSize">250</prop>
+	     <prop key="prepStmtCacheSqlLimit">2048</prop>
+	     <prop key="cachePrepStmts">true</prop>
+	     <prop key="useServerPrepStmts">true</prop>
+	   </props>
+	  </property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
+
+		<property name="url" value="${app.database.jdbcURL}" />
+		<property name="username" value="${app.database.username}" />
+		<property name="password" value="${app.database.password}" />
+		<property name="driverClassName" value="${app.database.driverClass}" />
+		<property name="initialSize" value="${app.database.pool.initialSize}" />
+		<property name="maxTotal" value="${app.database.pool.maxActive}" />
+
+		<property name="testOnBorrow" value="true" />
+		<property name="testWhileIdle" value="true" />
+		<property name="validationQuery" value="SELECT 1 from sec_user_data" />
+		<property name="removeAbandonedTimeout" value="55" />
+		<property name="removeAbandonedOnBorrow" value="true"/>
+
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+
+		<property name="jdbcUrl" value="${app.database.jdbcURL}" />
+		<property name="user" value="${app.database.username}" />
+		<property name="password" value="${app.database.password}" />
+		<property name="driverClass" value="${app.database.driverClass}" />
+
+  		<property name="minPoolSize" value="10"/>
+  		<property name="maxPoolSize" value="50"/>
+  		<property name="acquireIncrement" value="1"/>
+  		<property name="idleConnectionTestPeriod" value="1000"/>
+  		<property name="maxStatements" value="250"/>
+  		<property name="checkoutTimeout" value="60000"/>
+  		<property name="initialPoolSize" value="10" />
+
+	</bean>
+
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	  <property name="poolName" value="mercatus_connection_pool" />
+	  <property name="dataSourceClassName" value="${app.database.dataSourceClassName}"/>
+	  <property name="maximumPoolSize" value="50" />
+	  <property name="maxLifetime" value="60000" />
+	  <property name="idleTimeout" value="30000" />
+	  <property name="dataSourceProperties">
+	   <props>
+	     <prop key="url">${app.database.jdbcURL}</prop>
+	     <prop key="user">${app.database.username}</prop>
+	     <prop key="password">${app.database.password}</prop>
+	     <prop key="prepStmtCacheSize">250</prop>
+	     <prop key="prepStmtCacheSqlLimit">2048</prop>
+	     <prop key="cachePrepStmts">true</prop>
+	     <prop key="useServerPrepStmts">true</prop>
+	   </props>
+	  </property>
+	</bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	  <constructor-arg ref="hikariConfig" />
+	</bean>
+
+
+-->
+
+
+
+
+
+
+
+

@@ -1,0 +1,358 @@
+Summary|概览
+Platform|平台
+Id|ID
+Name|名称
+Description|描述
+Version|版本
+Province|省
+Id|ID
+Name|名称
+Platform|平台
+Create Time|创建时间
+Version|版本
+City|城市
+Id|ID
+Name|名称
+Province|省
+Platform|平台
+Create Time|创建时间
+Version|版本
+District|区/县
+Id|ID
+Name|名称
+City|城市
+Platform|平台
+Create Time|创建时间
+Version|版本
+Location|位置
+Id|ID
+Name|名称
+Address|地址
+District|区/县
+Province|省
+Latitude|纬度
+Longitude|经度
+Version|版本
+Teacher|老师
+Id|ID
+Name|名称
+Mobile|手机号码
+School|学校
+School Class|学校类
+Create Time|创建时间
+Platform|平台
+Cq|Cq
+Version|版本
+Student|学生
+Id|ID
+Student Name|学生的名字
+Student Id|学生证
+Guardian Name|监护人姓名
+Guardian Mobile|监护人手机
+Address|地址
+User|用户
+Create Time|创建时间
+Platform|平台
+Cq|Cq
+Version|版本
+Question|检查问题
+Id|ID
+Topic|活动主题
+Question Type|问题类型
+Option A|A选项
+Option B|B选项
+Option C|C选项
+Option D|D选项
+Platform|平台
+Creator|创建人名称
+Cq|Cq
+Version|版本
+Question Type|问题类型
+Id|ID
+Name|名称
+Code|编码
+Platform|平台
+Version|版本
+Class Daily Health Survey|每日健康调查
+Id|ID
+Name|名称
+Teacher|老师
+Survey Time|调查的时间
+Creator|创建人名称
+Cq|Cq
+Version|版本
+Daily Survey Question|每日调查问题
+Id|ID
+Topic|活动主题
+Question Type|问题类型
+Option A|A选项
+Option B|B选项
+Option C|C选项
+Option D|D选项
+Class Daily Health Survey|每日健康调查
+Survey Question|调查的问题
+Version|版本
+Student Health Survey|学生健康调查
+Id|ID
+Student|学生
+Answer Time|回答时间
+Survey Status|调查现状
+Teacher|老师
+Class Daily Health Survey|每日健康调查
+Create Time|创建时间
+Last Update Time|最后更新时间
+Cq|Cq
+Version|版本
+Student Daily Answer|学生每天回答
+Id|ID
+Student Health Survey|学生健康调查
+Question|检查问题
+Answer|回答
+Create Time|创建时间
+Last Update Time|最后更新时间
+Cq|Cq
+Version|版本
+Survey Status|调查现状
+Id|ID
+Name|名称
+Code|编码
+Platform|平台
+Version|版本
+User|用户
+Id|ID
+Name|名称
+Avatar|头像
+Address|地址
+Create Time|创建时间
+Platform|平台
+Version|版本
+Wechat Login Info|微信登录信息
+Id|ID
+User|用户
+App Id|应用程序Id
+Open Id|开放Id
+Session Key|会话密钥
+Last Update Time|最后更新时间
+Version|版本
+Change Request|变更请求
+Id|ID
+Name|名称
+Create Time|创建时间
+Remote Ip|访问IP
+Request Type|请求类型
+Platform|平台
+Version|版本
+Change Request Type|变更请求类型
+Id|ID
+Name|名称
+Code|编码
+Icon|图标
+Display Order|顺序
+Bind Types|绑定类型
+Step Configuration|分步配置
+Platform|平台
+Version|版本
+User Domain|用户域
+Id|ID
+Name|名称
+Version|版本
+User White List|用户白名单
+Id|ID
+User Identity|用户身份
+User Special Functions|用户特殊功能
+Domain|域
+Version|版本
+Sec User|安全用户
+Id|ID
+Login|登录
+Mobile|手机号码
+Email|电子邮件
+Pwd|密码
+Weixin Openid|微信openid
+Weixin Appid|微信Appid
+Access Token|访问令牌
+Verification Code|验证码
+Verification Code Expire|验证码过期
+Last Login Time|最后登录时间
+Domain|域
+Version|版本
+User App|用户应用程序
+Id|ID
+Title|标题
+Sec User|安全用户
+App Icon|应用程序图标
+Full Access|完全访问
+Permission|许可
+Object Type|访问对象类型
+Object Id|对象ID
+Location|位置
+Version|版本
+Quick Link|快速链接
+Id|ID
+Name|名称
+Icon|图标
+Image Path|图片路径
+Link Target|链接的目标
+Create Time|创建时间
+App|应用程序
+Version|版本
+List Access|访问列表
+Id|ID
+Name|名称
+Internal Name|内部名称
+Read Permission|读权限
+Create Permission|创建权限
+Delete Permission|删除权限
+Update Permission|更新权限
+Execution Permission|执行权限
+App|应用程序
+Version|版本
+Object Access|对象访问
+Id|ID
+Name|名称
+Object Type|访问对象类型
+List1|列表1
+List2|列表2
+List3|列表3
+List4|列表4
+List5|列表5
+List6|列表6
+List7|列表7
+List8|列表8
+List9|列表9
+App|应用程序
+Version|版本
+Login History|登录历史
+Id|ID
+Login Time|登录时间
+From Ip|来自IP
+Description|描述
+Sec User|安全用户
+Version|版本
+Generic Form|通用的形式
+Id|ID
+Title|标题
+Description|描述
+Version|版本
+Form Message|表单信息
+Id|ID
+Title|标题
+Form|形式
+Level|水平
+Version|版本
+Form Field Message|表单字段的信息
+Id|ID
+Title|标题
+Parameter Name|参数名称
+Form|形式
+Level|水平
+Version|版本
+Form Field|表单字段
+Id|ID
+Label|标签
+Locale Key|语言环境的关键
+Parameter Name|参数名称
+Type|类型
+Form|形式
+Placeholder|占位符
+Default Value|默认值
+Description|描述
+Field Group|字段组
+Minimum Value|最小值
+Maximum Value|最大值
+Required|要求
+Disabled|是否冻结
+Custom Rendering|自定义渲染
+Candidate Values|候选人的价值观
+Suggest Values|建议值
+Version|版本
+Form Action|表单动作
+Id|ID
+Label|标签
+Locale Key|语言环境的关键
+Action Key|行动的关键
+Level|水平
+Url|url
+Form|形式
+Version|版本
+Candidate Container|候选人容器
+Id|ID
+Name|名称
+Version|版本
+Candidate Element|候选人元素
+Id|ID
+Name|名称
+Type|类型
+Image|图片
+Container|容器
+Version|版本
+Wechat Workapp Identify|微信Workapp识别
+Id|ID
+Corp Id|公司标识
+User Id|用户Id
+Sec User|安全用户
+Create Time|创建时间
+Last Login Time|最后登录时间
+Version|版本
+Wechat Miniapp Identify|微信Miniapp识别
+Id|ID
+Open Id|开放Id
+App Id|应用程序Id
+Sec User|安全用户
+Create Time|创建时间
+Last Login Time|最后登录时间
+Version|版本
+Transfer to Another Platform|转到平台
+Transfer to Another Province|转到省
+Transfer to Another Platform|转到平台
+Transfer to Another City|转移到城市
+Transfer to Another Platform|转到平台
+Transfer to Another District|转移到区
+Transfer to Another Province|转到省
+Transfer to Another Platform|转到平台
+Transfer to Another Cq|转移到Cq
+Transfer to Another Address|转移到地址
+Transfer to Another User|转移到用户
+Transfer to Another Platform|转到平台
+Transfer to Another Cq|转移到Cq
+Transfer to Another Question Type|转换成问题类型
+Transfer to Another Platform|转到平台
+Transfer to Another Creator|转移到创造者
+Transfer to Another Cq|转移到Cq
+Transfer to Another Platform|转到平台
+Transfer to Another Teacher|转移到老师
+Transfer to Another Creator|转移到创造者
+Transfer to Another Cq|转移到Cq
+Transfer to Another Question Type|转换成问题类型
+Transfer to Another Class Daily Health Survey|每日健康调查转班
+Transfer to Another Survey Question|转到调查问题
+Transfer to Another Student|转移到学生
+Transfer to Another Survey Status|转换为调查状态
+Transfer to Another Teacher|转移到老师
+Transfer to Another Class Daily Health Survey|每日健康调查转班
+Transfer to Another Cq|转移到Cq
+Transfer to Another Student Health Survey|转到学生健康调查
+Transfer to Another Question|转移到问题
+Transfer to Another Cq|转移到Cq
+Transfer to Another Platform|转到平台
+Transfer to Another Address|转移到地址
+Transfer to Another Platform|转到平台
+Transfer to Another User|转移到用户
+Transfer to Another Request Type|转换为请求类型
+Transfer to Another Platform|转到平台
+Transfer to Another Platform|转到平台
+Transfer to Another Domain|转移到域
+Transfer to Another Domain|转移到域
+Transfer to Another Sec User|传输给Sec用户
+Transfer to Another App|转移到应用程序
+Transfer to Another App|转移到应用程序
+Transfer to Another App|转移到应用程序
+Transfer to Another Sec User|传输给Sec用户
+Transfer to Another Form|转移到形式
+Transfer to Another Form|转移到形式
+Transfer to Another Form|转移到形式
+Transfer to Another Form|转移到形式
+Transfer to Another Container|转移到容器
+Transfer to Another Sec User|传输给Sec用户
+Transfer to Another Sec User|传输给Sec用户
+
