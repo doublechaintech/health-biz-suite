@@ -295,7 +295,7 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 	@Override
 	protected int processRequestCustomerSubmitStudentSurvey(CustomHealthUserContextImpl ctx) throws Exception {
 		ChangeRequest cr = buildNewChangeRequest(ChangeRequestType.FILL_SURVEY);
-		Student student = Optional.ofNullable(new DBQuery().findStudentWhichNameIs(ctx, ctx.getStudentName())).orElse(new Student().updateStudentName(ctx.getStudentName()));
+		Student student = Optional.ofNullable(new DBQuery().findStudentWhichNameIs(ctx, ctx.getStudentName(),ctx.getCurrentUserInfo().getId())).orElse(new Student().updateStudentName(ctx.getStudentName()));
 		ClassDailyHealthSurvey survey = classDailyHealthSurveyManagerOf(ctx).loadClassDailyHealthSurvey(ctx, ctx.getSurveyId(), ClassDailyHealthSurveyTokens.start().toArray());
 		List<Teacher> teacherList = MiscUtils.collectReferencedObjectWithType(ctx, survey, Teacher.class);
 		teacherDaoOf(ctx).enhanceList(teacherList);
