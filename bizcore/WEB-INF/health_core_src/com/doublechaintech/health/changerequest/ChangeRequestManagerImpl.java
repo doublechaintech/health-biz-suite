@@ -592,8 +592,8 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 				return changeRequest;
 			}
 	}
-	//disconnect ChangeRequest with student_id in Student
-	protected ChangeRequest breakWithStudentByStudentId(HealthUserContext userContext, String changeRequestId, String studentIdId,  String [] tokensExpr)
+	//disconnect ChangeRequest with user in Teacher
+	protected ChangeRequest breakWithTeacherByUser(HealthUserContext userContext, String changeRequestId, String userId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -604,9 +604,9 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				changeRequestDaoOf(userContext).planToRemoveStudentListWithStudentId(changeRequest, studentIdId, this.emptyOptions());
+				changeRequestDaoOf(userContext).planToRemoveTeacherListWithUser(changeRequest, userId, this.emptyOptions());
 
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
+				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withTeacherList().done());
 				return changeRequest;
 			}
 	}
@@ -868,7 +868,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 
 
-	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 
@@ -881,18 +881,22 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
 		
+		checkerOf(userContext).checkClassSizeOfTeacher(classSize);
+		
 		checkerOf(userContext).checkPlatformIdOfTeacher(platformId);
+		
+		checkerOf(userContext).checkUserIdOfTeacher(userId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 
 	}
-	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId, String [] tokensExpr) throws Exception
+	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingTeacher(userContext,changeRequestId,name, mobile, school, schoolClass, platformId,tokensExpr);
+		checkParamsForAddingTeacher(userContext,changeRequestId,name, mobile, school, schoolClass, classSize, platformId, userId,tokensExpr);
 
-		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, platformId);
+		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, classSize, platformId, userId);
 
 		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
 		synchronized(changeRequest){
@@ -905,7 +909,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String changeRequestId,String id,String name,String mobile,String school,String schoolClass,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String changeRequestId,String id,String name,String mobile,String school,String schoolClass,int classSize,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 		checkerOf(userContext).checkIdOfTeacher(id);
@@ -914,13 +918,14 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		checkerOf(userContext).checkMobileOfTeacher( mobile);
 		checkerOf(userContext).checkSchoolOfTeacher( school);
 		checkerOf(userContext).checkSchoolClassOfTeacher( schoolClass);
+		checkerOf(userContext).checkClassSizeOfTeacher( classSize);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 	}
-	public  ChangeRequest updateTeacherProperties(HealthUserContext userContext, String changeRequestId, String id,String name,String mobile,String school,String schoolClass, String [] tokensExpr) throws Exception
+	public  ChangeRequest updateTeacherProperties(HealthUserContext userContext, String changeRequestId, String id,String name,String mobile,String school,String schoolClass,int classSize, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingTeacherProperties(userContext,changeRequestId,id,name,mobile,school,schoolClass,tokensExpr);
+		checkParamsForUpdatingTeacherProperties(userContext,changeRequestId,id,name,mobile,school,schoolClass,classSize,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -939,6 +944,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		item.updateMobile( mobile );
 		item.updateSchool( school );
 		item.updateSchoolClass( schoolClass );
+		item.updateClassSize( classSize );
 
 
 		//checkParamsForAddingTeacher(userContext,changeRequestId,name, code, used,tokensExpr);
@@ -949,7 +955,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	}
 
 
-	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, String platformId) throws Exception{
+	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId) throws Exception{
 
 		Teacher teacher = new Teacher();
 		
@@ -958,10 +964,14 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		teacher.setMobile(mobile);		
 		teacher.setSchool(school);		
 		teacher.setSchoolClass(schoolClass);		
+		teacher.setClassSize(classSize);		
 		teacher.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		teacher.setPlatform(platform);
+		teacher.setPlatform(platform);		
+		User  user = new User();
+		user.setId(userId);		
+		teacher.setUser(user);
 	
 		
 		return teacher;
@@ -1089,6 +1099,10 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
 		}
 		
+		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		}
+		
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
@@ -1131,14 +1145,16 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String platformId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 
 		
 		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent(studentNumber);
+		
+		checkerOf(userContext).checkStudentAvatarOfStudent(studentAvatar);
 		
 		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
@@ -1154,12 +1170,12 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 
 	}
-	public  ChangeRequest addStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId, String [] tokensExpr) throws Exception
+	public  ChangeRequest addStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String platformId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,changeRequestId,studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId,tokensExpr);
+		checkParamsForAddingStudent(userContext,changeRequestId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, userId, platformId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, userId, platformId);
 
 		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
 		synchronized(changeRequest){
@@ -1172,22 +1188,23 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String changeRequestId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String changeRequestId,String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 		checkerOf(userContext).checkIdOfStudent(id);
 
 		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent( studentNumber);
+		checkerOf(userContext).checkStudentAvatarOfStudent( studentAvatar);
 		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
 		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 	}
-	public  ChangeRequest updateStudentProperties(HealthUserContext userContext, String changeRequestId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  ChangeRequest updateStudentProperties(HealthUserContext userContext, String changeRequestId, String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,changeRequestId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,changeRequestId,id,studentName,studentNumber,studentAvatar,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1203,7 +1220,8 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		Student item = changeRequestToUpdate.getStudentList().first();
 
 		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
+		item.updateStudentNumber( studentNumber );
+		item.updateStudentAvatar( studentAvatar );
 		item.updateGuardianName( guardianName );
 		item.updateGuardianMobile( guardianMobile );
 
@@ -1216,13 +1234,14 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String platformId) throws Exception{
 
 		Student student = new Student();
 		
 		
 		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
+		student.setStudentNumber(studentNumber);		
+		student.setStudentAvatar(studentAvatar);		
 		student.setGuardianName(guardianName);		
 		student.setGuardianMobile(guardianMobile);		
 		Location  address = new Location();
@@ -1350,8 +1369,12 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
@@ -1398,10 +1421,44 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 	}
 	/*
+	public  ChangeRequest associateStudentListToNewAddress(HealthUserContext userContext, String changeRequestId, String  studentIds[], String name, String address, String districtId, String provinceId, BigDecimal latitude, BigDecimal longitude, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, options);
+
+		Location address = locationManagerOf(userContext).createLocation(userContext,  name,  address, districtId, provinceId,  latitude,  longitude);
+
+		for(Student student: changeRequest.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSaveChangeRequest(userContext, changeRequest);
+	}
 	*/
 
+	public  ChangeRequest associateStudentListToAddress(HealthUserContext userContext, String changeRequestId, String  studentIds[], String addressId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, options);
+
+		Location address = locationManagerOf(userContext).loadLocation(userContext,addressId,new String[]{"none"} );
+
+		for(Student student: changeRequest.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSaveChangeRequest(userContext, changeRequest);
+	}
 
 
 	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String changeRequestId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String platformId, String creatorId,String [] tokensExpr) throws Exception{

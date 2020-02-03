@@ -33,6 +33,8 @@ public class HealthNamingServiceDAO extends CommonJDBCTemplateDAO {
 		namingTableMap.put("StudentHealthSurvey", new String[]{"student_health_survey_data","id"});
 		namingTableMap.put("StudentDailyAnswer", new String[]{"student_daily_answer_data","answer"});
 		namingTableMap.put("SurveyStatus", new String[]{"survey_status_data","name"});
+		namingTableMap.put("HealthSurveyReport", new String[]{"health_survey_report_data","survey_name"});
+		namingTableMap.put("StudentAnswer", new String[]{"student_answer_data","question_topic"});
 		namingTableMap.put("User", new String[]{"user_data","name"});
 		namingTableMap.put("WechatLoginInfo", new String[]{"wechat_login_info_data","app_id"});
 		namingTableMap.put("ChangeRequest", new String[]{"change_request_data","name"});

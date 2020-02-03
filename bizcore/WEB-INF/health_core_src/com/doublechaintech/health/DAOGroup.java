@@ -46,6 +46,12 @@ import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerTokens;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.surveystatus.SurveyStatusDAO;
 import com.doublechaintech.health.surveystatus.SurveyStatusTokens;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportTokens;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
+import com.doublechaintech.health.studentanswer.StudentAnswerDAO;
+import com.doublechaintech.health.studentanswer.StudentAnswerTokens;
 import com.doublechaintech.health.user.User;
 import com.doublechaintech.health.user.UserDAO;
 import com.doublechaintech.health.user.UserTokens;
@@ -139,6 +145,10 @@ public class DAOGroup {
 	protected StudentDailyAnswerDAO studentDailyAnswerDAO;
 
 	protected SurveyStatusDAO surveyStatusDAO;
+
+	protected HealthSurveyReportDAO healthSurveyReportDAO;
+
+	protected StudentAnswerDAO studentAnswerDAO;
 
 	protected UserDAO userDAO;
 
@@ -293,6 +303,22 @@ public class DAOGroup {
 	}
 	public void setSurveyStatusDAO(SurveyStatusDAO dao){
 		this.surveyStatusDAO = dao;
+	}
+
+
+	public HealthSurveyReportDAO getHealthSurveyReportDAO(){
+		return this.healthSurveyReportDAO;
+	}
+	public void setHealthSurveyReportDAO(HealthSurveyReportDAO dao){
+		this.healthSurveyReportDAO = dao;
+	}
+
+
+	public StudentAnswerDAO getStudentAnswerDAO(){
+		return this.studentAnswerDAO;
+	}
+	public void setStudentAnswerDAO(StudentAnswerDAO dao){
+		this.studentAnswerDAO = dao;
 	}
 
 
@@ -737,6 +763,44 @@ public class DAOGroup {
 			@Override
 			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
 				return daoGoup.getSurveyStatusDAO().present((SurveyStatus)data, tokens);
+			}
+		});
+
+		internalLoaderMap.put("HealthSurveyReport", new BasicLoader() {
+			@Override
+			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
+				return daoGoup.getHealthSurveyReportDAO().load(id, HealthSurveyReportTokens.withoutLists());
+			}
+			@Override
+			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
+				daoGoup.getHealthSurveyReportDAO().enhanceList((List<HealthSurveyReport>)list);
+			}
+			@Override
+			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
+				return daoGoup.getHealthSurveyReportDAO().load(id, tokens);
+			}
+			@Override
+			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
+				return daoGoup.getHealthSurveyReportDAO().present((HealthSurveyReport)data, tokens);
+			}
+		});
+
+		internalLoaderMap.put("StudentAnswer", new BasicLoader() {
+			@Override
+			public BaseEntity loadBasicData(DAOGroup daoGoup, String id) throws Exception {
+				return daoGoup.getStudentAnswerDAO().load(id, StudentAnswerTokens.withoutLists());
+			}
+			@Override
+			public void enhanceList(DAOGroup daoGoup, List list) throws Exception {
+				daoGoup.getStudentAnswerDAO().enhanceList((List<StudentAnswer>)list);
+			}
+			@Override
+			public BaseEntity loadBasicDataWithToken(DAOGroup daoGoup, String id, Map<String, Object> tokens) throws Exception {
+				return daoGoup.getStudentAnswerDAO().load(id, tokens);
+			}
+			@Override
+			public BaseEntity present(DAOGroup daoGoup, BaseEntity data, Map<String, Object> tokens) throws Exception {
+				return daoGoup.getStudentAnswerDAO().present((StudentAnswer)data, tokens);
 			}
 		});
 

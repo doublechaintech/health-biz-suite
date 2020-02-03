@@ -233,6 +233,18 @@ public class HealthCheckerManager extends BaseManagerImpl {
 	public com.doublechaintech.health.surveystatus.SurveyStatusDAO surveyStatusDaoOf(HealthUserContext userContext){
 		return userContext.getDAOGroup().getSurveyStatusDAO();
 	}
+	public com.doublechaintech.health.healthsurveyreport.HealthSurveyReportManager healthSurveyReportManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getHealthSurveyReportManager();
+	}
+	public com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO healthSurveyReportDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getHealthSurveyReportDAO();
+	}
+	public com.doublechaintech.health.studentanswer.StudentAnswerManager studentAnswerManagerOf(HealthUserContext userContext){
+		return userContext.getManagerGroup().getStudentAnswerManager();
+	}
+	public com.doublechaintech.health.studentanswer.StudentAnswerDAO studentAnswerDaoOf(HealthUserContext userContext){
+		return userContext.getDAOGroup().getStudentAnswerDAO();
+	}
 	public com.doublechaintech.health.user.UserManager userManagerOf(HealthUserContext userContext){
 		return userContext.getManagerGroup().getUserManager();
 	}

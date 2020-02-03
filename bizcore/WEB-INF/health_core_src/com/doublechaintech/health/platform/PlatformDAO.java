@@ -128,6 +128,10 @@ public interface PlatformDAO extends BaseDAO{
 	public Platform planToRemoveTeacherList(Platform platform, String teacherIds[], Map<String,Object> options)throws Exception;
 
 
+	//disconnect Platform with user in Teacher
+	public Platform planToRemoveTeacherListWithUser(Platform platform, String userId, Map<String,Object> options)throws Exception;
+	public int countTeacherListWithUser(String platformId, String userId, Map<String,Object> options)throws Exception;
+	
 	//disconnect Platform with change_request in Teacher
 	public Platform planToRemoveTeacherListWithChangeRequest(Platform platform, String changeRequestId, Map<String,Object> options)throws Exception;
 	public int countTeacherListWithChangeRequest(String platformId, String changeRequestId, Map<String,Object> options)throws Exception;
@@ -135,10 +139,6 @@ public interface PlatformDAO extends BaseDAO{
 	public Platform planToRemoveStudentList(Platform platform, String studentIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect Platform with student_id in Student
-	public Platform planToRemoveStudentListWithStudentId(Platform platform, String studentIdId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithStudentId(String platformId, String studentIdId, Map<String,Object> options)throws Exception;
-	
 	//disconnect Platform with address in Student
 	public Platform planToRemoveStudentListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception;

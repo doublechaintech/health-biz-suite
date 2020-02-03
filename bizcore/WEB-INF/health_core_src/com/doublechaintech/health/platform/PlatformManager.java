@@ -58,9 +58,9 @@ public interface PlatformManager extends BaseManager{
 
 	*/
 
-	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, int classSize, String userId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, int classSize, String userId, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  Platform removeTeacher(HealthUserContext userContext, String platformId, String teacherId, int teacherVersion,String [] tokensExpr)  throws Exception;
 	public  Platform updateTeacher(HealthUserContext userContext, String platformId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
@@ -68,13 +68,15 @@ public interface PlatformManager extends BaseManager{
 
 	*/
 
-	//public  StudentManager getStudentManager(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String platformId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  Platform removeStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
 	public  Platform updateStudent(HealthUserContext userContext, String platformId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  Platform associateStudentListToNewAddress(HealthUserContext userContext, String platformId, String  studentIds[], String name, String address, String districtId, String provinceId, BigDecimal latitude, BigDecimal longitude, String [] tokensExpr) throws Exception ;
+	public  Platform associateStudentListToAddress(HealthUserContext userContext, String platformId, String  studentIds[],String addressId, String [] tokensExpr) throws Exception ;
 
 	*/
 

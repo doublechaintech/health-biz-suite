@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
+import com.doublechaintech.health.user.User;
 
 public class TeacherMapper extends BaseRowMapper<Teacher>{
 	
@@ -18,8 +19,10 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		setMobile(teacher, rs, rowNumber); 		
  		setSchool(teacher, rs, rowNumber); 		
  		setSchoolClass(teacher, rs, rowNumber); 		
+ 		setClassSize(teacher, rs, rowNumber); 		
  		setCreateTime(teacher, rs, rowNumber); 		
  		setPlatform(teacher, rs, rowNumber); 		
+ 		setUser(teacher, rs, rowNumber); 		
  		setChangeRequest(teacher, rs, rowNumber); 		
  		setVersion(teacher, rs, rowNumber);
 
@@ -90,6 +93,18 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 		teacher.setSchoolClass(schoolClass);
 	}
 		
+	protected void setClassSize(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+	
+		//there will be issue when the type is double/int/long
+		Integer classSize = rs.getInt(TeacherTable.COLUMN_CLASS_SIZE);
+		if(classSize == null){
+			//do nothing when nothing found in database
+			return;
+		}
+		
+		teacher.setClassSize(classSize);
+	}
+		
 	protected void setCreateTime(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
@@ -118,6 +133,24 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  			return;
  		}
  		teacher.setPlatform(createEmptyPlatform(platformId));
+ 	}
+ 	 		
+ 	protected void setUser(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
+ 		String userId = rs.getString(TeacherTable.COLUMN_USER);
+ 		if( userId == null){
+ 			return;
+ 		}
+ 		if( userId.isEmpty()){
+ 			return;
+ 		}
+ 		User user = teacher.getUser();
+ 		if( user != null ){
+ 			//if the root object 'teacher' already have the property, just set the id for it;
+ 			user.setId(userId);
+ 			
+ 			return;
+ 		}
+ 		teacher.setUser(createEmptyUser(userId));
  	}
  	 		
  	protected void setChangeRequest(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
@@ -157,6 +190,13 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
  		platform.setId(platformId);
  		platform.setVersion(Integer.MAX_VALUE);
  		return platform;
+ 	}
+ 	
+ 	protected User  createEmptyUser(String userId){
+ 		User user = new User();
+ 		user.setId(userId);
+ 		user.setVersion(Integer.MAX_VALUE);
+ 		return user;
  	}
  	
  	protected ChangeRequest  createEmptyChangeRequest(String changeRequestId){

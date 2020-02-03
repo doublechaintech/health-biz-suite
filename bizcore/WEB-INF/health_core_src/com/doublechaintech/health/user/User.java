@@ -14,6 +14,7 @@ import com.doublechaintech.health.KeyValuePair;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
@@ -31,6 +32,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
+	public static final String TEACHER_LIST                             = "teacherList"       ;
 	public static final String STUDENT_LIST                             = "studentList"       ;
 	public static final String QUESTION_LIST                            = "questionList"      ;
 	public static final String CLASS_DAILY_HEALTH_SURVEY_LIST           = "classDailyHealthSurveyList";
@@ -64,6 +66,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	protected		int                 	mVersion            ;
 	
 	
+	protected		SmartList<Teacher>  	mTeacherList        ;
 	protected		SmartList<Student>  	mStudentList        ;
 	protected		SmartList<Question> 	mQuestionList       ;
 	protected		SmartList<ClassDailyHealthSurvey>	mClassDailyHealthSurveyList;
@@ -174,6 +177,10 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		}
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
+		}
+		if(TEACHER_LIST.equals(property)){
+			List<BaseEntity> list = getTeacherList().stream().map(item->item).collect(Collectors.toList());
+			return list;
 		}
 		if(STUDENT_LIST.equals(property)){
 			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
@@ -324,6 +331,113 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	}
 	
 	
+
+	public  SmartList<Teacher> getTeacherList(){
+		if(this.mTeacherList == null){
+			this.mTeacherList = new SmartList<Teacher>();
+			this.mTeacherList.setListInternalName (TEACHER_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mTeacherList;	
+	}
+	public  void setTeacherList(SmartList<Teacher> teacherList){
+		for( Teacher teacher:teacherList){
+			teacher.setUser(this);
+		}
+
+		this.mTeacherList = teacherList;
+		this.mTeacherList.setListInternalName (TEACHER_LIST );
+		
+	}
+	
+	public  void addTeacher(Teacher teacher){
+		teacher.setUser(this);
+		getTeacherList().add(teacher);
+	}
+	public  void addTeacherList(SmartList<Teacher> teacherList){
+		for( Teacher teacher:teacherList){
+			teacher.setUser(this);
+		}
+		getTeacherList().addAll(teacherList);
+	}
+	public  void mergeTeacherList(SmartList<Teacher> teacherList){
+		if(teacherList==null){
+			return;
+		}
+		if(teacherList.isEmpty()){
+			return;
+		}
+		addTeacherList( teacherList );
+		
+	}
+	public  Teacher removeTeacher(Teacher teacherIndex){
+		
+		int index = getTeacherList().indexOf(teacherIndex);
+        if(index < 0){
+        	String message = "Teacher("+teacherIndex.getId()+") with version='"+teacherIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        Teacher teacher = getTeacherList().get(index);        
+        // teacher.clearUser(); //disconnect with User
+        teacher.clearFromAll(); //disconnect with User
+		
+		boolean result = getTeacherList().planToRemove(teacher);
+        if(!result){
+        	String message = "Teacher("+teacherIndex.getId()+") with version='"+teacherIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return teacher;
+        
+	
+	}
+	//断舍离
+	public  void breakWithTeacher(Teacher teacher){
+		
+		if(teacher == null){
+			return;
+		}
+		teacher.setUser(null);
+		//getTeacherList().remove();
+	
+	}
+	
+	public  boolean hasTeacher(Teacher teacher){
+	
+		return getTeacherList().contains(teacher);
+  
+	}
+	
+	public void copyTeacherFrom(Teacher teacher) {
+
+		Teacher teacherInList = findTheTeacher(teacher);
+		Teacher newTeacher = new Teacher();
+		teacherInList.copyTo(newTeacher);
+		newTeacher.setVersion(0);//will trigger copy
+		getTeacherList().add(newTeacher);
+		addItemToFlexiableObject(COPIED_CHILD, newTeacher);
+	}
+	
+	public  Teacher findTheTeacher(Teacher teacher){
+		
+		int index =  getTeacherList().indexOf(teacher);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "Teacher("+teacher.getId()+") with version='"+teacher.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getTeacherList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpTeacherList(){
+		getTeacherList().clear();
+	}
+	
+	
+	
+
 
 	public  SmartList<Student> getStudentList(){
 		if(this.mStudentList == null){
@@ -764,6 +878,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
+		collectFromList(this, entityList, getTeacherList(), internalType);
 		collectFromList(this, entityList, getStudentList(), internalType);
 		collectFromList(this, entityList, getQuestionList(), internalType);
 		collectFromList(this, entityList, getClassDailyHealthSurveyList(), internalType);
@@ -775,6 +890,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
+		listOfList.add( getTeacherList());
 		listOfList.add( getStudentList());
 		listOfList.add( getQuestionList());
 		listOfList.add( getClassDailyHealthSurveyList());
@@ -795,6 +911,11 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
+		appendKeyValuePair(result, TEACHER_LIST, getTeacherList());
+		if(!getTeacherList().isEmpty()){
+			appendKeyValuePair(result, "teacherCount", getTeacherList().getTotalCount());
+			appendKeyValuePair(result, "teacherCurrentPageNumber", getTeacherList().getCurrentPageNumber());
+		}
 		appendKeyValuePair(result, STUDENT_LIST, getStudentList());
 		if(!getStudentList().isEmpty()){
 			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
@@ -836,6 +957,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 			dest.setCreateTime(getCreateTime());
 			dest.setPlatform(getPlatform());
 			dest.setVersion(getVersion());
+			dest.setTeacherList(getTeacherList());
 			dest.setStudentList(getStudentList());
 			dest.setQuestionList(getQuestionList());
 			dest.setClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
@@ -860,6 +982,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergePlatform(getPlatform());
 			dest.mergeVersion(getVersion());
+			dest.mergeTeacherList(getTeacherList());
 			dest.mergeStudentList(getStudentList());
 			dest.mergeQuestionList(getQuestionList());
 			dest.mergeClassDailyHealthSurveyList(getClassDailyHealthSurveyList());

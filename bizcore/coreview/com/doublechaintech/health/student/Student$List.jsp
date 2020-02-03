@@ -101,8 +101,11 @@
 <c:if test="${param.referName ne 'studentName'}">
 	<th>${userContext.localeMap['student.student_name']}</th>
 </c:if>
-<c:if test="${param.referName ne 'studentId'}">
-	<th>${userContext.localeMap['student.student_id']}</th>
+<c:if test="${param.referName ne 'studentNumber'}">
+	<th>${userContext.localeMap['student.student_number']}</th>
+</c:if>
+<c:if test="${param.referName ne 'studentAvatar'}">
+	<th>${userContext.localeMap['student.student_avatar']}</th>
 </c:if>
 <c:if test="${param.referName ne 'guardianName'}">
 	<th>${userContext.localeMap['student.guardian_name']}</th>
@@ -132,7 +135,8 @@
 			<c:forEach var="item" items="${studentList}">
 				<tr currentVersion='${item.version}' id="student-${item.id}" ><td><a class="link-action-removed" href="./studentManager/view/${item.id}/"> ${item.id}</a></td>
 <c:if test="${param.referName ne 'studentName'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentName' storedCellValue='${item.studentName}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentName}</td>
-</c:if><c:if test="${param.referName ne 'studentId'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentId' storedCellValue='${item.studentId}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentId}</td>
+</c:if><c:if test="${param.referName ne 'studentNumber'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentNumber' storedCellValue='${item.studentNumber}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentNumber}</td>
+</c:if><c:if test="${param.referName ne 'studentAvatar'}">	<td contenteditable='true' class='edit-value'  propertyToChange='studentAvatar' storedCellValue='${item.studentAvatar}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.studentAvatar}</td>
 </c:if><c:if test="${param.referName ne 'guardianName'}">	<td contenteditable='true' class='edit-value'  propertyToChange='guardianName' storedCellValue='${item.guardianName}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.guardianName}</td>
 </c:if><c:if test="${param.referName ne 'guardianMobile'}">	<td contenteditable='true' class='edit-value'  propertyToChange='guardianMobile' storedCellValue='${item.maskedGuardianMobile}' prefix='${ownerBeanName}Manager/updateStudent/${result.id}/${item.id}/'>${item.maskedGuardianMobile}</td>
 </c:if><c:if test="${param.referName ne 'address'}">

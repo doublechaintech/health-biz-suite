@@ -239,7 +239,7 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	
 	public ChangeRequestTokens searchAllTextOfStudentList(String verb, String value){	
-		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		String field = "id|studentName|studentNumber|guardianName|guardianMobile";
 		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}

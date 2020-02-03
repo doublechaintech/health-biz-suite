@@ -89,13 +89,13 @@ public interface ChangeRequestDAO extends BaseDAO{
 	public ChangeRequest planToRemoveTeacherListWithPlatform(ChangeRequest changeRequest, String platformId, Map<String,Object> options)throws Exception;
 	public int countTeacherListWithPlatform(String changeRequestId, String platformId, Map<String,Object> options)throws Exception;
 	
+	//disconnect ChangeRequest with user in Teacher
+	public ChangeRequest planToRemoveTeacherListWithUser(ChangeRequest changeRequest, String userId, Map<String,Object> options)throws Exception;
+	public int countTeacherListWithUser(String changeRequestId, String userId, Map<String,Object> options)throws Exception;
+	
 	public ChangeRequest planToRemoveStudentList(ChangeRequest changeRequest, String studentIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect ChangeRequest with student_id in Student
-	public ChangeRequest planToRemoveStudentListWithStudentId(ChangeRequest changeRequest, String studentIdId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithStudentId(String changeRequestId, String studentIdId, Map<String,Object> options)throws Exception;
-	
 	//disconnect ChangeRequest with address in Student
 	public ChangeRequest planToRemoveStudentListWithAddress(ChangeRequest changeRequest, String addressId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithAddress(String changeRequestId, String addressId, Map<String,Object> options)throws Exception;

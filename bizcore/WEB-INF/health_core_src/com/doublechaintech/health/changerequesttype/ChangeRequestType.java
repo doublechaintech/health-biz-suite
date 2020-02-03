@@ -18,12 +18,18 @@ import com.doublechaintech.health.changerequest.ChangeRequest;
 @JsonSerialize(using = ChangeRequestTypeSerializer.class)
 public class ChangeRequestType extends BaseEntity implements  java.io.Serializable{
 
-	public static final String LOGIN = "LOGIN";	// 登录
+	public static final String ADD_CLASS = "ADD_CLASS";	// 添加班级
+	public static final String ADD_STUDENT = "ADD_STUDENT";	// 添加学生
+	public static final String PUBLISH_SURVEY = "PUBLISH_SURVEY";	// 发布问卷
+	public static final String FILL_SURVEY = "FILL_SURVEY";	// 填写问卷
 	public static List<KeyValuePair> CODE_NAME_LIST;
 	static {
 		CODE_NAME_LIST = new ArrayList<>();
 
-		CODE_NAME_LIST.add(new KeyValuePair(LOGIN, "登录"));
+		CODE_NAME_LIST.add(new KeyValuePair(ADD_CLASS, "添加班级"));
+		CODE_NAME_LIST.add(new KeyValuePair(ADD_STUDENT, "添加学生"));
+		CODE_NAME_LIST.add(new KeyValuePair(PUBLISH_SURVEY, "发布问卷"));
+		CODE_NAME_LIST.add(new KeyValuePair(FILL_SURVEY, "填写问卷"));
 	}
 	
 	public static final String ID_PROPERTY                    = "id"                ;

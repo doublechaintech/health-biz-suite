@@ -1361,6 +1361,50 @@ public class ChangeRequestJDBCTemplateDAO extends HealthBaseDAOImpl implements C
 		return count;
 	}
 	
+	//disconnect ChangeRequest with user in Teacher
+	public ChangeRequest planToRemoveTeacherListWithUser(ChangeRequest changeRequest, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.CHANGE_REQUEST_PROPERTY, changeRequest.getId());
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return changeRequest;
+		}
+		if(externalTeacherList.isEmpty()){
+			return changeRequest;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+			teacherItem.clearUser();
+			teacherItem.clearChangeRequest();
+			
+		}
+		
+		
+		SmartList<Teacher> teacherList = changeRequest.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return changeRequest;
+	}
+	
+	public int countTeacherListWithUser(String changeRequestId, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.CHANGE_REQUEST_PROPERTY, changeRequestId);
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		int count = getTeacherDAO().countTeacherWithKey(key, options);
+		return count;
+	}
+	
 	public ChangeRequest planToRemoveStudentList(ChangeRequest changeRequest, String studentIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
@@ -1389,50 +1433,6 @@ public class ChangeRequestJDBCTemplateDAO extends HealthBaseDAOImpl implements C
 	}
 
 
-	//disconnect ChangeRequest with student_id in Student
-	public ChangeRequest planToRemoveStudentListWithStudentId(ChangeRequest changeRequest, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequest.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return changeRequest;
-		}
-		if(externalStudentList.isEmpty()){
-			return changeRequest;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearChangeRequest();
-			
-		}
-		
-		
-		SmartList<Student> studentList = changeRequest.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return changeRequest;
-	}
-	
-	public int countStudentListWithStudentId(String changeRequestId, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
 	//disconnect ChangeRequest with address in Student
 	public ChangeRequest planToRemoveStudentListWithAddress(ChangeRequest changeRequest, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();

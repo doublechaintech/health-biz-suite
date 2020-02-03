@@ -24,6 +24,7 @@ import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 import com.doublechaintech.health.changerequest.CandidateChangeRequest;
 import com.doublechaintech.health.teacher.CandidateTeacher;
@@ -178,6 +179,10 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.removeStudentHealthSurvey","removeStudentHealthSurvey","removeStudentHealthSurvey/"+classDailyHealthSurvey.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.updateStudentHealthSurvey","updateStudentHealthSurvey","updateStudentHealthSurvey/"+classDailyHealthSurvey.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom/"+classDailyHealthSurvey.getId()+"/","studentHealthSurveyList","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.addHealthSurveyReport","addHealthSurveyReport","addHealthSurveyReport/"+classDailyHealthSurvey.getId()+"/","healthSurveyReportList","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.removeHealthSurveyReport","removeHealthSurveyReport","removeHealthSurveyReport/"+classDailyHealthSurvey.getId()+"/","healthSurveyReportList","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.updateHealthSurveyReport","updateHealthSurveyReport","updateHealthSurveyReport/"+classDailyHealthSurvey.getId()+"/","healthSurveyReportList","primary");
+		addAction(userContext, classDailyHealthSurvey, tokens,"class_daily_health_survey.copyHealthSurveyReportFrom","copyHealthSurveyReportFrom","copyHealthSurveyReportFrom/"+classDailyHealthSurvey.getId()+"/","healthSurveyReportList","primary");
 	
 		
 		
@@ -358,6 +363,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		return tokens().allTokens()
 		.sortDailySurveyQuestionListWith("id","desc")
 		.sortStudentHealthSurveyListWith("id","desc")
+		.sortHealthSurveyReportListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -689,6 +695,42 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 				classDailyHealthSurveyDaoOf(userContext).planToRemoveStudentHealthSurveyListWithChangeRequest(classDailyHealthSurvey, changeRequestId, this.emptyOptions());
 
 				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withStudentHealthSurveyList().done());
+				return classDailyHealthSurvey;
+			}
+	}
+	//disconnect ClassDailyHealthSurvey with student in HealthSurveyReport
+	protected ClassDailyHealthSurvey breakWithHealthSurveyReportByStudent(HealthUserContext userContext, String classDailyHealthSurveyId, String studentId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());
+
+			synchronized(classDailyHealthSurvey){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveHealthSurveyReportListWithStudent(classDailyHealthSurvey, studentId, this.emptyOptions());
+
+				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
+				return classDailyHealthSurvey;
+			}
+	}
+	//disconnect ClassDailyHealthSurvey with teacher in HealthSurveyReport
+	protected ClassDailyHealthSurvey breakWithHealthSurveyReportByTeacher(HealthUserContext userContext, String classDailyHealthSurveyId, String teacherId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());
+
+			synchronized(classDailyHealthSurvey){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveHealthSurveyReportListWithTeacher(classDailyHealthSurvey, teacherId, this.emptyOptions());
+
+				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
 				return classDailyHealthSurvey;
 			}
 	}
@@ -1215,6 +1257,318 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 			studentHealthSurvey.changeProperty(property, newValueExpr);
 			studentHealthSurvey.updateLastUpdateTime(userContext.now());
 			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withStudentHealthSurveyList().done());
+			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+		}
+
+	}
+	/*
+
+	*/
+
+
+
+
+	protected void checkParamsForAddingHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId,String [] tokensExpr) throws Exception{
+
+				checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+
+		
+		checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(surveyName);
+		
+		checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(surveyTime);
+		
+		checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(teacherName);
+		
+		checkerOf(userContext).checkSchoolOfHealthSurveyReport(school);
+		
+		checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(schoolClass);
+		
+		checkerOf(userContext).checkStudentNameOfHealthSurveyReport(studentName);
+		
+		checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(studentNumber);
+		
+		checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(guardianName);
+		
+		checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(guardianMobile);
+		
+		checkerOf(userContext).checkStudentIdOfHealthSurveyReport(studentId);
+		
+		checkerOf(userContext).checkTeacherIdOfHealthSurveyReport(teacherId);
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+
+	}
+	public  ClassDailyHealthSurvey addHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId, String [] tokensExpr) throws Exception
+	{
+
+		checkParamsForAddingHealthSurveyReport(userContext,classDailyHealthSurveyId,surveyName, surveyTime, teacherName, school, schoolClass, studentName, studentNumber, guardianName, guardianMobile, studentId, teacherId,tokensExpr);
+
+		HealthSurveyReport healthSurveyReport = createHealthSurveyReport(userContext,surveyName, surveyTime, teacherName, school, schoolClass, studentName, studentNumber, guardianName, guardianMobile, studentId, teacherId);
+
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, emptyOptions());
+		synchronized(classDailyHealthSurvey){
+			//Will be good when the classDailyHealthSurvey loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			classDailyHealthSurvey.addHealthSurveyReport( healthSurveyReport );
+			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
+			
+			userContext.getManagerGroup().getHealthSurveyReportManager().onNewInstanceCreated(userContext, healthSurveyReport);
+			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+		}
+	}
+	protected void checkParamsForUpdatingHealthSurveyReportProperties(HealthUserContext userContext, String classDailyHealthSurveyId,String id,String surveyName,DateTime surveyTime,String teacherName,String school,String schoolClass,String studentName,String studentNumber,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		checkerOf(userContext).checkIdOfHealthSurveyReport(id);
+
+		checkerOf(userContext).checkSurveyNameOfHealthSurveyReport( surveyName);
+		checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport( surveyTime);
+		checkerOf(userContext).checkTeacherNameOfHealthSurveyReport( teacherName);
+		checkerOf(userContext).checkSchoolOfHealthSurveyReport( school);
+		checkerOf(userContext).checkSchoolClassOfHealthSurveyReport( schoolClass);
+		checkerOf(userContext).checkStudentNameOfHealthSurveyReport( studentName);
+		checkerOf(userContext).checkStudentNumberOfHealthSurveyReport( studentNumber);
+		checkerOf(userContext).checkGuardianNameOfHealthSurveyReport( guardianName);
+		checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport( guardianMobile);
+
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+	}
+	public  ClassDailyHealthSurvey updateHealthSurveyReportProperties(HealthUserContext userContext, String classDailyHealthSurveyId, String id,String surveyName,DateTime surveyTime,String teacherName,String school,String schoolClass,String studentName,String studentNumber,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	{
+		checkParamsForUpdatingHealthSurveyReportProperties(userContext,classDailyHealthSurveyId,id,surveyName,surveyTime,teacherName,school,schoolClass,studentName,studentNumber,guardianName,guardianMobile,tokensExpr);
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				//.withHealthSurveyReportListList()
+				.searchHealthSurveyReportListWith(HealthSurveyReport.ID_PROPERTY, "is", id).done();
+
+		ClassDailyHealthSurvey classDailyHealthSurveyToUpdate = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, options);
+
+		if(classDailyHealthSurveyToUpdate.getHealthSurveyReportList().isEmpty()){
+			throw new ClassDailyHealthSurveyManagerException("HealthSurveyReport is NOT FOUND with id: '"+id+"'");
+		}
+
+		HealthSurveyReport item = classDailyHealthSurveyToUpdate.getHealthSurveyReportList().first();
+
+		item.updateSurveyName( surveyName );
+		item.updateSurveyTime( surveyTime );
+		item.updateTeacherName( teacherName );
+		item.updateSchool( school );
+		item.updateSchoolClass( schoolClass );
+		item.updateStudentName( studentName );
+		item.updateStudentNumber( studentNumber );
+		item.updateGuardianName( guardianName );
+		item.updateGuardianMobile( guardianMobile );
+
+
+		//checkParamsForAddingHealthSurveyReport(userContext,classDailyHealthSurveyId,name, code, used,tokensExpr);
+		ClassDailyHealthSurvey classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurveyToUpdate, tokens().withHealthSurveyReportList().done());
+		synchronized(classDailyHealthSurvey){
+			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+		}
+	}
+
+
+	protected HealthSurveyReport createHealthSurveyReport(HealthUserContext userContext, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId) throws Exception{
+
+		HealthSurveyReport healthSurveyReport = new HealthSurveyReport();
+		
+		
+		healthSurveyReport.setSurveyName(surveyName);		
+		healthSurveyReport.setSurveyTime(surveyTime);		
+		healthSurveyReport.setTeacherName(teacherName);		
+		healthSurveyReport.setSchool(school);		
+		healthSurveyReport.setSchoolClass(schoolClass);		
+		healthSurveyReport.setStudentName(studentName);		
+		healthSurveyReport.setStudentNumber(studentNumber);		
+		healthSurveyReport.setGuardianName(guardianName);		
+		healthSurveyReport.setGuardianMobile(guardianMobile);		
+		Student  student = new Student();
+		student.setId(studentId);		
+		healthSurveyReport.setStudent(student);		
+		Teacher  teacher = new Teacher();
+		teacher.setId(teacherId);		
+		healthSurveyReport.setTeacher(teacher);
+	
+		
+		return healthSurveyReport;
+
+
+	}
+
+	protected HealthSurveyReport createIndexedHealthSurveyReport(String id, int version){
+
+		HealthSurveyReport healthSurveyReport = new HealthSurveyReport();
+		healthSurveyReport.setId(id);
+		healthSurveyReport.setVersion(version);
+		return healthSurveyReport;
+
+	}
+
+	protected void checkParamsForRemovingHealthSurveyReportList(HealthUserContext userContext, String classDailyHealthSurveyId,
+			String healthSurveyReportIds[],String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		for(String healthSurveyReportIdItem: healthSurveyReportIds){
+			checkerOf(userContext).checkIdOfHealthSurveyReport(healthSurveyReportIdItem);
+		}
+
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+	}
+	public  ClassDailyHealthSurvey removeHealthSurveyReportList(HealthUserContext userContext, String classDailyHealthSurveyId,
+			String healthSurveyReportIds[],String [] tokensExpr) throws Exception{
+
+			checkParamsForRemovingHealthSurveyReportList(userContext, classDailyHealthSurveyId,  healthSurveyReportIds, tokensExpr);
+
+
+			ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());
+			synchronized(classDailyHealthSurvey){
+				//Will be good when the classDailyHealthSurvey loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+				classDailyHealthSurveyDaoOf(userContext).planToRemoveHealthSurveyReportList(classDailyHealthSurvey, healthSurveyReportIds, allTokens());
+				classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
+				deleteRelationListInGraph(userContext, classDailyHealthSurvey.getHealthSurveyReportList());
+				return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+			}
+	}
+
+	protected void checkParamsForRemovingHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId,
+		String healthSurveyReportId, int healthSurveyReportVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey( classDailyHealthSurveyId);
+		checkerOf(userContext).checkIdOfHealthSurveyReport(healthSurveyReportId);
+		checkerOf(userContext).checkVersionOfHealthSurveyReport(healthSurveyReportVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+	}
+	public  ClassDailyHealthSurvey removeHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId,
+		String healthSurveyReportId, int healthSurveyReportVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForRemovingHealthSurveyReport(userContext,classDailyHealthSurveyId, healthSurveyReportId, healthSurveyReportVersion,tokensExpr);
+
+		HealthSurveyReport healthSurveyReport = createIndexedHealthSurveyReport(healthSurveyReportId, healthSurveyReportVersion);
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());
+		synchronized(classDailyHealthSurvey){
+			//Will be good when the classDailyHealthSurvey loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			classDailyHealthSurvey.removeHealthSurveyReport( healthSurveyReport );
+			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
+			deleteRelationInGraph(userContext, healthSurveyReport);
+			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+		}
+
+
+	}
+	protected void checkParamsForCopyingHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId,
+		String healthSurveyReportId, int healthSurveyReportVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey( classDailyHealthSurveyId);
+		checkerOf(userContext).checkIdOfHealthSurveyReport(healthSurveyReportId);
+		checkerOf(userContext).checkVersionOfHealthSurveyReport(healthSurveyReportVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+	}
+	public  ClassDailyHealthSurvey copyHealthSurveyReportFrom(HealthUserContext userContext, String classDailyHealthSurveyId,
+		String healthSurveyReportId, int healthSurveyReportVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForCopyingHealthSurveyReport(userContext,classDailyHealthSurveyId, healthSurveyReportId, healthSurveyReportVersion,tokensExpr);
+
+		HealthSurveyReport healthSurveyReport = createIndexedHealthSurveyReport(healthSurveyReportId, healthSurveyReportVersion);
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, allTokens());
+		synchronized(classDailyHealthSurvey){
+			//Will be good when the classDailyHealthSurvey loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+
+			
+
+			classDailyHealthSurvey.copyHealthSurveyReportFrom( healthSurveyReport );
+			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
+			
+			userContext.getManagerGroup().getHealthSurveyReportManager().onNewInstanceCreated(userContext, (HealthSurveyReport)classDailyHealthSurvey.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
+		}
+
+	}
+
+	protected void checkParamsForUpdatingHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String healthSurveyReportId, int healthSurveyReportVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+		
+
+		
+		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(classDailyHealthSurveyId);
+		checkerOf(userContext).checkIdOfHealthSurveyReport(healthSurveyReportId);
+		checkerOf(userContext).checkVersionOfHealthSurveyReport(healthSurveyReportVersion);
+		
+
+		if(HealthSurveyReport.SURVEY_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.SURVEY_TIME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(parseTimestamp(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.TEACHER_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.SCHOOL_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.SCHOOL_CLASS_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.STUDENT_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNameOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.STUDENT_NUMBER_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.GUARDIAN_NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+		if(HealthSurveyReport.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(parseString(newValueExpr));
+		}
+		
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
+
+	}
+
+	public  ClassDailyHealthSurvey updateHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String healthSurveyReportId, int healthSurveyReportVersion, String property, String newValueExpr,String [] tokensExpr)
+			throws Exception{
+
+		checkParamsForUpdatingHealthSurveyReport(userContext, classDailyHealthSurveyId, healthSurveyReportId, healthSurveyReportVersion, property, newValueExpr,  tokensExpr);
+
+		Map<String,Object> loadTokens = this.tokens().withHealthSurveyReportList().searchHealthSurveyReportListWith(HealthSurveyReport.ID_PROPERTY, "eq", healthSurveyReportId).done();
+
+
+
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, loadTokens);
+
+		synchronized(classDailyHealthSurvey){
+			//Will be good when the classDailyHealthSurvey loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			//classDailyHealthSurvey.removeHealthSurveyReport( healthSurveyReport );
+			//make changes to AcceleraterAccount.
+			HealthSurveyReport healthSurveyReportIndex = createIndexedHealthSurveyReport(healthSurveyReportId, healthSurveyReportVersion);
+
+			HealthSurveyReport healthSurveyReport = classDailyHealthSurvey.findTheHealthSurveyReport(healthSurveyReportIndex);
+			if(healthSurveyReport == null){
+				throw new ClassDailyHealthSurveyManagerException(healthSurveyReport+" is NOT FOUND" );
+			}
+
+			healthSurveyReport.changeProperty(property, newValueExpr);
+			
+			classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, tokens().withHealthSurveyReportList().done());
 			return present(userContext,classDailyHealthSurvey, mergedAllTokens(tokensExpr));
 		}
 

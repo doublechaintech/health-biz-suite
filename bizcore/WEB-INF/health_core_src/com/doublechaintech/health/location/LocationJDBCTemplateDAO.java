@@ -877,50 +877,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	}
 
 
-	//disconnect Location with student_id in Student
-	public Location planToRemoveStudentListWithStudentId(Location location, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return location;
-		}
-		if(externalStudentList.isEmpty()){
-			return location;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearAddress();
-			
-		}
-		
-		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return location;
-	}
-	
-	public int countStudentListWithStudentId(String locationId, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
 	//disconnect Location with user in Student
 	public Location planToRemoveStudentListWithUser(Location location, String userId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();

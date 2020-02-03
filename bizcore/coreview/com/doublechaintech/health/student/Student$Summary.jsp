@@ -41,8 +41,12 @@
 <span >${result.studentName}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
-<span class="summary-label">${userContext.localeMap['student.student_id']}</span>
-<span >${result.studentId}</span>
+<span class="summary-label">${userContext.localeMap['student.student_number']}</span>
+<span >${result.studentNumber}</span>
+</div>
+<div class="col-xs-12 col-md-3 summary-section">
+<span class="summary-label">${userContext.localeMap['student.student_avatar']}</span>
+<span >${result.studentAvatar}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
 <span class="summary-label">${userContext.localeMap['student.guardian_name']}</span>

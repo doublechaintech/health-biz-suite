@@ -468,6 +468,24 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				return platform;
 			}
 	}
+	//disconnect Platform with user in Teacher
+	protected Platform breakWithTeacherByUser(HealthUserContext userContext, String platformId, String userId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			Platform platform = loadPlatform(userContext, platformId, allTokens());
+
+			synchronized(platform){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				platformDaoOf(userContext).planToRemoveTeacherListWithUser(platform, userId, this.emptyOptions());
+
+				platform = savePlatform(userContext, platform, tokens().withTeacherList().done());
+				return platform;
+			}
+	}
 	//disconnect Platform with change_request in Teacher
 	protected Platform breakWithTeacherByChangeRequest(HealthUserContext userContext, String platformId, String changeRequestId,  String [] tokensExpr)
 		 throws Exception{
@@ -483,24 +501,6 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 				platformDaoOf(userContext).planToRemoveTeacherListWithChangeRequest(platform, changeRequestId, this.emptyOptions());
 
 				platform = savePlatform(userContext, platform, tokens().withTeacherList().done());
-				return platform;
-			}
-	}
-	//disconnect Platform with student_id in Student
-	protected Platform breakWithStudentByStudentId(HealthUserContext userContext, String platformId, String studentIdId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Platform platform = loadPlatform(userContext, platformId, allTokens());
-
-			synchronized(platform){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				platformDaoOf(userContext).planToRemoveStudentListWithStudentId(platform, studentIdId, this.emptyOptions());
-
-				platform = savePlatform(userContext, platform, tokens().withStudentList().done());
 				return platform;
 			}
 	}
@@ -1357,7 +1357,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, int classSize, String userId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
@@ -1370,18 +1370,22 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		
 		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
 		
+		checkerOf(userContext).checkClassSizeOfTeacher(classSize);
+		
+		checkerOf(userContext).checkUserIdOfTeacher(userId);
+		
 		checkerOf(userContext).checkChangeRequestIdOfTeacher(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 
 	}
-	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, String changeRequestId, String [] tokensExpr) throws Exception
+	public  Platform addTeacher(HealthUserContext userContext, String platformId, String name, String mobile, String school, String schoolClass, int classSize, String userId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingTeacher(userContext,platformId,name, mobile, school, schoolClass, changeRequestId,tokensExpr);
+		checkParamsForAddingTeacher(userContext,platformId,name, mobile, school, schoolClass, classSize, userId, changeRequestId,tokensExpr);
 
-		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, changeRequestId);
+		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, classSize, userId, changeRequestId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
@@ -1394,7 +1398,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String platformId,String id,String name,String mobile,String school,String schoolClass,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String platformId,String id,String name,String mobile,String school,String schoolClass,int classSize,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
 		checkerOf(userContext).checkIdOfTeacher(id);
@@ -1403,13 +1407,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		checkerOf(userContext).checkMobileOfTeacher( mobile);
 		checkerOf(userContext).checkSchoolOfTeacher( school);
 		checkerOf(userContext).checkSchoolClassOfTeacher( schoolClass);
+		checkerOf(userContext).checkClassSizeOfTeacher( classSize);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform updateTeacherProperties(HealthUserContext userContext, String platformId, String id,String name,String mobile,String school,String schoolClass, String [] tokensExpr) throws Exception
+	public  Platform updateTeacherProperties(HealthUserContext userContext, String platformId, String id,String name,String mobile,String school,String schoolClass,int classSize, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingTeacherProperties(userContext,platformId,id,name,mobile,school,schoolClass,tokensExpr);
+		checkParamsForUpdatingTeacherProperties(userContext,platformId,id,name,mobile,school,schoolClass,classSize,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1428,6 +1433,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		item.updateMobile( mobile );
 		item.updateSchool( school );
 		item.updateSchoolClass( schoolClass );
+		item.updateClassSize( classSize );
 
 
 		//checkParamsForAddingTeacher(userContext,platformId,name, code, used,tokensExpr);
@@ -1438,7 +1444,7 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 	}
 
 
-	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, String changeRequestId) throws Exception{
+	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, int classSize, String userId, String changeRequestId) throws Exception{
 
 		Teacher teacher = new Teacher();
 		
@@ -1447,7 +1453,11 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		teacher.setMobile(mobile);		
 		teacher.setSchool(school);		
 		teacher.setSchoolClass(schoolClass);		
+		teacher.setClassSize(classSize);		
 		teacher.setCreateTime(userContext.now());		
+		User  user = new User();
+		user.setId(userId);		
+		teacher.setUser(user);		
 		ChangeRequest  changeRequest = new ChangeRequest();
 		changeRequest.setId(changeRequestId);		
 		teacher.setChangeRequest(changeRequest);
@@ -1578,6 +1588,10 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
 		}
 		
+		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		}
+		
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
@@ -1620,14 +1634,16 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String platformId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfPlatform(platformId);
 
 		
 		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent(studentNumber);
+		
+		checkerOf(userContext).checkStudentAvatarOfStudent(studentAvatar);
 		
 		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
@@ -1643,12 +1659,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 
 	}
-	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  Platform addStudent(HealthUserContext userContext, String platformId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,platformId,studentName, studentId, guardianName, guardianMobile, addressId, userId, changeRequestId,tokensExpr);
+		checkParamsForAddingStudent(userContext,platformId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, userId, changeRequestId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, addressId, userId, changeRequestId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, userId, changeRequestId);
 
 		Platform platform = loadPlatform(userContext, platformId, emptyOptions());
 		synchronized(platform){
@@ -1661,22 +1677,23 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			return present(userContext,platform, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String platformId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String platformId,String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfPlatform(platformId);
 		checkerOf(userContext).checkIdOfStudent(id);
 
 		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent( studentNumber);
+		checkerOf(userContext).checkStudentAvatarOfStudent( studentAvatar);
 		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
 		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(PlatformManagerException.class);
 
 	}
-	public  Platform updateStudentProperties(HealthUserContext userContext, String platformId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  Platform updateStudentProperties(HealthUserContext userContext, String platformId, String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,platformId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,platformId,id,studentName,studentNumber,studentAvatar,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1692,7 +1709,8 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 		Student item = platformToUpdate.getStudentList().first();
 
 		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
+		item.updateStudentNumber( studentNumber );
+		item.updateStudentAvatar( studentAvatar );
 		item.updateGuardianName( guardianName );
 		item.updateGuardianMobile( guardianMobile );
 
@@ -1705,13 +1723,14 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String changeRequestId) throws Exception{
 
 		Student student = new Student();
 		
 		
 		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
+		student.setStudentNumber(studentNumber);		
+		student.setStudentAvatar(studentAvatar);		
 		student.setGuardianName(guardianName);		
 		student.setGuardianMobile(guardianMobile);		
 		Location  address = new Location();
@@ -1839,8 +1858,12 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
@@ -1887,10 +1910,44 @@ public class PlatformManagerImpl extends CustomHealthCheckerManager implements P
 
 	}
 	/*
+	public  Platform associateStudentListToNewAddress(HealthUserContext userContext, String platformId, String  studentIds[], String name, String address, String districtId, String provinceId, BigDecimal latitude, BigDecimal longitude, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		Platform platform = loadPlatform(userContext, platformId, options);
+
+		Location address = locationManagerOf(userContext).createLocation(userContext,  name,  address, districtId, provinceId,  latitude,  longitude);
+
+		for(Student student: platform.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSavePlatform(userContext, platform);
+	}
 	*/
 
+	public  Platform associateStudentListToAddress(HealthUserContext userContext, String platformId, String  studentIds[], String addressId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		Platform platform = loadPlatform(userContext, platformId, options);
+
+		Location address = locationManagerOf(userContext).loadLocation(userContext,addressId,new String[]{"none"} );
+
+		for(Student student: platform.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSavePlatform(userContext, platform);
+	}
 
 
 	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String platformId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String creatorId, String cqId,String [] tokensExpr) throws Exception{

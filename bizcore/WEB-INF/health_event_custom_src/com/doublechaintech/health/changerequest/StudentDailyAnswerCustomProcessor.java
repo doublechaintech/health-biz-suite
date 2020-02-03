@@ -12,7 +12,11 @@ public class StudentDailyAnswerCustomProcessor extends StudentDailyAnswerProcess
 	protected void handleSingleEvent(HealthUserContext userContext, ChangeRequest request, StudentDailyAnswer event ){
 		
 		userContext.log("StudentDailyAnswerCustomProcessor\t"+ event +" from processor");
-		
+		try {
+			studentDailyAnswerManagerOf(userContext).internalSaveStudentDailyAnswer(userContext, event);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

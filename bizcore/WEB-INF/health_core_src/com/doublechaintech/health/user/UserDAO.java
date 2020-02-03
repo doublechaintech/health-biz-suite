@@ -11,6 +11,7 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
@@ -20,6 +21,7 @@ import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 
@@ -52,6 +54,8 @@ public interface UserDAO extends BaseDAO{
 	public User disconnectFromAll(String userId, int version) throws Exception;
 	public int deleteAll() throws Exception;
 
+	public TeacherDAO getTeacherDAO();
+		
 	public StudentDAO getStudentDAO();
 		
 	public QuestionDAO getQuestionDAO();
@@ -61,6 +65,8 @@ public interface UserDAO extends BaseDAO{
 	public WechatLoginInfoDAO getWechatLoginInfoDAO();
 		
 	
+ 	public SmartList<User> requestCandidateUserForTeacher(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
  	public SmartList<User> requestCandidateUserForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<User> requestCandidateUserForQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
@@ -70,13 +76,20 @@ public interface UserDAO extends BaseDAO{
  	public SmartList<User> requestCandidateUserForWechatLoginInfo(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
+	public User planToRemoveTeacherList(User user, String teacherIds[], Map<String,Object> options)throws Exception;
+
+
+	//disconnect User with platform in Teacher
+	public User planToRemoveTeacherListWithPlatform(User user, String platformId, Map<String,Object> options)throws Exception;
+	public int countTeacherListWithPlatform(String userId, String platformId, Map<String,Object> options)throws Exception;
+	
+	//disconnect User with change_request in Teacher
+	public User planToRemoveTeacherListWithChangeRequest(User user, String changeRequestId, Map<String,Object> options)throws Exception;
+	public int countTeacherListWithChangeRequest(String userId, String changeRequestId, Map<String,Object> options)throws Exception;
+	
 	public User planToRemoveStudentList(User user, String studentIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect User with student_id in Student
-	public User planToRemoveStudentListWithStudentId(User user, String studentIdId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithStudentId(String userId, String studentIdId, Map<String,Object> options)throws Exception;
-	
 	//disconnect User with address in Student
 	public User planToRemoveStudentListWithAddress(User user, String addressId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithAddress(String userId, String addressId, Map<String,Object> options)throws Exception;
@@ -146,6 +159,9 @@ public interface UserDAO extends BaseDAO{
 
  
  
+	// 需要一个加载引用我的对象的enhance方法:Teacher的user的TeacherList
+	public SmartList<Teacher> loadOurTeacherList(HealthUserContext userContext, List<User> us, Map<String,Object> options) throws Exception;
+	
 	// 需要一个加载引用我的对象的enhance方法:Student的user的StudentList
 	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<User> us, Map<String,Object> options) throws Exception;
 	

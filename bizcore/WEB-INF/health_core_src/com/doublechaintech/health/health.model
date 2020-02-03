@@ -38,10 +38,12 @@
   <teacher
     name="白山水|胡一刀|苗人凤|[1,20]"
     mobile="18012341234"
-    school="益州小学|大源中学|南山中学"
+    school="益州小学|大源中学|南山中学|[1,99]"
     school_class="教科院一年级5班|教科院二年级3班|[1,99]"
+    class_size="1|[1,999]"
     create_time="createTime()"
     platform="$(platform)"
+    user="$(user)"
 
     change_request="$(change_request)"
     _features="event"
@@ -50,10 +52,11 @@
 
   <student
     student_name="刘婵|刘阿斗|李天一|[1,20]"
-    student_id="A01|[1,3]"
-    guardian_name="刘备|刘玄德|张飞|张翼德|[1,20]"
+    student_number="A01|[0,99]"
+    student_avatar="student.jpg"
+    guardian_name="刘备|刘玄德|张飞|张翼德|[0,20]"
     guardian_mobile="18012341234"
-    address="$(location)"
+    address="$(location?)"
     user="$(user)"
     create_time="createTime()"
     platform="$(platform)"
@@ -81,8 +84,8 @@
   />
 
   <question_type
-    name="选择题|简答题"
-    code="OptionSelect|TextInput"
+    name="单选题|简答题"
+    code="SINGLE_SELECT|TEXT_INPUT"
     platform="$(platform)"
     _features="status"
     _identified_by="code"
@@ -162,12 +165,33 @@
   />
   <survey_status
     name="未提交|已提交|草稿"
-    code="UnSubmitted|Submitted|Draft"
+    code="UN_SUBMITTED|SUBMITTE|DRAFT"
     platform="$(platform)"
     _features="status"
     _identified_by="code"
   />
 
+  <!-- 哪个班级哪一天 -->
+  <health_survey_report
+    survey_name="2020年1月25日益州小学学生健康调查问卷"
+    survey_time="2099-12-31T23:59:59"
+    teacher_name="张三|[1,20]"
+    school="益州小学|大源中学|南山中学"
+    school_class="教科院一年级5班|教科院二年级3班|[1,99]"
+    student_name="刘婵|刘阿斗|李天一|[1,20]"
+    student_number="A01|[1,3]"
+    guardian_name="刘备|刘玄德|张飞|张翼德|[1,20]"
+    guardian_mobile="18012341234"
+    student="$(student)"
+    teacher="$(teacher)"
+    survey="$(class_daily_health_survey)"
+  />
+  <student_answer
+    health_survey_report="$(health_survey_report)"
+    daily_answer="$(student_daily_answer)"
+    question_topic="节假日是否到过武汉|[1,99]"
+    answer="A|B|[1,99]"
+  />
 
   <user
 		name="张三|李四|王五|[1,200]"
@@ -200,10 +224,10 @@
 	/>
 
   <change_request_type
-		name="登录|[1,100]"
-		code="LOGIN"
-		icon="book"
-		display_order="1"
+		name="添加班级|添加学生|发布问卷|填写问卷"
+		code="ADD_CLASS|ADD_STUDENT|PUBLISH_SURVEY|FILL_SURVEY"
+		icon="book|add|add|swap"
+		display_order="1|2|3|4"
 		bind_types="text()"
 		step_configuration="text()"
 		platform="$(platform)"

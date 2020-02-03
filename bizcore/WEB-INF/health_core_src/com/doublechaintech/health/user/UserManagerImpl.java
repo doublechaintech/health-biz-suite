@@ -21,6 +21,7 @@ import com.terapico.uccaf.BaseUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
@@ -168,6 +169,10 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 		addAction(userContext, user, tokens,"user.transfer_to_address","transferToAnotherAddress","transferToAnotherAddress/"+user.getId()+"/","main","primary");
 		addAction(userContext, user, tokens,"user.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+user.getId()+"/","main","primary");
+		addAction(userContext, user, tokens,"user.addTeacher","addTeacher","addTeacher/"+user.getId()+"/","teacherList","primary");
+		addAction(userContext, user, tokens,"user.removeTeacher","removeTeacher","removeTeacher/"+user.getId()+"/","teacherList","primary");
+		addAction(userContext, user, tokens,"user.updateTeacher","updateTeacher","updateTeacher/"+user.getId()+"/","teacherList","primary");
+		addAction(userContext, user, tokens,"user.copyTeacherFrom","copyTeacherFrom","copyTeacherFrom/"+user.getId()+"/","teacherList","primary");
 		addAction(userContext, user, tokens,"user.addStudent","addStudent","addStudent/"+user.getId()+"/","studentList","primary");
 		addAction(userContext, user, tokens,"user.removeStudent","removeStudent","removeStudent/"+user.getId()+"/","studentList","primary");
 		addAction(userContext, user, tokens,"user.updateStudent","updateStudent","updateStudent/"+user.getId()+"/","studentList","primary");
@@ -356,6 +361,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
+		.sortTeacherListWith("id","desc")
 		.sortStudentListWith("id","desc")
 		.sortQuestionListWith("id","desc")
 		.sortClassDailyHealthSurveyListWith("id","desc")
@@ -527,8 +533,8 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 
 
-	//disconnect User with student_id in Student
-	protected User breakWithStudentByStudentId(HealthUserContext userContext, String userId, String studentIdId,  String [] tokensExpr)
+	//disconnect User with platform in Teacher
+	protected User breakWithTeacherByPlatform(HealthUserContext userContext, String userId, String platformId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -539,9 +545,27 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				userDaoOf(userContext).planToRemoveStudentListWithStudentId(user, studentIdId, this.emptyOptions());
+				userDaoOf(userContext).planToRemoveTeacherListWithPlatform(user, platformId, this.emptyOptions());
 
-				user = saveUser(userContext, user, tokens().withStudentList().done());
+				user = saveUser(userContext, user, tokens().withTeacherList().done());
+				return user;
+			}
+	}
+	//disconnect User with change_request in Teacher
+	protected User breakWithTeacherByChangeRequest(HealthUserContext userContext, String userId, String changeRequestId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			User user = loadUser(userContext, userId, allTokens());
+
+			synchronized(user){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				userDaoOf(userContext).planToRemoveTeacherListWithChangeRequest(user, changeRequestId, this.emptyOptions());
+
+				user = saveUser(userContext, user, tokens().withTeacherList().done());
 				return user;
 			}
 	}
@@ -731,14 +755,293 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String userId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String userId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
+
+				checkerOf(userContext).checkIdOfUser(userId);
+
+		
+		checkerOf(userContext).checkNameOfTeacher(name);
+		
+		checkerOf(userContext).checkMobileOfTeacher(mobile);
+		
+		checkerOf(userContext).checkSchoolOfTeacher(school);
+		
+		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
+		
+		checkerOf(userContext).checkClassSizeOfTeacher(classSize);
+		
+		checkerOf(userContext).checkPlatformIdOfTeacher(platformId);
+		
+		checkerOf(userContext).checkChangeRequestIdOfTeacher(changeRequestId);
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+
+	}
+	public  User addTeacher(HealthUserContext userContext, String userId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
+	{
+
+		checkParamsForAddingTeacher(userContext,userId,name, mobile, school, schoolClass, classSize, platformId, changeRequestId,tokensExpr);
+
+		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, classSize, platformId, changeRequestId);
+
+		User user = loadUser(userContext, userId, emptyOptions());
+		synchronized(user){
+			//Will be good when the user loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			user.addTeacher( teacher );
+			user = saveUser(userContext, user, tokens().withTeacherList().done());
+			
+			userContext.getManagerGroup().getTeacherManager().onNewInstanceCreated(userContext, teacher);
+			return present(userContext,user, mergedAllTokens(tokensExpr));
+		}
+	}
+	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String userId,String id,String name,String mobile,String school,String schoolClass,int classSize,String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfUser(userId);
+		checkerOf(userContext).checkIdOfTeacher(id);
+
+		checkerOf(userContext).checkNameOfTeacher( name);
+		checkerOf(userContext).checkMobileOfTeacher( mobile);
+		checkerOf(userContext).checkSchoolOfTeacher( school);
+		checkerOf(userContext).checkSchoolClassOfTeacher( schoolClass);
+		checkerOf(userContext).checkClassSizeOfTeacher( classSize);
+
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+	}
+	public  User updateTeacherProperties(HealthUserContext userContext, String userId, String id,String name,String mobile,String school,String schoolClass,int classSize, String [] tokensExpr) throws Exception
+	{
+		checkParamsForUpdatingTeacherProperties(userContext,userId,id,name,mobile,school,schoolClass,classSize,tokensExpr);
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				//.withTeacherListList()
+				.searchTeacherListWith(Teacher.ID_PROPERTY, "is", id).done();
+
+		User userToUpdate = loadUser(userContext, userId, options);
+
+		if(userToUpdate.getTeacherList().isEmpty()){
+			throw new UserManagerException("Teacher is NOT FOUND with id: '"+id+"'");
+		}
+
+		Teacher item = userToUpdate.getTeacherList().first();
+
+		item.updateName( name );
+		item.updateMobile( mobile );
+		item.updateSchool( school );
+		item.updateSchoolClass( schoolClass );
+		item.updateClassSize( classSize );
+
+
+		//checkParamsForAddingTeacher(userContext,userId,name, code, used,tokensExpr);
+		User user = saveUser(userContext, userToUpdate, tokens().withTeacherList().done());
+		synchronized(user){
+			return present(userContext,user, mergedAllTokens(tokensExpr));
+		}
+	}
+
+
+	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String changeRequestId) throws Exception{
+
+		Teacher teacher = new Teacher();
+		
+		
+		teacher.setName(name);		
+		teacher.setMobile(mobile);		
+		teacher.setSchool(school);		
+		teacher.setSchoolClass(schoolClass);		
+		teacher.setClassSize(classSize);		
+		teacher.setCreateTime(userContext.now());		
+		Platform  platform = new Platform();
+		platform.setId(platformId);		
+		teacher.setPlatform(platform);		
+		ChangeRequest  changeRequest = new ChangeRequest();
+		changeRequest.setId(changeRequestId);		
+		teacher.setChangeRequest(changeRequest);
+	
+		
+		return teacher;
+
+
+	}
+
+	protected Teacher createIndexedTeacher(String id, int version){
+
+		Teacher teacher = new Teacher();
+		teacher.setId(id);
+		teacher.setVersion(version);
+		return teacher;
+
+	}
+
+	protected void checkParamsForRemovingTeacherList(HealthUserContext userContext, String userId,
+			String teacherIds[],String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfUser(userId);
+		for(String teacherIdItem: teacherIds){
+			checkerOf(userContext).checkIdOfTeacher(teacherIdItem);
+		}
+
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+	}
+	public  User removeTeacherList(HealthUserContext userContext, String userId,
+			String teacherIds[],String [] tokensExpr) throws Exception{
+
+			checkParamsForRemovingTeacherList(userContext, userId,  teacherIds, tokensExpr);
+
+
+			User user = loadUser(userContext, userId, allTokens());
+			synchronized(user){
+				//Will be good when the user loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+				userDaoOf(userContext).planToRemoveTeacherList(user, teacherIds, allTokens());
+				user = saveUser(userContext, user, tokens().withTeacherList().done());
+				deleteRelationListInGraph(userContext, user.getTeacherList());
+				return present(userContext,user, mergedAllTokens(tokensExpr));
+			}
+	}
+
+	protected void checkParamsForRemovingTeacher(HealthUserContext userContext, String userId,
+		String teacherId, int teacherVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfUser( userId);
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		checkerOf(userContext).checkVersionOfTeacher(teacherVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+	}
+	public  User removeTeacher(HealthUserContext userContext, String userId,
+		String teacherId, int teacherVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForRemovingTeacher(userContext,userId, teacherId, teacherVersion,tokensExpr);
+
+		Teacher teacher = createIndexedTeacher(teacherId, teacherVersion);
+		User user = loadUser(userContext, userId, allTokens());
+		synchronized(user){
+			//Will be good when the user loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			user.removeTeacher( teacher );
+			user = saveUser(userContext, user, tokens().withTeacherList().done());
+			deleteRelationInGraph(userContext, teacher);
+			return present(userContext,user, mergedAllTokens(tokensExpr));
+		}
+
+
+	}
+	protected void checkParamsForCopyingTeacher(HealthUserContext userContext, String userId,
+		String teacherId, int teacherVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfUser( userId);
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		checkerOf(userContext).checkVersionOfTeacher(teacherVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+	}
+	public  User copyTeacherFrom(HealthUserContext userContext, String userId,
+		String teacherId, int teacherVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForCopyingTeacher(userContext,userId, teacherId, teacherVersion,tokensExpr);
+
+		Teacher teacher = createIndexedTeacher(teacherId, teacherVersion);
+		User user = loadUser(userContext, userId, allTokens());
+		synchronized(user){
+			//Will be good when the user loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+
+			
+
+			user.copyTeacherFrom( teacher );
+			user = saveUser(userContext, user, tokens().withTeacherList().done());
+			
+			userContext.getManagerGroup().getTeacherManager().onNewInstanceCreated(userContext, (Teacher)user.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			return present(userContext,user, mergedAllTokens(tokensExpr));
+		}
+
+	}
+
+	protected void checkParamsForUpdatingTeacher(HealthUserContext userContext, String userId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+		
+
+		
+		checkerOf(userContext).checkIdOfUser(userId);
+		checkerOf(userContext).checkIdOfTeacher(teacherId);
+		checkerOf(userContext).checkVersionOfTeacher(teacherVersion);
+		
+
+		if(Teacher.NAME_PROPERTY.equals(property)){
+			checkerOf(userContext).checkNameOfTeacher(parseString(newValueExpr));
+		}
+		
+		if(Teacher.MOBILE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
+		}
+		
+		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		}
+		
+		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
+		}
+		
+		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		}
+		
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
+
+	}
+
+	public  User updateTeacher(HealthUserContext userContext, String userId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr)
+			throws Exception{
+
+		checkParamsForUpdatingTeacher(userContext, userId, teacherId, teacherVersion, property, newValueExpr,  tokensExpr);
+
+		Map<String,Object> loadTokens = this.tokens().withTeacherList().searchTeacherListWith(Teacher.ID_PROPERTY, "eq", teacherId).done();
+
+
+
+		User user = loadUser(userContext, userId, loadTokens);
+
+		synchronized(user){
+			//Will be good when the user loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			//user.removeTeacher( teacher );
+			//make changes to AcceleraterAccount.
+			Teacher teacherIndex = createIndexedTeacher(teacherId, teacherVersion);
+
+			Teacher teacher = user.findTheTeacher(teacherIndex);
+			if(teacher == null){
+				throw new UserManagerException(teacher+" is NOT FOUND" );
+			}
+
+			teacher.changeProperty(property, newValueExpr);
+			
+			user = saveUser(userContext, user, tokens().withTeacherList().done());
+			return present(userContext,user, mergedAllTokens(tokensExpr));
+		}
+
+	}
+	/*
+
+	*/
+
+
+
+
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfUser(userId);
 
 		
 		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent(studentNumber);
+		
+		checkerOf(userContext).checkStudentAvatarOfStudent(studentAvatar);
 		
 		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
@@ -754,12 +1057,12 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 
 	}
-	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,userId,studentName, studentId, guardianName, guardianMobile, addressId, platformId, changeRequestId,tokensExpr);
+		checkParamsForAddingStudent(userContext,userId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId, changeRequestId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, addressId, platformId, changeRequestId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId, changeRequestId);
 
 		User user = loadUser(userContext, userId, emptyOptions());
 		synchronized(user){
@@ -772,22 +1075,23 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 			return present(userContext,user, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String userId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String userId,String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfUser(userId);
 		checkerOf(userContext).checkIdOfStudent(id);
 
 		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent( studentNumber);
+		checkerOf(userContext).checkStudentAvatarOfStudent( studentAvatar);
 		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
 		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
 
 	}
-	public  User updateStudentProperties(HealthUserContext userContext, String userId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  User updateStudentProperties(HealthUserContext userContext, String userId, String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,userId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,userId,id,studentName,studentNumber,studentAvatar,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -803,7 +1107,8 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		Student item = userToUpdate.getStudentList().first();
 
 		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
+		item.updateStudentNumber( studentNumber );
+		item.updateStudentAvatar( studentAvatar );
 		item.updateGuardianName( guardianName );
 		item.updateGuardianMobile( guardianMobile );
 
@@ -816,13 +1121,14 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId) throws Exception{
 
 		Student student = new Student();
 		
 		
 		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
+		student.setStudentNumber(studentNumber);		
+		student.setStudentAvatar(studentAvatar);		
 		student.setGuardianName(guardianName);		
 		student.setGuardianMobile(guardianMobile);		
 		Location  address = new Location();
@@ -950,8 +1256,12 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
@@ -998,10 +1308,44 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 	}
 	/*
+	public  User associateStudentListToNewAddress(HealthUserContext userContext, String userId, String  studentIds[], String name, String address, String districtId, String provinceId, BigDecimal latitude, BigDecimal longitude, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		Location address = locationManagerOf(userContext).createLocation(userContext,  name,  address, districtId, provinceId,  latitude,  longitude);
+
+		for(Student student: user.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 	*/
 
+	public  User associateStudentListToAddress(HealthUserContext userContext, String userId, String  studentIds[], String addressId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentListWith(Student.ID_PROPERTY, "oneof", this.joinArray("|", studentIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		Location address = locationManagerOf(userContext).loadLocation(userContext,addressId,new String[]{"none"} );
+
+		for(Student student: user.getStudentList()) {
+			//TODO: need to check if already associated
+			student.updateAddress(address);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 
 
 	protected void checkParamsForAddingQuestion(HealthUserContext userContext, String userId, String topic, String questionTypeId, String optionA, String optionB, String optionC, String optionD, String platformId, String cqId,String [] tokensExpr) throws Exception{

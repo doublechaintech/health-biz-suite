@@ -61,10 +61,6 @@ public interface LocationDAO extends BaseDAO{
 	public Location planToRemoveStudentList(Location location, String studentIds[], Map<String,Object> options)throws Exception;
 
 
-	//disconnect Location with student_id in Student
-	public Location planToRemoveStudentListWithStudentId(Location location, String studentIdId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithStudentId(String locationId, String studentIdId, Map<String,Object> options)throws Exception;
-	
 	//disconnect Location with user in Student
 	public Location planToRemoveStudentListWithUser(Location location, String userId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithUser(String locationId, String userId, Map<String,Object> options)throws Exception;

@@ -22,6 +22,7 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
+import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
@@ -31,6 +32,7 @@ import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.student.StudentDAO;
+import com.doublechaintech.health.teacher.TeacherDAO;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 
@@ -62,6 +64,25 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  	}
 
 
+			
+		
+	
+  	private  TeacherDAO  teacherDAO;
+ 	public void setTeacherDAO(TeacherDAO pTeacherDAO){
+ 	
+ 		if(pTeacherDAO == null){
+ 			throw new IllegalStateException("Do not try to set teacherDAO to null.");
+ 		}
+	 	this.teacherDAO = pTeacherDAO;
+ 	}
+ 	public TeacherDAO getTeacherDAO(){
+ 		if(this.teacherDAO == null){
+ 			throw new IllegalStateException("The teacherDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.teacherDAO;
+ 	}	
+ 	
 			
 		
 	
@@ -188,6 +209,13 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 		User newUser = loadInternalUser(accessKey, options);
 		newUser.setVersion(0);
 		
+		
+ 		
+ 		if(isSaveTeacherListEnabled(options)){
+ 			for(Teacher item: newUser.getTeacherList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
 		
  		
  		if(isSaveStudentListEnabled(options)){
@@ -337,6 +365,20 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  
 		
 	
+	protected boolean isExtractTeacherListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,UserTokens.TEACHER_LIST);
+ 	}
+ 	protected boolean isAnalyzeTeacherListEnabled(Map<String,Object> options){		 		
+ 		return UserTokens.of(options).analyzeTeacherListEnabled();
+ 	}
+	
+	protected boolean isSaveTeacherListEnabled(Map<String,Object> options){
+		return checkOptions(options, UserTokens.TEACHER_LIST);
+		
+ 	}
+ 	
+		
+	
 	protected boolean isExtractStudentListEnabled(Map<String,Object> options){		
  		return checkOptions(options,UserTokens.STUDENT_LIST);
  	}
@@ -427,6 +469,14 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  		}
  
 		
+		if(isExtractTeacherListEnabled(loadOptions)){
+	 		extractTeacherList(user, loadOptions);
+ 		}	
+ 		if(isAnalyzeTeacherListEnabled(loadOptions)){
+	 		analyzeTeacherList(user, loadOptions);
+ 		}
+ 		
+		
 		if(isExtractStudentListEnabled(loadOptions)){
 	 		extractStudentList(user, loadOptions);
  		}	
@@ -504,6 +554,56 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  	}
  		
  
+		
+	protected void enhanceTeacherList(SmartList<Teacher> teacherList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected User extractTeacherList(User user, Map<String,Object> options){
+		
+		
+		if(user == null){
+			return null;
+		}
+		if(user.getId() == null){
+			return user;
+		}
+
+		
+		
+		SmartList<Teacher> teacherList = getTeacherDAO().findTeacherByUser(user.getId(),options);
+		if(teacherList != null){
+			enhanceTeacherList(teacherList,options);
+			user.setTeacherList(teacherList);
+		}
+		
+		return user;
+	
+	}	
+	
+	protected User analyzeTeacherList(User user, Map<String,Object> options){
+		
+		
+		if(user == null){
+			return null;
+		}
+		if(user.getId() == null){
+			return user;
+		}
+
+		
+		
+		SmartList<Teacher> teacherList = user.getTeacherList();
+		if(teacherList != null){
+			getTeacherDAO().analyzeTeacherByUser(teacherList, user.getId(), options);
+			
+		}
+		
+		return user;
+	
+	}	
+	
 		
 	protected void enhanceStudentList(SmartList<Student> studentList,Map<String,Object> options){
 		//extract multiple list from difference sources
@@ -1003,6 +1103,13 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  		}
  
 		
+		if(isSaveTeacherListEnabled(options)){
+	 		saveTeacherList(user, options);
+	 		//removeTeacherList(user, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
 		if(isSaveStudentListEnabled(options)){
 	 		saveStudentList(user, options);
 	 		//removeStudentList(user, options);
@@ -1075,6 +1182,122 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
  
 
 	
+	public User planToRemoveTeacherList(User user, String teacherIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, user.getId());
+		key.put(Teacher.ID_PROPERTY, teacherIds);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return user;
+		}
+		if(externalTeacherList.isEmpty()){
+			return user;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+
+			teacherItem.clearFromAll();
+		}
+		
+		
+		SmartList<Teacher> teacherList = user.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return user;	
+	
+	}
+
+
+	//disconnect User with platform in Teacher
+	public User planToRemoveTeacherListWithPlatform(User user, String platformId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, user.getId());
+		key.put(Teacher.PLATFORM_PROPERTY, platformId);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return user;
+		}
+		if(externalTeacherList.isEmpty()){
+			return user;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+			teacherItem.clearPlatform();
+			teacherItem.clearUser();
+			
+		}
+		
+		
+		SmartList<Teacher> teacherList = user.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return user;
+	}
+	
+	public int countTeacherListWithPlatform(String userId, String platformId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, userId);
+		key.put(Teacher.PLATFORM_PROPERTY, platformId);
+		
+		int count = getTeacherDAO().countTeacherWithKey(key, options);
+		return count;
+	}
+	
+	//disconnect User with change_request in Teacher
+	public User planToRemoveTeacherListWithChangeRequest(User user, String changeRequestId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, user.getId());
+		key.put(Teacher.CHANGE_REQUEST_PROPERTY, changeRequestId);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return user;
+		}
+		if(externalTeacherList.isEmpty()){
+			return user;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+			teacherItem.clearChangeRequest();
+			teacherItem.clearUser();
+			
+		}
+		
+		
+		SmartList<Teacher> teacherList = user.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return user;
+	}
+	
+	public int countTeacherListWithChangeRequest(String userId, String changeRequestId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, userId);
+		key.put(Teacher.CHANGE_REQUEST_PROPERTY, changeRequestId);
+		
+		int count = getTeacherDAO().countTeacherWithKey(key, options);
+		return count;
+	}
+	
 	public User planToRemoveStudentList(User user, String studentIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();
@@ -1103,50 +1326,6 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 	}
 
 
-	//disconnect User with student_id in Student
-	public User planToRemoveStudentListWithStudentId(User user, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.USER_PROPERTY, user.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return user;
-		}
-		if(externalStudentList.isEmpty()){
-			return user;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearUser();
-			
-		}
-		
-		
-		SmartList<Student> studentList = user.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return user;
-	}
-	
-	public int countStudentListWithStudentId(String userId, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.USER_PROPERTY, userId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
 	//disconnect User with address in Student
 	public User planToRemoveStudentListWithAddress(User user, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
@@ -1673,6 +1852,72 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 	
 
 		
+	protected User saveTeacherList(User user, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<Teacher> teacherList = user.getTeacherList();
+		if(teacherList == null){
+			//null list means nothing
+			return user;
+		}
+		SmartList<Teacher> mergedUpdateTeacherList = new SmartList<Teacher>();
+		
+		
+		mergedUpdateTeacherList.addAll(teacherList); 
+		if(teacherList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateTeacherList.addAll(teacherList.getToRemoveList());
+			teacherList.removeAll(teacherList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getTeacherDAO().saveTeacherList(mergedUpdateTeacherList,options);
+		
+		if(teacherList.getToRemoveList() != null){
+			teacherList.removeAll(teacherList.getToRemoveList());
+		}
+		
+		
+		return user;
+	
+	}
+	
+	protected User removeTeacherList(User user, Map<String,Object> options){
+	
+	
+		SmartList<Teacher> teacherList = user.getTeacherList();
+		if(teacherList == null){
+			return user;
+		}	
+	
+		SmartList<Teacher> toRemoveTeacherList = teacherList.getToRemoveList();
+		
+		if(toRemoveTeacherList == null){
+			return user;
+		}
+		if(toRemoveTeacherList.isEmpty()){
+			return user;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getTeacherDAO().removeTeacherList(toRemoveTeacherList,options);
+		
+		return user;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
+		
 	protected User saveStudentList(User user, Map<String,Object> options){
 		
 		
@@ -1940,6 +2185,7 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 
 	public User present(User user,Map<String, Object> options){
 	
+		presentTeacherList(user,options);
 		presentStudentList(user,options);
 		presentQuestionList(user,options);
 		presentClassDailyHealthSurveyList(user,options);
@@ -1948,6 +2194,26 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 		return user;
 	
 	}
+		
+	//Using java8 feature to reduce the code significantly
+ 	protected User presentTeacherList(
+			User user,
+			Map<String, Object> options) {
+
+		SmartList<Teacher> teacherList = user.getTeacherList();		
+				SmartList<Teacher> newList= presentSubList(user.getId(),
+				teacherList,
+				options,
+				getTeacherDAO()::countTeacherByUser,
+				getTeacherDAO()::findTeacherByUser
+				);
+
+		
+		user.setTeacherList(newList);
+		
+
+		return user;
+	}			
 		
 	//Using java8 feature to reduce the code significantly
  	protected User presentStudentList(
@@ -2031,6 +2297,12 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 		
 
 	
+    public SmartList<User> requestCandidateUserForTeacher(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(UserTable.COLUMN_NAME, filterKey, pageNo, pageSize, getUserMapper());
+    }
+		
     public SmartList<User> requestCandidateUserForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
@@ -2066,6 +2338,29 @@ public class UserJDBCTemplateDAO extends HealthBaseDAOImpl implements UserDAO{
 		this.enhanceListInternal(userList, this.getUserMapper());
 	}
 	
+	
+	// 需要一个加载引用我的对象的enhance方法:Teacher的user的TeacherList
+	public SmartList<Teacher> loadOurTeacherList(HealthUserContext userContext, List<User> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.USER_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<Teacher> loadedObjs = userContext.getDAOGroup().getTeacherDAO().findTeacherWithKey(key, options);
+		Map<String, List<Teacher>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getUser().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<Teacher> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<Teacher> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setTeacherList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
 	
 	// 需要一个加载引用我的对象的enhance方法:Student的user的StudentList
 	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<User> us, Map<String,Object> options) throws Exception{

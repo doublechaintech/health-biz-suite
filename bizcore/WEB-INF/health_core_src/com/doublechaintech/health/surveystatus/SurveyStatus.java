@@ -18,15 +18,15 @@ import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 @JsonSerialize(using = SurveyStatusSerializer.class)
 public class SurveyStatus extends BaseEntity implements  java.io.Serializable{
 
-	public static final String UN_SUBMITTED = "UnSubmitted";	// 未提交
-	public static final String SUBMITTED = "Submitted";	// 已提交
-	public static final String DRAFT = "Draft";	// 草稿
+	public static final String UN_SUBMITTED = "UN_SUBMITTED";	// 未提交
+	public static final String SUBMITTE = "SUBMITTE";	// 已提交
+	public static final String DRAFT = "DRAFT";	// 草稿
 	public static List<KeyValuePair> CODE_NAME_LIST;
 	static {
 		CODE_NAME_LIST = new ArrayList<>();
 
 		CODE_NAME_LIST.add(new KeyValuePair(UN_SUBMITTED, "未提交"));
-		CODE_NAME_LIST.add(new KeyValuePair(SUBMITTED, "已提交"));
+		CODE_NAME_LIST.add(new KeyValuePair(SUBMITTE, "已提交"));
 		CODE_NAME_LIST.add(new KeyValuePair(DRAFT, "草稿"));
 	}
 	

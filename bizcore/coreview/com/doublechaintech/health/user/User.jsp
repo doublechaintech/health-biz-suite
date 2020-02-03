@@ -101,6 +101,7 @@
 	  <li class="active"><a data-toggle="tab" href="#summary" class="disabled"><i class="fa  fa-home"></i> ${userContext.localeMap['@summary']}</a></li>
 	 
 	<% User result = (User)request.getAttribute("result");  %>
+			<li><a data-toggle="tab" href="#teacherList" class="disabled"> ${userContext.localeMap['teacher']}</a></li>
 			<li><a data-toggle="tab" href="#studentList" class="disabled"> ${userContext.localeMap['student']}</a></li>
 			<li><a data-toggle="tab" href="#questionList" class="disabled"> ${userContext.localeMap['question']}</a></li>
 			<li><a data-toggle="tab" href="#classDailyHealthSurveyList" class="disabled"> ${userContext.localeMap['class_daily_health_survey']}</a></li>
@@ -158,7 +159,15 @@
 
 	
 
-		<c:if test='${not empty userContext.accessTokens["studentList"] or ignoreListAccessControl}'>
+		<c:if test='${not empty userContext.accessTokens["teacherList"] or ignoreListAccessControl}'>
+		<c:set var="teacherList" value="${result.teacherList}" scope="request"/>
+		<c:set var="teacherListName" value="teacherList" scope="request"/>
+		<div id="teacherList" class="tab-pane fade sublist" refer-name="user">
+			<sky:include page="com/doublechaintech/health/teacher/Teacher$List.jsp"
+					referName="user"/>
+		</div>
+	</c:if>
+	<c:if test='${not empty userContext.accessTokens["studentList"] or ignoreListAccessControl}'>
 		<c:set var="studentList" value="${result.studentList}" scope="request"/>
 		<c:set var="studentListName" value="studentList" scope="request"/>
 		<div id="studentList" class="tab-pane fade sublist" refer-name="user">

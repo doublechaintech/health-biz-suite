@@ -31,6 +31,16 @@ public interface StudentDailyAnswerManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
+	//public  StudentAnswerManager getStudentAnswerManager(HealthUserContext userContext, String studentDailyAnswerId, String healthSurveyReportId, String questionTopic, String answer ,String [] tokensExpr)  throws Exception;
+	
+	public  StudentDailyAnswer addStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String healthSurveyReportId, String questionTopic, String answer , String [] tokensExpr)  throws Exception;
+	public  StudentDailyAnswer removeStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String studentAnswerId, int studentAnswerVersion,String [] tokensExpr)  throws Exception;
+	public  StudentDailyAnswer updateStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String studentAnswerId, int studentAnswerVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+
+	/*
+
+	*/
+
 
 
 }

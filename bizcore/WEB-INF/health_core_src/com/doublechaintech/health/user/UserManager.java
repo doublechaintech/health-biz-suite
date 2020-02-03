@@ -30,13 +30,25 @@ public interface UserManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentManager getStudentManager(HealthUserContext userContext, String userId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String userId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  User addTeacher(HealthUserContext userContext, String userId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  User removeTeacher(HealthUserContext userContext, String userId, String teacherId, int teacherVersion,String [] tokensExpr)  throws Exception;
+	public  User updateTeacher(HealthUserContext userContext, String userId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+
+	/*
+
+	*/
+
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	
+	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  User removeStudent(HealthUserContext userContext, String userId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
 	public  User updateStudent(HealthUserContext userContext, String userId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  User associateStudentListToNewAddress(HealthUserContext userContext, String userId, String  studentIds[], String name, String address, String districtId, String provinceId, BigDecimal latitude, BigDecimal longitude, String [] tokensExpr) throws Exception ;
+	public  User associateStudentListToAddress(HealthUserContext userContext, String userId, String  studentIds[],String addressId, String [] tokensExpr) throws Exception ;
 
 	*/
 

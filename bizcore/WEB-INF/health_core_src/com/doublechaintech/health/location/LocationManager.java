@@ -30,9 +30,9 @@ public interface LocationManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentManager getStudentManager(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  Location removeStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
 	public  Location updateStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

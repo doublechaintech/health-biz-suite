@@ -27,7 +27,7 @@
 	<bean id="teacherManager" class="com.doublechaintech.health.teacher.TeacherCustomManagerImpl" parent="teacherManagerBase" ></bean>
 	
 	<bean id="studentManagerBase" class="com.doublechaintech.health.student.StudentManagerImpl"/>
-	<bean id="studentManager" class="com.doublechaintech.health.student.StudentManagerImpl" parent="studentManagerBase" ></bean>
+	<bean id="studentManager" class="com.doublechaintech.health.student.StudentCustomManagerImpl" parent="studentManagerBase" ></bean>
 	
 	<bean id="questionManagerBase" class="com.doublechaintech.health.question.QuestionManagerImpl"/>
 	<bean id="questionManager" class="com.doublechaintech.health.question.QuestionManagerImpl" parent="questionManagerBase" ></bean>
@@ -49,6 +49,12 @@
 	
 	<bean id="surveyStatusManagerBase" class="com.doublechaintech.health.surveystatus.SurveyStatusManagerImpl"/>
 	<bean id="surveyStatusManager" class="com.doublechaintech.health.surveystatus.SurveyStatusManagerImpl" parent="surveyStatusManagerBase" ></bean>
+	
+	<bean id="healthSurveyReportManagerBase" class="com.doublechaintech.health.healthsurveyreport.HealthSurveyReportManagerImpl"/>
+	<bean id="healthSurveyReportManager" class="com.doublechaintech.health.healthsurveyreport.HealthSurveyReportManagerImpl" parent="healthSurveyReportManagerBase" ></bean>
+	
+	<bean id="studentAnswerManagerBase" class="com.doublechaintech.health.studentanswer.StudentAnswerManagerImpl"/>
+	<bean id="studentAnswerManager" class="com.doublechaintech.health.studentanswer.StudentAnswerManagerImpl" parent="studentAnswerManagerBase" ></bean>
 	
 	<bean id="userManagerBase" class="com.doublechaintech.health.user.UserManagerImpl"/>
 	<bean id="userManager" class="com.doublechaintech.health.user.UserCustomManagerImpl" parent="userManagerBase" ></bean>
@@ -129,6 +135,8 @@
 		<property name="studentHealthSurveyManager" ref="studentHealthSurveyManager"/>
 		<property name="studentDailyAnswerManager" ref="studentDailyAnswerManager"/>
 		<property name="surveyStatusManager" ref="surveyStatusManager"/>
+		<property name="healthSurveyReportManager" ref="healthSurveyReportManager"/>
+		<property name="studentAnswerManager" ref="studentAnswerManager"/>
 		<property name="userManager" ref="userManager"/>
 		<property name="wechatLoginInfoManager" ref="wechatLoginInfoManager"/>
 		<property name="changeRequestManager" ref="changeRequestManager"/>

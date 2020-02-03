@@ -522,24 +522,6 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 
 
-	//disconnect Location with student_id in Student
-	protected Location breakWithStudentByStudentId(HealthUserContext userContext, String locationId, String studentIdId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Location location = loadLocation(userContext, locationId, allTokens());
-
-			synchronized(location){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				locationDaoOf(userContext).planToRemoveStudentListWithStudentId(location, studentIdId, this.emptyOptions());
-
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
-				return location;
-			}
-	}
 	//disconnect Location with user in Student
 	protected Location breakWithStudentByUser(HealthUserContext userContext, String locationId, String userId,  String [] tokensExpr)
 		 throws Exception{
@@ -618,14 +600,16 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfLocation(locationId);
 
 		
 		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent(studentNumber);
+		
+		checkerOf(userContext).checkStudentAvatarOfStudent(studentAvatar);
 		
 		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
@@ -641,12 +625,12 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 
 
 	}
-	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,locationId,studentName, studentId, guardianName, guardianMobile, userId, platformId, changeRequestId,tokensExpr);
+		checkParamsForAddingStudent(userContext,locationId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, userId, platformId, changeRequestId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, userId, platformId, changeRequestId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, userId, platformId, changeRequestId);
 
 		Location location = loadLocation(userContext, locationId, emptyOptions());
 		synchronized(location){
@@ -659,22 +643,23 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String locationId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String locationId,String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
 		checkerOf(userContext).checkIdOfStudent(id);
 
 		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent( studentNumber);
+		checkerOf(userContext).checkStudentAvatarOfStudent( studentAvatar);
 		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
 		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location updateStudentProperties(HealthUserContext userContext, String locationId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  Location updateStudentProperties(HealthUserContext userContext, String locationId, String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,locationId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,locationId,id,studentName,studentNumber,studentAvatar,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -690,7 +675,8 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		Student item = locationToUpdate.getStudentList().first();
 
 		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
+		item.updateStudentNumber( studentNumber );
+		item.updateStudentAvatar( studentAvatar );
 		item.updateGuardianName( guardianName );
 		item.updateGuardianMobile( guardianMobile );
 
@@ -703,13 +689,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId) throws Exception{
 
 		Student student = new Student();
 		
 		
 		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
+		student.setStudentNumber(studentNumber);		
+		student.setStudentAvatar(studentAvatar);		
 		student.setGuardianName(guardianName);		
 		student.setGuardianMobile(guardianMobile);		
 		User  user = new User();
@@ -837,8 +824,12 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		}
+		
+		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){

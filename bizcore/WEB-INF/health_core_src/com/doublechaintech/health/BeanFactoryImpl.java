@@ -16,6 +16,8 @@ import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.user.User;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.changerequest.ChangeRequest;
@@ -108,6 +110,16 @@ public class BeanFactoryImpl{
 
 	public SurveyStatus createSurveyStatus(Map<String,Object> options){
 		return new SurveyStatus();
+	}
+
+
+	public HealthSurveyReport createHealthSurveyReport(Map<String,Object> options){
+		return new HealthSurveyReport();
+	}
+
+
+	public StudentAnswer createStudentAnswer(Map<String,Object> options){
+		return new StudentAnswer();
 	}
 
 

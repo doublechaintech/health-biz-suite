@@ -1,55 +1,51 @@
-
-
-import React from 'react'
-import { Router, Route, Switch } from 'dva/router'
-import { ConfigProvider } from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN'
+import React from 'react';
+import { Router, Route, Switch } from 'dva/router';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 // import enUS from 'antd/lib/locale-provider/en_US'
-import Launcher from '../launcher/Launcher'
-import ForgetPasswordForm from '../launcher/ForgetPasswordForm'
+import Launcher from '../launcher/Launcher';
+import ForgetPasswordForm from '../launcher/ForgetPasswordForm';
 
-import GlobalComponents from './'
-
+import GlobalComponents from './';
 
 function RouterConfig({ history }) {
-
-	const {PlatformBizApp} = GlobalComponents
-	const {ProvinceBizApp} = GlobalComponents
-	const {CityBizApp} = GlobalComponents
-	const {DistrictBizApp} = GlobalComponents
-	const {LocationBizApp} = GlobalComponents
-	const {TeacherBizApp} = GlobalComponents
-	const {StudentBizApp} = GlobalComponents
-	const {QuestionBizApp} = GlobalComponents
-	const {QuestionTypeBizApp} = GlobalComponents
-	const {ClassDailyHealthSurveyBizApp} = GlobalComponents
-	const {DailySurveyQuestionBizApp} = GlobalComponents
-	const {StudentHealthSurveyBizApp} = GlobalComponents
-	const {StudentDailyAnswerBizApp} = GlobalComponents
-	const {SurveyStatusBizApp} = GlobalComponents
-	const {UserBizApp} = GlobalComponents
-	const {WechatLoginInfoBizApp} = GlobalComponents
-	const {ChangeRequestBizApp} = GlobalComponents
-	const {ChangeRequestTypeBizApp} = GlobalComponents
-	const {UserDomainBizApp} = GlobalComponents
-	const {UserWhiteListBizApp} = GlobalComponents
-	const {SecUserBizApp} = GlobalComponents
-	const {UserAppBizApp} = GlobalComponents
-	const {QuickLinkBizApp} = GlobalComponents
-	const {ListAccessBizApp} = GlobalComponents
-	const {ObjectAccessBizApp} = GlobalComponents
-	const {LoginHistoryBizApp} = GlobalComponents
-	const {GenericFormBizApp} = GlobalComponents
-	const {FormMessageBizApp} = GlobalComponents
-	const {FormFieldMessageBizApp} = GlobalComponents
-	const {FormFieldBizApp} = GlobalComponents
-	const {FormActionBizApp} = GlobalComponents
-	const {CandidateContainerBizApp} = GlobalComponents
-	const {CandidateElementBizApp} = GlobalComponents
-	const {WechatWorkappIdentifyBizApp} = GlobalComponents
-	const {WechatMiniappIdentifyBizApp} = GlobalComponents
-
-
+  const { PlatformBizApp } = GlobalComponents;
+  const { ProvinceBizApp } = GlobalComponents;
+  const { CityBizApp } = GlobalComponents;
+  const { DistrictBizApp } = GlobalComponents;
+  const { LocationBizApp } = GlobalComponents;
+  const { TeacherBizApp } = GlobalComponents;
+  const { StudentBizApp } = GlobalComponents;
+  const { QuestionBizApp } = GlobalComponents;
+  const { QuestionTypeBizApp } = GlobalComponents;
+  const { ClassDailyHealthSurveyBizApp } = GlobalComponents;
+  const { DailySurveyQuestionBizApp } = GlobalComponents;
+  const { StudentHealthSurveyBizApp } = GlobalComponents;
+  const { StudentDailyAnswerBizApp } = GlobalComponents;
+  const { SurveyStatusBizApp } = GlobalComponents;
+  const { HealthSurveyReportBizApp } = GlobalComponents;
+  const { StudentAnswerBizApp } = GlobalComponents;
+  const { UserBizApp } = GlobalComponents;
+  const { WechatLoginInfoBizApp } = GlobalComponents;
+  const { ChangeRequestBizApp } = GlobalComponents;
+  const { ChangeRequestTypeBizApp } = GlobalComponents;
+  const { UserDomainBizApp } = GlobalComponents;
+  const { UserWhiteListBizApp } = GlobalComponents;
+  const { SecUserBizApp } = GlobalComponents;
+  const { UserAppBizApp } = GlobalComponents;
+  const { QuickLinkBizApp } = GlobalComponents;
+  const { ListAccessBizApp } = GlobalComponents;
+  const { ObjectAccessBizApp } = GlobalComponents;
+  const { LoginHistoryBizApp } = GlobalComponents;
+  const { GenericFormBizApp } = GlobalComponents;
+  const { FormMessageBizApp } = GlobalComponents;
+  const { FormFieldMessageBizApp } = GlobalComponents;
+  const { FormFieldBizApp } = GlobalComponents;
+  const { FormActionBizApp } = GlobalComponents;
+  const { CandidateContainerBizApp } = GlobalComponents;
+  const { CandidateElementBizApp } = GlobalComponents;
+  const { WechatWorkappIdentifyBizApp } = GlobalComponents;
+  const { WechatMiniappIdentifyBizApp } = GlobalComponents;
 
   return (
     <ConfigProvider locale={zhCN}>
@@ -71,6 +67,8 @@ function RouterConfig({ history }) {
           <Route path="/studentHealthSurvey/" component={StudentHealthSurveyBizApp} />
           <Route path="/studentDailyAnswer/" component={StudentDailyAnswerBizApp} />
           <Route path="/surveyStatus/" component={SurveyStatusBizApp} />
+          <Route path="/healthSurveyReport/" component={HealthSurveyReportBizApp} />
+          <Route path="/studentAnswer/" component={StudentAnswerBizApp} />
           <Route path="/user/" component={UserBizApp} />
           <Route path="/wechatLoginInfo/" component={WechatLoginInfoBizApp} />
           <Route path="/changeRequest/" component={ChangeRequestBizApp} />
@@ -96,17 +94,7 @@ function RouterConfig({ history }) {
         </Switch>
       </Router>
     </ConfigProvider>
-  )
+  );
 }
 
-export default RouterConfig
-
-
-
-
-
-
-
-
-
-
+export default RouterConfig;

@@ -51,6 +51,16 @@ public interface ClassDailyHealthSurveyManager extends BaseManager{
 
 	*/
 
+	//public  HealthSurveyReportManager getHealthSurveyReportManager(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId ,String [] tokensExpr)  throws Exception;
+	
+	public  ClassDailyHealthSurvey addHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId , String [] tokensExpr)  throws Exception;
+	public  ClassDailyHealthSurvey removeHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String healthSurveyReportId, int healthSurveyReportVersion,String [] tokensExpr)  throws Exception;
+	public  ClassDailyHealthSurvey updateHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String healthSurveyReportId, int healthSurveyReportVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
+
+	/*
+
+	*/
+
 
 
 }

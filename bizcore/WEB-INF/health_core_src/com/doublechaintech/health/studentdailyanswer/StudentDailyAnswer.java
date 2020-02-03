@@ -14,6 +14,7 @@ import com.doublechaintech.health.KeyValuePair;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 @JsonSerialize(using = StudentDailyAnswerSerializer.class)
@@ -29,6 +30,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
+	public static final String STUDENT_ANSWER_LIST                      = "studentAnswerList" ;
 
 	public static final String INTERNAL_TYPE="StudentDailyAnswer";
 	public String getInternalType(){
@@ -59,6 +61,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	protected		int                 	mVersion            ;
 	
 	
+	protected		SmartList<StudentAnswer>	mStudentAnswerList  ;
 	
 		
 	public 	StudentDailyAnswer(){
@@ -169,6 +172,10 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		}
 		if(CHANGE_REQUEST_PROPERTY.equals(property)){
 			return getChangeRequest();
+		}
+		if(STUDENT_ANSWER_LIST.equals(property)){
+			List<BaseEntity> list = getStudentAnswerList().stream().map(item->item).collect(Collectors.toList());
+			return list;
 		}
 
     		//other property not include here
@@ -325,6 +332,113 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	
 	
 
+	public  SmartList<StudentAnswer> getStudentAnswerList(){
+		if(this.mStudentAnswerList == null){
+			this.mStudentAnswerList = new SmartList<StudentAnswer>();
+			this.mStudentAnswerList.setListInternalName (STUDENT_ANSWER_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mStudentAnswerList;	
+	}
+	public  void setStudentAnswerList(SmartList<StudentAnswer> studentAnswerList){
+		for( StudentAnswer studentAnswer:studentAnswerList){
+			studentAnswer.setDailyAnswer(this);
+		}
+
+		this.mStudentAnswerList = studentAnswerList;
+		this.mStudentAnswerList.setListInternalName (STUDENT_ANSWER_LIST );
+		
+	}
+	
+	public  void addStudentAnswer(StudentAnswer studentAnswer){
+		studentAnswer.setDailyAnswer(this);
+		getStudentAnswerList().add(studentAnswer);
+	}
+	public  void addStudentAnswerList(SmartList<StudentAnswer> studentAnswerList){
+		for( StudentAnswer studentAnswer:studentAnswerList){
+			studentAnswer.setDailyAnswer(this);
+		}
+		getStudentAnswerList().addAll(studentAnswerList);
+	}
+	public  void mergeStudentAnswerList(SmartList<StudentAnswer> studentAnswerList){
+		if(studentAnswerList==null){
+			return;
+		}
+		if(studentAnswerList.isEmpty()){
+			return;
+		}
+		addStudentAnswerList( studentAnswerList );
+		
+	}
+	public  StudentAnswer removeStudentAnswer(StudentAnswer studentAnswerIndex){
+		
+		int index = getStudentAnswerList().indexOf(studentAnswerIndex);
+        if(index < 0){
+        	String message = "StudentAnswer("+studentAnswerIndex.getId()+") with version='"+studentAnswerIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        StudentAnswer studentAnswer = getStudentAnswerList().get(index);        
+        // studentAnswer.clearDailyAnswer(); //disconnect with DailyAnswer
+        studentAnswer.clearFromAll(); //disconnect with DailyAnswer
+		
+		boolean result = getStudentAnswerList().planToRemove(studentAnswer);
+        if(!result){
+        	String message = "StudentAnswer("+studentAnswerIndex.getId()+") with version='"+studentAnswerIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return studentAnswer;
+        
+	
+	}
+	//断舍离
+	public  void breakWithStudentAnswer(StudentAnswer studentAnswer){
+		
+		if(studentAnswer == null){
+			return;
+		}
+		studentAnswer.setDailyAnswer(null);
+		//getStudentAnswerList().remove();
+	
+	}
+	
+	public  boolean hasStudentAnswer(StudentAnswer studentAnswer){
+	
+		return getStudentAnswerList().contains(studentAnswer);
+  
+	}
+	
+	public void copyStudentAnswerFrom(StudentAnswer studentAnswer) {
+
+		StudentAnswer studentAnswerInList = findTheStudentAnswer(studentAnswer);
+		StudentAnswer newStudentAnswer = new StudentAnswer();
+		studentAnswerInList.copyTo(newStudentAnswer);
+		newStudentAnswer.setVersion(0);//will trigger copy
+		getStudentAnswerList().add(newStudentAnswer);
+		addItemToFlexiableObject(COPIED_CHILD, newStudentAnswer);
+	}
+	
+	public  StudentAnswer findTheStudentAnswer(StudentAnswer studentAnswer){
+		
+		int index =  getStudentAnswerList().indexOf(studentAnswer);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "StudentAnswer("+studentAnswer.getId()+") with version='"+studentAnswer.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getStudentAnswerList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpStudentAnswerList(){
+		getStudentAnswerList().clear();
+	}
+	
+	
+	
+
+
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getStudentHealthSurvey(), internalType);
@@ -337,6 +451,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	public List<BaseEntity>  collectRefercencesFromLists(String internalType){
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
+		collectFromList(this, entityList, getStudentAnswerList(), internalType);
 
 		return entityList;
 	}
@@ -344,6 +459,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 	public  List<SmartList<?>> getAllRelatedLists() {
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
+		listOfList.add( getStudentAnswerList());
 			
 
 		return listOfList;
@@ -361,6 +477,11 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 		appendKeyValuePair(result, LAST_UPDATE_TIME_PROPERTY, getLastUpdateTime());
 		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
+		appendKeyValuePair(result, STUDENT_ANSWER_LIST, getStudentAnswerList());
+		if(!getStudentAnswerList().isEmpty()){
+			appendKeyValuePair(result, "studentAnswerCount", getStudentAnswerList().getTotalCount());
+			appendKeyValuePair(result, "studentAnswerCurrentPageNumber", getStudentAnswerList().getCurrentPageNumber());
+		}
 
 		
 		return result;
@@ -383,6 +504,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 			dest.setLastUpdateTime(getLastUpdateTime());
 			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
+			dest.setStudentAnswerList(getStudentAnswerList());
 
 		}
 		super.copyTo(baseDest);
@@ -404,6 +526,7 @@ public class StudentDailyAnswer extends BaseEntity implements  java.io.Serializa
 			dest.mergeLastUpdateTime(getLastUpdateTime());
 			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
+			dest.mergeStudentAnswerList(getStudentAnswerList());
 
 		}
 		super.copyTo(baseDest);

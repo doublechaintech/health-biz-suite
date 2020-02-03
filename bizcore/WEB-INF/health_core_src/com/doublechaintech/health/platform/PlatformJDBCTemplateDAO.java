@@ -1764,6 +1764,50 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
+	//disconnect Platform with user in Teacher
+	public Platform planToRemoveTeacherListWithUser(Platform platform, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.PLATFORM_PROPERTY, platform.getId());
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return platform;
+		}
+		if(externalTeacherList.isEmpty()){
+			return platform;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+			teacherItem.clearUser();
+			teacherItem.clearPlatform();
+			
+		}
+		
+		
+		SmartList<Teacher> teacherList = platform.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return platform;
+	}
+	
+	public int countTeacherListWithUser(String platformId, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.PLATFORM_PROPERTY, platformId);
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		int count = getTeacherDAO().countTeacherWithKey(key, options);
+		return count;
+	}
+	
 	//disconnect Platform with change_request in Teacher
 	public Platform planToRemoveTeacherListWithChangeRequest(Platform platform, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
@@ -1836,50 +1880,6 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
-	//disconnect Platform with student_id in Student
-	public Platform planToRemoveStudentListWithStudentId(Platform platform, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return platform;
-		}
-		if(externalStudentList.isEmpty()){
-			return platform;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return platform;
-	}
-	
-	public int countStudentListWithStudentId(String platformId, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
 	//disconnect Platform with address in Student
 	public Platform planToRemoveStudentListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();

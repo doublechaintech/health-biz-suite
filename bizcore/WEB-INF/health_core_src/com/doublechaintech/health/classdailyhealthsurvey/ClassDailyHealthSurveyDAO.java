@@ -14,7 +14,9 @@ import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
@@ -54,10 +56,14 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 		
 	public StudentHealthSurveyDAO getStudentHealthSurveyDAO();
 		
+	public HealthSurveyReportDAO getHealthSurveyReportDAO();
+		
 	
  	public SmartList<ClassDailyHealthSurvey> requestCandidateClassDailyHealthSurveyForDailySurveyQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<ClassDailyHealthSurvey> requestCandidateClassDailyHealthSurveyForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+ 	public SmartList<ClassDailyHealthSurvey> requestCandidateClassDailyHealthSurveyForHealthSurveyReport(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
 	public ClassDailyHealthSurvey planToRemoveDailySurveyQuestionList(ClassDailyHealthSurvey classDailyHealthSurvey, String dailySurveyQuestionIds[], Map<String,Object> options)throws Exception;
@@ -89,6 +95,17 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 	//disconnect ClassDailyHealthSurvey with change_request in StudentHealthSurvey
 	public ClassDailyHealthSurvey planToRemoveStudentHealthSurveyListWithChangeRequest(ClassDailyHealthSurvey classDailyHealthSurvey, String changeRequestId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithChangeRequest(String classDailyHealthSurveyId, String changeRequestId, Map<String,Object> options)throws Exception;
+	
+	public ClassDailyHealthSurvey planToRemoveHealthSurveyReportList(ClassDailyHealthSurvey classDailyHealthSurvey, String healthSurveyReportIds[], Map<String,Object> options)throws Exception;
+
+
+	//disconnect ClassDailyHealthSurvey with student in HealthSurveyReport
+	public ClassDailyHealthSurvey planToRemoveHealthSurveyReportListWithStudent(ClassDailyHealthSurvey classDailyHealthSurvey, String studentId, Map<String,Object> options)throws Exception;
+	public int countHealthSurveyReportListWithStudent(String classDailyHealthSurveyId, String studentId, Map<String,Object> options)throws Exception;
+	
+	//disconnect ClassDailyHealthSurvey with teacher in HealthSurveyReport
+	public ClassDailyHealthSurvey planToRemoveHealthSurveyReportListWithTeacher(ClassDailyHealthSurvey classDailyHealthSurvey, String teacherId, Map<String,Object> options)throws Exception;
+	public int countHealthSurveyReportListWithTeacher(String classDailyHealthSurveyId, String teacherId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<ClassDailyHealthSurvey> queryList(String sql, Object ... parmeters);
@@ -123,6 +140,9 @@ public interface ClassDailyHealthSurveyDAO extends BaseDAO{
 	
 	// 需要一个加载引用我的对象的enhance方法:StudentHealthSurvey的classDailyHealthSurvey的StudentHealthSurveyList
 	public SmartList<StudentHealthSurvey> loadOurStudentHealthSurveyList(HealthUserContext userContext, List<ClassDailyHealthSurvey> us, Map<String,Object> options) throws Exception;
+	
+	// 需要一个加载引用我的对象的enhance方法:HealthSurveyReport的survey的HealthSurveyReportList
+	public SmartList<HealthSurveyReport> loadOurHealthSurveyReportList(HealthUserContext userContext, List<ClassDailyHealthSurvey> us, Map<String,Object> options) throws Exception;
 	
 }
 

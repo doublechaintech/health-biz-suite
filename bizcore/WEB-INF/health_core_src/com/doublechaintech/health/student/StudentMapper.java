@@ -17,7 +17,8 @@ public class StudentMapper extends BaseRowMapper<Student>{
 		 		
  		setId(student, rs, rowNumber); 		
  		setStudentName(student, rs, rowNumber); 		
- 		setStudentId(student, rs, rowNumber); 		
+ 		setStudentNumber(student, rs, rowNumber); 		
+ 		setStudentAvatar(student, rs, rowNumber); 		
  		setGuardianName(student, rs, rowNumber); 		
  		setGuardianMobile(student, rs, rowNumber); 		
  		setAddress(student, rs, rowNumber); 		
@@ -58,16 +59,28 @@ public class StudentMapper extends BaseRowMapper<Student>{
 		student.setStudentName(studentName);
 	}
 		
-	protected void setStudentId(Student student, ResultSet rs, int rowNumber) throws SQLException{
+	protected void setStudentNumber(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
-		String studentId = rs.getString(StudentTable.COLUMN_STUDENT_ID);
-		if(studentId == null){
+		String studentNumber = rs.getString(StudentTable.COLUMN_STUDENT_NUMBER);
+		if(studentNumber == null){
 			//do nothing when nothing found in database
 			return;
 		}
 		
-		student.setStudentId(studentId);
+		student.setStudentNumber(studentNumber);
+	}
+		
+	protected void setStudentAvatar(Student student, ResultSet rs, int rowNumber) throws SQLException{
+	
+		//there will be issue when the type is double/int/long
+		String studentAvatar = rs.getString(StudentTable.COLUMN_STUDENT_AVATAR);
+		if(studentAvatar == null){
+			//do nothing when nothing found in database
+			return;
+		}
+		
+		student.setStudentAvatar(studentAvatar);
 	}
 		
 	protected void setGuardianName(Student student, ResultSet rs, int rowNumber) throws SQLException{

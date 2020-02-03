@@ -16,6 +16,8 @@ import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
+import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 @JsonSerialize(using = TeacherSerializer.class)
 public class Teacher extends BaseEntity implements  java.io.Serializable{
@@ -26,13 +28,16 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	public static final String MOBILE_PROPERTY                = "mobile"            ;
 	public static final String SCHOOL_PROPERTY                = "school"            ;
 	public static final String SCHOOL_CLASS_PROPERTY          = "schoolClass"       ;
+	public static final String CLASS_SIZE_PROPERTY            = "classSize"         ;
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
+	public static final String USER_PROPERTY                  = "user"              ;
 	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String CLASS_DAILY_HEALTH_SURVEY_LIST           = "classDailyHealthSurveyList";
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
+	public static final String HEALTH_SURVEY_REPORT_LIST                = "healthSurveyReportList";
 
 	public static final String INTERNAL_TYPE="Teacher";
 	public String getInternalType(){
@@ -58,14 +63,17 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	protected		String              	mMobile             ;
 	protected		String              	mSchool             ;
 	protected		String              	mSchoolClass        ;
+	protected		int                 	mClassSize          ;
 	protected		DateTime            	mCreateTime         ;
 	protected		Platform            	mPlatform           ;
+	protected		User                	mUser               ;
 	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
 	protected		SmartList<ClassDailyHealthSurvey>	mClassDailyHealthSurveyList;
 	protected		SmartList<StudentHealthSurvey>	mStudentHealthSurveyList;
+	protected		SmartList<HealthSurveyReport>	mHealthSurveyReportList;
 	
 		
 	public 	Teacher(){
@@ -84,6 +92,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
 		setPlatform( null );
+		setUser( null );
 		setChangeRequest( null );
 
 		this.changed = true;
@@ -105,6 +114,9 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		}
 		if(SCHOOL_CLASS_PROPERTY.equals(property)){
 			changeSchoolClassProperty(newValueExpr);
+		}
+		if(CLASS_SIZE_PROPERTY.equals(property)){
+			changeClassSizeProperty(newValueExpr);
 		}
 		if(CREATE_TIME_PROPERTY.equals(property)){
 			changeCreateTimeProperty(newValueExpr);
@@ -174,6 +186,21 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			
 			
 			
+	protected void changeClassSizeProperty(String newValueExpr){
+		int oldValue = getClassSize();
+		int newValue = parseInt(newValueExpr);
+		if(equalsInt(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateClassSize(newValue);
+		this.onChangeProperty(CLASS_SIZE_PROPERTY, oldValue, newValue);
+		return;
+  
+	}
+			
+			
+			
 	protected void changeCreateTimeProperty(String newValueExpr){
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
@@ -206,11 +233,17 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		if(SCHOOL_CLASS_PROPERTY.equals(property)){
 			return getSchoolClass();
 		}
+		if(CLASS_SIZE_PROPERTY.equals(property)){
+			return getClassSize();
+		}
 		if(CREATE_TIME_PROPERTY.equals(property)){
 			return getCreateTime();
 		}
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
+		}
+		if(USER_PROPERTY.equals(property)){
+			return getUser();
 		}
 		if(CHANGE_REQUEST_PROPERTY.equals(property)){
 			return getChangeRequest();
@@ -221,6 +254,10 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
+		if(HEALTH_SURVEY_REPORT_LIST.equals(property)){
+			List<BaseEntity> list = getHealthSurveyReportList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -321,6 +358,22 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	}
 	
 	
+	public void setClassSize(int classSize){
+		this.mClassSize = classSize;;
+	}
+	public int getClassSize(){
+		return this.mClassSize;
+	}
+	public Teacher updateClassSize(int classSize){
+		this.mClassSize = classSize;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeClassSize(int classSize){
+		setClassSize(classSize);
+	}
+	
+	
 	public void setCreateTime(DateTime createTime){
 		this.mCreateTime = createTime;;
 	}
@@ -355,6 +408,27 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	
 	public void clearPlatform(){
 		setPlatform ( null );
+		this.changed = true;
+	}
+	
+	public void setUser(User user){
+		this.mUser = user;;
+	}
+	public User getUser(){
+		return this.mUser;
+	}
+	public Teacher updateUser(User user){
+		this.mUser = user;;
+		this.changed = true;
+		return this;
+	}
+	public void mergeUser(User user){
+		if(user != null) { setUser(user);}
+	}
+	
+	
+	public void clearUser(){
+		setUser ( null );
 		this.changed = true;
 	}
 	
@@ -610,9 +684,117 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	
 
 
+	public  SmartList<HealthSurveyReport> getHealthSurveyReportList(){
+		if(this.mHealthSurveyReportList == null){
+			this.mHealthSurveyReportList = new SmartList<HealthSurveyReport>();
+			this.mHealthSurveyReportList.setListInternalName (HEALTH_SURVEY_REPORT_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mHealthSurveyReportList;	
+	}
+	public  void setHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		for( HealthSurveyReport healthSurveyReport:healthSurveyReportList){
+			healthSurveyReport.setTeacher(this);
+		}
+
+		this.mHealthSurveyReportList = healthSurveyReportList;
+		this.mHealthSurveyReportList.setListInternalName (HEALTH_SURVEY_REPORT_LIST );
+		
+	}
+	
+	public  void addHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		healthSurveyReport.setTeacher(this);
+		getHealthSurveyReportList().add(healthSurveyReport);
+	}
+	public  void addHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		for( HealthSurveyReport healthSurveyReport:healthSurveyReportList){
+			healthSurveyReport.setTeacher(this);
+		}
+		getHealthSurveyReportList().addAll(healthSurveyReportList);
+	}
+	public  void mergeHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		if(healthSurveyReportList==null){
+			return;
+		}
+		if(healthSurveyReportList.isEmpty()){
+			return;
+		}
+		addHealthSurveyReportList( healthSurveyReportList );
+		
+	}
+	public  HealthSurveyReport removeHealthSurveyReport(HealthSurveyReport healthSurveyReportIndex){
+		
+		int index = getHealthSurveyReportList().indexOf(healthSurveyReportIndex);
+        if(index < 0){
+        	String message = "HealthSurveyReport("+healthSurveyReportIndex.getId()+") with version='"+healthSurveyReportIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        HealthSurveyReport healthSurveyReport = getHealthSurveyReportList().get(index);        
+        // healthSurveyReport.clearTeacher(); //disconnect with Teacher
+        healthSurveyReport.clearFromAll(); //disconnect with Teacher
+		
+		boolean result = getHealthSurveyReportList().planToRemove(healthSurveyReport);
+        if(!result){
+        	String message = "HealthSurveyReport("+healthSurveyReportIndex.getId()+") with version='"+healthSurveyReportIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return healthSurveyReport;
+        
+	
+	}
+	//断舍离
+	public  void breakWithHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		
+		if(healthSurveyReport == null){
+			return;
+		}
+		healthSurveyReport.setTeacher(null);
+		//getHealthSurveyReportList().remove();
+	
+	}
+	
+	public  boolean hasHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+	
+		return getHealthSurveyReportList().contains(healthSurveyReport);
+  
+	}
+	
+	public void copyHealthSurveyReportFrom(HealthSurveyReport healthSurveyReport) {
+
+		HealthSurveyReport healthSurveyReportInList = findTheHealthSurveyReport(healthSurveyReport);
+		HealthSurveyReport newHealthSurveyReport = new HealthSurveyReport();
+		healthSurveyReportInList.copyTo(newHealthSurveyReport);
+		newHealthSurveyReport.setVersion(0);//will trigger copy
+		getHealthSurveyReportList().add(newHealthSurveyReport);
+		addItemToFlexiableObject(COPIED_CHILD, newHealthSurveyReport);
+	}
+	
+	public  HealthSurveyReport findTheHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		
+		int index =  getHealthSurveyReportList().indexOf(healthSurveyReport);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "HealthSurveyReport("+healthSurveyReport.getId()+") with version='"+healthSurveyReport.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getHealthSurveyReportList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpHealthSurveyReportList(){
+		getHealthSurveyReportList().clear();
+	}
+	
+	
+	
+
+
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getPlatform(), internalType);
+		addToEntityList(this, entityList, getUser(), internalType);
 		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
@@ -623,6 +805,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
 		collectFromList(this, entityList, getClassDailyHealthSurveyList(), internalType);
 		collectFromList(this, entityList, getStudentHealthSurveyList(), internalType);
+		collectFromList(this, entityList, getHealthSurveyReportList(), internalType);
 
 		return entityList;
 	}
@@ -632,6 +815,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		
 		listOfList.add( getClassDailyHealthSurveyList());
 		listOfList.add( getStudentHealthSurveyList());
+		listOfList.add( getHealthSurveyReportList());
 			
 
 		return listOfList;
@@ -646,8 +830,10 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, MOBILE_PROPERTY, getMaskedMobile());
 		appendKeyValuePair(result, SCHOOL_PROPERTY, getSchool());
 		appendKeyValuePair(result, SCHOOL_CLASS_PROPERTY, getSchoolClass());
+		appendKeyValuePair(result, CLASS_SIZE_PROPERTY, getClassSize());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
+		appendKeyValuePair(result, USER_PROPERTY, getUser());
 		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyList());
@@ -659,6 +845,11 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		if(!getStudentHealthSurveyList().isEmpty()){
 			appendKeyValuePair(result, "studentHealthSurveyCount", getStudentHealthSurveyList().getTotalCount());
 			appendKeyValuePair(result, "studentHealthSurveyCurrentPageNumber", getStudentHealthSurveyList().getCurrentPageNumber());
+		}
+		appendKeyValuePair(result, HEALTH_SURVEY_REPORT_LIST, getHealthSurveyReportList());
+		if(!getHealthSurveyReportList().isEmpty()){
+			appendKeyValuePair(result, "healthSurveyReportCount", getHealthSurveyReportList().getTotalCount());
+			appendKeyValuePair(result, "healthSurveyReportCurrentPageNumber", getHealthSurveyReportList().getCurrentPageNumber());
 		}
 
 		
@@ -679,12 +870,15 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.setMobile(getMobile());
 			dest.setSchool(getSchool());
 			dest.setSchoolClass(getSchoolClass());
+			dest.setClassSize(getClassSize());
 			dest.setCreateTime(getCreateTime());
 			dest.setPlatform(getPlatform());
+			dest.setUser(getUser());
 			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 			dest.setClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
+			dest.setHealthSurveyReportList(getHealthSurveyReportList());
 
 		}
 		super.copyTo(baseDest);
@@ -703,12 +897,15 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.mergeMobile(getMobile());
 			dest.mergeSchool(getSchool());
 			dest.mergeSchoolClass(getSchoolClass());
+			dest.mergeClassSize(getClassSize());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergePlatform(getPlatform());
+			dest.mergeUser(getUser());
 			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 			dest.mergeClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
+			dest.mergeHealthSurveyReportList(getHealthSurveyReportList());
 
 		}
 		super.copyTo(baseDest);
@@ -728,6 +925,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 			dest.mergeMobile(getMobile());
 			dest.mergeSchool(getSchool());
 			dest.mergeSchoolClass(getSchoolClass());
+			dest.mergeClassSize(getClassSize());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergeVersion(getVersion());
 
@@ -735,7 +933,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getMobile(), getSchool(), getSchoolClass(), getCreateTime(), getPlatform(), getChangeRequest(), getVersion()};
+		return new Object[]{getId(), getName(), getMobile(), getSchool(), getSchoolClass(), getClassSize(), getCreateTime(), getPlatform(), getUser(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -746,9 +944,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		stringBuilder.append("\tmobile='"+getMobile()+"';");
 		stringBuilder.append("\tschool='"+getSchool()+"';");
 		stringBuilder.append("\tschoolClass='"+getSchoolClass()+"';");
+		stringBuilder.append("\tclassSize='"+getClassSize()+"';");
 		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
 		if(getPlatform() != null ){
  			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");
+ 		}
+		if(getUser() != null ){
+ 			stringBuilder.append("\tuser='User("+getUser().getId()+")';");
  		}
 		if(getChangeRequest() != null ){
  			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
@@ -760,6 +962,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 	}
 	
 	//provide number calculation function
+	
+	public void increaseClassSize(int incClassSize){
+		updateClassSize(this.mClassSize +  incClassSize);
+	}
+	public void decreaseClassSize(int decClassSize){
+		updateClassSize(this.mClassSize - decClassSize);
+	}
 	
 
 }

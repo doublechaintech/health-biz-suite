@@ -54,7 +54,6 @@
 
 	</bean>
 
-	<!-- 微信小程序
 	<bean id="wxMaService"	class="cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl">
 		<property name="wxMaConfig">
 			<bean class="cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl">
@@ -65,7 +64,6 @@
 			</bean>
 		</property>
 	</bean>
-	-->
 
 	<!--  企业微信
 	<bean id="wxCpService"	class="me.chanjar.weixin.cp.api.impl.WxCpServiceImpl">
@@ -112,7 +110,10 @@
 	
 	
 	
-	
+	<bean id="wxappService"	class="com.doublechaintech.health.wechatapp.WechatAppViewBizService">
+		<property name="wxMaService" ref="wxMaService"/>
+		<property name="changeRequestService" ref="changeRequestService"/>
+	</bean>
 	
 	
 

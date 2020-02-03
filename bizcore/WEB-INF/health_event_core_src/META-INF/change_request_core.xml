@@ -15,7 +15,10 @@
 	</bean>
 	
 	<!-- Start handle for different change request per type -->
-	<bean id="loginHandler" class="com.doublechaintech.health.changerequest.LoginHandler" ></bean>
+	<bean id="addClassHandler" class="com.doublechaintech.health.changerequest.AddClassHandler" ></bean>
+	<bean id="addStudentHandler" class="com.doublechaintech.health.changerequest.AddStudentHandler" ></bean>
+	<bean id="publishSurveyHandler" class="com.doublechaintech.health.changerequest.PublishSurveyHandler" ></bean>
+	<bean id="fillSurveyHandler" class="com.doublechaintech.health.changerequest.FillSurveyHandler" ></bean>
 	<bean id="answerSurveyHandler" class="com.doublechaintech.health.changerequest.AnswerSurveyHandler" ></bean>
 	<bean id="registerTeacherHandler" class="com.doublechaintech.health.changerequest.RegisterTeacherHandler" ></bean>
 	<bean id="createSurveyHandler" class="com.doublechaintech.health.changerequest.CreateSurveyHandler" ></bean>

@@ -17,6 +17,7 @@ import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 @JsonSerialize(using = ClassDailyHealthSurveySerializer.class)
 public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Serializable{
@@ -32,6 +33,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 
 	public static final String DAILY_SURVEY_QUESTION_LIST               = "dailySurveyQuestionList";
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
+	public static final String HEALTH_SURVEY_REPORT_LIST                = "healthSurveyReportList";
 
 	public static final String INTERNAL_TYPE="ClassDailyHealthSurvey";
 	public String getInternalType(){
@@ -63,6 +65,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	
 	protected		SmartList<DailySurveyQuestion>	mDailySurveyQuestionList;
 	protected		SmartList<StudentHealthSurvey>	mStudentHealthSurveyList;
+	protected		SmartList<HealthSurveyReport>	mHealthSurveyReportList;
 	
 		
 	public 	ClassDailyHealthSurvey(){
@@ -159,6 +162,10 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
+			return list;
+		}
+		if(HEALTH_SURVEY_REPORT_LIST.equals(property)){
+			List<BaseEntity> list = getHealthSurveyReportList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -514,6 +521,113 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	
 
 
+	public  SmartList<HealthSurveyReport> getHealthSurveyReportList(){
+		if(this.mHealthSurveyReportList == null){
+			this.mHealthSurveyReportList = new SmartList<HealthSurveyReport>();
+			this.mHealthSurveyReportList.setListInternalName (HEALTH_SURVEY_REPORT_LIST );
+			//有名字，便于做权限控制
+		}
+		
+		return this.mHealthSurveyReportList;	
+	}
+	public  void setHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		for( HealthSurveyReport healthSurveyReport:healthSurveyReportList){
+			healthSurveyReport.setSurvey(this);
+		}
+
+		this.mHealthSurveyReportList = healthSurveyReportList;
+		this.mHealthSurveyReportList.setListInternalName (HEALTH_SURVEY_REPORT_LIST );
+		
+	}
+	
+	public  void addHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		healthSurveyReport.setSurvey(this);
+		getHealthSurveyReportList().add(healthSurveyReport);
+	}
+	public  void addHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		for( HealthSurveyReport healthSurveyReport:healthSurveyReportList){
+			healthSurveyReport.setSurvey(this);
+		}
+		getHealthSurveyReportList().addAll(healthSurveyReportList);
+	}
+	public  void mergeHealthSurveyReportList(SmartList<HealthSurveyReport> healthSurveyReportList){
+		if(healthSurveyReportList==null){
+			return;
+		}
+		if(healthSurveyReportList.isEmpty()){
+			return;
+		}
+		addHealthSurveyReportList( healthSurveyReportList );
+		
+	}
+	public  HealthSurveyReport removeHealthSurveyReport(HealthSurveyReport healthSurveyReportIndex){
+		
+		int index = getHealthSurveyReportList().indexOf(healthSurveyReportIndex);
+        if(index < 0){
+        	String message = "HealthSurveyReport("+healthSurveyReportIndex.getId()+") with version='"+healthSurveyReportIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        HealthSurveyReport healthSurveyReport = getHealthSurveyReportList().get(index);        
+        // healthSurveyReport.clearSurvey(); //disconnect with Survey
+        healthSurveyReport.clearFromAll(); //disconnect with Survey
+		
+		boolean result = getHealthSurveyReportList().planToRemove(healthSurveyReport);
+        if(!result){
+        	String message = "HealthSurveyReport("+healthSurveyReportIndex.getId()+") with version='"+healthSurveyReportIndex.getVersion()+"' NOT found!";
+            throw new IllegalStateException(message);
+        }
+        return healthSurveyReport;
+        
+	
+	}
+	//断舍离
+	public  void breakWithHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		
+		if(healthSurveyReport == null){
+			return;
+		}
+		healthSurveyReport.setSurvey(null);
+		//getHealthSurveyReportList().remove();
+	
+	}
+	
+	public  boolean hasHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+	
+		return getHealthSurveyReportList().contains(healthSurveyReport);
+  
+	}
+	
+	public void copyHealthSurveyReportFrom(HealthSurveyReport healthSurveyReport) {
+
+		HealthSurveyReport healthSurveyReportInList = findTheHealthSurveyReport(healthSurveyReport);
+		HealthSurveyReport newHealthSurveyReport = new HealthSurveyReport();
+		healthSurveyReportInList.copyTo(newHealthSurveyReport);
+		newHealthSurveyReport.setVersion(0);//will trigger copy
+		getHealthSurveyReportList().add(newHealthSurveyReport);
+		addItemToFlexiableObject(COPIED_CHILD, newHealthSurveyReport);
+	}
+	
+	public  HealthSurveyReport findTheHealthSurveyReport(HealthSurveyReport healthSurveyReport){
+		
+		int index =  getHealthSurveyReportList().indexOf(healthSurveyReport);
+		//The input parameter must have the same id and version number.
+		if(index < 0){
+ 			String message = "HealthSurveyReport("+healthSurveyReport.getId()+") with version='"+healthSurveyReport.getVersion()+"' NOT found!";
+			throw new IllegalStateException(message);
+		}
+		
+		return  getHealthSurveyReportList().get(index);
+		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
+	}
+	
+	public  void cleanUpHealthSurveyReportList(){
+		getHealthSurveyReportList().clear();
+	}
+	
+	
+	
+
+
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getTeacher(), internalType);
@@ -528,6 +642,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
 		collectFromList(this, entityList, getDailySurveyQuestionList(), internalType);
 		collectFromList(this, entityList, getStudentHealthSurveyList(), internalType);
+		collectFromList(this, entityList, getHealthSurveyReportList(), internalType);
 
 		return entityList;
 	}
@@ -537,6 +652,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		
 		listOfList.add( getDailySurveyQuestionList());
 		listOfList.add( getStudentHealthSurveyList());
+		listOfList.add( getHealthSurveyReportList());
 			
 
 		return listOfList;
@@ -563,6 +679,11 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			appendKeyValuePair(result, "studentHealthSurveyCount", getStudentHealthSurveyList().getTotalCount());
 			appendKeyValuePair(result, "studentHealthSurveyCurrentPageNumber", getStudentHealthSurveyList().getCurrentPageNumber());
 		}
+		appendKeyValuePair(result, HEALTH_SURVEY_REPORT_LIST, getHealthSurveyReportList());
+		if(!getHealthSurveyReportList().isEmpty()){
+			appendKeyValuePair(result, "healthSurveyReportCount", getHealthSurveyReportList().getTotalCount());
+			appendKeyValuePair(result, "healthSurveyReportCurrentPageNumber", getHealthSurveyReportList().getCurrentPageNumber());
+		}
 
 		
 		return result;
@@ -586,6 +707,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			dest.setVersion(getVersion());
 			dest.setDailySurveyQuestionList(getDailySurveyQuestionList());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
+			dest.setHealthSurveyReportList(getHealthSurveyReportList());
 
 		}
 		super.copyTo(baseDest);
@@ -608,6 +730,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			dest.mergeVersion(getVersion());
 			dest.mergeDailySurveyQuestionList(getDailySurveyQuestionList());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
+			dest.mergeHealthSurveyReportList(getHealthSurveyReportList());
 
 		}
 		super.copyTo(baseDest);

@@ -22,8 +22,10 @@ import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
+import com.doublechaintech.health.studentanswer.StudentAnswerDAO;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
 import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
@@ -65,6 +67,25 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	}
 
 
+			
+		
+	
+  	private  StudentAnswerDAO  studentAnswerDAO;
+ 	public void setStudentAnswerDAO(StudentAnswerDAO pStudentAnswerDAO){
+ 	
+ 		if(pStudentAnswerDAO == null){
+ 			throw new IllegalStateException("Do not try to set studentAnswerDAO to null.");
+ 		}
+	 	this.studentAnswerDAO = pStudentAnswerDAO;
+ 	}
+ 	public StudentAnswerDAO getStudentAnswerDAO(){
+ 		if(this.studentAnswerDAO == null){
+ 			throw new IllegalStateException("The studentAnswerDAO is not configured yet, please config it some where.");
+ 		}
+ 		
+	 	return this.studentAnswerDAO;
+ 	}	
+ 	
 			
 		
 
@@ -115,6 +136,13 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 		StudentDailyAnswer newStudentDailyAnswer = loadInternalStudentDailyAnswer(accessKey, options);
 		newStudentDailyAnswer.setVersion(0);
 		
+		
+ 		
+ 		if(isSaveStudentAnswerListEnabled(options)){
+ 			for(StudentAnswer item: newStudentDailyAnswer.getStudentAnswerList()){
+ 				item.setVersion(0);
+ 			}
+ 		}
 		
 
 		
@@ -249,6 +277,20 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	
  
 		
+	
+	protected boolean isExtractStudentAnswerListEnabled(Map<String,Object> options){		
+ 		return checkOptions(options,StudentDailyAnswerTokens.STUDENT_ANSWER_LIST);
+ 	}
+ 	protected boolean isAnalyzeStudentAnswerListEnabled(Map<String,Object> options){		 		
+ 		return StudentDailyAnswerTokens.of(options).analyzeStudentAnswerListEnabled();
+ 	}
+	
+	protected boolean isSaveStudentAnswerListEnabled(Map<String,Object> options){
+		return checkOptions(options, StudentDailyAnswerTokens.STUDENT_ANSWER_LIST);
+		
+ 	}
+ 	
+		
 
 	
 
@@ -287,6 +329,14 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 	 		extractChangeRequest(studentDailyAnswer, loadOptions);
  		}
  
+		
+		if(isExtractStudentAnswerListEnabled(loadOptions)){
+	 		extractStudentAnswerList(studentDailyAnswer, loadOptions);
+ 		}	
+ 		if(isAnalyzeStudentAnswerListEnabled(loadOptions)){
+	 		analyzeStudentAnswerList(studentDailyAnswer, loadOptions);
+ 		}
+ 		
 		
 		return studentDailyAnswer;
 		
@@ -353,6 +403,56 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	}
  		
  
+		
+	protected void enhanceStudentAnswerList(SmartList<StudentAnswer> studentAnswerList,Map<String,Object> options){
+		//extract multiple list from difference sources
+		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
+	}
+	
+	protected StudentDailyAnswer extractStudentAnswerList(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
+		
+		
+		if(studentDailyAnswer == null){
+			return null;
+		}
+		if(studentDailyAnswer.getId() == null){
+			return studentDailyAnswer;
+		}
+
+		
+		
+		SmartList<StudentAnswer> studentAnswerList = getStudentAnswerDAO().findStudentAnswerByDailyAnswer(studentDailyAnswer.getId(),options);
+		if(studentAnswerList != null){
+			enhanceStudentAnswerList(studentAnswerList,options);
+			studentDailyAnswer.setStudentAnswerList(studentAnswerList);
+		}
+		
+		return studentDailyAnswer;
+	
+	}	
+	
+	protected StudentDailyAnswer analyzeStudentAnswerList(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
+		
+		
+		if(studentDailyAnswer == null){
+			return null;
+		}
+		if(studentDailyAnswer.getId() == null){
+			return studentDailyAnswer;
+		}
+
+		
+		
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();
+		if(studentAnswerList != null){
+			getStudentAnswerDAO().analyzeStudentAnswerByDailyAnswer(studentAnswerList, studentDailyAnswer.getId(), options);
+			
+		}
+		
+		return studentDailyAnswer;
+	
+	}	
+	
 		
 		
   	
@@ -715,6 +815,13 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  		}
  
 		
+		if(isSaveStudentAnswerListEnabled(options)){
+	 		saveStudentAnswerList(studentDailyAnswer, options);
+	 		//removeStudentAnswerList(studentDailyAnswer, options);
+	 		//Not delete the record
+	 		
+ 		}		
+		
 		return studentDailyAnswer;
 		
 	}
@@ -776,18 +883,183 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  
 
 	
+	public StudentDailyAnswer planToRemoveStudentAnswerList(StudentDailyAnswer studentDailyAnswer, String studentAnswerIds[], Map<String,Object> options)throws Exception{
+	
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentAnswer.DAILY_ANSWER_PROPERTY, studentDailyAnswer.getId());
+		key.put(StudentAnswer.ID_PROPERTY, studentAnswerIds);
+		
+		SmartList<StudentAnswer> externalStudentAnswerList = getStudentAnswerDAO().
+				findStudentAnswerWithKey(key, options);
+		if(externalStudentAnswerList == null){
+			return studentDailyAnswer;
+		}
+		if(externalStudentAnswerList.isEmpty()){
+			return studentDailyAnswer;
+		}
+		
+		for(StudentAnswer studentAnswerItem: externalStudentAnswerList){
 
+			studentAnswerItem.clearFromAll();
+		}
+		
+		
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();		
+		studentAnswerList.addAllToRemoveList(externalStudentAnswerList);
+		return studentDailyAnswer;	
+	
+	}
+
+
+	//disconnect StudentDailyAnswer with health_survey_report in StudentAnswer
+	public StudentDailyAnswer planToRemoveStudentAnswerListWithHealthSurveyReport(StudentDailyAnswer studentDailyAnswer, String healthSurveyReportId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentAnswer.DAILY_ANSWER_PROPERTY, studentDailyAnswer.getId());
+		key.put(StudentAnswer.HEALTH_SURVEY_REPORT_PROPERTY, healthSurveyReportId);
+		
+		SmartList<StudentAnswer> externalStudentAnswerList = getStudentAnswerDAO().
+				findStudentAnswerWithKey(key, options);
+		if(externalStudentAnswerList == null){
+			return studentDailyAnswer;
+		}
+		if(externalStudentAnswerList.isEmpty()){
+			return studentDailyAnswer;
+		}
+		
+		for(StudentAnswer studentAnswerItem: externalStudentAnswerList){
+			studentAnswerItem.clearHealthSurveyReport();
+			studentAnswerItem.clearDailyAnswer();
+			
+		}
+		
+		
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();		
+		studentAnswerList.addAllToRemoveList(externalStudentAnswerList);
+		return studentDailyAnswer;
+	}
+	
+	public int countStudentAnswerListWithHealthSurveyReport(String studentDailyAnswerId, String healthSurveyReportId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentAnswer.DAILY_ANSWER_PROPERTY, studentDailyAnswerId);
+		key.put(StudentAnswer.HEALTH_SURVEY_REPORT_PROPERTY, healthSurveyReportId);
+		
+		int count = getStudentAnswerDAO().countStudentAnswerWithKey(key, options);
+		return count;
+	}
+	
+
+		
+	protected StudentDailyAnswer saveStudentAnswerList(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
+		
+		
+		
+		
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();
+		if(studentAnswerList == null){
+			//null list means nothing
+			return studentDailyAnswer;
+		}
+		SmartList<StudentAnswer> mergedUpdateStudentAnswerList = new SmartList<StudentAnswer>();
+		
+		
+		mergedUpdateStudentAnswerList.addAll(studentAnswerList); 
+		if(studentAnswerList.getToRemoveList() != null){
+			//ensures the toRemoveList is not null
+			mergedUpdateStudentAnswerList.addAll(studentAnswerList.getToRemoveList());
+			studentAnswerList.removeAll(studentAnswerList.getToRemoveList());
+			//OK for now, need fix later
+		}
+
+		//adding new size can improve performance
+	
+		getStudentAnswerDAO().saveStudentAnswerList(mergedUpdateStudentAnswerList,options);
+		
+		if(studentAnswerList.getToRemoveList() != null){
+			studentAnswerList.removeAll(studentAnswerList.getToRemoveList());
+		}
+		
+		
+		return studentDailyAnswer;
+	
+	}
+	
+	protected StudentDailyAnswer removeStudentAnswerList(StudentDailyAnswer studentDailyAnswer, Map<String,Object> options){
+	
+	
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();
+		if(studentAnswerList == null){
+			return studentDailyAnswer;
+		}	
+	
+		SmartList<StudentAnswer> toRemoveStudentAnswerList = studentAnswerList.getToRemoveList();
+		
+		if(toRemoveStudentAnswerList == null){
+			return studentDailyAnswer;
+		}
+		if(toRemoveStudentAnswerList.isEmpty()){
+			return studentDailyAnswer;// Does this mean delete all from the parent object?
+		}
+		//Call DAO to remove the list
+		
+		getStudentAnswerDAO().removeStudentAnswerList(toRemoveStudentAnswerList,options);
+		
+		return studentDailyAnswer;
+	
+	}
+	
+	
+
+ 	
+ 	
+	
+	
+	
 		
 
 	public StudentDailyAnswer present(StudentDailyAnswer studentDailyAnswer,Map<String, Object> options){
 	
+		presentStudentAnswerList(studentDailyAnswer,options);
 
 		return studentDailyAnswer;
 	
 	}
 		
+	//Using java8 feature to reduce the code significantly
+ 	protected StudentDailyAnswer presentStudentAnswerList(
+			StudentDailyAnswer studentDailyAnswer,
+			Map<String, Object> options) {
+
+		SmartList<StudentAnswer> studentAnswerList = studentDailyAnswer.getStudentAnswerList();		
+				SmartList<StudentAnswer> newList= presentSubList(studentDailyAnswer.getId(),
+				studentAnswerList,
+				options,
+				getStudentAnswerDAO()::countStudentAnswerByDailyAnswer,
+				getStudentAnswerDAO()::findStudentAnswerByDailyAnswer
+				);
+
+		
+		studentDailyAnswer.setStudentAnswerList(newList);
+		
+
+		return studentDailyAnswer;
+	}			
+		
 
 	
+    public SmartList<StudentDailyAnswer> requestCandidateStudentDailyAnswerForStudentAnswer(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
+        // NOTE: by default, ignore owner info, just return all by filter key.
+		// You need override this method if you have different candidate-logic
+		return findAllCandidateByFilter(StudentDailyAnswerTable.COLUMN_STUDENT_HEALTH_SURVEY, filterKey, pageNo, pageSize, getStudentDailyAnswerMapper());
+    }
+		
 
 	protected String getTableName(){
 		return StudentDailyAnswerTable.TABLE_NAME;
@@ -799,6 +1071,29 @@ public class StudentDailyAnswerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 		this.enhanceListInternal(studentDailyAnswerList, this.getStudentDailyAnswerMapper());
 	}
 	
+	
+	// 需要一个加载引用我的对象的enhance方法:StudentAnswer的dailyAnswer的StudentAnswerList
+	public SmartList<StudentAnswer> loadOurStudentAnswerList(HealthUserContext userContext, List<StudentDailyAnswer> us, Map<String,Object> options) throws Exception{
+		if (us == null || us.isEmpty()){
+			return new SmartList<>();
+		}
+		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(StudentAnswer.DAILY_ANSWER_PROPERTY, ids.toArray(new String[ids.size()]));
+		SmartList<StudentAnswer> loadedObjs = userContext.getDAOGroup().getStudentAnswerDAO().findStudentAnswerWithKey(key, options);
+		Map<String, List<StudentAnswer>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getDailyAnswer().getId()));
+		us.forEach(it->{
+			String id = it.getId();
+			List<StudentAnswer> loadedList = loadedMap.get(id);
+			if (loadedList == null || loadedList.isEmpty()) {
+				return;
+			}
+			SmartList<StudentAnswer> loadedSmartList = new SmartList<>();
+			loadedSmartList.addAll(loadedList);
+			it.setStudentAnswerList(loadedSmartList);
+		});
+		return loadedObjs;
+	}
 	
 	
 	@Override
