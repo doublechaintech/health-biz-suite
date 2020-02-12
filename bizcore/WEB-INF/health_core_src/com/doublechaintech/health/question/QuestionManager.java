@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;

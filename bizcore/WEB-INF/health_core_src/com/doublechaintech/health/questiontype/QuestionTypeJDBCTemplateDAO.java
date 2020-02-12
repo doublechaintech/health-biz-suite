@@ -645,8 +645,12 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
  	protected Object[] prepareQuestionTypeUpdateParameters(QuestionType questionType){
  		Object[] parameters = new Object[6];
  
+ 		
  		parameters[0] = questionType.getName();
- 		parameters[1] = questionType.getCode(); 	
+ 		
+ 		
+ 		parameters[1] = questionType.getCode();
+ 		 	
  		if(questionType.getPlatform() != null){
  			parameters[2] = questionType.getPlatform().getId();
  		}
@@ -663,8 +667,12 @@ public class QuestionTypeJDBCTemplateDAO extends HealthBaseDAOImpl implements Qu
 		questionType.setId(newQuestionTypeId);
 		parameters[0] =  questionType.getId();
  
+ 		
  		parameters[1] = questionType.getName();
- 		parameters[2] = questionType.getCode(); 	
+ 		
+ 		
+ 		parameters[2] = questionType.getCode();
+ 		 	
  		if(questionType.getPlatform() != null){
  			parameters[3] = questionType.getPlatform().getId();
  		

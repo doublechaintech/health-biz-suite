@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -272,34 +273,64 @@ public class SecUserManagerImpl extends CustomHealthCheckerManager implements Se
 		
 
 		if(SecUser.LOGIN_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLoginOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMobileOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.EMAIL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkEmailOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.PWD_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkPwdOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.WEIXIN_OPENID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkWeixinOpenidOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.WEIXIN_APPID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkWeixinAppidOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.ACCESS_TOKEN_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAccessTokenOfSecUser(parseString(newValueExpr));
+		
+			
 		}
 		if(SecUser.VERIFICATION_CODE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkVerificationCodeOfSecUser(parseInt(newValueExpr));
+		
+			
 		}
 		if(SecUser.VERIFICATION_CODE_EXPIRE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkVerificationCodeExpireOfSecUser(parseTimestamp(newValueExpr));
+		
+			
 		}
 		if(SecUser.LAST_LOGIN_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLastLoginTimeOfSecUser(parseTimestamp(newValueExpr));
+		
+			
 		}		
 
 		
@@ -824,31 +855,45 @@ public class SecUserManagerImpl extends CustomHealthCheckerManager implements Se
 		
 
 		if(UserApp.TITLE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTitleOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 		if(UserApp.APP_ICON_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAppIconOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 		if(UserApp.FULL_ACCESS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkFullAccessOfUserApp(parseBoolean(newValueExpr));
+		
 		}
 		
 		if(UserApp.PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkPermissionOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 		if(UserApp.OBJECT_TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectTypeOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 		if(UserApp.OBJECT_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectIdOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 		if(UserApp.LOCATION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLocationOfUserApp(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1084,11 +1129,15 @@ public class SecUserManagerImpl extends CustomHealthCheckerManager implements Se
 		
 
 		if(LoginHistory.FROM_IP_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkFromIpOfLoginHistory(parseString(newValueExpr));
+		
 		}
 		
 		if(LoginHistory.DESCRIPTION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDescriptionOfLoginHistory(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1329,15 +1378,21 @@ public class SecUserManagerImpl extends CustomHealthCheckerManager implements Se
 		
 
 		if(WechatWorkappIdentify.CORP_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCorpIdOfWechatWorkappIdentify(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatWorkappIdentify.USER_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUserIdOfWechatWorkappIdentify(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatWorkappIdentify.LAST_LOGIN_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLastLoginTimeOfWechatWorkappIdentify(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -1578,15 +1633,21 @@ public class SecUserManagerImpl extends CustomHealthCheckerManager implements Se
 		
 
 		if(WechatMiniappIdentify.OPEN_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOpenIdOfWechatMiniappIdentify(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatMiniappIdentify.APP_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAppIdOfWechatMiniappIdentify(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatMiniappIdentify.LAST_LOGIN_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLastLoginTimeOfWechatMiniappIdentify(parseTimestamp(newValueExpr));
+		
 		}
 		
 	

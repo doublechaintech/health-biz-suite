@@ -545,8 +545,12 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
  	protected Object[] prepareSurveyStatusUpdateParameters(SurveyStatus surveyStatus){
  		Object[] parameters = new Object[6];
  
+ 		
  		parameters[0] = surveyStatus.getName();
- 		parameters[1] = surveyStatus.getCode(); 	
+ 		
+ 		
+ 		parameters[1] = surveyStatus.getCode();
+ 		 	
  		if(surveyStatus.getPlatform() != null){
  			parameters[2] = surveyStatus.getPlatform().getId();
  		}
@@ -563,8 +567,12 @@ public class SurveyStatusJDBCTemplateDAO extends HealthBaseDAOImpl implements Su
 		surveyStatus.setId(newSurveyStatusId);
 		parameters[0] =  surveyStatus.getId();
  
+ 		
  		parameters[1] = surveyStatus.getName();
- 		parameters[2] = surveyStatus.getCode(); 	
+ 		
+ 		
+ 		parameters[2] = surveyStatus.getCode();
+ 		 	
  		if(surveyStatus.getPlatform() != null){
  			parameters[3] = surveyStatus.getPlatform().getId();
  		

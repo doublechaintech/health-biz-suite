@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -41,6 +42,8 @@ public interface SurveyStatusManager extends BaseManager{
 	public  SurveyStatus updateStudentHealthSurvey(HealthUserContext userContext, String surveyStatusId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  SurveyStatus associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String surveyStatusId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception ;
+	public  SurveyStatus associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String surveyStatusId, String  studentHealthSurveyIds[],String changeRequestId, String [] tokensExpr) throws Exception ;
 
 	*/
 

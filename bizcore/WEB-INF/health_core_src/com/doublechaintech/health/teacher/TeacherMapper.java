@@ -36,7 +36,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setId(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(TeacherTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -48,7 +50,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setName(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(TeacherTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -60,7 +64,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setMobile(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String mobile = rs.getString(TeacherTable.COLUMN_MOBILE);
+		
 		if(mobile == null){
 			//do nothing when nothing found in database
 			return;
@@ -72,7 +78,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setSchool(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String school = rs.getString(TeacherTable.COLUMN_SCHOOL);
+		
 		if(school == null){
 			//do nothing when nothing found in database
 			return;
@@ -84,7 +92,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setSchoolClass(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String schoolClass = rs.getString(TeacherTable.COLUMN_SCHOOL_CLASS);
+		
 		if(schoolClass == null){
 			//do nothing when nothing found in database
 			return;
@@ -96,7 +106,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setClassSize(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer classSize = rs.getInt(TeacherTable.COLUMN_CLASS_SIZE);
+		
 		if(classSize == null){
 			//do nothing when nothing found in database
 			return;
@@ -108,7 +120,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setCreateTime(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(TeacherTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -174,7 +188,9 @@ public class TeacherMapper extends BaseRowMapper<Teacher>{
 	protected void setVersion(Teacher teacher, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(TeacherTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

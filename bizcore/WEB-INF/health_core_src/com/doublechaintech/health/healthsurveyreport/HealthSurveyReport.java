@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -136,6 +137,7 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
     
     
 	protected void changeSurveyNameProperty(String newValueExpr){
+	
 		String oldValue = getSurveyName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -145,12 +147,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateSurveyName(newValue);
 		this.onChangeProperty(SURVEY_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSurveyTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getSurveyTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -160,12 +163,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateSurveyTime(newValue);
 		this.onChangeProperty(SURVEY_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeTeacherNameProperty(String newValueExpr){
+	
 		String oldValue = getTeacherName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -175,12 +179,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateTeacherName(newValue);
 		this.onChangeProperty(TEACHER_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSchoolProperty(String newValueExpr){
+	
 		String oldValue = getSchool();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -190,12 +195,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateSchool(newValue);
 		this.onChangeProperty(SCHOOL_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSchoolClassProperty(String newValueExpr){
+	
 		String oldValue = getSchoolClass();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -205,12 +211,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateSchoolClass(newValue);
 		this.onChangeProperty(SCHOOL_CLASS_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStudentNameProperty(String newValueExpr){
+	
 		String oldValue = getStudentName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -220,12 +227,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateStudentName(newValue);
 		this.onChangeProperty(STUDENT_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStudentNumberProperty(String newValueExpr){
+	
 		String oldValue = getStudentNumber();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -235,12 +243,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateStudentNumber(newValue);
 		this.onChangeProperty(STUDENT_NUMBER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeGuardianNameProperty(String newValueExpr){
+	
 		String oldValue = getGuardianName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -250,12 +259,13 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateGuardianName(newValue);
 		this.onChangeProperty(GUARDIAN_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeGuardianMobileProperty(String newValueExpr){
+	
 		String oldValue = getGuardianMobile();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -265,7 +275,7 @@ public class HealthSurveyReport extends BaseEntity implements  java.io.Serializa
 		updateGuardianMobile(newValue);
 		this.onChangeProperty(GUARDIAN_MOBILE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

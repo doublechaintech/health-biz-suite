@@ -12,18 +12,14 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.question.Question;
 
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
-import com.doublechaintech.health.student.StudentDAO;
 import com.doublechaintech.health.teacher.TeacherDAO;
-import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerDAO;
 import com.doublechaintech.health.question.QuestionDAO;
 import com.doublechaintech.health.changerequesttype.ChangeRequestTypeDAO;
 
@@ -58,28 +54,20 @@ public interface ChangeRequestDAO extends BaseDAO{
 
 	public TeacherDAO getTeacherDAO();
 		
-	public StudentDAO getStudentDAO();
-		
 	public QuestionDAO getQuestionDAO();
 		
 	public ClassDailyHealthSurveyDAO getClassDailyHealthSurveyDAO();
 		
 	public StudentHealthSurveyDAO getStudentHealthSurveyDAO();
 		
-	public StudentDailyAnswerDAO getStudentDailyAnswerDAO();
-		
 	
  	public SmartList<ChangeRequest> requestCandidateChangeRequestForTeacher(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
-		
- 	public SmartList<ChangeRequest> requestCandidateChangeRequestForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<ChangeRequest> requestCandidateChangeRequestForQuestion(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<ChangeRequest> requestCandidateChangeRequestForClassDailyHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
  	public SmartList<ChangeRequest> requestCandidateChangeRequestForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
-		
- 	public SmartList<ChangeRequest> requestCandidateChangeRequestForStudentDailyAnswer(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
 	public ChangeRequest planToRemoveTeacherList(ChangeRequest changeRequest, String teacherIds[], Map<String,Object> options)throws Exception;
@@ -92,21 +80,6 @@ public interface ChangeRequestDAO extends BaseDAO{
 	//disconnect ChangeRequest with user in Teacher
 	public ChangeRequest planToRemoveTeacherListWithUser(ChangeRequest changeRequest, String userId, Map<String,Object> options)throws Exception;
 	public int countTeacherListWithUser(String changeRequestId, String userId, Map<String,Object> options)throws Exception;
-	
-	public ChangeRequest planToRemoveStudentList(ChangeRequest changeRequest, String studentIds[], Map<String,Object> options)throws Exception;
-
-
-	//disconnect ChangeRequest with address in Student
-	public ChangeRequest planToRemoveStudentListWithAddress(ChangeRequest changeRequest, String addressId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithAddress(String changeRequestId, String addressId, Map<String,Object> options)throws Exception;
-	
-	//disconnect ChangeRequest with user in Student
-	public ChangeRequest planToRemoveStudentListWithUser(ChangeRequest changeRequest, String userId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithUser(String changeRequestId, String userId, Map<String,Object> options)throws Exception;
-	
-	//disconnect ChangeRequest with platform in Student
-	public ChangeRequest planToRemoveStudentListWithPlatform(ChangeRequest changeRequest, String platformId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithPlatform(String changeRequestId, String platformId, Map<String,Object> options)throws Exception;
 	
 	public ChangeRequest planToRemoveQuestionList(ChangeRequest changeRequest, String questionIds[], Map<String,Object> options)throws Exception;
 
@@ -153,17 +126,6 @@ public interface ChangeRequestDAO extends BaseDAO{
 	public ChangeRequest planToRemoveStudentHealthSurveyListWithClassDailyHealthSurvey(ChangeRequest changeRequest, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithClassDailyHealthSurvey(String changeRequestId, String classDailyHealthSurveyId, Map<String,Object> options)throws Exception;
 	
-	public ChangeRequest planToRemoveStudentDailyAnswerList(ChangeRequest changeRequest, String studentDailyAnswerIds[], Map<String,Object> options)throws Exception;
-
-
-	//disconnect ChangeRequest with student_health_survey in StudentDailyAnswer
-	public ChangeRequest planToRemoveStudentDailyAnswerListWithStudentHealthSurvey(ChangeRequest changeRequest, String studentHealthSurveyId, Map<String,Object> options)throws Exception;
-	public int countStudentDailyAnswerListWithStudentHealthSurvey(String changeRequestId, String studentHealthSurveyId, Map<String,Object> options)throws Exception;
-	
-	//disconnect ChangeRequest with question in StudentDailyAnswer
-	public ChangeRequest planToRemoveStudentDailyAnswerListWithQuestion(ChangeRequest changeRequest, String questionId, Map<String,Object> options)throws Exception;
-	public int countStudentDailyAnswerListWithQuestion(String changeRequestId, String questionId, Map<String,Object> options)throws Exception;
-	
 	
 	public SmartList<ChangeRequest> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);
@@ -187,9 +149,6 @@ public interface ChangeRequestDAO extends BaseDAO{
 	// 需要一个加载引用我的对象的enhance方法:Teacher的changeRequest的TeacherList
 	public SmartList<Teacher> loadOurTeacherList(HealthUserContext userContext, List<ChangeRequest> us, Map<String,Object> options) throws Exception;
 	
-	// 需要一个加载引用我的对象的enhance方法:Student的changeRequest的StudentList
-	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<ChangeRequest> us, Map<String,Object> options) throws Exception;
-	
 	// 需要一个加载引用我的对象的enhance方法:Question的cq的QuestionList
 	public SmartList<Question> loadOurQuestionList(HealthUserContext userContext, List<ChangeRequest> us, Map<String,Object> options) throws Exception;
 	
@@ -198,9 +157,6 @@ public interface ChangeRequestDAO extends BaseDAO{
 	
 	// 需要一个加载引用我的对象的enhance方法:StudentHealthSurvey的changeRequest的StudentHealthSurveyList
 	public SmartList<StudentHealthSurvey> loadOurStudentHealthSurveyList(HealthUserContext userContext, List<ChangeRequest> us, Map<String,Object> options) throws Exception;
-	
-	// 需要一个加载引用我的对象的enhance方法:StudentDailyAnswer的changeRequest的StudentDailyAnswerList
-	public SmartList<StudentDailyAnswer> loadOurStudentDailyAnswerList(HealthUserContext userContext, List<ChangeRequest> us, Map<String,Object> options) throws Exception;
 	
 }
 

@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.net.URLEncoder;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.skynet.infrastructure.GraphService;
 import com.terapico.caf.baseelement.Event;
 import com.skynet.infrastructure.EventService;
@@ -606,6 +607,9 @@ public class BaseManagerImpl implements AccessControledService,BeanNameAware{
 
 	protected String parseString(String stringExpr){		
 		return stringExpr;
+	}
+	protected Images parseImages(String stringExpr){		
+		return Images.fromString(stringExpr);
 	}
 	protected boolean integerValueInClosedRange(int value, int min, int max){
 		if(value < min){

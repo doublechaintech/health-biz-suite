@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -232,37 +233,70 @@ public class ObjectAccessManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(ObjectAccess.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.OBJECT_TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectTypeOfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST1_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList1OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST2_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList2OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST3_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList3OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST4_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList4OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST5_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList5OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST6_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList6OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST7_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList7OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST8_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList8OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ObjectAccess.LIST9_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList9OfObjectAccess(parseString(newValueExpr));
+		
+			
 		}		
 
 		

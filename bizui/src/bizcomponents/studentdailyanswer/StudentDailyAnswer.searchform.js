@@ -135,7 +135,6 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'studentHealthSurvey'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'question'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'answer'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'changeRequest'))
 
      
       console.log("the final parameter", paramList)
@@ -291,18 +290,6 @@ componentDidMount() {
               )}
             </FormItem>
           </Col>
- <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.changeRequest}>
-                  {getFieldDecorator('changeRequest', {initialValue: tryinit('changeRequest')})(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('changeRequest')}
-                    targetType={"changeRequest"} 
-                    requestFunction={StudentDailyAnswerService.requestCandidateChangeRequest} useForSearch />
-                  	
-                 
-                  )}
-                </Form.Item></Col>
 
         </Row>
         <div style={{ overflow: 'hidden' }}>

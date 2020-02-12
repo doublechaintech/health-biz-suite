@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -222,10 +223,10 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 			question.setCreator(creator);
 		}
 		
-			
-		ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
-		question.setCq(cq);
-		
+		if(isValidIdentifier(cqId)){	
+			ChangeRequest cq = loadChangeRequest(userContext, cqId,emptyOptions());
+			question.setCq(cq);
+		}
 		
 
 		question = saveQuestion(userContext, question, emptyOptions());
@@ -252,21 +253,36 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 		
 
 		if(Question.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfQuestion(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(Question.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(Question.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(Question.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(Question.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfQuestion(parseString(newValueExpr));
+		
+			
 		}		
 
 				
@@ -949,23 +965,33 @@ public class QuestionManagerImpl extends CustomHealthCheckerManager implements Q
 		
 
 		if(DailySurveyQuestion.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 	

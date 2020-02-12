@@ -66,7 +66,8 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	}
 	public static final int $PRC_RESULT_OBJECT_WAS_SET = -1;
 	public static final int PRC_BY_DEFAULT = 0;
-	public static final int PRC_SUBMITTED = 1;
+	public static final int PRC_EMPTY_CLASS = 1;
+	public static final int PRC_SUBMITTED = 2;
 	protected boolean returnRightNow(int resultCode) {
 		return $PRC_RESULT_OBJECT_WAS_SET == resultCode;
 	}
@@ -478,8 +479,12 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 		return makeUrl("clientLogin", loginParam);
 	}
 	// 处理请求：这个程序员很懒,什么也没留下
-	public static String makeTeacherLoginUrl(CustomHealthUserContextImpl ctx, com.terapico.caf.baseelement.LoginParam loginParam){
-		return makeUrl("teacherLogin", loginParam);
+	public static String makeUpdateProfileUrl(CustomHealthUserContextImpl ctx, String name , String avatar , String userType){
+		return makeUrl("customerUpdateProfile", name , avatar , userType);
+	}
+	// 处理请求：这个程序员很懒,什么也没留下
+	public static String makeSwitchToTeacherUrl(CustomHealthUserContextImpl ctx){
+		return makeUrl("customerSwitchToTeacher");
 	}
 	// 处理请求：这个程序员很懒,什么也没留下
 	public static String makeAddClassUrl(CustomHealthUserContextImpl ctx){
@@ -505,13 +510,17 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	public static String makePublishSurveyUrl(CustomHealthUserContextImpl ctx, String teacherId , String surveyDate){
 		return makeUrl("customerPublishSurvey", teacherId , surveyDate);
 	}
-	// 处理请求：学生登录填写问卷
-	public static String makeStudentLoginUrl(CustomHealthUserContextImpl ctx, String surveyId){
-		return makeUrl("studentLogin", surveyId);
+	// 处理请求：这个程序员很懒,什么也没留下
+	public static String makeSwitchToStudentUrl(CustomHealthUserContextImpl ctx){
+		return makeUrl("customerSwitchToStudent");
 	}
 	// 处理请求：学生登录后查看问卷
 	public static String makeStudentViewSurveyUrl(CustomHealthUserContextImpl ctx, String surveyId){
 		return makeUrl("customerStudentViewSurvey", surveyId);
+	}
+	// 处理请求：这个程序员很懒,什么也没留下
+	public static String makeViewStudentSurveyDetailUrl(CustomHealthUserContextImpl ctx, String studentSurveyId){
+		return makeUrl("customerViewStudentSurveyDetail", studentSurveyId);
 	}
 	// 处理请求：这个程序员很懒,什么也没留下
 	public static String makeSubmitStudentSurveyUrl(CustomHealthUserContextImpl ctx, String surveyId , String answer , String studentName){
@@ -523,7 +532,9 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	/** 处理请求：默认的客户端登录接口. 返回值：PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestClientLogin(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
-	protected abstract int processRequestTeacherLogin(CustomHealthUserContextImpl ctx) throws Exception;
+	protected abstract int processRequestCustomerUpdateProfile(CustomHealthUserContextImpl ctx) throws Exception;
+	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_EMPTY_CLASS: ; PRC_BY_DEFAULT: ;  */
+	protected abstract int processRequestCustomerSwitchToTeacher(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerAddClass(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：创建班级. 返回值：PRC_BY_DEFAULT: ;  */
@@ -536,10 +547,12 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	protected abstract int processRequestCustomerAddSurvey(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：发布问卷. 返回值：PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerPublishSurvey(CustomHealthUserContextImpl ctx) throws Exception;
-	/** 处理请求：学生登录填写问卷. 返回值：PRC_SUBMITTED: ; PRC_BY_DEFAULT: ;  */
-	protected abstract int processRequestStudentLogin(CustomHealthUserContextImpl ctx) throws Exception;
+	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
+	protected abstract int processRequestCustomerSwitchToStudent(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：学生登录后查看问卷. 返回值：PRC_SUBMITTED: ; PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerStudentViewSurvey(CustomHealthUserContextImpl ctx) throws Exception;
+	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
+	protected abstract int processRequestCustomerViewStudentSurveyDetail(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerSubmitStudentSurvey(CustomHealthUserContextImpl ctx) throws Exception;
 
@@ -555,6 +568,11 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	}
 	protected AddSurveyPage assemblerAddSurveyPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
 		AddSurveyPage page = new AddSurveyPage();
+		page.assemblerContent(ctx, requestName);
+		return page;
+	}
+	protected StudentSurveyListPage assemblerStudentSurveyListPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
+		StudentSurveyListPage page = new StudentSurveyListPage();
 		page.assemblerContent(ctx, requestName);
 		return page;
 	}

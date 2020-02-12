@@ -110,6 +110,9 @@
 <c:if test="${param.referName ne 'creator'}">
 	<th>${userContext.localeMap['class_daily_health_survey.creator']}</th>
 </c:if>
+<c:if test="${param.referName ne 'downloadUrl'}">
+	<th>${userContext.localeMap['class_daily_health_survey.download_url']}</th>
+</c:if>
 <c:if test="${param.referName ne 'changeRequest'}">
 	<th>${userContext.localeMap['class_daily_health_survey.change_request']}</th>
 </c:if>
@@ -159,7 +162,8 @@
 		</div>
 	</td>
 </c:if>
-<c:if test="${param.referName ne 'changeRequest'}">
+<c:if test="${param.referName ne 'downloadUrl'}">	<td contenteditable='true' class='edit-value'  propertyToChange='downloadUrl' storedCellValue='${item.downloadUrl}' prefix='${ownerBeanName}Manager/updateClassDailyHealthSurvey/${result.id}/${item.id}/'><a title='${item.downloadUrl}'>${fn:substring(item.downloadUrl,0,10)}...</a></td>
+</c:if><c:if test="${param.referName ne 'changeRequest'}">
 	<td class="select_candidate_td"
 			data-candidate-method="./classDailyHealthSurveyManager/requestCandidateChangeRequest/${ownerBeanName}/${item.id}/"
 			data-switch-method="./classDailyHealthSurveyManager/transferToAnotherChangeRequest/${item.id}/"

@@ -68,7 +68,7 @@ const transferToAnotherSurveyQuestion = (id, parameters) => {
 
 
 const addStudentDailyAnswer = (targetObjectId, parameters) => {
-  const url = `${PREFIX}dailySurveyQuestionManager/addStudentDailyAnswer/dailySurveyQuestionId/studentHealthSurveyId/answer/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}dailySurveyQuestionManager/addStudentDailyAnswer/dailySurveyQuestionId/studentHealthSurveyId/answer/tokensExpr/`
   const dailySurveyQuestionId = targetObjectId
   const requestParameters = { ...parameters, dailySurveyQuestionId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})

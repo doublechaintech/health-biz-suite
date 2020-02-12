@@ -951,7 +951,9 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  			parameters[0] = studentHealthSurvey.getStudent().getId();
  		}
  
- 		parameters[1] = studentHealthSurvey.getAnswerTime(); 	
+ 		
+ 		parameters[1] = studentHealthSurvey.getAnswerTime();
+ 		 	
  		if(studentHealthSurvey.getSurveyStatus() != null){
  			parameters[2] = studentHealthSurvey.getSurveyStatus().getId();
  		}
@@ -964,8 +966,12 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  			parameters[4] = studentHealthSurvey.getClassDailyHealthSurvey().getId();
  		}
  
+ 		
  		parameters[5] = studentHealthSurvey.getCreateTime();
- 		parameters[6] = studentHealthSurvey.getLastUpdateTime(); 	
+ 		
+ 		
+ 		parameters[6] = studentHealthSurvey.getLastUpdateTime();
+ 		 	
  		if(studentHealthSurvey.getChangeRequest() != null){
  			parameters[7] = studentHealthSurvey.getChangeRequest().getId();
  		}
@@ -987,7 +993,9 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  		}
  		
- 		parameters[2] = studentHealthSurvey.getAnswerTime(); 	
+ 		
+ 		parameters[2] = studentHealthSurvey.getAnswerTime();
+ 		 	
  		if(studentHealthSurvey.getSurveyStatus() != null){
  			parameters[3] = studentHealthSurvey.getSurveyStatus().getId();
  		
@@ -1003,8 +1011,12 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
  		
  		}
  		
+ 		
  		parameters[6] = studentHealthSurvey.getCreateTime();
- 		parameters[7] = studentHealthSurvey.getLastUpdateTime(); 	
+ 		
+ 		
+ 		parameters[7] = studentHealthSurvey.getLastUpdateTime();
+ 		 	
  		if(studentHealthSurvey.getChangeRequest() != null){
  			parameters[8] = studentHealthSurvey.getChangeRequest().getId();
  		
@@ -1208,50 +1220,6 @@ public class StudentHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurveyId);
 		key.put(StudentDailyAnswer.QUESTION_PROPERTY, questionId);
-		
-		int count = getStudentDailyAnswerDAO().countStudentDailyAnswerWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect StudentHealthSurvey with change_request in StudentDailyAnswer
-	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithChangeRequest(StudentHealthSurvey studentHealthSurvey, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurvey.getId());
-		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		
-		SmartList<StudentDailyAnswer> externalStudentDailyAnswerList = getStudentDailyAnswerDAO().
-				findStudentDailyAnswerWithKey(key, options);
-		if(externalStudentDailyAnswerList == null){
-			return studentHealthSurvey;
-		}
-		if(externalStudentDailyAnswerList.isEmpty()){
-			return studentHealthSurvey;
-		}
-		
-		for(StudentDailyAnswer studentDailyAnswerItem: externalStudentDailyAnswerList){
-			studentDailyAnswerItem.clearChangeRequest();
-			studentDailyAnswerItem.clearStudentHealthSurvey();
-			
-		}
-		
-		
-		SmartList<StudentDailyAnswer> studentDailyAnswerList = studentHealthSurvey.getStudentDailyAnswerList();		
-		studentDailyAnswerList.addAllToRemoveList(externalStudentDailyAnswerList);
-		return studentHealthSurvey;
-	}
-	
-	public int countStudentDailyAnswerListWithChangeRequest(String studentHealthSurveyId, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurveyId);
-		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentDailyAnswerDAO().countStudentDailyAnswerWithKey(key, options);
 		return count;

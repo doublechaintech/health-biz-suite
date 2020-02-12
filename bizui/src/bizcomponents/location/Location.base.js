@@ -38,7 +38,6 @@ const renderReferenceCell=defaultRenderReferenceCell
 const menuData = {menuName: window.trans('location'), menuFor: "location",
   		subItems: [
   {name: 'studentList', displayName: window.mtrans('student','location.student_list',false), type:'student',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
-  {name: 'userList', displayName: window.mtrans('user','location.user_list',false), type:'user',icon:'user',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],
 }

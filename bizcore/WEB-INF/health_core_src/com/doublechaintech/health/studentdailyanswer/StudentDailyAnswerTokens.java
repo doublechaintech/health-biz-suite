@@ -74,7 +74,6 @@ public class StudentDailyAnswerTokens extends CommonTokens{
 		return start()
 			.withStudentHealthSurvey()
 			.withQuestion()
-			.withChangeRequest()
 			.withStudentAnswerList();
 	
 	}
@@ -82,8 +81,7 @@ public class StudentDailyAnswerTokens extends CommonTokens{
 		
 		return start()
 			.withStudentHealthSurvey()
-			.withQuestion()
-			.withChangeRequest();
+			.withQuestion();
 	
 	}
 	
@@ -118,16 +116,6 @@ public class StudentDailyAnswerTokens extends CommonTokens{
 	}
 	public StudentDailyAnswerTokens withQuestion(){		
 		addSimpleOptions(QUESTION);
-		return this;
-	}
-	
-	
-	protected static final String CHANGEREQUEST = "changeRequest";
-	public String getChangeRequest(){
-		return CHANGEREQUEST;
-	}
-	public StudentDailyAnswerTokens withChangeRequest(){		
-		addSimpleOptions(CHANGEREQUEST);
 		return this;
 	}
 	

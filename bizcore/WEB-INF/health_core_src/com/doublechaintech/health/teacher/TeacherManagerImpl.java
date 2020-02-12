@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -228,10 +229,10 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		teacher.setUser(user);
 		
 		
-			
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
-		teacher.setChangeRequest(changeRequest);
-		
+		if(isValidIdentifier(changeRequestId)){	
+			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+			teacher.setChangeRequest(changeRequest);
+		}
 		
 
 		teacher = saveTeacher(userContext, teacher, emptyOptions());
@@ -258,19 +259,34 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 
 		if(Teacher.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfTeacher(parseString(newValueExpr));
+		
+			
 		}
 		if(Teacher.MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
+		
+			
 		}
 		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		
+			
 		}
 		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
+		
+			
 		}
 		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		
+			
 		}		
 
 				
@@ -755,7 +771,7 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 
 
-	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfTeacher(teacherId);
 
@@ -766,18 +782,20 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 		checkerOf(userContext).checkCreatorIdOfClassDailyHealthSurvey(creatorId);
 		
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(downloadUrl);
+		
 		checkerOf(userContext).checkChangeRequestIdOfClassDailyHealthSurvey(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 
 	}
-	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingClassDailyHealthSurvey(userContext,teacherId,name, surveyTime, creatorId, changeRequestId,tokensExpr);
+		checkParamsForAddingClassDailyHealthSurvey(userContext,teacherId,name, surveyTime, creatorId, downloadUrl, changeRequestId,tokensExpr);
 
-		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, surveyTime, creatorId, changeRequestId);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, surveyTime, creatorId, downloadUrl, changeRequestId);
 
 		Teacher teacher = loadTeacher(userContext, teacherId, emptyOptions());
 		synchronized(teacher){
@@ -790,20 +808,21 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 			return present(userContext,teacher, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId,String id,String name,DateTime surveyTime,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId,String id,String name,DateTime surveyTime,String downloadUrl,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfTeacher(teacherId);
 		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(id);
 
 		checkerOf(userContext).checkNameOfClassDailyHealthSurvey( name);
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey( surveyTime);
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey( downloadUrl);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(TeacherManagerException.class);
 
 	}
-	public  Teacher updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId, String id,String name,DateTime surveyTime, String [] tokensExpr) throws Exception
+	public  Teacher updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String teacherId, String id,String name,DateTime surveyTime,String downloadUrl, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,teacherId,id,name,surveyTime,tokensExpr);
+		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,teacherId,id,name,surveyTime,downloadUrl,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -820,6 +839,7 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 		item.updateName( name );
 		item.updateSurveyTime( surveyTime );
+		item.updateDownloadUrl( downloadUrl );
 
 
 		//checkParamsForAddingClassDailyHealthSurvey(userContext,teacherId,name, code, used,tokensExpr);
@@ -830,7 +850,7 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 	}
 
 
-	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, DateTime surveyTime, String creatorId, String changeRequestId) throws Exception{
+	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId) throws Exception{
 
 		ClassDailyHealthSurvey classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		
@@ -840,6 +860,7 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		User  creator = new User();
 		creator.setId(creatorId);		
 		classDailyHealthSurvey.setCreator(creator);		
+		classDailyHealthSurvey.setDownloadUrl(downloadUrl);		
 		ChangeRequest  changeRequest = new ChangeRequest();
 		changeRequest.setId(changeRequestId);		
 		classDailyHealthSurvey.setChangeRequest(changeRequest);
@@ -955,11 +976,21 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 
 		if(ClassDailyHealthSurvey.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 		if(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(parseTimestamp(newValueExpr));
+		
+		}
+		
+		if(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -998,10 +1029,44 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 	}
 	/*
+	public  Teacher associateClassDailyHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String teacherId, String  classDailyHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", classDailyHealthSurveyIds)).done();
+
+		Teacher teacher = loadTeacher(userContext, teacherId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(ClassDailyHealthSurvey classDailyHealthSurvey: teacher.getClassDailyHealthSurveyList()) {
+			//TODO: need to check if already associated
+			classDailyHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveTeacher(userContext, teacher);
+	}
 	*/
 
+	public  Teacher associateClassDailyHealthSurveyListToChangeRequest(HealthUserContext userContext, String teacherId, String  classDailyHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", classDailyHealthSurveyIds)).done();
+
+		Teacher teacher = loadTeacher(userContext, teacherId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(ClassDailyHealthSurvey classDailyHealthSurvey: teacher.getClassDailyHealthSurveyList()) {
+			//TODO: need to check if already associated
+			classDailyHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveTeacher(userContext, teacher);
+	}
 
 
 	protected void checkParamsForAddingStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentId, DateTime answerTime, String surveyStatusId, String classDailyHealthSurveyId, String changeRequestId,String [] tokensExpr) throws Exception{
@@ -1211,7 +1276,9 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 
 		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -1250,10 +1317,44 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 
 	}
 	/*
+	public  Teacher associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String teacherId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		Teacher teacher = loadTeacher(userContext, teacherId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(StudentHealthSurvey studentHealthSurvey: teacher.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveTeacher(userContext, teacher);
+	}
 	*/
 
+	public  Teacher associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String teacherId, String  studentHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		Teacher teacher = loadTeacher(userContext, teacherId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(StudentHealthSurvey studentHealthSurvey: teacher.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveTeacher(userContext, teacher);
+	}
 
 
 	protected void checkParamsForAddingHealthSurveyReport(HealthUserContext userContext, String teacherId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String surveyId,String [] tokensExpr) throws Exception{
@@ -1491,39 +1592,57 @@ public class TeacherManagerImpl extends CustomHealthCheckerManager implements Te
 		
 
 		if(HealthSurveyReport.SURVEY_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(parseTimestamp(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.TEACHER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 	

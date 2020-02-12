@@ -6,7 +6,6 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.user.User;
 
@@ -25,7 +24,6 @@ public class StudentMapper extends BaseRowMapper<Student>{
  		setUser(student, rs, rowNumber); 		
  		setCreateTime(student, rs, rowNumber); 		
  		setPlatform(student, rs, rowNumber); 		
- 		setChangeRequest(student, rs, rowNumber); 		
  		setVersion(student, rs, rowNumber);
 
 		return student;
@@ -38,7 +36,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setId(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(StudentTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -50,7 +50,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setStudentName(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String studentName = rs.getString(StudentTable.COLUMN_STUDENT_NAME);
+		
 		if(studentName == null){
 			//do nothing when nothing found in database
 			return;
@@ -62,7 +64,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setStudentNumber(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String studentNumber = rs.getString(StudentTable.COLUMN_STUDENT_NUMBER);
+		
 		if(studentNumber == null){
 			//do nothing when nothing found in database
 			return;
@@ -74,7 +78,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setStudentAvatar(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String studentAvatar = rs.getString(StudentTable.COLUMN_STUDENT_AVATAR);
+		
 		if(studentAvatar == null){
 			//do nothing when nothing found in database
 			return;
@@ -86,7 +92,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setGuardianName(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String guardianName = rs.getString(StudentTable.COLUMN_GUARDIAN_NAME);
+		
 		if(guardianName == null){
 			//do nothing when nothing found in database
 			return;
@@ -98,7 +106,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setGuardianMobile(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String guardianMobile = rs.getString(StudentTable.COLUMN_GUARDIAN_MOBILE);
+		
 		if(guardianMobile == null){
 			//do nothing when nothing found in database
 			return;
@@ -146,7 +156,9 @@ public class StudentMapper extends BaseRowMapper<Student>{
 	protected void setCreateTime(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(StudentTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -172,29 +184,13 @@ public class StudentMapper extends BaseRowMapper<Student>{
  		}
  		student.setPlatform(createEmptyPlatform(platformId));
  	}
- 	 		
- 	protected void setChangeRequest(Student student, ResultSet rs, int rowNumber) throws SQLException{
- 		String changeRequestId = rs.getString(StudentTable.COLUMN_CHANGE_REQUEST);
- 		if( changeRequestId == null){
- 			return;
- 		}
- 		if( changeRequestId.isEmpty()){
- 			return;
- 		}
- 		ChangeRequest changeRequest = student.getChangeRequest();
- 		if( changeRequest != null ){
- 			//if the root object 'student' already have the property, just set the id for it;
- 			changeRequest.setId(changeRequestId);
- 			
- 			return;
- 		}
- 		student.setChangeRequest(createEmptyChangeRequest(changeRequestId));
- 	}
  	
 	protected void setVersion(Student student, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(StudentTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;
@@ -224,13 +220,6 @@ public class StudentMapper extends BaseRowMapper<Student>{
  		platform.setId(platformId);
  		platform.setVersion(Integer.MAX_VALUE);
  		return platform;
- 	}
- 	
- 	protected ChangeRequest  createEmptyChangeRequest(String changeRequestId){
- 		ChangeRequest changeRequest = new ChangeRequest();
- 		changeRequest.setId(changeRequestId);
- 		changeRequest.setVersion(Integer.MAX_VALUE);
- 		return changeRequest;
  	}
  	
 }

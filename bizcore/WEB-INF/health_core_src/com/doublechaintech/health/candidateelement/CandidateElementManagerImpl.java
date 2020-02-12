@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -216,13 +217,22 @@ public class CandidateElementManagerImpl extends CustomHealthCheckerManager impl
 		
 
 		if(CandidateElement.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfCandidateElement(parseString(newValueExpr));
+		
+			
 		}
 		if(CandidateElement.TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTypeOfCandidateElement(parseString(newValueExpr));
+		
+			
 		}
 		if(CandidateElement.IMAGE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkImageOfCandidateElement(parseString(newValueExpr));
+		
+			
 		}		
 
 		

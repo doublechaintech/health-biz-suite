@@ -12,12 +12,10 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.question.Question;
 
-import com.doublechaintech.health.location.LocationDAO;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.student.StudentDAO;
@@ -98,10 +96,6 @@ public interface UserDAO extends BaseDAO{
 	public User planToRemoveStudentListWithPlatform(User user, String platformId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithPlatform(String userId, String platformId, Map<String,Object> options)throws Exception;
 	
-	//disconnect User with change_request in Student
-	public User planToRemoveStudentListWithChangeRequest(User user, String changeRequestId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithChangeRequest(String userId, String changeRequestId, Map<String,Object> options)throws Exception;
-	
 	public User planToRemoveQuestionList(User user, String questionIds[], Map<String,Object> options)throws Exception;
 
 
@@ -143,14 +137,6 @@ public interface UserDAO extends BaseDAO{
 	public SmartList<User> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);
  
- 	public SmartList<User> findUserByAddress(String locationId, Map<String,Object> options);
- 	public int countUserByAddress(String locationId, Map<String,Object> options);
- 	public Map<String, Integer> countUserByAddressIds(String[] ids, Map<String,Object> options);
- 	public SmartList<User> findUserByAddress(String locationId, int start, int count, Map<String,Object> options);
- 	public void analyzeUserByAddress(SmartList<User> resultList, String locationId, Map<String,Object> options);
-
- 
-  
  	public SmartList<User> findUserByPlatform(String platformId, Map<String,Object> options);
  	public int countUserByPlatform(String platformId, Map<String,Object> options);
  	public Map<String, Integer> countUserByPlatformIds(String[] ids, Map<String,Object> options);

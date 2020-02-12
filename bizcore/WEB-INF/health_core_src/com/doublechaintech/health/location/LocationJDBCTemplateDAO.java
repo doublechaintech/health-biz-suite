@@ -23,12 +23,10 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.province.ProvinceDAO;
 import com.doublechaintech.health.student.StudentDAO;
 import com.doublechaintech.health.district.DistrictDAO;
-import com.doublechaintech.health.user.UserDAO;
 
 
 
@@ -75,25 +73,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		}
  		
 	 	return this.studentDAO;
- 	}	
- 	
-			
-		
-	
-  	private  UserDAO  userDAO;
- 	public void setUserDAO(UserDAO pUserDAO){
- 	
- 		if(pUserDAO == null){
- 			throw new IllegalStateException("Do not try to set userDAO to null.");
- 		}
-	 	this.userDAO = pUserDAO;
- 	}
- 	public UserDAO getUserDAO(){
- 		if(this.userDAO == null){
- 			throw new IllegalStateException("The userDAO is not configured yet, please config it some where.");
- 		}
- 		
-	 	return this.userDAO;
  	}	
  	
 			
@@ -150,13 +129,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		
  		if(isSaveStudentListEnabled(options)){
  			for(Student item: newLocation.getStudentList()){
- 				item.setVersion(0);
- 			}
- 		}
-		
- 		
- 		if(isSaveUserListEnabled(options)){
- 			for(User item: newLocation.getUserList()){
  				item.setVersion(0);
  			}
  		}
@@ -294,20 +266,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  	}
  	
 		
-	
-	protected boolean isExtractUserListEnabled(Map<String,Object> options){		
- 		return checkOptions(options,LocationTokens.USER_LIST);
- 	}
- 	protected boolean isAnalyzeUserListEnabled(Map<String,Object> options){		 		
- 		return LocationTokens.of(options).analyzeUserListEnabled();
- 	}
-	
-	protected boolean isSaveUserListEnabled(Map<String,Object> options){
-		return checkOptions(options, LocationTokens.USER_LIST);
-		
- 	}
- 	
-		
 
 	
 
@@ -348,14 +306,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		}	
  		if(isAnalyzeStudentListEnabled(loadOptions)){
 	 		analyzeStudentList(location, loadOptions);
- 		}
- 		
-		
-		if(isExtractUserListEnabled(loadOptions)){
-	 		extractUserList(location, loadOptions);
- 		}	
- 		if(isAnalyzeUserListEnabled(loadOptions)){
-	 		analyzeUserList(location, loadOptions);
  		}
  		
 		
@@ -447,56 +397,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		SmartList<Student> studentList = location.getStudentList();
 		if(studentList != null){
 			getStudentDAO().analyzeStudentByAddress(studentList, location.getId(), options);
-			
-		}
-		
-		return location;
-	
-	}	
-	
-		
-	protected void enhanceUserList(SmartList<User> userList,Map<String,Object> options){
-		//extract multiple list from difference sources
-		//Trying to use a single SQL to extract all data from database and do the work in java side, java is easier to scale to N ndoes;
-	}
-	
-	protected Location extractUserList(Location location, Map<String,Object> options){
-		
-		
-		if(location == null){
-			return null;
-		}
-		if(location.getId() == null){
-			return location;
-		}
-
-		
-		
-		SmartList<User> userList = getUserDAO().findUserByAddress(location.getId(),options);
-		if(userList != null){
-			enhanceUserList(userList,options);
-			location.setUserList(userList);
-		}
-		
-		return location;
-	
-	}	
-	
-	protected Location analyzeUserList(Location location, Map<String,Object> options){
-		
-		
-		if(location == null){
-			return null;
-		}
-		if(location.getId() == null){
-			return location;
-		}
-
-		
-		
-		SmartList<User> userList = location.getUserList();
-		if(userList != null){
-			getUserDAO().analyzeUserByAddress(userList, location.getId(), options);
 			
 		}
 		
@@ -736,8 +636,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  	protected Object[] prepareLocationUpdateParameters(Location location){
  		Object[] parameters = new Object[9];
  
+ 		
  		parameters[0] = location.getName();
- 		parameters[1] = location.getAddress(); 	
+ 		
+ 		
+ 		parameters[1] = location.getAddress();
+ 		 	
  		if(location.getDistrict() != null){
  			parameters[2] = location.getDistrict().getId();
  		}
@@ -746,8 +650,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  			parameters[3] = location.getProvince().getId();
  		}
  
+ 		
  		parameters[4] = location.getLatitude();
- 		parameters[5] = location.getLongitude();		
+ 		
+ 		
+ 		parameters[5] = location.getLongitude();
+ 				
  		parameters[6] = location.nextVersion();
  		parameters[7] = location.getId();
  		parameters[8] = location.getVersion();
@@ -760,8 +668,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		location.setId(newLocationId);
 		parameters[0] =  location.getId();
  
+ 		
  		parameters[1] = location.getName();
- 		parameters[2] = location.getAddress(); 	
+ 		
+ 		
+ 		parameters[2] = location.getAddress();
+ 		 	
  		if(location.getDistrict() != null){
  			parameters[3] = location.getDistrict().getId();
  		
@@ -772,8 +684,12 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
  		
  		}
  		
+ 		
  		parameters[5] = location.getLatitude();
- 		parameters[6] = location.getLongitude();		
+ 		
+ 		
+ 		parameters[6] = location.getLongitude();
+ 				
  				
  		return parameters;
  	}
@@ -794,13 +710,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		if(isSaveStudentListEnabled(options)){
 	 		saveStudentList(location, options);
 	 		//removeStudentList(location, options);
-	 		//Not delete the record
-	 		
- 		}		
-		
-		if(isSaveUserListEnabled(options)){
-	 		saveUserList(location, options);
-	 		//removeUserList(location, options);
 	 		//Not delete the record
 	 		
  		}		
@@ -965,122 +874,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		return count;
 	}
 	
-	//disconnect Location with change_request in Student
-	public Location planToRemoveStudentListWithChangeRequest(Location location, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, location.getId());
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return location;
-		}
-		if(externalStudentList.isEmpty()){
-			return location;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearChangeRequest();
-			studentItem.clearAddress();
-			
-		}
-		
-		
-		SmartList<Student> studentList = location.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return location;
-	}
-	
-	public int countStudentListWithChangeRequest(String locationId, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.ADDRESS_PROPERTY, locationId);
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
-	public Location planToRemoveUserList(Location location, String userIds[], Map<String,Object> options)throws Exception{
-	
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, location.getId());
-		key.put(User.ID_PROPERTY, userIds);
-		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
-			return location;
-		}
-		if(externalUserList.isEmpty()){
-			return location;
-		}
-		
-		for(User userItem: externalUserList){
-
-			userItem.clearFromAll();
-		}
-		
-		
-		SmartList<User> userList = location.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
-		return location;	
-	
-	}
-
-
-	//disconnect Location with platform in User
-	public Location planToRemoveUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, location.getId());
-		key.put(User.PLATFORM_PROPERTY, platformId);
-		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
-			return location;
-		}
-		if(externalUserList.isEmpty()){
-			return location;
-		}
-		
-		for(User userItem: externalUserList){
-			userItem.clearPlatform();
-			userItem.clearAddress();
-			
-		}
-		
-		
-		SmartList<User> userList = location.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
-		return location;
-	}
-	
-	public int countUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, locationId);
-		key.put(User.PLATFORM_PROPERTY, platformId);
-		
-		int count = getUserDAO().countUserWithKey(key, options);
-		return count;
-	}
-	
 
 		
 	protected Location saveStudentList(Location location, Map<String,Object> options){
@@ -1149,77 +942,10 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 	
 	
 		
-	protected Location saveUserList(Location location, Map<String,Object> options){
-		
-		
-		
-		
-		SmartList<User> userList = location.getUserList();
-		if(userList == null){
-			//null list means nothing
-			return location;
-		}
-		SmartList<User> mergedUpdateUserList = new SmartList<User>();
-		
-		
-		mergedUpdateUserList.addAll(userList); 
-		if(userList.getToRemoveList() != null){
-			//ensures the toRemoveList is not null
-			mergedUpdateUserList.addAll(userList.getToRemoveList());
-			userList.removeAll(userList.getToRemoveList());
-			//OK for now, need fix later
-		}
-
-		//adding new size can improve performance
-	
-		getUserDAO().saveUserList(mergedUpdateUserList,options);
-		
-		if(userList.getToRemoveList() != null){
-			userList.removeAll(userList.getToRemoveList());
-		}
-		
-		
-		return location;
-	
-	}
-	
-	protected Location removeUserList(Location location, Map<String,Object> options){
-	
-	
-		SmartList<User> userList = location.getUserList();
-		if(userList == null){
-			return location;
-		}	
-	
-		SmartList<User> toRemoveUserList = userList.getToRemoveList();
-		
-		if(toRemoveUserList == null){
-			return location;
-		}
-		if(toRemoveUserList.isEmpty()){
-			return location;// Does this mean delete all from the parent object?
-		}
-		//Call DAO to remove the list
-		
-		getUserDAO().removeUserList(toRemoveUserList,options);
-		
-		return location;
-	
-	}
-	
-	
-
- 	
- 	
-	
-	
-	
-		
 
 	public Location present(Location location,Map<String, Object> options){
 	
 		presentStudentList(location,options);
-		presentUserList(location,options);
 
 		return location;
 	
@@ -1245,35 +971,9 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 		return location;
 	}			
 		
-	//Using java8 feature to reduce the code significantly
- 	protected Location presentUserList(
-			Location location,
-			Map<String, Object> options) {
-
-		SmartList<User> userList = location.getUserList();		
-				SmartList<User> newList= presentSubList(location.getId(),
-				userList,
-				options,
-				getUserDAO()::countUserByAddress,
-				getUserDAO()::findUserByAddress
-				);
-
-		
-		location.setUserList(newList);
-		
-
-		return location;
-	}			
-		
 
 	
     public SmartList<Location> requestCandidateLocationForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
-        // NOTE: by default, ignore owner info, just return all by filter key.
-		// You need override this method if you have different candidate-logic
-		return findAllCandidateByFilter(LocationTable.COLUMN_NAME, filterKey, pageNo, pageSize, getLocationMapper());
-    }
-		
-    public SmartList<Location> requestCandidateLocationForUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception {
         // NOTE: by default, ignore owner info, just return all by filter key.
 		// You need override this method if you have different candidate-logic
 		return findAllCandidateByFilter(LocationTable.COLUMN_NAME, filterKey, pageNo, pageSize, getLocationMapper());
@@ -1310,29 +1010,6 @@ public class LocationJDBCTemplateDAO extends HealthBaseDAOImpl implements Locati
 			SmartList<Student> loadedSmartList = new SmartList<>();
 			loadedSmartList.addAll(loadedList);
 			it.setStudentList(loadedSmartList);
-		});
-		return loadedObjs;
-	}
-	
-	// 需要一个加载引用我的对象的enhance方法:User的address的UserList
-	public SmartList<User> loadOurUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception{
-		if (us == null || us.isEmpty()){
-			return new SmartList<>();
-		}
-		Set<String> ids = us.stream().map(it->it.getId()).collect(Collectors.toSet());
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.ADDRESS_PROPERTY, ids.toArray(new String[ids.size()]));
-		SmartList<User> loadedObjs = userContext.getDAOGroup().getUserDAO().findUserWithKey(key, options);
-		Map<String, List<User>> loadedMap = loadedObjs.stream().collect(Collectors.groupingBy(it->it.getAddress().getId()));
-		us.forEach(it->{
-			String id = it.getId();
-			List<User> loadedList = loadedMap.get(id);
-			if (loadedList == null || loadedList.isEmpty()) {
-				return;
-			}
-			SmartList<User> loadedSmartList = new SmartList<>();
-			loadedSmartList.addAll(loadedList);
-			it.setUserList(loadedSmartList);
 		});
 		return loadedObjs;
 	}

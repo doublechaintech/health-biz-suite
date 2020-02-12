@@ -435,11 +435,21 @@ public class FormActionJDBCTemplateDAO extends HealthBaseDAOImpl implements Form
  	protected Object[] prepareFormActionUpdateParameters(FormAction formAction){
  		Object[] parameters = new Object[9];
  
+ 		
  		parameters[0] = formAction.getLabel();
+ 		
+ 		
  		parameters[1] = formAction.getLocaleKey();
+ 		
+ 		
  		parameters[2] = formAction.getActionKey();
+ 		
+ 		
  		parameters[3] = formAction.getLevel();
- 		parameters[4] = formAction.getUrl(); 	
+ 		
+ 		
+ 		parameters[4] = formAction.getUrl();
+ 		 	
  		if(formAction.getForm() != null){
  			parameters[5] = formAction.getForm().getId();
  		}
@@ -456,11 +466,21 @@ public class FormActionJDBCTemplateDAO extends HealthBaseDAOImpl implements Form
 		formAction.setId(newFormActionId);
 		parameters[0] =  formAction.getId();
  
+ 		
  		parameters[1] = formAction.getLabel();
+ 		
+ 		
  		parameters[2] = formAction.getLocaleKey();
+ 		
+ 		
  		parameters[3] = formAction.getActionKey();
+ 		
+ 		
  		parameters[4] = formAction.getLevel();
- 		parameters[5] = formAction.getUrl(); 	
+ 		
+ 		
+ 		parameters[5] = formAction.getUrl();
+ 		 	
  		if(formAction.getForm() != null){
  			parameters[6] = formAction.getForm().getId();
  		

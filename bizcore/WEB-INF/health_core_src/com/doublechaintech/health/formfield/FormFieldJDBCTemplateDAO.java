@@ -435,25 +435,55 @@ public class FormFieldJDBCTemplateDAO extends HealthBaseDAOImpl implements FormF
  	protected Object[] prepareFormFieldUpdateParameters(FormField formField){
  		Object[] parameters = new Object[19];
  
+ 		
  		parameters[0] = formField.getLabel();
+ 		
+ 		
  		parameters[1] = formField.getLocaleKey();
+ 		
+ 		
  		parameters[2] = formField.getParameterName();
- 		parameters[3] = formField.getType(); 	
+ 		
+ 		
+ 		parameters[3] = formField.getType();
+ 		 	
  		if(formField.getForm() != null){
  			parameters[4] = formField.getForm().getId();
  		}
  
+ 		
  		parameters[5] = formField.getPlaceholder();
+ 		
+ 		
  		parameters[6] = formField.getDefaultValue();
+ 		
+ 		
  		parameters[7] = formField.getDescription();
+ 		
+ 		
  		parameters[8] = formField.getFieldGroup();
+ 		
+ 		
  		parameters[9] = formField.getMinimumValue();
+ 		
+ 		
  		parameters[10] = formField.getMaximumValue();
+ 		
+ 		
  		parameters[11] = formField.getRequired();
+ 		
+ 		
  		parameters[12] = formField.getDisabled();
+ 		
+ 		
  		parameters[13] = formField.getCustomRendering();
+ 		
+ 		
  		parameters[14] = formField.getCandidateValues();
- 		parameters[15] = formField.getSuggestValues();		
+ 		
+ 		
+ 		parameters[15] = formField.getSuggestValues();
+ 				
  		parameters[16] = formField.nextVersion();
  		parameters[17] = formField.getId();
  		parameters[18] = formField.getVersion();
@@ -466,26 +496,56 @@ public class FormFieldJDBCTemplateDAO extends HealthBaseDAOImpl implements FormF
 		formField.setId(newFormFieldId);
 		parameters[0] =  formField.getId();
  
+ 		
  		parameters[1] = formField.getLabel();
+ 		
+ 		
  		parameters[2] = formField.getLocaleKey();
+ 		
+ 		
  		parameters[3] = formField.getParameterName();
- 		parameters[4] = formField.getType(); 	
+ 		
+ 		
+ 		parameters[4] = formField.getType();
+ 		 	
  		if(formField.getForm() != null){
  			parameters[5] = formField.getForm().getId();
  		
  		}
  		
+ 		
  		parameters[6] = formField.getPlaceholder();
+ 		
+ 		
  		parameters[7] = formField.getDefaultValue();
+ 		
+ 		
  		parameters[8] = formField.getDescription();
+ 		
+ 		
  		parameters[9] = formField.getFieldGroup();
+ 		
+ 		
  		parameters[10] = formField.getMinimumValue();
+ 		
+ 		
  		parameters[11] = formField.getMaximumValue();
+ 		
+ 		
  		parameters[12] = formField.getRequired();
+ 		
+ 		
  		parameters[13] = formField.getDisabled();
+ 		
+ 		
  		parameters[14] = formField.getCustomRendering();
+ 		
+ 		
  		parameters[15] = formField.getCandidateValues();
- 		parameters[16] = formField.getSuggestValues();		
+ 		
+ 		
+ 		parameters[16] = formField.getSuggestValues();
+ 				
  				
  		return parameters;
  	}

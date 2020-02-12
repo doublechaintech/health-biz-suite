@@ -37,7 +37,9 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
 	protected void setId(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(StudentHealthSurveyTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -67,7 +69,9 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
 	protected void setAnswerTime(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date answerTime = rs.getTimestamp(StudentHealthSurveyTable.COLUMN_ANSWER_TIME);
+		
 		if(answerTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -133,7 +137,9 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
 	protected void setCreateTime(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(StudentHealthSurveyTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -145,7 +151,9 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
 	protected void setLastUpdateTime(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date lastUpdateTime = rs.getTimestamp(StudentHealthSurveyTable.COLUMN_LAST_UPDATE_TIME);
+		
 		if(lastUpdateTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -175,7 +183,9 @@ public class StudentHealthSurveyMapper extends BaseRowMapper<StudentHealthSurvey
 	protected void setVersion(StudentHealthSurvey studentHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(StudentHealthSurveyTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

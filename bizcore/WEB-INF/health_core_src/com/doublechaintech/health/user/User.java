@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.question.Question;
@@ -27,7 +27,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	public static final String ID_PROPERTY                    = "id"                ;
 	public static final String NAME_PROPERTY                  = "name"              ;
 	public static final String AVATAR_PROPERTY                = "avatar"            ;
-	public static final String ADDRESS_PROPERTY               = "address"           ;
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
 	public static final String VERSION_PROPERTY               = "version"           ;
@@ -60,7 +59,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	protected		String              	mId                 ;
 	protected		String              	mName               ;
 	protected		String              	mAvatar             ;
-	protected		Location            	mAddress            ;
 	protected		DateTime            	mCreateTime         ;
 	protected		Platform            	mPlatform           ;
 	protected		int                 	mVersion            ;
@@ -88,7 +86,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 	
 	// disconnect from all, 中文就是一了百了，跟所有一切尘世断绝往来藏身于茫茫数据海洋
 	public 	void clearFromAll(){
-		setAddress( null );
 		setPlatform( null );
 
 		this.changed = true;
@@ -114,6 +111,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -123,12 +121,13 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeAvatarProperty(String newValueExpr){
+	
 		String oldValue = getAvatar();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -138,12 +137,13 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		updateAvatar(newValue);
 		this.onChangeProperty(AVATAR_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCreateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -153,7 +153,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		updateCreateTime(newValue);
 		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
@@ -168,9 +168,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		}
 		if(AVATAR_PROPERTY.equals(property)){
 			return getAvatar();
-		}
-		if(ADDRESS_PROPERTY.equals(property)){
-			return getAddress();
 		}
 		if(CREATE_TIME_PROPERTY.equals(property)){
 			return getCreateTime();
@@ -256,27 +253,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		if(avatar != null) { setAvatar(avatar);}
 	}
 	
-	
-	public void setAddress(Location address){
-		this.mAddress = address;;
-	}
-	public Location getAddress(){
-		return this.mAddress;
-	}
-	public User updateAddress(Location address){
-		this.mAddress = address;;
-		this.changed = true;
-		return this;
-	}
-	public void mergeAddress(Location address){
-		if(address != null) { setAddress(address);}
-	}
-	
-	
-	public void clearAddress(){
-		setAddress ( null );
-		this.changed = true;
-	}
 	
 	public void setCreateTime(DateTime createTime){
 		this.mCreateTime = createTime;;
@@ -869,7 +845,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
-		addToEntityList(this, entityList, getAddress(), internalType);
 		addToEntityList(this, entityList, getPlatform(), internalType);
 
 		
@@ -907,7 +882,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, ID_PROPERTY, getId());
 		appendKeyValuePair(result, NAME_PROPERTY, getName());
 		appendKeyValuePair(result, AVATAR_PROPERTY, getAvatar());
-		appendKeyValuePair(result, ADDRESS_PROPERTY, getAddress());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
@@ -953,7 +927,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 			dest.setId(getId());
 			dest.setName(getName());
 			dest.setAvatar(getAvatar());
-			dest.setAddress(getAddress());
 			dest.setCreateTime(getCreateTime());
 			dest.setPlatform(getPlatform());
 			dest.setVersion(getVersion());
@@ -978,7 +951,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 			dest.mergeId(getId());
 			dest.mergeName(getName());
 			dest.mergeAvatar(getAvatar());
-			dest.mergeAddress(getAddress());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergePlatform(getPlatform());
 			dest.mergeVersion(getVersion());
@@ -1011,7 +983,7 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getAvatar(), getAddress(), getCreateTime(), getPlatform(), getVersion()};
+		return new Object[]{getId(), getName(), getAvatar(), getCreateTime(), getPlatform(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -1020,9 +992,6 @@ public class User extends BaseEntity implements  java.io.Serializable{
 		stringBuilder.append("\tid='"+getId()+"';");
 		stringBuilder.append("\tname='"+getName()+"';");
 		stringBuilder.append("\tavatar='"+getAvatar()+"';");
-		if(getAddress() != null ){
- 			stringBuilder.append("\taddress='Location("+getAddress().getId()+")';");
- 		}
 		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
 		if(getPlatform() != null ){
  			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");

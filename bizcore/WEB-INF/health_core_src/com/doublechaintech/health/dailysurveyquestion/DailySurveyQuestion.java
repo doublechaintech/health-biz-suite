@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -116,6 +117,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
     
     
 	protected void changeTopicProperty(String newValueExpr){
+	
 		String oldValue = getTopic();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -125,12 +127,13 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		updateTopic(newValue);
 		this.onChangeProperty(TOPIC_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeOptionAProperty(String newValueExpr){
+	
 		String oldValue = getOptionA();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -140,12 +143,13 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		updateOptionA(newValue);
 		this.onChangeProperty(OPTION_A_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeOptionBProperty(String newValueExpr){
+	
 		String oldValue = getOptionB();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -155,12 +159,13 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		updateOptionB(newValue);
 		this.onChangeProperty(OPTION_B_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeOptionCProperty(String newValueExpr){
+	
 		String oldValue = getOptionC();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -170,12 +175,13 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		updateOptionC(newValue);
 		this.onChangeProperty(OPTION_C_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeOptionDProperty(String newValueExpr){
+	
 		String oldValue = getOptionD();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -185,7 +191,7 @@ public class DailySurveyQuestion extends BaseEntity implements  java.io.Serializ
 		updateOptionD(newValue);
 		this.onChangeProperty(OPTION_D_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

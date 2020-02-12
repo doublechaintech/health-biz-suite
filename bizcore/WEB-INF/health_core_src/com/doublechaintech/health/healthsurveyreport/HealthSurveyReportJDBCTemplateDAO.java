@@ -749,15 +749,33 @@ public class HealthSurveyReportJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	protected Object[] prepareHealthSurveyReportUpdateParameters(HealthSurveyReport healthSurveyReport){
  		Object[] parameters = new Object[15];
  
+ 		
  		parameters[0] = healthSurveyReport.getSurveyName();
+ 		
+ 		
  		parameters[1] = healthSurveyReport.getSurveyTime();
+ 		
+ 		
  		parameters[2] = healthSurveyReport.getTeacherName();
+ 		
+ 		
  		parameters[3] = healthSurveyReport.getSchool();
+ 		
+ 		
  		parameters[4] = healthSurveyReport.getSchoolClass();
+ 		
+ 		
  		parameters[5] = healthSurveyReport.getStudentName();
+ 		
+ 		
  		parameters[6] = healthSurveyReport.getStudentNumber();
+ 		
+ 		
  		parameters[7] = healthSurveyReport.getGuardianName();
- 		parameters[8] = healthSurveyReport.getGuardianMobile(); 	
+ 		
+ 		
+ 		parameters[8] = healthSurveyReport.getGuardianMobile();
+ 		 	
  		if(healthSurveyReport.getStudent() != null){
  			parameters[9] = healthSurveyReport.getStudent().getId();
  		}
@@ -782,15 +800,33 @@ public class HealthSurveyReportJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 		healthSurveyReport.setId(newHealthSurveyReportId);
 		parameters[0] =  healthSurveyReport.getId();
  
+ 		
  		parameters[1] = healthSurveyReport.getSurveyName();
+ 		
+ 		
  		parameters[2] = healthSurveyReport.getSurveyTime();
+ 		
+ 		
  		parameters[3] = healthSurveyReport.getTeacherName();
+ 		
+ 		
  		parameters[4] = healthSurveyReport.getSchool();
+ 		
+ 		
  		parameters[5] = healthSurveyReport.getSchoolClass();
+ 		
+ 		
  		parameters[6] = healthSurveyReport.getStudentName();
+ 		
+ 		
  		parameters[7] = healthSurveyReport.getStudentNumber();
+ 		
+ 		
  		parameters[8] = healthSurveyReport.getGuardianName();
- 		parameters[9] = healthSurveyReport.getGuardianMobile(); 	
+ 		
+ 		
+ 		parameters[9] = healthSurveyReport.getGuardianMobile();
+ 		 	
  		if(healthSurveyReport.getStudent() != null){
  			parameters[10] = healthSurveyReport.getStudent().getId();
  		

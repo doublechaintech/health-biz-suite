@@ -650,7 +650,9 @@ public class DistrictJDBCTemplateDAO extends HealthBaseDAOImpl implements Distri
  	protected Object[] prepareDistrictUpdateParameters(District district){
  		Object[] parameters = new Object[7];
  
- 		parameters[0] = district.getName(); 	
+ 		
+ 		parameters[0] = district.getName();
+ 		 	
  		if(district.getCity() != null){
  			parameters[1] = district.getCity().getId();
  		}
@@ -659,7 +661,9 @@ public class DistrictJDBCTemplateDAO extends HealthBaseDAOImpl implements Distri
  			parameters[2] = district.getPlatform().getId();
  		}
  
- 		parameters[3] = district.getCreateTime();		
+ 		
+ 		parameters[3] = district.getCreateTime();
+ 				
  		parameters[4] = district.nextVersion();
  		parameters[5] = district.getId();
  		parameters[6] = district.getVersion();
@@ -672,7 +676,9 @@ public class DistrictJDBCTemplateDAO extends HealthBaseDAOImpl implements Distri
 		district.setId(newDistrictId);
 		parameters[0] =  district.getId();
  
- 		parameters[1] = district.getName(); 	
+ 		
+ 		parameters[1] = district.getName();
+ 		 	
  		if(district.getCity() != null){
  			parameters[2] = district.getCity().getId();
  		
@@ -683,7 +689,9 @@ public class DistrictJDBCTemplateDAO extends HealthBaseDAOImpl implements Distri
  		
  		}
  		
- 		parameters[4] = district.getCreateTime();		
+ 		
+ 		parameters[4] = district.getCreateTime();
+ 				
  				
  		return parameters;
  	}

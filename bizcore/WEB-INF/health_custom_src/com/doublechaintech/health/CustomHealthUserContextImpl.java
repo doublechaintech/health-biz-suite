@@ -27,9 +27,45 @@ public class CustomHealthUserContextImpl extends HealthBizUserContextImpl {
 	
 	private String answer;
 	
+	private String studentSurveyId;
 	
 	
+	private String name;
+	private String userType;
+	private String avatar;
 
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getStudentSurveyId() {
+		return studentSurveyId;
+	}
+
+	public void setStudentSurveyId(String studentSurveyId) {
+		this.studentSurveyId = studentSurveyId;
+	}
 
 	public String getAnswer() {
 		return answer;

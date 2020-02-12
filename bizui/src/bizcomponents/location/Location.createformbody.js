@@ -1,214 +1,240 @@
-import React, { Component } from 'react';
-import {
-  Card,
-  Button,
-  Form,
-  Icon,
-  Col,
-  Row,
-  DatePicker,
-  TimePicker,
-  Input,
-  Select,
-  Popover,
-  Switch,
-} from 'antd';
-import { connect } from 'dva';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import SelectObject from '../../components/SelectObject';
-import { ImageComponent } from '../../axios/tools';
-import FooterToolbar from '../../components/FooterToolbar';
-import styles from './Location.createform.less';
-import { mapBackToImageValues, mapFromImageValues } from '../../axios/tools';
+import React, { Component } from 'react'
+import { Card, Button, Form, Icon, Col, Row, DatePicker, TimePicker, Input, Select, Popover,Switch } from 'antd'
+import { connect } from 'dva'
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import SelectObject from '../../components/SelectObject'
+import {ImageComponent} from '../../axios/tools'
+import FooterToolbar from '../../components/FooterToolbar'
+import styles from './Location.createform.less'
+import {mapBackToImageValues, mapFromImageValues} from '../../axios/tools'
 import GlobalComponents from '../../custcomponents';
-import LocationBase from './Location.base';
-import appLocaleName from '../../common/Locale.tool';
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-const { fieldLabels } = LocationBase;
+import LocationBase from './Location.base'
+import appLocaleName from '../../common/Locale.tool'
+const { Option } = Select
+const { RangePicker } = DatePicker
+const { TextArea } = Input
+const {fieldLabels} = LocationBase
 const testValues = {};
 /*
 const testValues = {
   name: '公司地址',
   address: '四川省成都市高新区南华路100号',
-  latitude: '31.966442076875687',
-  longitude: '104.97007414766233',
+  latitude: '31.99116056665582',
+  longitude: '104.22824080832893',
   districtId: 'D000001',
   provinceId: 'P000001',
 }
 */
 
-const imageKeys = [];
+const imageKeys = [
+]
+
 
 class LocationCreateFormBody extends Component {
   state = {
     previewVisible: false,
     previewImage: '',
     convertedImagesValues: {},
-  };
+  }
 
-  componentDidMount() {}
+  componentDidMount() {
+	
+    
+    
+  }
 
-  handlePreview = file => {
-    console.log('preview file', file);
+  handlePreview = (file) => {
+    console.log('preview file', file)
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
-    });
-  };
+    })
+  }
+
+ 
+
+
 
   handleChange = (event, source) => {
-    console.log('get file list from change in update change:', source);
+    console.log('get file list from change in update change:', source)
 
-    const { fileList } = event;
-    const { convertedImagesValues } = this.state;
+    const { fileList } = event
+    const { convertedImagesValues } = this.state
 
-    convertedImagesValues[source] = fileList;
-    this.setState({ convertedImagesValues });
-    console.log('/get file list from change in update change:', source);
-  };
+    convertedImagesValues[source] = fileList
+    this.setState({ convertedImagesValues })
+    console.log('/get file list from change in update change:', source)
+  }
+	
+  
 
   render() {
-    const { form, dispatch, submitting, role } = this.props;
-    const { convertedImagesValues } = this.state;
-    const userContext = null;
-    const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form;
-
-    const { LocationService } = GlobalComponents;
-
-    const capFirstChar = value => {
-      //const upper = value.replace(/^\w/, c => c.toUpperCase());
-      const upper = value.charAt(0).toUpperCase() + value.substr(1);
-      return upper;
-    };
-
-    const tryinit = fieldName => {
-      const { owner } = this.props;
-      if (!owner) {
-        return null;
+    const { form, dispatch, submitting, role } = this.props
+    const { convertedImagesValues } = this.state
+	const userContext = null
+    const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
+    
+    const {LocationService} = GlobalComponents
+    
+    const capFirstChar = (value)=>{
+    	//const upper = value.replace(/^\w/, c => c.toUpperCase());
+  		const upper = value.charAt(0).toUpperCase() + value.substr(1);
+  		return upper
+  	}
+    
+    
+    const tryinit  = (fieldName) => {
+      const { owner } = this.props
+      if(!owner){
+      	return null
       }
-      const { referenceName } = owner;
-      if (referenceName != fieldName) {
-        return null;
+      const { referenceName } = owner
+      if(referenceName!=fieldName){
+        return null
       }
-      return owner.id;
-    };
-
-    const availableForEdit = fieldName => {
-      const { owner } = this.props;
-      if (!owner) {
-        return true;
+      return owner.id
+    }
+    
+    const availableForEdit= (fieldName) =>{
+      const { owner } = this.props
+      if(!owner){
+      	return true
       }
-      const { referenceName } = owner;
-      if (referenceName != fieldName) {
-        return true;
+      const { referenceName } = owner
+      if(referenceName!=fieldName){
+        return true
       }
-      return false;
-    };
-    const formItemLayout = {
+      return false
+    
+    }
+	const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
-    };
+    }
     const switchFormItemLayout = {
+
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
-    };
 
-    const internalRenderTitle = () => {
-      const linkComp = (
-        <a onClick={goback}>
-          {' '}
-          <Icon type="double-left" style={{ marginRight: '10px' }} />{' '}
-        </a>
-      );
-      return (
-        <div>
-          {linkComp}
-          {appLocaleName(userContext, 'CreateNew')}
-          {window.trans('location')}
-        </div>
-      );
-    };
-
-    return (
+    }
+    
+    const internalRenderTitle = () =>{
+      const linkComp=<a onClick={goback}  > <Icon type="double-left" style={{marginRight:"10px"}} /> </a>
+      return (<div>{linkComp}{appLocaleName(userContext,"CreateNew")}{window.trans('location')}</div>)
+    }
+	
+	return (
       <div>
-        <Card
-          title={!this.props.hideTitle && appLocaleName(userContext, 'BasicInfo')}
-          className={styles.card}
-          bordered={false}
-        >
-          <Form>
-            <Row gutter={16}>
+        <Card title={!this.props.hideTitle&&appLocaleName(userContext,"BasicInfo")} className={styles.card} bordered={false}>
+          <Form >
+          	<Row gutter={16}>
+           
+
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.name} {...formItemLayout}>
                   {getFieldDecorator('name', {
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
-                  })(<Input size="large" placeHolder={fieldLabels.name} />)}
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.name} />
+                  )}
                 </Form.Item>
               </Col>
 
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.address} {...formItemLayout}>
                   {getFieldDecorator('address', {
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
-                  })(<Input size="large" placeHolder={fieldLabels.address} />)}
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.address} />
+                  )}
                 </Form.Item>
               </Col>
 
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.latitude} {...formItemLayout}>
                   {getFieldDecorator('latitude', {
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
-                  })(<Input size="large" placeHolder={fieldLabels.latitude} />)}
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.latitude} />
+                  )}
                 </Form.Item>
               </Col>
 
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.longitude} {...formItemLayout}>
                   {getFieldDecorator('longitude', {
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
-                  })(<Input size="large" placeHolder={fieldLabels.longitude} />)}
-                </Form.Item>
-              </Col>
-
-              <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.district} {...formItemLayout}>
-                  {getFieldDecorator('districtId', {
-                    initialValue: tryinit('district'),
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <SelectObject
-                      disabled={!availableForEdit('district')}
-                      targetType={'district'}
-                      requestFunction={LocationService.requestCandidateDistrict}
-                    />
+                    <Input size="large"  placeHolder={fieldLabels.longitude} />
                   )}
                 </Form.Item>
               </Col>
+
+
+       
+ 
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.district} {...formItemLayout}>
+                  {getFieldDecorator('districtId', {
+                  	initialValue: tryinit('district'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('district')}
+                    targetType={"district"} 
+                    requestFunction={LocationService.requestCandidateDistrict}/>
+                  
+                 
+                  )}
+                </Form.Item>
+              </Col>
+
+           
 
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.province} {...formItemLayout}>
                   {getFieldDecorator('provinceId', {
-                    initialValue: tryinit('province'),
-                    rules: [{ required: true, message: appLocaleName(userContext, 'PleaseInput') }],
+                  	initialValue: tryinit('province'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <SelectObject
-                      disabled={!availableForEdit('province')}
-                      targetType={'province'}
-                      requestFunction={LocationService.requestCandidateProvince}
-                    />
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('province')}
+                    targetType={"province"} 
+                    requestFunction={LocationService.requestCandidateProvince}/>
+                  
+                 
                   )}
                 </Form.Item>
               </Col>
-            </Row>
+
+           
+
+
+
+			 </Row>
           </Form>
         </Card>
-      </div>
-    );
+
+
+
+
+
+
+
+
+      
+       </div>
+    )
   }
 }
 
 export default connect(state => ({
   collapsed: state.global.collapsed,
-}))(Form.create()(LocationCreateFormBody));
+}))(Form.create()(LocationCreateFormBody))
+
+
+
+
+

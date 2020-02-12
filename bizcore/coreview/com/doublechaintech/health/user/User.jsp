@@ -132,10 +132,6 @@
 	
 
 	<div class="row">
-<c:set var="location" value="${ result.address}" scope="request" />
-<c:set var="referName" value="(address)" scope="request" />
-<sky:include page="com/doublechaintech/health/location/Location$Info.jsp" />
-
 <c:set var="platform" value="${ result.platform}" scope="request" />
 <c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/platform/Platform$Info.jsp" />

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -100,6 +101,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
     
     
 	protected void changeAppIdProperty(String newValueExpr){
+	
 		String oldValue = getAppId();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -109,12 +111,13 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		updateAppId(newValue);
 		this.onChangeProperty(APP_ID_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeOpenIdProperty(String newValueExpr){
+	
 		String oldValue = getOpenId();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -124,12 +127,13 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		updateOpenId(newValue);
 		this.onChangeProperty(OPEN_ID_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSessionKeyProperty(String newValueExpr){
+	
 		String oldValue = getSessionKey();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -139,12 +143,13 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		updateSessionKey(newValue);
 		this.onChangeProperty(SESSION_KEY_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLastUpdateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getLastUpdateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -154,7 +159,7 @@ public class WechatLoginInfo extends BaseEntity implements  java.io.Serializable
 		updateLastUpdateTime(newValue);
 		this.onChangeProperty(LAST_UPDATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

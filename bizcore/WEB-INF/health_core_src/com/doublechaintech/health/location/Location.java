@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
 
 @JsonSerialize(using = LocationSerializer.class)
 public class Location extends BaseEntity implements  java.io.Serializable{
@@ -31,7 +31,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String STUDENT_LIST                             = "studentList"       ;
-	public static final String USER_LIST                                = "userList"          ;
 
 	public static final String INTERNAL_TYPE="Location";
 	public String getInternalType(){
@@ -63,7 +62,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	
 	
 	protected		SmartList<Student>  	mStudentList        ;
-	protected		SmartList<User>     	mUserList           ;
 	
 		
 	public 	Location(){
@@ -110,6 +108,7 @@ public class Location extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -119,12 +118,13 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeAddressProperty(String newValueExpr){
+	
 		String oldValue = getAddress();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -134,12 +134,13 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		updateAddress(newValue);
 		this.onChangeProperty(ADDRESS_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLatitudeProperty(String newValueExpr){
+	
 		BigDecimal oldValue = getLatitude();
 		BigDecimal newValue = parseBigDecimal(newValueExpr);
 		if(equalsBigDecimal(oldValue , newValue)){
@@ -149,12 +150,13 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		updateLatitude(newValue);
 		this.onChangeProperty(LATITUDE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLongitudeProperty(String newValueExpr){
+	
 		BigDecimal oldValue = getLongitude();
 		BigDecimal newValue = parseBigDecimal(newValueExpr);
 		if(equalsBigDecimal(oldValue , newValue)){
@@ -164,7 +166,7 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		updateLongitude(newValue);
 		this.onChangeProperty(LONGITUDE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
@@ -194,10 +196,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		}
 		if(STUDENT_LIST.equals(property)){
 			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
-			return list;
-		}
-		if(USER_LIST.equals(property)){
-			List<BaseEntity> list = getUserList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -457,113 +455,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 	
 
 
-	public  SmartList<User> getUserList(){
-		if(this.mUserList == null){
-			this.mUserList = new SmartList<User>();
-			this.mUserList.setListInternalName (USER_LIST );
-			//有名字，便于做权限控制
-		}
-		
-		return this.mUserList;	
-	}
-	public  void setUserList(SmartList<User> userList){
-		for( User user:userList){
-			user.setAddress(this);
-		}
-
-		this.mUserList = userList;
-		this.mUserList.setListInternalName (USER_LIST );
-		
-	}
-	
-	public  void addUser(User user){
-		user.setAddress(this);
-		getUserList().add(user);
-	}
-	public  void addUserList(SmartList<User> userList){
-		for( User user:userList){
-			user.setAddress(this);
-		}
-		getUserList().addAll(userList);
-	}
-	public  void mergeUserList(SmartList<User> userList){
-		if(userList==null){
-			return;
-		}
-		if(userList.isEmpty()){
-			return;
-		}
-		addUserList( userList );
-		
-	}
-	public  User removeUser(User userIndex){
-		
-		int index = getUserList().indexOf(userIndex);
-        if(index < 0){
-        	String message = "User("+userIndex.getId()+") with version='"+userIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        User user = getUserList().get(index);        
-        // user.clearAddress(); //disconnect with Address
-        user.clearFromAll(); //disconnect with Address
-		
-		boolean result = getUserList().planToRemove(user);
-        if(!result){
-        	String message = "User("+userIndex.getId()+") with version='"+userIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        return user;
-        
-	
-	}
-	//断舍离
-	public  void breakWithUser(User user){
-		
-		if(user == null){
-			return;
-		}
-		user.setAddress(null);
-		//getUserList().remove();
-	
-	}
-	
-	public  boolean hasUser(User user){
-	
-		return getUserList().contains(user);
-  
-	}
-	
-	public void copyUserFrom(User user) {
-
-		User userInList = findTheUser(user);
-		User newUser = new User();
-		userInList.copyTo(newUser);
-		newUser.setVersion(0);//will trigger copy
-		getUserList().add(newUser);
-		addItemToFlexiableObject(COPIED_CHILD, newUser);
-	}
-	
-	public  User findTheUser(User user){
-		
-		int index =  getUserList().indexOf(user);
-		//The input parameter must have the same id and version number.
-		if(index < 0){
- 			String message = "User("+user.getId()+") with version='"+user.getVersion()+"' NOT found!";
-			throw new IllegalStateException(message);
-		}
-		
-		return  getUserList().get(index);
-		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
-	}
-	
-	public  void cleanUpUserList(){
-		getUserList().clear();
-	}
-	
-	
-	
-
-
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getDistrict(), internalType);
@@ -576,7 +467,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
 		collectFromList(this, entityList, getStudentList(), internalType);
-		collectFromList(this, entityList, getUserList(), internalType);
 
 		return entityList;
 	}
@@ -585,7 +475,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
 		listOfList.add( getStudentList());
-		listOfList.add( getUserList());
 			
 
 		return listOfList;
@@ -607,11 +496,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 		if(!getStudentList().isEmpty()){
 			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
 			appendKeyValuePair(result, "studentCurrentPageNumber", getStudentList().getCurrentPageNumber());
-		}
-		appendKeyValuePair(result, USER_LIST, getUserList());
-		if(!getUserList().isEmpty()){
-			appendKeyValuePair(result, "userCount", getUserList().getTotalCount());
-			appendKeyValuePair(result, "userCurrentPageNumber", getUserList().getCurrentPageNumber());
 		}
 
 		
@@ -636,7 +520,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 			dest.setLongitude(getLongitude());
 			dest.setVersion(getVersion());
 			dest.setStudentList(getStudentList());
-			dest.setUserList(getUserList());
 
 		}
 		super.copyTo(baseDest);
@@ -659,7 +542,6 @@ public class Location extends BaseEntity implements  java.io.Serializable{
 			dest.mergeLongitude(getLongitude());
 			dest.mergeVersion(getVersion());
 			dest.mergeStudentList(getStudentList());
-			dest.mergeUserList(getUserList());
 
 		}
 		super.copyTo(baseDest);

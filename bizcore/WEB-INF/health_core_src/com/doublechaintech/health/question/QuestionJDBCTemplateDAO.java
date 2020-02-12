@@ -820,15 +820,25 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
  	protected Object[] prepareQuestionUpdateParameters(Question question){
  		Object[] parameters = new Object[12];
  
- 		parameters[0] = question.getTopic(); 	
+ 		
+ 		parameters[0] = question.getTopic();
+ 		 	
  		if(question.getQuestionType() != null){
  			parameters[1] = question.getQuestionType().getId();
  		}
  
+ 		
  		parameters[2] = question.getOptionA();
+ 		
+ 		
  		parameters[3] = question.getOptionB();
+ 		
+ 		
  		parameters[4] = question.getOptionC();
- 		parameters[5] = question.getOptionD(); 	
+ 		
+ 		
+ 		parameters[5] = question.getOptionD();
+ 		 	
  		if(question.getPlatform() != null){
  			parameters[6] = question.getPlatform().getId();
  		}
@@ -853,16 +863,26 @@ public class QuestionJDBCTemplateDAO extends HealthBaseDAOImpl implements Questi
 		question.setId(newQuestionId);
 		parameters[0] =  question.getId();
  
- 		parameters[1] = question.getTopic(); 	
+ 		
+ 		parameters[1] = question.getTopic();
+ 		 	
  		if(question.getQuestionType() != null){
  			parameters[2] = question.getQuestionType().getId();
  		
  		}
  		
+ 		
  		parameters[3] = question.getOptionA();
+ 		
+ 		
  		parameters[4] = question.getOptionB();
+ 		
+ 		
  		parameters[5] = question.getOptionC();
- 		parameters[6] = question.getOptionD(); 	
+ 		
+ 		
+ 		parameters[6] = question.getOptionD();
+ 		 	
  		if(question.getPlatform() != null){
  			parameters[7] = question.getPlatform().getId();
  		

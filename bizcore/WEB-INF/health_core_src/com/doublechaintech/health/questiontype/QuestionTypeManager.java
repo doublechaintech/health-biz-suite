@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -41,8 +42,10 @@ public interface QuestionTypeManager extends BaseManager{
 	public  QuestionType updateQuestion(HealthUserContext userContext, String questionTypeId, String questionId, int questionVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
-	public  QuestionType associateQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception ;
+	public  QuestionType associateQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String avatar, String platformId, String [] tokensExpr) throws Exception ;
 	public  QuestionType associateQuestionListToCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[],String creatorId, String [] tokensExpr) throws Exception ;
+	public  QuestionType associateQuestionListToNewCq(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception ;
+	public  QuestionType associateQuestionListToCq(HealthUserContext userContext, String questionTypeId, String  questionIds[],String cqId, String [] tokensExpr) throws Exception ;
 
 	*/
 

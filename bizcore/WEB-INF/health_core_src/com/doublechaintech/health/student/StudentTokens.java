@@ -75,7 +75,6 @@ public class StudentTokens extends CommonTokens{
 			.withAddress()
 			.withUser()
 			.withPlatform()
-			.withChangeRequest()
 			.withStudentHealthSurveyList()
 			.withHealthSurveyReportList();
 	
@@ -85,8 +84,7 @@ public class StudentTokens extends CommonTokens{
 		return start()
 			.withAddress()
 			.withUser()
-			.withPlatform()
-			.withChangeRequest();
+			.withPlatform();
 	
 	}
 	
@@ -131,16 +129,6 @@ public class StudentTokens extends CommonTokens{
 	}
 	public StudentTokens withPlatform(){		
 		addSimpleOptions(PLATFORM);
-		return this;
-	}
-	
-	
-	protected static final String CHANGEREQUEST = "changeRequest";
-	public String getChangeRequest(){
-		return CHANGEREQUEST;
-	}
-	public StudentTokens withChangeRequest(){		
-		addSimpleOptions(CHANGEREQUEST);
 		return this;
 	}
 	

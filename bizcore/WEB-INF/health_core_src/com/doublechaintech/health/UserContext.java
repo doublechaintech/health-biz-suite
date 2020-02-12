@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import com.skynet.infrastructure.ESClient;
 import com.terapico.uccaf.BaseUserContext;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 public interface UserContext extends BaseUserContext{
 	public DateTime now();
 	public String currentUserName();

@@ -178,7 +178,7 @@ public class TeacherTokens extends CommonTokens{
 	
 	
 	public TeacherTokens searchAllTextOfClassDailyHealthSurveyList(String verb, String value){	
-		String field = "id|name";
+		String field = "id|name|downloadUrl";
 		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
 		return this;
 	}

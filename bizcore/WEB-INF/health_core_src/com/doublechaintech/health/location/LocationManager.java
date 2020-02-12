@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -30,21 +31,11 @@ public interface LocationManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentManager getStudentManager(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  StudentManager getStudentManager(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId ,String [] tokensExpr)  throws Exception;
 	
-	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId , String [] tokensExpr)  throws Exception;
 	public  Location removeStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
 	public  Location updateStudent(HealthUserContext userContext, String locationId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  UserManager getUserManager(HealthUserContext userContext, String locationId, String name, String avatar, String platformId ,String [] tokensExpr)  throws Exception;
-	
-	public  Location addUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId , String [] tokensExpr)  throws Exception;
-	public  Location removeUser(HealthUserContext userContext, String locationId, String userId, int userVersion,String [] tokensExpr)  throws Exception;
-	public  Location updateUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 

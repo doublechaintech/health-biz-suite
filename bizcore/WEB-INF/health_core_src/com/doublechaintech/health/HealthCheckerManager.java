@@ -1,5 +1,6 @@
 package com.doublechaintech.health;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.uccaf.BaseUserContext;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -126,6 +127,7 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -135,12 +137,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCodeProperty(String newValueExpr){
+	
 		String oldValue = getCode();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -150,12 +153,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateCode(newValue);
 		this.onChangeProperty(CODE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeIconProperty(String newValueExpr){
+	
 		String oldValue = getIcon();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -165,12 +169,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateIcon(newValue);
 		this.onChangeProperty(ICON_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDisplayOrderProperty(String newValueExpr){
+	
 		int oldValue = getDisplayOrder();
 		int newValue = parseInt(newValueExpr);
 		if(equalsInt(oldValue , newValue)){
@@ -180,12 +185,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateDisplayOrder(newValue);
 		this.onChangeProperty(DISPLAY_ORDER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeBindTypesProperty(String newValueExpr){
+	
 		String oldValue = getBindTypes();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -195,12 +201,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateBindTypes(newValue);
 		this.onChangeProperty(BIND_TYPES_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStepConfigurationProperty(String newValueExpr){
+	
 		String oldValue = getStepConfiguration();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -210,7 +217,7 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateStepConfiguration(newValue);
 		this.onChangeProperty(STEP_CONFIGURATION_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

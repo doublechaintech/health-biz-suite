@@ -141,10 +141,6 @@
 <c:set var="referName" value="" scope="request" />
 <sky:include page="com/doublechaintech/health/platform/Platform$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
-<c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
-
 </div>
 
 

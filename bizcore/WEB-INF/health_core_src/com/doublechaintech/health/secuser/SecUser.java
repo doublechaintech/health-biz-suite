@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -142,6 +143,7 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeLoginProperty(String newValueExpr){
+	
 		String oldValue = getLogin();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -151,12 +153,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateLogin(newValue);
 		this.onChangeProperty(LOGIN_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeMobileProperty(String newValueExpr){
+	
 		String oldValue = getMobile();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -166,12 +169,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateMobile(newValue);
 		this.onChangeProperty(MOBILE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeEmailProperty(String newValueExpr){
+	
 		String oldValue = getEmail();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -181,12 +185,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateEmail(newValue);
 		this.onChangeProperty(EMAIL_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changePwdProperty(String newValueExpr){
+	
 		String oldValue = getPwd();
 		String newValue = parseString(hashStringWithSHA256(newValueExpr));
 		if(equalsString(oldValue , newValue)){
@@ -196,12 +201,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updatePwd(newValueExpr);
 		this.onChangeProperty(PWD_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeWeixinOpenidProperty(String newValueExpr){
+	
 		String oldValue = getWeixinOpenid();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -211,12 +217,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateWeixinOpenid(newValue);
 		this.onChangeProperty(WEIXIN_OPENID_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeWeixinAppidProperty(String newValueExpr){
+	
 		String oldValue = getWeixinAppid();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -226,12 +233,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateWeixinAppid(newValue);
 		this.onChangeProperty(WEIXIN_APPID_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeAccessTokenProperty(String newValueExpr){
+	
 		String oldValue = getAccessToken();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -241,12 +249,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateAccessToken(newValue);
 		this.onChangeProperty(ACCESS_TOKEN_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeVerificationCodeProperty(String newValueExpr){
+	
 		int oldValue = getVerificationCode();
 		int newValue = parseInt(newValueExpr);
 		if(equalsInt(oldValue , newValue)){
@@ -256,12 +265,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateVerificationCode(newValue);
 		this.onChangeProperty(VERIFICATION_CODE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeVerificationCodeExpireProperty(String newValueExpr){
+	
 		DateTime oldValue = getVerificationCodeExpire();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -271,12 +281,13 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateVerificationCodeExpire(newValue);
 		this.onChangeProperty(VERIFICATION_CODE_EXPIRE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLastLoginTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getLastLoginTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -286,7 +297,7 @@ public class SecUser extends BaseEntity implements  java.io.Serializable{
 		updateLastLoginTime(newValue);
 		this.onChangeProperty(LAST_LOGIN_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

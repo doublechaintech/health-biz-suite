@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -194,8 +195,8 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
  	
  	
 
-	public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name,String teacherId,DateTime surveyTime,String creatorId,String changeRequestId) throws Exception
-	//public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext,String name, String teacherId, DateTime surveyTime, String creatorId, String changeRequestId) throws Exception
+	public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name,String teacherId,DateTime surveyTime,String creatorId,String downloadUrl,String changeRequestId) throws Exception
+	//public ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext,String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId) throws Exception
 	{
 
 		
@@ -204,6 +205,7 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 
 		checkerOf(userContext).checkNameOfClassDailyHealthSurvey(name);
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(surveyTime);
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(downloadUrl);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ClassDailyHealthSurveyManagerException.class);
 
@@ -222,10 +224,11 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		classDailyHealthSurvey.setCreator(creator);
 		
 		
-			
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
-		classDailyHealthSurvey.setChangeRequest(changeRequest);
-		
+		classDailyHealthSurvey.setDownloadUrl(downloadUrl);
+		if(isValidIdentifier(changeRequestId)){	
+			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
+			classDailyHealthSurvey.setChangeRequest(changeRequest);
+		}
 		
 
 		classDailyHealthSurvey = saveClassDailyHealthSurvey(userContext, classDailyHealthSurvey, emptyOptions());
@@ -252,15 +255,27 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 
 		if(ClassDailyHealthSurvey.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(parseTimestamp(newValueExpr));
+		
+			
 		}		
 
-				
+		
+		if(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
+			
+		}		
 
 		
 	
@@ -955,23 +970,33 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 
 		if(DailySurveyQuestion.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1223,7 +1248,9 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 
 		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -1262,10 +1289,44 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 
 	}
 	/*
+	public  ClassDailyHealthSurvey associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String classDailyHealthSurveyId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(StudentHealthSurvey studentHealthSurvey: classDailyHealthSurvey.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveClassDailyHealthSurvey(userContext, classDailyHealthSurvey);
+	}
 	*/
 
+	public  ClassDailyHealthSurvey associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String classDailyHealthSurveyId, String  studentHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		ClassDailyHealthSurvey classDailyHealthSurvey = loadClassDailyHealthSurvey(userContext, classDailyHealthSurveyId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(StudentHealthSurvey studentHealthSurvey: classDailyHealthSurvey.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveClassDailyHealthSurvey(userContext, classDailyHealthSurvey);
+	}
 
 
 	protected void checkParamsForAddingHealthSurveyReport(HealthUserContext userContext, String classDailyHealthSurveyId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String studentId, String teacherId,String [] tokensExpr) throws Exception{
@@ -1503,39 +1564,57 @@ public class ClassDailyHealthSurveyManagerImpl extends CustomHealthCheckerManage
 		
 
 		if(HealthSurveyReport.SURVEY_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(parseTimestamp(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.TEACHER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 	

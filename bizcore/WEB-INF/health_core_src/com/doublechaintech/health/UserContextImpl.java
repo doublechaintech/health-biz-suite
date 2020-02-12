@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.skynet.infrastructure.CacheService;
 import com.skynet.infrastructure.ESClient;
 import com.skynet.infrastructure.GraphService;

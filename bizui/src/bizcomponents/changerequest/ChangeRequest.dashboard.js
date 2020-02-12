@@ -157,7 +157,7 @@ class ChangeRequestDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, teacherListMetaInfo, studentListMetaInfo, questionListMetaInfo, classDailyHealthSurveyListMetaInfo, studentHealthSurveyListMetaInfo, studentDailyAnswerListMetaInfo, teacherCount, studentCount, questionCount, classDailyHealthSurveyCount, studentHealthSurveyCount, studentDailyAnswerCount } = this.props.changeRequest
+    const { id,displayName, teacherListMetaInfo, questionListMetaInfo, classDailyHealthSurveyListMetaInfo, studentHealthSurveyListMetaInfo, teacherCount, questionCount, classDailyHealthSurveyCount, studentHealthSurveyCount } = this.props.changeRequest
     if(!this.props.changeRequest.class){
       return null
     }
@@ -167,11 +167,9 @@ class ChangeRequestDashboard extends Component {
     	cardsSource: this.props.changeRequest,returnURL,displayName,
   		subItems: [
 {name: 'teacherList', displayName: window.mtrans('teacher','change_request.teacher_list',false) ,viewGroup:'__no_group', type:'teacher',count:teacherCount,addFunction: true, role: 'teacher', metaInfo: teacherListMetaInfo, renderItem: GlobalComponents.TeacherBase.renderItemOfList},
-{name: 'studentList', displayName: window.mtrans('student','change_request.student_list',false) ,viewGroup:'__no_group', type:'student',count:studentCount,addFunction: true, role: 'student', metaInfo: studentListMetaInfo, renderItem: GlobalComponents.StudentBase.renderItemOfList},
 {name: 'questionList', displayName: window.mtrans('question','change_request.question_list',false) ,viewGroup:'__no_group', type:'question',count:questionCount,addFunction: true, role: 'question', metaInfo: questionListMetaInfo, renderItem: GlobalComponents.QuestionBase.renderItemOfList},
 {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','change_request.class_daily_health_survey_list',false) ,viewGroup:'__no_group', type:'classDailyHealthSurvey',count:classDailyHealthSurveyCount,addFunction: true, role: 'classDailyHealthSurvey', metaInfo: classDailyHealthSurveyListMetaInfo, renderItem: GlobalComponents.ClassDailyHealthSurveyBase.renderItemOfList},
 {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','change_request.student_health_survey_list',false) ,viewGroup:'__no_group', type:'studentHealthSurvey',count:studentHealthSurveyCount,addFunction: true, role: 'studentHealthSurvey', metaInfo: studentHealthSurveyListMetaInfo, renderItem: GlobalComponents.StudentHealthSurveyBase.renderItemOfList},
-{name: 'studentDailyAnswerList', displayName: window.mtrans('student_daily_answer','change_request.student_daily_answer_list',false) ,viewGroup:'__no_group', type:'studentDailyAnswer',count:studentDailyAnswerCount,addFunction: true, role: 'studentDailyAnswer', metaInfo: studentDailyAnswerListMetaInfo, renderItem: GlobalComponents.StudentDailyAnswerBase.renderItemOfList},
     
       	],
    		subSettingItems: [

@@ -17,11 +17,9 @@
 	<bean id="createQuestionHandler" class="com.doublechaintech.health.changerequest.CreateQuestionCustomHandler" ></bean>
 	<bean id="registerStudentHandler" class="com.doublechaintech.health.changerequest.RegisterStudentCustomHandler" ></bean>
 	<bean id="teacherProcessor" class="com.doublechaintech.health.changerequest.TeacherCustomProcessor" ></bean>
-	<bean id="studentProcessor" class="com.doublechaintech.health.changerequest.StudentCustomProcessor" ></bean>
 	<bean id="questionProcessor" class="com.doublechaintech.health.changerequest.QuestionCustomProcessor" ></bean>
 	<bean id="classDailyHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.ClassDailyHealthSurveyCustomProcessor" ></bean>
 	<bean id="studentHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.StudentHealthSurveyCustomProcessor" ></bean>
-	<bean id="studentDailyAnswerProcessor" class="com.doublechaintech.health.changerequest.StudentDailyAnswerCustomProcessor" ></bean>
 
 </beans>
 

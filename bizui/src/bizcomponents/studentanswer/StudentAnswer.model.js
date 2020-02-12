@@ -1,124 +1,133 @@
-import React from 'react';
-import pathToRegexp from 'path-to-regexp';
-import { routerRedux } from 'dva/router';
-import { notification } from 'antd';
-import GlobalComponents from '../../custcomponents';
-import appLocaleName from '../../common/Locale.tool';
-import modeltool from '../../utils/modeltool';
-const {
-  setupModel,
-  hasError,
-  handleClientError,
-  handleServerError,
-  keepValueWithKeySuffix,
-} = modeltool;
 
-const notifySuccess = userContext => {
-  notification.success({
-    message: appLocaleName(userContext, 'Success'),
-    description: appLocaleName(userContext, 'Success'),
-  });
-};
+import React from 'react'
+import pathToRegexp from 'path-to-regexp'
+import { routerRedux } from 'dva/router'
+import { notification } from 'antd'
+import GlobalComponents from '../../custcomponents';
+import appLocaleName from '../../common/Locale.tool'
+import modeltool from '../../utils/modeltool'
+const {setupModel,hasError,handleClientError,handleServerError,keepValueWithKeySuffix}=modeltool
+
+const notifySuccess=(userContext)=>{
+
+	notification.success({
+        message: appLocaleName(userContext,'Success'),
+        description: appLocaleName(userContext,'Success'),
+      })
+
+}
+
 
 export default {
+
   namespace: '_studentAnswer',
 
   state: {},
 
   subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        const modelName = 'studentAnswer';
-        const parameter = { dispatch, history, location, modelName };
+    
+    setup({ dispatch, history }) { 
+      history.listen((location) => {
+      	const modelName = 'studentAnswer'
+      	const parameter = {dispatch,history,location,modelName}
         //console.log("setupModel",setupModel,typeof(setupModel))
-        setupModel(parameter);
-      });
+      	setupModel(parameter)
+
+      })
     },
   },
   effects: {
-    *view({ payload }, { call, put, select }) {
-      const cachedData = yield select(state => state._studentAnswer);
+    *view({ payload }, { call, put, select }) { 
+    
+      const cachedData = yield select(state => state._studentAnswer)
       //if the data in the cache, just show it, there is no delay
-      const link = payload.pathname;
+      const link = payload.pathname
       //if the data in the cache, just show it, there is no delay
-      if (cachedData.class) {
+      if(cachedData.class){
         //yield put({ type: 'breadcrumb/gotoLink', payload: { displayName:cachedData.displayName,link }} )
-        yield put({ type: 'updateState', payload: cachedData });
-
-        if (payload.useCache) {
-          return; //use cache for returning page
+        yield put({ type: 'updateState', payload: cachedData })
+        
+        if(payload.useCache){
+        	return //use cache for returning page
         }
-      } else {
-        yield put({ type: 'showLoading', payload });
+        
+      }else{
+        yield put({ type: 'showLoading', payload })
       }
+      
+      const {StudentAnswerService} = GlobalComponents;
+      const data = yield call(StudentAnswerService.view, payload.id)
+      
+      const displayName = payload.displayName||data.displayName
+      
+      
+      yield put({ type: 'breadcrumb/gotoLink', payload: { displayName,link }} )
+      
 
-      const { StudentAnswerService } = GlobalComponents;
-      const data = yield call(StudentAnswerService.view, payload.id);
-
-      const displayName = payload.displayName || data.displayName;
-
-      yield put({ type: 'breadcrumb/gotoLink', payload: { displayName, link } });
-
-      yield put({ type: 'updateState', payload: data });
+      yield put({ type: 'updateState', payload: data })
     },
-    *load({ payload }, { call, put }) {
-      const { StudentAnswerService } = GlobalComponents;
+    *load({ payload }, { call, put }) { 
+      const {StudentAnswerService} = GlobalComponents;
       //yield put({ type: 'showLoading', payload })
-      const data = yield call(StudentAnswerService.load, payload.id, payload.parameters);
-      const newPlayload = { ...payload, ...data };
-
-      console.log('this is the data id: ', data.id);
-      yield put({ type: 'updateState', payload: newPlayload });
+      const data = yield call(StudentAnswerService.load, payload.id, payload.parameters)
+      const newPlayload = { ...payload, ...data }
+      
+      console.log('this is the data id: ', data.id)
+      yield put({ type: 'updateState', payload: newPlayload })
     },
-
-    *doJob({ payload }, { call, put }) {
-      const userContext = null;
-      const { TaskService } = GlobalComponents;
-      //yield put({ type: 'showLoading', payload })
-      const { serviceNameToCall, id, parameters } = payload;
-      if (!serviceNameToCall) {
-        handleClientError(appLocaleName(userContext, 'ServiceNotRegistered'));
-        return;
+    
+    *doJob({ payload }, { call, put }) { 
+      const userContext = null
+      const {TaskService} = GlobalComponents;
+      //yield put({ type: 'showLoading', payload })      
+      const {serviceNameToCall, id, parameters} = payload;
+      if(!serviceNameToCall){
+      	handleClientError(appLocaleName(userContext,'ServiceNotRegistered'))
+      	return;
       }
-      ('react/dva_object_model.jsp');
-
-      const data = yield call(serviceNameToCall, id, parameters);
-      if (handleServerError(data)) {
-        return;
+      "react/dva_object_model.jsp"
+      
+      const data = yield call(serviceNameToCall, id, parameters)
+      if(handleServerError(data)){
+      	return
       }
-      const newPlayload = { ...payload, ...data };
-
-      console.log('this is the data id: ', data.id);
-      yield put({ type: 'updateState', payload: newPlayload });
+      const newPlayload = { ...payload, ...data }
+      
+      console.log('this is the data id: ', data.id)
+      yield put({ type: 'updateState', payload: newPlayload })
     },
-
+       
+    
+    
     *gotoCreateForm({ payload }, { put }) {
-      const { id, role } = payload;
-      yield put(routerRedux.push(`/studentAnswer/${id}/list/${role}CreateForm`));
+      const { id, role } = payload
+      yield put(routerRedux.push(`/studentAnswer/${id}/list/${role}CreateForm`))
     },
     *gotoUpdateForm({ payload }, { put }) {
-      const { id, role, selectedRows, currentUpdateIndex } = payload;
-      const state = { id, role, selectedRows, currentUpdateIndex };
-      const location = { pathname: `/studentAnswer/${id}/list/${role}UpdateForm`, state };
-      yield put(routerRedux.push(location));
+      const { id, role, selectedRows, currentUpdateIndex } = payload
+      const state = { id, role, selectedRows, currentUpdateIndex }
+      const location = { pathname: `/studentAnswer/${id}/list/${role}UpdateForm`, state }
+      yield put(routerRedux.push(location))
     },
     *goback({ payload }, { put }) {
-      const { id, type, listName } = payload;
-      yield put(routerRedux.push(`/studentAnswer/${id}/list/${type}List/${listName}`));
+      const { id, type,listName } = payload
+      yield put(routerRedux.push(`/studentAnswer/${id}/list/${type}List/${listName}`))
     },
-  },
 
+  },
+  
   reducers: {
     updateState(state, action) {
-      const payload = { ...action.payload, loading: true };
-      const valueToKeep = keepValueWithKeySuffix(state, 'Parameters');
-      return { ...valueToKeep, ...payload };
+      const payload = { ...action.payload, loading: true }
+      const valueToKeep = keepValueWithKeySuffix(state,"Parameters") 
+      return { ...valueToKeep, ...payload}
     },
     showLoading(state, action) {
       // const loading=true
-      const payload = { ...action.payload, loading: true };
-      const valueToKeep = keepValueWithKeySuffix(state, 'Parameters');
-      return { ...valueToKeep, ...payload };
+      const payload = { ...action.payload, loading: true }
+      const valueToKeep = keepValueWithKeySuffix(state,"Parameters") 
+      return { ...valueToKeep, ...payload}
     },
   },
-};
+}
+

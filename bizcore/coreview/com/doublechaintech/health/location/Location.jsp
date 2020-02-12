@@ -102,7 +102,6 @@
 	 
 	<% Location result = (Location)request.getAttribute("result");  %>
 			<li><a data-toggle="tab" href="#studentList" class="disabled"> ${userContext.localeMap['student']}</a></li>
-			<li><a data-toggle="tab" href="#userList" class="disabled"> ${userContext.localeMap['user']}</a></li>
  
 	</ul>
 	</div>
@@ -161,14 +160,6 @@
 		<c:set var="studentListName" value="studentList" scope="request"/>
 		<div id="studentList" class="tab-pane fade sublist" refer-name="address">
 			<sky:include page="com/doublechaintech/health/student/Student$List.jsp"
-					referName="address"/>
-		</div>
-	</c:if>
-	<c:if test='${not empty userContext.accessTokens["userList"] or ignoreListAccessControl}'>
-		<c:set var="userList" value="${result.userList}" scope="request"/>
-		<c:set var="userListName" value="userList" scope="request"/>
-		<div id="userList" class="tab-pane fade sublist" refer-name="address">
-			<sky:include page="com/doublechaintech/health/user/User$List.jsp"
 					referName="address"/>
 		</div>
 	</c:if>

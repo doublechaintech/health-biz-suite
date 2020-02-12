@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -28,6 +29,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	public static final String TEACHER_PROPERTY               = "teacher"           ;
 	public static final String SURVEY_TIME_PROPERTY           = "surveyTime"        ;
 	public static final String CREATOR_PROPERTY               = "creator"           ;
+	public static final String DOWNLOAD_URL_PROPERTY          = "downloadUrl"       ;
 	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
@@ -59,6 +61,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 	protected		Teacher             	mTeacher            ;
 	protected		DateTime            	mSurveyTime         ;
 	protected		User                	mCreator            ;
+	protected		String              	mDownloadUrl        ;
 	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
@@ -101,12 +104,16 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		if(SURVEY_TIME_PROPERTY.equals(property)){
 			changeSurveyTimeProperty(newValueExpr);
 		}
+		if(DOWNLOAD_URL_PROPERTY.equals(property)){
+			changeDownloadUrlProperty(newValueExpr);
+		}
 
       
 	}
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -116,12 +123,13 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSurveyTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getSurveyTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -131,7 +139,23 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		updateSurveyTime(newValue);
 		this.onChangeProperty(SURVEY_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
+	}
+			
+			
+			
+	protected void changeDownloadUrlProperty(String newValueExpr){
+	
+		String oldValue = getDownloadUrl();
+		String newValue = parseString(newValueExpr);
+		if(equalsString(oldValue , newValue)){
+			return;//they can be both null, or exact the same object, this is much faster than equals function
+		}
+		//they are surely different each other
+		updateDownloadUrl(newValue);
+		this.onChangeProperty(DOWNLOAD_URL_PROPERTY, oldValue, newValue);
+		return;
+   
 	}
 			
 			
@@ -152,6 +176,9 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		}
 		if(CREATOR_PROPERTY.equals(property)){
 			return getCreator();
+		}
+		if(DOWNLOAD_URL_PROPERTY.equals(property)){
+			return getDownloadUrl();
 		}
 		if(CHANGE_REQUEST_PROPERTY.equals(property)){
 			return getChangeRequest();
@@ -268,6 +295,22 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		setCreator ( null );
 		this.changed = true;
 	}
+	
+	public void setDownloadUrl(String downloadUrl){
+		this.mDownloadUrl = trimString(encodeUrl(downloadUrl));;
+	}
+	public String getDownloadUrl(){
+		return this.mDownloadUrl;
+	}
+	public ClassDailyHealthSurvey updateDownloadUrl(String downloadUrl){
+		this.mDownloadUrl = trimString(encodeUrl(downloadUrl));;
+		this.changed = true;
+		return this;
+	}
+	public void mergeDownloadUrl(String downloadUrl){
+		if(downloadUrl != null) { setDownloadUrl(downloadUrl);}
+	}
+	
 	
 	public void setChangeRequest(ChangeRequest changeRequest){
 		this.mChangeRequest = changeRequest;;
@@ -667,6 +710,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		appendKeyValuePair(result, TEACHER_PROPERTY, getTeacher());
 		appendKeyValuePair(result, SURVEY_TIME_PROPERTY, getSurveyTime());
 		appendKeyValuePair(result, CREATOR_PROPERTY, getCreator());
+		appendKeyValuePair(result, DOWNLOAD_URL_PROPERTY, getDownloadUrl());
 		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionList());
@@ -703,6 +747,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			dest.setTeacher(getTeacher());
 			dest.setSurveyTime(getSurveyTime());
 			dest.setCreator(getCreator());
+			dest.setDownloadUrl(getDownloadUrl());
 			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 			dest.setDailySurveyQuestionList(getDailySurveyQuestionList());
@@ -726,6 +771,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			dest.mergeTeacher(getTeacher());
 			dest.mergeSurveyTime(getSurveyTime());
 			dest.mergeCreator(getCreator());
+			dest.mergeDownloadUrl(getDownloadUrl());
 			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 			dest.mergeDailySurveyQuestionList(getDailySurveyQuestionList());
@@ -748,13 +794,14 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 			dest.mergeId(getId());
 			dest.mergeName(getName());
 			dest.mergeSurveyTime(getSurveyTime());
+			dest.mergeDownloadUrl(getDownloadUrl());
 			dest.mergeVersion(getVersion());
 
 		}
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getName(), getTeacher(), getSurveyTime(), getCreator(), getChangeRequest(), getVersion()};
+		return new Object[]{getId(), getName(), getTeacher(), getSurveyTime(), getCreator(), getDownloadUrl(), getChangeRequest(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -769,6 +816,7 @@ public class ClassDailyHealthSurvey extends BaseEntity implements  java.io.Seria
 		if(getCreator() != null ){
  			stringBuilder.append("\tcreator='User("+getCreator().getId()+")';");
  		}
+		stringBuilder.append("\tdownloadUrl='"+getDownloadUrl()+"';");
 		if(getChangeRequest() != null ){
  			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}

@@ -21,7 +21,7 @@
 	<bean id="districtManager" class="com.doublechaintech.health.district.DistrictManagerImpl" parent="districtManagerBase" ></bean>
 	
 	<bean id="locationManagerBase" class="com.doublechaintech.health.location.LocationManagerImpl"/>
-	<bean id="locationManager" class="com.doublechaintech.health.location.LocationCustomManagerImpl" parent="locationManagerBase" ></bean>
+	<bean id="locationManager" class="com.doublechaintech.health.location.LocationManagerImpl" parent="locationManagerBase" ></bean>
 	
 	<bean id="teacherManagerBase" class="com.doublechaintech.health.teacher.TeacherManagerImpl"/>
 	<bean id="teacherManager" class="com.doublechaintech.health.teacher.TeacherCustomManagerImpl" parent="teacherManagerBase" ></bean>

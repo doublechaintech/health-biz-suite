@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -228,7 +229,10 @@ public class CityManagerImpl extends CustomHealthCheckerManager implements CityM
 		
 
 		if(City.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfCity(parseString(newValueExpr));
+		
+			
 		}		
 
 				
@@ -715,7 +719,9 @@ public class CityManagerImpl extends CustomHealthCheckerManager implements CityM
 		
 
 		if(District.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfDistrict(parseString(newValueExpr));
+		
 		}
 		
 	

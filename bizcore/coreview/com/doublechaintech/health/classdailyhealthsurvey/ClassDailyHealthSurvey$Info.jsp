@@ -22,6 +22,7 @@
 	<li><span>ID</span><a class="link-action-removed" href="./classDailyHealthSurveyManager/view/${classDailyHealthSurvey.id}/"> ${classDailyHealthSurvey.id}</a></li>
 <li><span>${userContext.localeMap['class_daily_health_survey.name']}</span> ${classDailyHealthSurvey.name}</li>
 <li><span>${userContext.localeMap['class_daily_health_survey.survey_time']}</span> <fmt:formatDate pattern="yyyy-MM-dd" value="${classDailyHealthSurvey.surveyTime}" /></li>
+<li><span>${userContext.localeMap['class_daily_health_survey.download_url']}</span> ${classDailyHealthSurvey.downloadUrl}</li>
 
 	
 	</ul>

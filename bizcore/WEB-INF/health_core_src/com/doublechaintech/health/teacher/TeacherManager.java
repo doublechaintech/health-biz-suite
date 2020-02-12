@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -31,13 +32,15 @@ public interface TeacherManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId ,String [] tokensExpr)  throws Exception;
 	
-	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  Teacher addClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String name, DateTime surveyTime, String creatorId, String downloadUrl, String changeRequestId , String [] tokensExpr)  throws Exception;
 	public  Teacher removeClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr)  throws Exception;
 	public  Teacher updateClassDailyHealthSurvey(HealthUserContext userContext, String teacherId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  Teacher associateClassDailyHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String teacherId, String  classDailyHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception ;
+	public  Teacher associateClassDailyHealthSurveyListToChangeRequest(HealthUserContext userContext, String teacherId, String  classDailyHealthSurveyIds[],String changeRequestId, String [] tokensExpr) throws Exception ;
 
 	*/
 
@@ -48,6 +51,8 @@ public interface TeacherManager extends BaseManager{
 	public  Teacher updateStudentHealthSurvey(HealthUserContext userContext, String teacherId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
+	public  Teacher associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String teacherId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception ;
+	public  Teacher associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String teacherId, String  studentHealthSurveyIds[],String changeRequestId, String [] tokensExpr) throws Exception ;
 
 	*/
 

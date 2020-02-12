@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -240,51 +241,96 @@ public class FormFieldManagerImpl extends CustomHealthCheckerManager implements 
 		
 
 		if(FormField.LABEL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLabelOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.LOCALE_KEY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLocaleKeyOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.PARAMETER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkParameterNameOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTypeOfFormField(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(FormField.PLACEHOLDER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkPlaceholderOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.DEFAULT_VALUE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDefaultValueOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.DESCRIPTION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDescriptionOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.FIELD_GROUP_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkFieldGroupOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.MINIMUM_VALUE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMinimumValueOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.MAXIMUM_VALUE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMaximumValueOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.REQUIRED_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkRequiredOfFormField(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(FormField.DISABLED_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDisabledOfFormField(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(FormField.CUSTOM_RENDERING_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCustomRenderingOfFormField(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(FormField.CANDIDATE_VALUES_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCandidateValuesOfFormField(parseString(newValueExpr));
+		
+			
 		}
 		if(FormField.SUGGEST_VALUES_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSuggestValuesOfFormField(parseString(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(FormFieldManagerException.class);

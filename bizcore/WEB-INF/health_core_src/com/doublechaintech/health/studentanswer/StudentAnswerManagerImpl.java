@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -226,10 +227,16 @@ public class StudentAnswerManagerImpl extends CustomHealthCheckerManager impleme
 
 		
 		if(StudentAnswer.QUESTION_TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkQuestionTopicOfStudentAnswer(parseString(newValueExpr));
+		
+			
 		}
 		if(StudentAnswer.ANSWER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerOfStudentAnswer(parseString(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(StudentAnswerManagerException.class);

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -95,6 +96,7 @@ public class FormFieldMessage extends BaseEntity implements  java.io.Serializabl
     
     
 	protected void changeTitleProperty(String newValueExpr){
+	
 		String oldValue = getTitle();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -104,12 +106,13 @@ public class FormFieldMessage extends BaseEntity implements  java.io.Serializabl
 		updateTitle(newValue);
 		this.onChangeProperty(TITLE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeParameterNameProperty(String newValueExpr){
+	
 		String oldValue = getParameterName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -119,12 +122,13 @@ public class FormFieldMessage extends BaseEntity implements  java.io.Serializabl
 		updateParameterName(newValue);
 		this.onChangeProperty(PARAMETER_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLevelProperty(String newValueExpr){
+	
 		String oldValue = getLevel();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -134,7 +138,7 @@ public class FormFieldMessage extends BaseEntity implements  java.io.Serializabl
 		updateLevel(newValue);
 		this.onChangeProperty(LEVEL_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

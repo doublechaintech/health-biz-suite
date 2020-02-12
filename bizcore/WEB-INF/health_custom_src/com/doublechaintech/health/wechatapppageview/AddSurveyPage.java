@@ -11,7 +11,9 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.CustomHealthUserContextImpl;
 import com.doublechaintech.health.HealthCustomConstants;
 import com.doublechaintech.health.HealthViewScope;
+import com.doublechaintech.health.MiscUtils;
 import com.doublechaintech.health.SmartList;
+import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.question.Question;
 import com.doublechaintech.health.question.QuestionTokens;
 import com.doublechaintech.health.teacher.Teacher;
@@ -29,19 +31,13 @@ public class AddSurveyPage extends BaseViewPage {
 				.field("refreshAction")
 				.field("actions", SerializeScope.EXCLUDE())
 				.field("actionList")
-				.field("questionList",
-						SerializeScope
-								.INCLUDE()
-									.field("id")
-									.field(Question.TOPIC_PROPERTY)
-									.field(Question.QUESTION_TYPE_PROPERTY)
-									.field(Question.OPTION_A_PROPERTY)
-									.field(Question.OPTION_B_PROPERTY)
-									.field(Question.OPTION_C_PROPERTY)
-									.field(Question.OPTION_D_PROPERTY)
-									.field(Question.QUESTION_TYPE_PROPERTY)
-						)
+				.field("questionList", MiscUtils
+						.buildEntityScope(DailySurveyQuestion.ID_PROPERTY, "type","title","placeholder")
+							.field("candidateValues",
+									SerializeScope.INCLUDE().field("id").field("name")))
 				.field("surveyDate")
+				.field("school")
+				.field("schoolClass")
 
 	;
 
@@ -68,8 +64,9 @@ public class AddSurveyPage extends BaseViewPage {
 		SmartList<Question> questions = ctx
 				.getDAOGroup()
 					.getQuestionDAO()
-					.findQuestionByPlatform(HealthCustomConstants.ROOT_PLATFORM_ID, 0, 3, QuestionTokens.all());
-		set("questionList", questions);
+					.findQuestionByPlatform(HealthCustomConstants.ROOT_PLATFORM_ID, 0, 4, QuestionTokens.all());
+		
+		set("questionList", MiscUtils.constructQuestionList2(questions));
 
 		Map<String, Object> actions = new HashMap<>();
 		actions
@@ -81,6 +78,8 @@ public class AddSurveyPage extends BaseViewPage {
 									.put("linkToUrl", WechatAppViewBizService.makePublishSurveyUrl(ctx, teacherId,":surveyDate"))
 									.into_map());
 		set("actions", actions);
+		set("school",teacher.getSchool());
+		set("schoolClass",teacher.getSchoolClass());
 		set("title",teacher.getSchoolClass() + "学生健康状况调查表");
 		setPageTitle("创建调查问卷");
 	}

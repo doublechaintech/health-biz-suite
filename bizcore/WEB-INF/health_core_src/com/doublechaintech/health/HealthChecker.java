@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 public class HealthChecker extends BaseChecker{
 
 	
@@ -288,9 +289,9 @@ public class HealthChecker extends BaseChecker{
 
 	public static final String  CHANGE_REQUEST_OF_TEACHER ="teacher.change_request";
 	public HealthChecker checkChangeRequestIdOfTeacher(String changeRequestId)
-	{		
+	{		if(isValidIdentifier(changeRequestId)){
 	 	checkIdOfTeacher(changeRequestId ); 		
-		
+		}
 		return this;
 	}	
 
@@ -374,14 +375,6 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
-	public static final String  CHANGE_REQUEST_OF_STUDENT ="student.change_request";
-	public HealthChecker checkChangeRequestIdOfStudent(String changeRequestId)
-	{		
-	 	checkIdOfStudent(changeRequestId ); 		
-		
-		return this;
-	}	
-
 	public static final String  VERSION_OF_STUDENT ="student.version";
 	public HealthChecker checkVersionOfStudent(int version)
 	{		
@@ -417,7 +410,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  OPTION_A_OF_QUESTION ="question.option_a";
 	public HealthChecker checkOptionAOfQuestion(String optionA)
 	{		
-	 	checkStringLengthRange(optionA,1, 99,OPTION_A_OF_QUESTION ); 		
+	 	checkStringLengthRange(optionA,0, 99,OPTION_A_OF_QUESTION ); 		
 		
 		return this;
 	}	
@@ -425,7 +418,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  OPTION_B_OF_QUESTION ="question.option_b";
 	public HealthChecker checkOptionBOfQuestion(String optionB)
 	{		
-	 	checkStringLengthRange(optionB,1, 99,OPTION_B_OF_QUESTION ); 		
+	 	checkStringLengthRange(optionB,0, 99,OPTION_B_OF_QUESTION ); 		
 		
 		return this;
 	}	
@@ -464,9 +457,9 @@ public class HealthChecker extends BaseChecker{
 
 	public static final String  CQ_OF_QUESTION ="question.cq";
 	public HealthChecker checkCqIdOfQuestion(String cqId)
-	{		
+	{		if(isValidIdentifier(cqId)){
 	 	checkIdOfQuestion(cqId ); 		
-		
+		}
 		return this;
 	}	
 
@@ -558,11 +551,19 @@ public class HealthChecker extends BaseChecker{
 		return this;
 	}	
 
+	public static final String  DOWNLOAD_URL_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.download_url";
+	public HealthChecker checkDownloadUrlOfClassDailyHealthSurvey(String downloadUrl)
+	{		
+	 	checkUrl(downloadUrl,0, 99999,DOWNLOAD_URL_OF_CLASS_DAILY_HEALTH_SURVEY ); 		
+		
+		return this;
+	}	
+
 	public static final String  CHANGE_REQUEST_OF_CLASS_DAILY_HEALTH_SURVEY ="class_daily_health_survey.change_request";
 	public HealthChecker checkChangeRequestIdOfClassDailyHealthSurvey(String changeRequestId)
-	{		
+	{		if(isValidIdentifier(changeRequestId)){
 	 	checkIdOfClassDailyHealthSurvey(changeRequestId ); 		
-		
+		}
 		return this;
 	}	
 
@@ -601,7 +602,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  OPTION_A_OF_DAILY_SURVEY_QUESTION ="daily_survey_question.option_a";
 	public HealthChecker checkOptionAOfDailySurveyQuestion(String optionA)
 	{		
-	 	checkStringLengthRange(optionA,1, 99,OPTION_A_OF_DAILY_SURVEY_QUESTION ); 		
+	 	checkStringLengthRange(optionA,0, 99,OPTION_A_OF_DAILY_SURVEY_QUESTION ); 		
 		
 		return this;
 	}	
@@ -609,7 +610,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  OPTION_B_OF_DAILY_SURVEY_QUESTION ="daily_survey_question.option_b";
 	public HealthChecker checkOptionBOfDailySurveyQuestion(String optionB)
 	{		
-	 	checkStringLengthRange(optionB,1, 99,OPTION_B_OF_DAILY_SURVEY_QUESTION ); 		
+	 	checkStringLengthRange(optionB,0, 99,OPTION_B_OF_DAILY_SURVEY_QUESTION ); 		
 		
 		return this;
 	}	
@@ -704,9 +705,9 @@ public class HealthChecker extends BaseChecker{
 
 	public static final String  CHANGE_REQUEST_OF_STUDENT_HEALTH_SURVEY ="student_health_survey.change_request";
 	public HealthChecker checkChangeRequestIdOfStudentHealthSurvey(String changeRequestId)
-	{		
+	{		if(isValidIdentifier(changeRequestId)){
 	 	checkIdOfStudentHealthSurvey(changeRequestId ); 		
-		
+		}
 		return this;
 	}	
 
@@ -746,14 +747,6 @@ public class HealthChecker extends BaseChecker{
 	public HealthChecker checkAnswerOfStudentDailyAnswer(String answer)
 	{		
 	 	checkStringLengthRange(answer,1, 99,ANSWER_OF_STUDENT_DAILY_ANSWER ); 		
-		
-		return this;
-	}	
-
-	public static final String  CHANGE_REQUEST_OF_STUDENT_DAILY_ANSWER ="student_daily_answer.change_request";
-	public HealthChecker checkChangeRequestIdOfStudentDailyAnswer(String changeRequestId)
-	{		
-	 	checkIdOfStudentDailyAnswer(changeRequestId ); 		
 		
 		return this;
 	}	
@@ -986,14 +979,6 @@ public class HealthChecker extends BaseChecker{
 	public HealthChecker checkAvatarOfUser(String avatar)
 	{		
 	 	checkImage(avatar,0, 512,AVATAR_OF_USER ); 		
-		
-		return this;
-	}	
-
-	public static final String  ADDRESS_OF_USER ="user.address";
-	public HealthChecker checkAddressIdOfUser(String addressId)
-	{		
-	 	checkIdOfUser(addressId ); 		
 		
 		return this;
 	}	

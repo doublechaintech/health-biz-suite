@@ -9,14 +9,12 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
 import com.doublechaintech.health.studentanswer.StudentAnswerDAO;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
-import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 
 
@@ -78,14 +76,6 @@ public interface StudentDailyAnswerDAO extends BaseDAO{
  	public Map<String, Integer> countStudentDailyAnswerByQuestionIds(String[] ids, Map<String,Object> options);
  	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByQuestion(String dailySurveyQuestionId, int start, int count, Map<String,Object> options);
  	public void analyzeStudentDailyAnswerByQuestion(SmartList<StudentDailyAnswer> resultList, String dailySurveyQuestionId, Map<String,Object> options);
-
- 
-  
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public int countStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentDailyAnswerByChangeRequestIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentDailyAnswerByChangeRequest(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options);
 
  
  

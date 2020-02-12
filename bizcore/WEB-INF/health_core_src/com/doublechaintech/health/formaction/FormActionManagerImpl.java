@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -220,19 +221,34 @@ public class FormActionManagerImpl extends CustomHealthCheckerManager implements
 		
 
 		if(FormAction.LABEL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLabelOfFormAction(parseString(newValueExpr));
+		
+			
 		}
 		if(FormAction.LOCALE_KEY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLocaleKeyOfFormAction(parseString(newValueExpr));
+		
+			
 		}
 		if(FormAction.ACTION_KEY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkActionKeyOfFormAction(parseString(newValueExpr));
+		
+			
 		}
 		if(FormAction.LEVEL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLevelOfFormAction(parseString(newValueExpr));
+		
+			
 		}
 		if(FormAction.URL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUrlOfFormAction(parseString(newValueExpr));
+		
+			
 		}		
 
 		

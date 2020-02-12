@@ -30,7 +30,9 @@ public class StudentAnswerMapper extends BaseRowMapper<StudentAnswer>{
 	protected void setId(StudentAnswer studentAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(StudentAnswerTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -78,7 +80,9 @@ public class StudentAnswerMapper extends BaseRowMapper<StudentAnswer>{
 	protected void setQuestionTopic(StudentAnswer studentAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String questionTopic = rs.getString(StudentAnswerTable.COLUMN_QUESTION_TOPIC);
+		
 		if(questionTopic == null){
 			//do nothing when nothing found in database
 			return;
@@ -90,7 +94,9 @@ public class StudentAnswerMapper extends BaseRowMapper<StudentAnswer>{
 	protected void setAnswer(StudentAnswer studentAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String answer = rs.getString(StudentAnswerTable.COLUMN_ANSWER);
+		
 		if(answer == null){
 			//do nothing when nothing found in database
 			return;
@@ -102,7 +108,9 @@ public class StudentAnswerMapper extends BaseRowMapper<StudentAnswer>{
 	protected void setVersion(StudentAnswer studentAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(StudentAnswerTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

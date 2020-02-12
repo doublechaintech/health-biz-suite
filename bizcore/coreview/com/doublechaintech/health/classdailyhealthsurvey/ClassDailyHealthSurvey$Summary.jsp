@@ -44,6 +44,10 @@
 <span class="summary-label">${userContext.localeMap['class_daily_health_survey.survey_time']}</span>
 <span ><fmt:formatDate pattern="yyyy-MM-dd" value="${result.surveyTime}" /></span>
 </div>
+<div class="col-xs-12 col-md-3 summary-section">
+<span class="summary-label">${userContext.localeMap['class_daily_health_survey.download_url']}</span>
+<span >${result.downloadUrl}</span>
+</div>
 
 	</div>
 	

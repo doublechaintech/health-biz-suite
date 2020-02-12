@@ -949,12 +949,24 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
  	protected Object[] prepareTeacherUpdateParameters(Teacher teacher){
  		Object[] parameters = new Object[12];
  
+ 		
  		parameters[0] = teacher.getName();
+ 		
+ 		
  		parameters[1] = teacher.getMobile();
+ 		
+ 		
  		parameters[2] = teacher.getSchool();
+ 		
+ 		
  		parameters[3] = teacher.getSchoolClass();
+ 		
+ 		
  		parameters[4] = teacher.getClassSize();
- 		parameters[5] = teacher.getCreateTime(); 	
+ 		
+ 		
+ 		parameters[5] = teacher.getCreateTime();
+ 		 	
  		if(teacher.getPlatform() != null){
  			parameters[6] = teacher.getPlatform().getId();
  		}
@@ -979,12 +991,24 @@ public class TeacherJDBCTemplateDAO extends HealthBaseDAOImpl implements Teacher
 		teacher.setId(newTeacherId);
 		parameters[0] =  teacher.getId();
  
+ 		
  		parameters[1] = teacher.getName();
+ 		
+ 		
  		parameters[2] = teacher.getMobile();
+ 		
+ 		
  		parameters[3] = teacher.getSchool();
+ 		
+ 		
  		parameters[4] = teacher.getSchoolClass();
+ 		
+ 		
  		parameters[5] = teacher.getClassSize();
- 		parameters[6] = teacher.getCreateTime(); 	
+ 		
+ 		
+ 		parameters[6] = teacher.getCreateTime();
+ 		 	
  		if(teacher.getPlatform() != null){
  			parameters[7] = teacher.getPlatform().getId();
  		

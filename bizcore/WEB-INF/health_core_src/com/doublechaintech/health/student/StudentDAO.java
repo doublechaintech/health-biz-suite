@@ -10,7 +10,6 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
@@ -18,7 +17,6 @@ import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO;
 import com.doublechaintech.health.location.LocationDAO;
-import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.user.UserDAO;
@@ -117,14 +115,6 @@ public interface StudentDAO extends BaseDAO{
  	public Map<String, Integer> countStudentByPlatformIds(String[] ids, Map<String,Object> options);
  	public SmartList<Student> findStudentByPlatform(String platformId, int start, int count, Map<String,Object> options);
  	public void analyzeStudentByPlatform(SmartList<Student> resultList, String platformId, Map<String,Object> options);
-
- 
-  
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public int countStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentByChangeRequestIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentByChangeRequest(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options);
 
  
  

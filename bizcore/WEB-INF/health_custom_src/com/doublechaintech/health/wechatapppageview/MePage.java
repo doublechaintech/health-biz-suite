@@ -38,18 +38,20 @@ public class MePage extends BaseViewPage {
 				.field("popup")
 				.field("toast", SerializeScope.EXCLUDE())
 				.field("refreshAction")
-				.field("actions", SerializeScope.INCLUDE().field("addClass", HealthCustomConstants.ACTION_SCOPE))
+				.field("actions", SerializeScope.INCLUDE().field("addClass", HealthCustomConstants.ACTION_SCOPE).field("switchToTeacher", HealthCustomConstants.ACTION_SCOPE).field("switchToStudent", HealthCustomConstants.ACTION_SCOPE))
 				.field("actionList")
 				.field("classList",
 						MiscUtils
 								.buildEntityScope("id", "code", Teacher.SCHOOL_PROPERTY, Teacher.SCHOOL_CLASS_PROPERTY,
 										HealthCustomConstants.LINK_TO_URL, "surveyCount", "answerCount"))
 				.field("surveyList", MiscUtils
-						.buildEntityScope("id", "code", "answerCount", "noReply",
+						.buildEntityScope("id", "code", "answerCount", "riskCount","teacher","schoolClass","school",
 								ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY, ClassDailyHealthSurvey.NAME_PROPERTY,
 								HealthCustomConstants.LINK_TO_URL, Teacher.CLASS_SIZE_PROPERTY))
 				.field("classEmptyMessage")
-				.field("surveyEmptyMessage");
+				.field("surveyEmptyMessage")
+				.field("linkToUrl")
+				;
 
 	@Override
 	protected SerializeScope getSerializeScope() {
@@ -86,6 +88,23 @@ public class MePage extends BaseViewPage {
 									.put("icon", "add")
 									.put("linkToUrl", WechatAppViewBizService.makeAddClassUrl(ctx))
 									.into_map());
+		
+		actions
+				.put("switchToTeacher",
+						MapUtil
+								.put("code", "switchToTeacher")
+									.put("title", "我是老师")
+									.put("icon", "add")
+									.put("linkToUrl", WechatAppViewBizService.makeSwitchToTeacherUrl(ctx))
+									.into_map());
+		actions
+		.put("switchToStudent",
+				MapUtil
+						.put("code", "switchToStudent")
+							.put("title", "我是家长")
+							.put("icon", "add")
+							.put("linkToUrl", WechatAppViewBizService.makeSwitchToStudentUrl(ctx))
+							.into_map());
 		set("actions", actions);
 	}
 
@@ -136,8 +155,10 @@ public class MePage extends BaseViewPage {
 								WechatAppViewBizService.makeViewSurveyDetailUrl(ctx, s.getId()));
 				s.addItemToValueMap("code", s.getId());
 				s.addItemToValueMap("classSize", s.getTeacher().getClassSize());
-				s.addItemToValueMap("answerCount", 0);
-				s.addItemToValueMap("noReply", Math.max(0,s.getTeacher().getClassSize()-0));
+				s.addItemToValueMap("answerCount", ctx.getDAOGroup().getStudentHealthSurveyDAO().countStudentHealthSurveyByClassDailyHealthSurvey(s.getId(), StudentHealthSurveyTokens.all()));
+				s.addItemToValueMap("riskCount", MiscUtils.getRiskCount(ctx,s));
+				s.addItemToValueMap("school", s.getTeacher().getSchool());
+				s.addItemToValueMap("schoolClass", s.getTeacher().getSchoolClass());
 			});
 		}
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -240,27 +241,48 @@ public class UserAppManagerImpl extends CustomHealthCheckerManager implements Us
 		
 
 		if(UserApp.TITLE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTitleOfUserApp(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(UserApp.APP_ICON_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAppIconOfUserApp(parseString(newValueExpr));
+		
+			
 		}
 		if(UserApp.FULL_ACCESS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkFullAccessOfUserApp(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(UserApp.PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkPermissionOfUserApp(parseString(newValueExpr));
+		
+			
 		}
 		if(UserApp.OBJECT_TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectTypeOfUserApp(parseString(newValueExpr));
+		
+			
 		}
 		if(UserApp.OBJECT_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectIdOfUserApp(parseString(newValueExpr));
+		
+			
 		}
 		if(UserApp.LOCATION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLocationOfUserApp(parseString(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(UserAppManagerException.class);
@@ -780,19 +802,27 @@ public class UserAppManagerImpl extends CustomHealthCheckerManager implements Us
 		
 
 		if(QuickLink.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfQuickLink(parseString(newValueExpr));
+		
 		}
 		
 		if(QuickLink.ICON_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkIconOfQuickLink(parseString(newValueExpr));
+		
 		}
 		
 		if(QuickLink.IMAGE_PATH_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkImagePathOfQuickLink(parseString(newValueExpr));
+		
 		}
 		
 		if(QuickLink.LINK_TARGET_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLinkTargetOfQuickLink(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1052,31 +1082,45 @@ public class UserAppManagerImpl extends CustomHealthCheckerManager implements Us
 		
 
 		if(ListAccess.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfListAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ListAccess.INTERNAL_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkInternalNameOfListAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ListAccess.READ_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkReadPermissionOfListAccess(parseBoolean(newValueExpr));
+		
 		}
 		
 		if(ListAccess.CREATE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCreatePermissionOfListAccess(parseBoolean(newValueExpr));
+		
 		}
 		
 		if(ListAccess.DELETE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDeletePermissionOfListAccess(parseBoolean(newValueExpr));
+		
 		}
 		
 		if(ListAccess.UPDATE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUpdatePermissionOfListAccess(parseBoolean(newValueExpr));
+		
 		}
 		
 		if(ListAccess.EXECUTION_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkExecutionPermissionOfListAccess(parseBoolean(newValueExpr));
+		
 		}
 		
 	
@@ -1356,47 +1400,69 @@ public class UserAppManagerImpl extends CustomHealthCheckerManager implements Us
 		
 
 		if(ObjectAccess.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.OBJECT_TYPE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkObjectTypeOfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST1_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList1OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST2_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList2OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST3_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList3OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST4_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList4OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST5_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList5OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST6_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList6OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST7_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList7OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST8_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList8OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 		if(ObjectAccess.LIST9_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkList9OfObjectAccess(parseString(newValueExpr));
+		
 		}
 		
 	

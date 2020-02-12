@@ -161,6 +161,7 @@ public class HealthBaseViewScope {
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
 		.field(ClassDailyHealthSurvey.NAME_PROPERTY)
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
+		.field(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY)
 		;
 	/** 用于ClassDailyHealthSurvey的子对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getClassDailyHealthSurveySummaryScope() {
@@ -652,6 +653,7 @@ public class HealthBaseViewScope {
 		.field(ClassDailyHealthSurvey.ID_PROPERTY)
 		.field(ClassDailyHealthSurvey.NAME_PROPERTY)
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
+		.field(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY)
 		;
 	/** 用于ClassDailyHealthSurvey的父对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getClassDailyHealthSurveySecondaryListItemScope() {
@@ -1100,7 +1102,6 @@ public class HealthBaseViewScope {
 		.field(Location.LATITUDE_PROPERTY)
 		.field(Location.LONGITUDE_PROPERTY)
 		.field(Location.STUDENT_LIST, getStudentSecondaryListItemScope())
-		.field(Location.USER_LIST, getUserSecondaryListItemScope())
 		;
 	/** 用于Location对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getLocationListItemScope() {
@@ -1140,7 +1141,6 @@ public class HealthBaseViewScope {
 		.field(Student.USER_PROPERTY, getUserSummaryScope())
 		.field(Student.CREATE_TIME_PROPERTY)
 		.field(Student.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Student.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
 		.field(Student.HEALTH_SURVEY_REPORT_LIST, getHealthSurveyReportSecondaryListItemScope())
 		;
@@ -1189,6 +1189,7 @@ public class HealthBaseViewScope {
 		.field(ClassDailyHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
 		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY)
 		.field(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(ClassDailyHealthSurvey.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionSecondaryListItemScope())
 		.field(ClassDailyHealthSurvey.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
@@ -1243,7 +1244,6 @@ public class HealthBaseViewScope {
 		.field(StudentDailyAnswer.ANSWER_PROPERTY)
 		.field(StudentDailyAnswer.CREATE_TIME_PROPERTY)
 		.field(StudentDailyAnswer.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(StudentDailyAnswer.STUDENT_ANSWER_LIST, getStudentAnswerSecondaryListItemScope())
 		;
 	/** 用于StudentDailyAnswer对象的列表时需要序列化的属性列表 */
@@ -1304,7 +1304,6 @@ public class HealthBaseViewScope {
 		.field(User.ID_PROPERTY)
 		.field(User.NAME_PROPERTY)
 		.field(User.AVATAR_PROPERTY)
-		.field(User.ADDRESS_PROPERTY, getLocationSummaryScope())
 		.field(User.CREATE_TIME_PROPERTY)
 		.field(User.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(User.TEACHER_LIST, getTeacherSecondaryListItemScope())
@@ -1341,11 +1340,9 @@ public class HealthBaseViewScope {
 		.field(ChangeRequest.REQUEST_TYPE_PROPERTY, getChangeRequestTypeSummaryScope())
 		.field(ChangeRequest.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(ChangeRequest.TEACHER_LIST, getTeacherSecondaryListItemScope())
-		.field(ChangeRequest.STUDENT_LIST, getStudentSecondaryListItemScope())
 		.field(ChangeRequest.QUESTION_LIST, getQuestionSecondaryListItemScope())
 		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveySecondaryListItemScope())
 		.field(ChangeRequest.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveySecondaryListItemScope())
-		.field(ChangeRequest.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerSecondaryListItemScope())
 		;
 	/** 用于ChangeRequest对象的列表时需要序列化的属性列表 */
 	public static SerializeScope getChangeRequestListItemScope() {
@@ -1709,7 +1706,6 @@ public class HealthBaseViewScope {
 		.field(Location.LATITUDE_PROPERTY)
 		.field(Location.LONGITUDE_PROPERTY)
 		.field(Location.STUDENT_LIST, getStudentListItemScope())
-		.field(Location.USER_LIST, getUserListItemScope())
 		;
 	/** 用于Location对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getLocationDetailScope() {
@@ -1749,7 +1745,6 @@ public class HealthBaseViewScope {
 		.field(Student.USER_PROPERTY, getUserSummaryScope())
 		.field(Student.CREATE_TIME_PROPERTY)
 		.field(Student.PLATFORM_PROPERTY, getPlatformSummaryScope())
-		.field(Student.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(Student.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
 		.field(Student.HEALTH_SURVEY_REPORT_LIST, getHealthSurveyReportListItemScope())
 		;
@@ -1798,6 +1793,7 @@ public class HealthBaseViewScope {
 		.field(ClassDailyHealthSurvey.TEACHER_PROPERTY, getTeacherSummaryScope())
 		.field(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY)
 		.field(ClassDailyHealthSurvey.CREATOR_PROPERTY, getUserSummaryScope())
+		.field(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY)
 		.field(ClassDailyHealthSurvey.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(ClassDailyHealthSurvey.DAILY_SURVEY_QUESTION_LIST, getDailySurveyQuestionListItemScope())
 		.field(ClassDailyHealthSurvey.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
@@ -1852,7 +1848,6 @@ public class HealthBaseViewScope {
 		.field(StudentDailyAnswer.ANSWER_PROPERTY)
 		.field(StudentDailyAnswer.CREATE_TIME_PROPERTY)
 		.field(StudentDailyAnswer.LAST_UPDATE_TIME_PROPERTY)
-		.field(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, getChangeRequestSummaryScope())
 		.field(StudentDailyAnswer.STUDENT_ANSWER_LIST, getStudentAnswerListItemScope())
 		;
 	/** 用于StudentDailyAnswer对象的详情页时需要序列化的属性列表 */
@@ -1913,7 +1908,6 @@ public class HealthBaseViewScope {
 		.field(User.ID_PROPERTY)
 		.field(User.NAME_PROPERTY)
 		.field(User.AVATAR_PROPERTY)
-		.field(User.ADDRESS_PROPERTY, getLocationSummaryScope())
 		.field(User.CREATE_TIME_PROPERTY)
 		.field(User.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(User.TEACHER_LIST, getTeacherListItemScope())
@@ -1950,11 +1944,9 @@ public class HealthBaseViewScope {
 		.field(ChangeRequest.REQUEST_TYPE_PROPERTY, getChangeRequestTypeSummaryScope())
 		.field(ChangeRequest.PLATFORM_PROPERTY, getPlatformSummaryScope())
 		.field(ChangeRequest.TEACHER_LIST, getTeacherListItemScope())
-		.field(ChangeRequest.STUDENT_LIST, getStudentListItemScope())
 		.field(ChangeRequest.QUESTION_LIST, getQuestionListItemScope())
 		.field(ChangeRequest.CLASS_DAILY_HEALTH_SURVEY_LIST, getClassDailyHealthSurveyListItemScope())
 		.field(ChangeRequest.STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyListItemScope())
-		.field(ChangeRequest.STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerListItemScope())
 		;
 	/** 用于ChangeRequest对象的详情页时需要序列化的属性列表 */
 	public static SerializeScope getChangeRequestDetailScope() {

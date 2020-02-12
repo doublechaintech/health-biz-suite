@@ -12,12 +12,10 @@ import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.province.ProvinceDAO;
 import com.doublechaintech.health.student.StudentDAO;
 import com.doublechaintech.health.district.DistrictDAO;
-import com.doublechaintech.health.user.UserDAO;
 
 
 public interface LocationDAO extends BaseDAO{
@@ -50,12 +48,8 @@ public interface LocationDAO extends BaseDAO{
 
 	public StudentDAO getStudentDAO();
 		
-	public UserDAO getUserDAO();
-		
 	
  	public SmartList<Location> requestCandidateLocationForStudent(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
-		
- 	public SmartList<Location> requestCandidateLocationForUser(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
 	public Location planToRemoveStudentList(Location location, String studentIds[], Map<String,Object> options)throws Exception;
@@ -68,17 +62,6 @@ public interface LocationDAO extends BaseDAO{
 	//disconnect Location with platform in Student
 	public Location planToRemoveStudentListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
 	public int countStudentListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
-	
-	//disconnect Location with change_request in Student
-	public Location planToRemoveStudentListWithChangeRequest(Location location, String changeRequestId, Map<String,Object> options)throws Exception;
-	public int countStudentListWithChangeRequest(String locationId, String changeRequestId, Map<String,Object> options)throws Exception;
-	
-	public Location planToRemoveUserList(Location location, String userIds[], Map<String,Object> options)throws Exception;
-
-
-	//disconnect Location with platform in User
-	public Location planToRemoveUserListWithPlatform(Location location, String platformId, Map<String,Object> options)throws Exception;
-	public int countUserListWithPlatform(String locationId, String platformId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<Location> queryList(String sql, Object ... parmeters);
@@ -102,9 +85,6 @@ public interface LocationDAO extends BaseDAO{
  
 	// 需要一个加载引用我的对象的enhance方法:Student的address的StudentList
 	public SmartList<Student> loadOurStudentList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
-	
-	// 需要一个加载引用我的对象的enhance方法:User的address的UserList
-	public SmartList<User> loadOurUserList(HealthUserContext userContext, List<Location> us, Map<String,Object> options) throws Exception;
 	
 }
 

@@ -76,7 +76,11 @@ const showAssociateDialog = (targetComponent) => {
 	visible={currentAssociateModal==='creator'} 
 	data={{questionList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'creator')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'creator')}/>
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'creator')}/> <ChangeRequestAssociateForm 
+	visible={currentAssociateModal==='cq'} 
+	data={{questionList:selectedRows}} owner={owner}  
+	onCancel={()=>toggleAssociateModalVisible(targetComponent,'cq')} 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'cq')}/>
   
     <QuestionTypeAssociateForm 
 	visible={currentAssociateModal==='questionType'} 
@@ -86,11 +90,7 @@ const showAssociateDialog = (targetComponent) => {
 	visible={currentAssociateModal==='platform'} 
 	data={{questionList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'platform')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'platform')}/> <ChangeRequestAssociateForm 
-	visible={currentAssociateModal==='cq'} 
-	data={{questionList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'cq')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'cq')}/> 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'platform')}/> 
  
 
 

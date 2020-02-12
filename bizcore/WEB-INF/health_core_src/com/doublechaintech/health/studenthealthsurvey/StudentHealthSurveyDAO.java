@@ -65,10 +65,6 @@ public interface StudentHealthSurveyDAO extends BaseDAO{
 	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithQuestion(StudentHealthSurvey studentHealthSurvey, String questionId, Map<String,Object> options)throws Exception;
 	public int countStudentDailyAnswerListWithQuestion(String studentHealthSurveyId, String questionId, Map<String,Object> options)throws Exception;
 	
-	//disconnect StudentHealthSurvey with change_request in StudentDailyAnswer
-	public StudentHealthSurvey planToRemoveStudentDailyAnswerListWithChangeRequest(StudentHealthSurvey studentHealthSurvey, String changeRequestId, Map<String,Object> options)throws Exception;
-	public int countStudentDailyAnswerListWithChangeRequest(String studentHealthSurveyId, String changeRequestId, Map<String,Object> options)throws Exception;
-	
 	
 	public SmartList<StudentHealthSurvey> queryList(String sql, Object ... parmeters);
 	public int count(String sql, Object ... parmeters);

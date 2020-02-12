@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -224,25 +225,46 @@ public class ListAccessManagerImpl extends CustomHealthCheckerManager implements
 		
 
 		if(ListAccess.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfListAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ListAccess.INTERNAL_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkInternalNameOfListAccess(parseString(newValueExpr));
+		
+			
 		}
 		if(ListAccess.READ_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkReadPermissionOfListAccess(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(ListAccess.CREATE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCreatePermissionOfListAccess(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(ListAccess.DELETE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDeletePermissionOfListAccess(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(ListAccess.UPDATE_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUpdatePermissionOfListAccess(parseBoolean(newValueExpr));
+		
+			
 		}
 		if(ListAccess.EXECUTION_PERMISSION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkExecutionPermissionOfListAccess(parseBoolean(newValueExpr));
+		
+			
 		}		
 
 		

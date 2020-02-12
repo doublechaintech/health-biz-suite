@@ -37,7 +37,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setId(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(QuestionTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -49,7 +51,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setTopic(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String topic = rs.getString(QuestionTable.COLUMN_TOPIC);
+		
 		if(topic == null){
 			//do nothing when nothing found in database
 			return;
@@ -79,7 +83,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setOptionA(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionA = rs.getString(QuestionTable.COLUMN_OPTION_A);
+		
 		if(optionA == null){
 			//do nothing when nothing found in database
 			return;
@@ -91,7 +97,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setOptionB(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionB = rs.getString(QuestionTable.COLUMN_OPTION_B);
+		
 		if(optionB == null){
 			//do nothing when nothing found in database
 			return;
@@ -103,7 +111,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setOptionC(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionC = rs.getString(QuestionTable.COLUMN_OPTION_C);
+		
 		if(optionC == null){
 			//do nothing when nothing found in database
 			return;
@@ -115,7 +125,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setOptionD(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionD = rs.getString(QuestionTable.COLUMN_OPTION_D);
+		
 		if(optionD == null){
 			//do nothing when nothing found in database
 			return;
@@ -181,7 +193,9 @@ public class QuestionMapper extends BaseRowMapper<Question>{
 	protected void setVersion(Question question, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(QuestionTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

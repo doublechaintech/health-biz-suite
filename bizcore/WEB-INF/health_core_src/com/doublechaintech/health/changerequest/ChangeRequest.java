@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -15,9 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.question.Question;
 
@@ -34,11 +33,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String TEACHER_LIST                             = "teacherList"       ;
-	public static final String STUDENT_LIST                             = "studentList"       ;
 	public static final String QUESTION_LIST                            = "questionList"      ;
 	public static final String CLASS_DAILY_HEALTH_SURVEY_LIST           = "classDailyHealthSurveyList";
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
-	public static final String STUDENT_DAILY_ANSWER_LIST                = "studentDailyAnswerList";
 
 	public static final String INTERNAL_TYPE="ChangeRequest";
 	public String getInternalType(){
@@ -69,11 +66,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 	
 	protected		SmartList<Teacher>  	mTeacherList        ;
-	protected		SmartList<Student>  	mStudentList        ;
 	protected		SmartList<Question> 	mQuestionList       ;
 	protected		SmartList<ClassDailyHealthSurvey>	mClassDailyHealthSurveyList;
 	protected		SmartList<StudentHealthSurvey>	mStudentHealthSurveyList;
-	protected		SmartList<StudentDailyAnswer>	mStudentDailyAnswerList;
 	
 		
 	public 	ChangeRequest(){
@@ -117,6 +112,7 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -126,12 +122,13 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCreateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -141,12 +138,13 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		updateCreateTime(newValue);
 		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeRemoteIpProperty(String newValueExpr){
+	
 		String oldValue = getRemoteIp();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -156,7 +154,7 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		updateRemoteIp(newValue);
 		this.onChangeProperty(REMOTE_IP_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
@@ -185,10 +183,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			List<BaseEntity> list = getTeacherList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
-		if(STUDENT_LIST.equals(property)){
-			List<BaseEntity> list = getStudentList().stream().map(item->item).collect(Collectors.toList());
-			return list;
-		}
 		if(QUESTION_LIST.equals(property)){
 			List<BaseEntity> list = getQuestionList().stream().map(item->item).collect(Collectors.toList());
 			return list;
@@ -199,10 +193,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
-			return list;
-		}
-		if(STUDENT_DAILY_ANSWER_LIST.equals(property)){
-			List<BaseEntity> list = getStudentDailyAnswerList().stream().map(item->item).collect(Collectors.toList());
 			return list;
 		}
 
@@ -440,113 +430,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 	public  void cleanUpTeacherList(){
 		getTeacherList().clear();
-	}
-	
-	
-	
-
-
-	public  SmartList<Student> getStudentList(){
-		if(this.mStudentList == null){
-			this.mStudentList = new SmartList<Student>();
-			this.mStudentList.setListInternalName (STUDENT_LIST );
-			//有名字，便于做权限控制
-		}
-		
-		return this.mStudentList;	
-	}
-	public  void setStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setChangeRequest(this);
-		}
-
-		this.mStudentList = studentList;
-		this.mStudentList.setListInternalName (STUDENT_LIST );
-		
-	}
-	
-	public  void addStudent(Student student){
-		student.setChangeRequest(this);
-		getStudentList().add(student);
-	}
-	public  void addStudentList(SmartList<Student> studentList){
-		for( Student student:studentList){
-			student.setChangeRequest(this);
-		}
-		getStudentList().addAll(studentList);
-	}
-	public  void mergeStudentList(SmartList<Student> studentList){
-		if(studentList==null){
-			return;
-		}
-		if(studentList.isEmpty()){
-			return;
-		}
-		addStudentList( studentList );
-		
-	}
-	public  Student removeStudent(Student studentIndex){
-		
-		int index = getStudentList().indexOf(studentIndex);
-        if(index < 0){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        Student student = getStudentList().get(index);        
-        // student.clearChangeRequest(); //disconnect with ChangeRequest
-        student.clearFromAll(); //disconnect with ChangeRequest
-		
-		boolean result = getStudentList().planToRemove(student);
-        if(!result){
-        	String message = "Student("+studentIndex.getId()+") with version='"+studentIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        return student;
-        
-	
-	}
-	//断舍离
-	public  void breakWithStudent(Student student){
-		
-		if(student == null){
-			return;
-		}
-		student.setChangeRequest(null);
-		//getStudentList().remove();
-	
-	}
-	
-	public  boolean hasStudent(Student student){
-	
-		return getStudentList().contains(student);
-  
-	}
-	
-	public void copyStudentFrom(Student student) {
-
-		Student studentInList = findTheStudent(student);
-		Student newStudent = new Student();
-		studentInList.copyTo(newStudent);
-		newStudent.setVersion(0);//will trigger copy
-		getStudentList().add(newStudent);
-		addItemToFlexiableObject(COPIED_CHILD, newStudent);
-	}
-	
-	public  Student findTheStudent(Student student){
-		
-		int index =  getStudentList().indexOf(student);
-		//The input parameter must have the same id and version number.
-		if(index < 0){
- 			String message = "Student("+student.getId()+") with version='"+student.getVersion()+"' NOT found!";
-			throw new IllegalStateException(message);
-		}
-		
-		return  getStudentList().get(index);
-		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
-	}
-	
-	public  void cleanUpStudentList(){
-		getStudentList().clear();
 	}
 	
 	
@@ -874,113 +757,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 	
 
 
-	public  SmartList<StudentDailyAnswer> getStudentDailyAnswerList(){
-		if(this.mStudentDailyAnswerList == null){
-			this.mStudentDailyAnswerList = new SmartList<StudentDailyAnswer>();
-			this.mStudentDailyAnswerList.setListInternalName (STUDENT_DAILY_ANSWER_LIST );
-			//有名字，便于做权限控制
-		}
-		
-		return this.mStudentDailyAnswerList;	
-	}
-	public  void setStudentDailyAnswerList(SmartList<StudentDailyAnswer> studentDailyAnswerList){
-		for( StudentDailyAnswer studentDailyAnswer:studentDailyAnswerList){
-			studentDailyAnswer.setChangeRequest(this);
-		}
-
-		this.mStudentDailyAnswerList = studentDailyAnswerList;
-		this.mStudentDailyAnswerList.setListInternalName (STUDENT_DAILY_ANSWER_LIST );
-		
-	}
-	
-	public  void addStudentDailyAnswer(StudentDailyAnswer studentDailyAnswer){
-		studentDailyAnswer.setChangeRequest(this);
-		getStudentDailyAnswerList().add(studentDailyAnswer);
-	}
-	public  void addStudentDailyAnswerList(SmartList<StudentDailyAnswer> studentDailyAnswerList){
-		for( StudentDailyAnswer studentDailyAnswer:studentDailyAnswerList){
-			studentDailyAnswer.setChangeRequest(this);
-		}
-		getStudentDailyAnswerList().addAll(studentDailyAnswerList);
-	}
-	public  void mergeStudentDailyAnswerList(SmartList<StudentDailyAnswer> studentDailyAnswerList){
-		if(studentDailyAnswerList==null){
-			return;
-		}
-		if(studentDailyAnswerList.isEmpty()){
-			return;
-		}
-		addStudentDailyAnswerList( studentDailyAnswerList );
-		
-	}
-	public  StudentDailyAnswer removeStudentDailyAnswer(StudentDailyAnswer studentDailyAnswerIndex){
-		
-		int index = getStudentDailyAnswerList().indexOf(studentDailyAnswerIndex);
-        if(index < 0){
-        	String message = "StudentDailyAnswer("+studentDailyAnswerIndex.getId()+") with version='"+studentDailyAnswerIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        StudentDailyAnswer studentDailyAnswer = getStudentDailyAnswerList().get(index);        
-        // studentDailyAnswer.clearChangeRequest(); //disconnect with ChangeRequest
-        studentDailyAnswer.clearFromAll(); //disconnect with ChangeRequest
-		
-		boolean result = getStudentDailyAnswerList().planToRemove(studentDailyAnswer);
-        if(!result){
-        	String message = "StudentDailyAnswer("+studentDailyAnswerIndex.getId()+") with version='"+studentDailyAnswerIndex.getVersion()+"' NOT found!";
-            throw new IllegalStateException(message);
-        }
-        return studentDailyAnswer;
-        
-	
-	}
-	//断舍离
-	public  void breakWithStudentDailyAnswer(StudentDailyAnswer studentDailyAnswer){
-		
-		if(studentDailyAnswer == null){
-			return;
-		}
-		studentDailyAnswer.setChangeRequest(null);
-		//getStudentDailyAnswerList().remove();
-	
-	}
-	
-	public  boolean hasStudentDailyAnswer(StudentDailyAnswer studentDailyAnswer){
-	
-		return getStudentDailyAnswerList().contains(studentDailyAnswer);
-  
-	}
-	
-	public void copyStudentDailyAnswerFrom(StudentDailyAnswer studentDailyAnswer) {
-
-		StudentDailyAnswer studentDailyAnswerInList = findTheStudentDailyAnswer(studentDailyAnswer);
-		StudentDailyAnswer newStudentDailyAnswer = new StudentDailyAnswer();
-		studentDailyAnswerInList.copyTo(newStudentDailyAnswer);
-		newStudentDailyAnswer.setVersion(0);//will trigger copy
-		getStudentDailyAnswerList().add(newStudentDailyAnswer);
-		addItemToFlexiableObject(COPIED_CHILD, newStudentDailyAnswer);
-	}
-	
-	public  StudentDailyAnswer findTheStudentDailyAnswer(StudentDailyAnswer studentDailyAnswer){
-		
-		int index =  getStudentDailyAnswerList().indexOf(studentDailyAnswer);
-		//The input parameter must have the same id and version number.
-		if(index < 0){
- 			String message = "StudentDailyAnswer("+studentDailyAnswer.getId()+") with version='"+studentDailyAnswer.getVersion()+"' NOT found!";
-			throw new IllegalStateException(message);
-		}
-		
-		return  getStudentDailyAnswerList().get(index);
-		//Performance issue when using LinkedList, but it is almost an ArrayList for sure!
-	}
-	
-	public  void cleanUpStudentDailyAnswerList(){
-		getStudentDailyAnswerList().clear();
-	}
-	
-	
-	
-
-
 	public void collectRefercences(BaseEntity owner, List<BaseEntity> entityList, String internalType){
 
 		addToEntityList(this, entityList, getRequestType(), internalType);
@@ -993,11 +769,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		
 		List<BaseEntity> entityList = new ArrayList<BaseEntity>();
 		collectFromList(this, entityList, getTeacherList(), internalType);
-		collectFromList(this, entityList, getStudentList(), internalType);
 		collectFromList(this, entityList, getQuestionList(), internalType);
 		collectFromList(this, entityList, getClassDailyHealthSurveyList(), internalType);
 		collectFromList(this, entityList, getStudentHealthSurveyList(), internalType);
-		collectFromList(this, entityList, getStudentDailyAnswerList(), internalType);
 
 		return entityList;
 	}
@@ -1006,11 +780,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		List<SmartList<?>> listOfList = new ArrayList<SmartList<?>>();
 		
 		listOfList.add( getTeacherList());
-		listOfList.add( getStudentList());
 		listOfList.add( getQuestionList());
 		listOfList.add( getClassDailyHealthSurveyList());
 		listOfList.add( getStudentHealthSurveyList());
-		listOfList.add( getStudentDailyAnswerList());
 			
 
 		return listOfList;
@@ -1032,11 +804,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			appendKeyValuePair(result, "teacherCount", getTeacherList().getTotalCount());
 			appendKeyValuePair(result, "teacherCurrentPageNumber", getTeacherList().getCurrentPageNumber());
 		}
-		appendKeyValuePair(result, STUDENT_LIST, getStudentList());
-		if(!getStudentList().isEmpty()){
-			appendKeyValuePair(result, "studentCount", getStudentList().getTotalCount());
-			appendKeyValuePair(result, "studentCurrentPageNumber", getStudentList().getCurrentPageNumber());
-		}
 		appendKeyValuePair(result, QUESTION_LIST, getQuestionList());
 		if(!getQuestionList().isEmpty()){
 			appendKeyValuePair(result, "questionCount", getQuestionList().getTotalCount());
@@ -1051,11 +818,6 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 		if(!getStudentHealthSurveyList().isEmpty()){
 			appendKeyValuePair(result, "studentHealthSurveyCount", getStudentHealthSurveyList().getTotalCount());
 			appendKeyValuePair(result, "studentHealthSurveyCurrentPageNumber", getStudentHealthSurveyList().getCurrentPageNumber());
-		}
-		appendKeyValuePair(result, STUDENT_DAILY_ANSWER_LIST, getStudentDailyAnswerList());
-		if(!getStudentDailyAnswerList().isEmpty()){
-			appendKeyValuePair(result, "studentDailyAnswerCount", getStudentDailyAnswerList().getTotalCount());
-			appendKeyValuePair(result, "studentDailyAnswerCurrentPageNumber", getStudentDailyAnswerList().getCurrentPageNumber());
 		}
 
 		
@@ -1079,11 +841,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			dest.setPlatform(getPlatform());
 			dest.setVersion(getVersion());
 			dest.setTeacherList(getTeacherList());
-			dest.setStudentList(getStudentList());
 			dest.setQuestionList(getQuestionList());
 			dest.setClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
-			dest.setStudentDailyAnswerList(getStudentDailyAnswerList());
 
 		}
 		super.copyTo(baseDest);
@@ -1105,11 +865,9 @@ public class ChangeRequest extends BaseEntity implements  java.io.Serializable{
 			dest.mergePlatform(getPlatform());
 			dest.mergeVersion(getVersion());
 			dest.mergeTeacherList(getTeacherList());
-			dest.mergeStudentList(getStudentList());
 			dest.mergeQuestionList(getQuestionList());
 			dest.mergeClassDailyHealthSurveyList(getClassDailyHealthSurveyList());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
-			dest.mergeStudentDailyAnswerList(getStudentDailyAnswerList());
 
 		}
 		super.copyTo(baseDest);

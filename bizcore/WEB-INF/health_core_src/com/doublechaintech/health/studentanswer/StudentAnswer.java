@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -94,6 +95,7 @@ public class StudentAnswer extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeQuestionTopicProperty(String newValueExpr){
+	
 		String oldValue = getQuestionTopic();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -103,12 +105,13 @@ public class StudentAnswer extends BaseEntity implements  java.io.Serializable{
 		updateQuestionTopic(newValue);
 		this.onChangeProperty(QUESTION_TOPIC_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeAnswerProperty(String newValueExpr){
+	
 		String oldValue = getAnswer();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -118,7 +121,7 @@ public class StudentAnswer extends BaseEntity implements  java.io.Serializable{
 		updateAnswer(newValue);
 		this.onChangeProperty(ANSWER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

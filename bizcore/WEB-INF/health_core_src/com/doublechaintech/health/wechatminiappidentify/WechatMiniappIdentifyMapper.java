@@ -30,7 +30,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setId(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(WechatMiniappIdentifyTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -42,7 +44,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setOpenId(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String openId = rs.getString(WechatMiniappIdentifyTable.COLUMN_OPEN_ID);
+		
 		if(openId == null){
 			//do nothing when nothing found in database
 			return;
@@ -54,7 +58,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setAppId(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String appId = rs.getString(WechatMiniappIdentifyTable.COLUMN_APP_ID);
+		
 		if(appId == null){
 			//do nothing when nothing found in database
 			return;
@@ -84,7 +90,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setCreateTime(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(WechatMiniappIdentifyTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -96,7 +104,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setLastLoginTime(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date lastLoginTime = rs.getTimestamp(WechatMiniappIdentifyTable.COLUMN_LAST_LOGIN_TIME);
+		
 		if(lastLoginTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -108,7 +118,9 @@ public class WechatMiniappIdentifyMapper extends BaseRowMapper<WechatMiniappIden
 	protected void setVersion(WechatMiniappIdentify wechatMiniappIdentify, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(WechatMiniappIdentifyTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

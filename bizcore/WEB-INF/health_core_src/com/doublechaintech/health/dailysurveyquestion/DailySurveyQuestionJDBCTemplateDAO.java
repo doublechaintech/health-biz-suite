@@ -728,15 +728,25 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
  	protected Object[] prepareDailySurveyQuestionUpdateParameters(DailySurveyQuestion dailySurveyQuestion){
  		Object[] parameters = new Object[11];
  
- 		parameters[0] = dailySurveyQuestion.getTopic(); 	
+ 		
+ 		parameters[0] = dailySurveyQuestion.getTopic();
+ 		 	
  		if(dailySurveyQuestion.getQuestionType() != null){
  			parameters[1] = dailySurveyQuestion.getQuestionType().getId();
  		}
  
+ 		
  		parameters[2] = dailySurveyQuestion.getOptionA();
+ 		
+ 		
  		parameters[3] = dailySurveyQuestion.getOptionB();
+ 		
+ 		
  		parameters[4] = dailySurveyQuestion.getOptionC();
- 		parameters[5] = dailySurveyQuestion.getOptionD(); 	
+ 		
+ 		
+ 		parameters[5] = dailySurveyQuestion.getOptionD();
+ 		 	
  		if(dailySurveyQuestion.getClassDailyHealthSurvey() != null){
  			parameters[6] = dailySurveyQuestion.getClassDailyHealthSurvey().getId();
  		}
@@ -757,16 +767,26 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		dailySurveyQuestion.setId(newDailySurveyQuestionId);
 		parameters[0] =  dailySurveyQuestion.getId();
  
- 		parameters[1] = dailySurveyQuestion.getTopic(); 	
+ 		
+ 		parameters[1] = dailySurveyQuestion.getTopic();
+ 		 	
  		if(dailySurveyQuestion.getQuestionType() != null){
  			parameters[2] = dailySurveyQuestion.getQuestionType().getId();
  		
  		}
  		
+ 		
  		parameters[3] = dailySurveyQuestion.getOptionA();
+ 		
+ 		
  		parameters[4] = dailySurveyQuestion.getOptionB();
+ 		
+ 		
  		parameters[5] = dailySurveyQuestion.getOptionC();
- 		parameters[6] = dailySurveyQuestion.getOptionD(); 	
+ 		
+ 		
+ 		parameters[6] = dailySurveyQuestion.getOptionD();
+ 		 	
  		if(dailySurveyQuestion.getClassDailyHealthSurvey() != null){
  			parameters[7] = dailySurveyQuestion.getClassDailyHealthSurvey().getId();
  		
@@ -933,50 +953,6 @@ public class DailySurveyQuestionJDBCTemplateDAO extends HealthBaseDAOImpl implem
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(StudentDailyAnswer.QUESTION_PROPERTY, dailySurveyQuestionId);
 		key.put(StudentDailyAnswer.STUDENT_HEALTH_SURVEY_PROPERTY, studentHealthSurveyId);
-		
-		int count = getStudentDailyAnswerDAO().countStudentDailyAnswerWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect DailySurveyQuestion with change_request in StudentDailyAnswer
-	public DailySurveyQuestion planToRemoveStudentDailyAnswerListWithChangeRequest(DailySurveyQuestion dailySurveyQuestion, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(StudentDailyAnswer.QUESTION_PROPERTY, dailySurveyQuestion.getId());
-		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		
-		SmartList<StudentDailyAnswer> externalStudentDailyAnswerList = getStudentDailyAnswerDAO().
-				findStudentDailyAnswerWithKey(key, options);
-		if(externalStudentDailyAnswerList == null){
-			return dailySurveyQuestion;
-		}
-		if(externalStudentDailyAnswerList.isEmpty()){
-			return dailySurveyQuestion;
-		}
-		
-		for(StudentDailyAnswer studentDailyAnswerItem: externalStudentDailyAnswerList){
-			studentDailyAnswerItem.clearChangeRequest();
-			studentDailyAnswerItem.clearQuestion();
-			
-		}
-		
-		
-		SmartList<StudentDailyAnswer> studentDailyAnswerList = dailySurveyQuestion.getStudentDailyAnswerList();		
-		studentDailyAnswerList.addAllToRemoveList(externalStudentDailyAnswerList);
-		return dailySurveyQuestion;
-	}
-	
-	public int countStudentDailyAnswerListWithChangeRequest(String dailySurveyQuestionId, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(StudentDailyAnswer.QUESTION_PROPERTY, dailySurveyQuestionId);
-		key.put(StudentDailyAnswer.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentDailyAnswerDAO().countStudentDailyAnswerWithKey(key, options);
 		return count;

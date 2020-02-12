@@ -45,7 +45,7 @@
     platform="$(platform)"
     user="$(user)"
 
-    change_request="$(change_request)"
+    change_request="$(change_request?)"
     _features="event"
     _reg_func="REGISTER_TEACHER"
   />
@@ -61,9 +61,6 @@
     create_time="createTime()"
     platform="$(platform)"
 
-    change_request="$(change_request)"
-    _features="event"
-    _reg_func="REGISTER_STUDENT"
   />
 
 
@@ -71,14 +68,14 @@
   <question
     topic="节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状|[1,50]"
     question_type="$(question_type)"
-    option_a="没有|[1,99]"
-    option_b="有|[1,99]"
+    option_a="没有|[0,99]"
+    option_b="有|[0,99]"
     option_c="不确定|[0,99]"
     option_d="不知道|[0,99]"
     platform="$(platform)"
     creator="$(user?)"
 
-    cq="$(change_request)"
+    cq="$(change_request?)"
     _features="event"
     _reg_func="CREATE_QUESTION"
   />
@@ -119,8 +116,8 @@
     teacher="$(teacher)"
     survey_time="2099-12-31T23:59:59"
     creator="$(user)"
-
-    change_request="$(change_request)"
+	download_url="https://oss|[0,99999]"
+    change_request="$(change_request?)"
     _features="event"
     _reg_func="CREATE_SURVEY"
   />
@@ -128,8 +125,8 @@
   <daily_survey_question
     topic="节假日是否到过武汉|家里是否有武汉的亲朋好友来访|是否有发热、发烧症状|[1,50]"
     question_type="$(question_type)"
-    option_a="没有|[1,99]"
-    option_b="有|[1,99]"
+    option_a="没有|[0,99]"
+    option_b="有|[0,99]"
     option_c="不确定|[0,99]"
     option_d="不知道|[0,99]"
 
@@ -146,8 +143,7 @@
     class_daily_health_survey="$(class_daily_health_survey)"
     create_time="createTime()"
     last_update_time="updateTime()"
-
-    change_request="$(change_request)"
+    change_request="$(change_request?)"
     _features="event"
     _reg_func="ANSWER_SURVEY"
   />
@@ -158,10 +154,6 @@
     answer="A|B|[1,99]"
     create_time="createTime()"
     last_update_time="updateTime()"
-
-    change_request="$(change_request)"
-    _features="event"
-    _reg_func="ANSWER_QUESTION"
   />
   <survey_status
     name="未提交|已提交|草稿"
@@ -196,7 +188,6 @@
   <user
 		name="张三|李四|王五|[1,200]"
 		avatar="wechat.jpg"
-    address="$(location)"
 		create_time="createTime()"
 		platform="$(platform)"
     _features="merchant"
@@ -246,6 +237,18 @@
 	/> -->
 
 </root>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

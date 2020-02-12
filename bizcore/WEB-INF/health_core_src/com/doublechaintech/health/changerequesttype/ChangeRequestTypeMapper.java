@@ -32,7 +32,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setId(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(ChangeRequestTypeTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -44,7 +46,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setName(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(ChangeRequestTypeTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -56,7 +60,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setCode(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String code = rs.getString(ChangeRequestTypeTable.COLUMN_CODE);
+		
 		if(code == null){
 			//do nothing when nothing found in database
 			return;
@@ -68,7 +74,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setIcon(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String icon = rs.getString(ChangeRequestTypeTable.COLUMN_ICON);
+		
 		if(icon == null){
 			//do nothing when nothing found in database
 			return;
@@ -80,7 +88,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setDisplayOrder(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer displayOrder = rs.getInt(ChangeRequestTypeTable.COLUMN_DISPLAY_ORDER);
+		
 		if(displayOrder == null){
 			//do nothing when nothing found in database
 			return;
@@ -92,7 +102,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setBindTypes(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String bindTypes = rs.getString(ChangeRequestTypeTable.COLUMN_BIND_TYPES);
+		
 		if(bindTypes == null){
 			//do nothing when nothing found in database
 			return;
@@ -104,7 +116,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setStepConfiguration(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String stepConfiguration = rs.getString(ChangeRequestTypeTable.COLUMN_STEP_CONFIGURATION);
+		
 		if(stepConfiguration == null){
 			//do nothing when nothing found in database
 			return;
@@ -134,7 +148,9 @@ public class ChangeRequestTypeMapper extends BaseRowMapper<ChangeRequestType>{
 	protected void setVersion(ChangeRequestType changeRequestType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(ChangeRequestTypeTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

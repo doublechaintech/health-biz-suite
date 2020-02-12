@@ -651,12 +651,16 @@ public class ProvinceJDBCTemplateDAO extends HealthBaseDAOImpl implements Provin
  	protected Object[] prepareProvinceUpdateParameters(Province province){
  		Object[] parameters = new Object[6];
  
- 		parameters[0] = province.getName(); 	
+ 		
+ 		parameters[0] = province.getName();
+ 		 	
  		if(province.getPlatform() != null){
  			parameters[1] = province.getPlatform().getId();
  		}
  
- 		parameters[2] = province.getCreateTime();		
+ 		
+ 		parameters[2] = province.getCreateTime();
+ 				
  		parameters[3] = province.nextVersion();
  		parameters[4] = province.getId();
  		parameters[5] = province.getVersion();
@@ -669,13 +673,17 @@ public class ProvinceJDBCTemplateDAO extends HealthBaseDAOImpl implements Provin
 		province.setId(newProvinceId);
 		parameters[0] =  province.getId();
  
- 		parameters[1] = province.getName(); 	
+ 		
+ 		parameters[1] = province.getName();
+ 		 	
  		if(province.getPlatform() != null){
  			parameters[2] = province.getPlatform().getId();
  		
  		}
  		
- 		parameters[3] = province.getCreateTime();		
+ 		
+ 		parameters[3] = province.getCreateTime();
+ 				
  				
  		return parameters;
  	}

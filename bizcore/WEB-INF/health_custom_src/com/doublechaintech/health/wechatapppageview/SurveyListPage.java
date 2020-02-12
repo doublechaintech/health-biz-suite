@@ -15,6 +15,7 @@ import com.doublechaintech.health.MiscUtils;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyTokens;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyTokens;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.teacher.TeacherTokens;
 import com.doublechaintech.health.wechatapp.WechatAppViewBizService;
@@ -33,8 +34,9 @@ public class SurveyListPage extends BaseViewPage {
 				.field("displayMode")
 				.field("emptyMessage")
 				.field("list",
-						MiscUtils.buildEntityScope("id","code","answerCount","hasAbnormalSituation",ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY,ClassDailyHealthSurvey.NAME_PROPERTY,HealthCustomConstants.LINK_TO_URL,Teacher.CLASS_SIZE_PROPERTY)
+						MiscUtils.buildEntityScope("id","code","riskCount","school","schoolClass","answerCount","hasAbnormalSituation",ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY,ClassDailyHealthSurvey.NAME_PROPERTY,HealthCustomConstants.LINK_TO_URL,Teacher.CLASS_SIZE_PROPERTY)
 						)
+				.field("footerAction",HealthCustomConstants.ACTION_SCOPE)
 				.field("tabs");
 
 	@Override
@@ -77,15 +79,19 @@ public class SurveyListPage extends BaseViewPage {
 								WechatAppViewBizService.makeViewSurveyDetailUrl(ctx, s.getId()));
 				s.addItemToValueMap("code", s.getId());
 				s.addItemToValueMap("classSize", teacher.getClassSize());
-				s.addItemToValueMap("answerCount", 0);//TODO
-				s.addItemToValueMap("hasAbnormalSituation", false);
+				s.addItemToValueMap("answerCount", ctx.getDAOGroup().getStudentHealthSurveyDAO().countStudentHealthSurveyByClassDailyHealthSurvey(s.getId(), StudentHealthSurveyTokens.all()));
+				s.addItemToValueMap("riskCount", MiscUtils.getRiskCount(ctx,s));
+				s.addItemToValueMap("schoolClass", teacher.getSchoolClass());
+				s.addItemToValueMap("school", teacher.getSchool());
 			});
 		}
 		set("list", surveyList);
 		set(X_EMPTY_MESSAGE, "没有创建任何问卷");
 		setPageTitle(teacher.getSchoolClass());
+		set("title",teacher.getSchoolClass());
 		Map<String, Object> actions = new HashMap<>();
-		actions.put("addClass", MapUtil.put("code", "addSurvey").put("title", "发起调查问卷").put("icon", "add").put("linkToUrl", WechatAppViewBizService.makeAddSurveyUrl(ctx,ctx.getTeacherId())).into_map());
+		actions.put("addClass", MapUtil.put("code", "addSurvey").put("title", "创建新的问卷").put("icon", "add").put("linkToUrl", WechatAppViewBizService.makeAddSurveyUrl(ctx,ctx.getTeacherId())).into_map());
+		set("footerAction",MapUtil.put("code", "addSurvey").put("title", "创建新的问卷").put("icon", "add").put("linkToUrl", WechatAppViewBizService.makeAddSurveyUrl(ctx,ctx.getTeacherId())).into_map());
 		set("actions", actions);
 	}
 }

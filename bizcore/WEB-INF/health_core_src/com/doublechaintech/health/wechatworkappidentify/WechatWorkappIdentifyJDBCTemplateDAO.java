@@ -451,14 +451,22 @@ public class WechatWorkappIdentifyJDBCTemplateDAO extends HealthBaseDAOImpl impl
  	protected Object[] prepareWechatWorkappIdentifyUpdateParameters(WechatWorkappIdentify wechatWorkappIdentify){
  		Object[] parameters = new Object[8];
  
+ 		
  		parameters[0] = wechatWorkappIdentify.getCorpId();
- 		parameters[1] = wechatWorkappIdentify.getUserId(); 	
+ 		
+ 		
+ 		parameters[1] = wechatWorkappIdentify.getUserId();
+ 		 	
  		if(wechatWorkappIdentify.getSecUser() != null){
  			parameters[2] = wechatWorkappIdentify.getSecUser().getId();
  		}
  
+ 		
  		parameters[3] = wechatWorkappIdentify.getCreateTime();
- 		parameters[4] = wechatWorkappIdentify.getLastLoginTime();		
+ 		
+ 		
+ 		parameters[4] = wechatWorkappIdentify.getLastLoginTime();
+ 				
  		parameters[5] = wechatWorkappIdentify.nextVersion();
  		parameters[6] = wechatWorkappIdentify.getId();
  		parameters[7] = wechatWorkappIdentify.getVersion();
@@ -471,15 +479,23 @@ public class WechatWorkappIdentifyJDBCTemplateDAO extends HealthBaseDAOImpl impl
 		wechatWorkappIdentify.setId(newWechatWorkappIdentifyId);
 		parameters[0] =  wechatWorkappIdentify.getId();
  
+ 		
  		parameters[1] = wechatWorkappIdentify.getCorpId();
- 		parameters[2] = wechatWorkappIdentify.getUserId(); 	
+ 		
+ 		
+ 		parameters[2] = wechatWorkappIdentify.getUserId();
+ 		 	
  		if(wechatWorkappIdentify.getSecUser() != null){
  			parameters[3] = wechatWorkappIdentify.getSecUser().getId();
  		
  		}
  		
+ 		
  		parameters[4] = wechatWorkappIdentify.getCreateTime();
- 		parameters[5] = wechatWorkappIdentify.getLastLoginTime();		
+ 		
+ 		
+ 		parameters[5] = wechatWorkappIdentify.getLastLoginTime();
+ 				
  				
  		return parameters;
  	}

@@ -39,7 +39,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setId(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(HealthSurveyReportTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -51,7 +53,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setSurveyName(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String surveyName = rs.getString(HealthSurveyReportTable.COLUMN_SURVEY_NAME);
+		
 		if(surveyName == null){
 			//do nothing when nothing found in database
 			return;
@@ -63,7 +67,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setSurveyTime(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date surveyTime = rs.getTimestamp(HealthSurveyReportTable.COLUMN_SURVEY_TIME);
+		
 		if(surveyTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -75,7 +81,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setTeacherName(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String teacherName = rs.getString(HealthSurveyReportTable.COLUMN_TEACHER_NAME);
+		
 		if(teacherName == null){
 			//do nothing when nothing found in database
 			return;
@@ -87,7 +95,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setSchool(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String school = rs.getString(HealthSurveyReportTable.COLUMN_SCHOOL);
+		
 		if(school == null){
 			//do nothing when nothing found in database
 			return;
@@ -99,7 +109,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setSchoolClass(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String schoolClass = rs.getString(HealthSurveyReportTable.COLUMN_SCHOOL_CLASS);
+		
 		if(schoolClass == null){
 			//do nothing when nothing found in database
 			return;
@@ -111,7 +123,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setStudentName(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String studentName = rs.getString(HealthSurveyReportTable.COLUMN_STUDENT_NAME);
+		
 		if(studentName == null){
 			//do nothing when nothing found in database
 			return;
@@ -123,7 +137,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setStudentNumber(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String studentNumber = rs.getString(HealthSurveyReportTable.COLUMN_STUDENT_NUMBER);
+		
 		if(studentNumber == null){
 			//do nothing when nothing found in database
 			return;
@@ -135,7 +151,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setGuardianName(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String guardianName = rs.getString(HealthSurveyReportTable.COLUMN_GUARDIAN_NAME);
+		
 		if(guardianName == null){
 			//do nothing when nothing found in database
 			return;
@@ -147,7 +165,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setGuardianMobile(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String guardianMobile = rs.getString(HealthSurveyReportTable.COLUMN_GUARDIAN_MOBILE);
+		
 		if(guardianMobile == null){
 			//do nothing when nothing found in database
 			return;
@@ -213,7 +233,9 @@ public class HealthSurveyReportMapper extends BaseRowMapper<HealthSurveyReport>{
 	protected void setVersion(HealthSurveyReport healthSurveyReport, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(HealthSurveyReportTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

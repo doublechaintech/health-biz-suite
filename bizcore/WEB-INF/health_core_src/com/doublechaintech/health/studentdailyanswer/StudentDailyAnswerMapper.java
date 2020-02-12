@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.math.BigDecimal;
 import com.doublechaintech.health.BaseRowMapper;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
@@ -20,7 +19,6 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
  		setAnswer(studentDailyAnswer, rs, rowNumber); 		
  		setCreateTime(studentDailyAnswer, rs, rowNumber); 		
  		setLastUpdateTime(studentDailyAnswer, rs, rowNumber); 		
- 		setChangeRequest(studentDailyAnswer, rs, rowNumber); 		
  		setVersion(studentDailyAnswer, rs, rowNumber);
 
 		return studentDailyAnswer;
@@ -33,7 +31,9 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 	protected void setId(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(StudentDailyAnswerTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -81,7 +81,9 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 	protected void setAnswer(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String answer = rs.getString(StudentDailyAnswerTable.COLUMN_ANSWER);
+		
 		if(answer == null){
 			//do nothing when nothing found in database
 			return;
@@ -93,7 +95,9 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 	protected void setCreateTime(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(StudentDailyAnswerTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -105,7 +109,9 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 	protected void setLastUpdateTime(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date lastUpdateTime = rs.getTimestamp(StudentDailyAnswerTable.COLUMN_LAST_UPDATE_TIME);
+		
 		if(lastUpdateTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -113,29 +119,13 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
 		
 		studentDailyAnswer.setLastUpdateTime(convertToDateTime(lastUpdateTime));
 	}
-		 		
- 	protected void setChangeRequest(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
- 		String changeRequestId = rs.getString(StudentDailyAnswerTable.COLUMN_CHANGE_REQUEST);
- 		if( changeRequestId == null){
- 			return;
- 		}
- 		if( changeRequestId.isEmpty()){
- 			return;
- 		}
- 		ChangeRequest changeRequest = studentDailyAnswer.getChangeRequest();
- 		if( changeRequest != null ){
- 			//if the root object 'studentDailyAnswer' already have the property, just set the id for it;
- 			changeRequest.setId(changeRequestId);
- 			
- 			return;
- 		}
- 		studentDailyAnswer.setChangeRequest(createEmptyChangeRequest(changeRequestId));
- 	}
- 	
+		
 	protected void setVersion(StudentDailyAnswer studentDailyAnswer, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(StudentDailyAnswerTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;
@@ -158,13 +148,6 @@ public class StudentDailyAnswerMapper extends BaseRowMapper<StudentDailyAnswer>{
  		dailySurveyQuestion.setId(dailySurveyQuestionId);
  		dailySurveyQuestion.setVersion(Integer.MAX_VALUE);
  		return dailySurveyQuestion;
- 	}
- 	
- 	protected ChangeRequest  createEmptyChangeRequest(String changeRequestId){
- 		ChangeRequest changeRequest = new ChangeRequest();
- 		changeRequest.setId(changeRequestId);
- 		changeRequest.setVersion(Integer.MAX_VALUE);
- 		return changeRequest;
  	}
  	
 }

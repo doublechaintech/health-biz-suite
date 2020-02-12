@@ -21,7 +21,6 @@ import com.doublechaintech.health.HealthUserContext;
 
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
@@ -29,7 +28,6 @@ import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO;
 import com.doublechaintech.health.location.LocationDAO;
-import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.user.UserDAO;
@@ -42,15 +40,6 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 
 
 public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements StudentDAO{
- 
- 	
- 	private  ChangeRequestDAO  changeRequestDAO;
- 	public void setChangeRequestDAO(ChangeRequestDAO changeRequestDAO){
-	 	this.changeRequestDAO = changeRequestDAO;
- 	}
- 	public ChangeRequestDAO getChangeRequestDAO(){
-	 	return this.changeRequestDAO;
- 	}
  
  	
  	private  UserDAO  userDAO;
@@ -314,20 +303,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  	
 
  	
-  
-
- 	protected boolean isExtractChangeRequestEnabled(Map<String,Object> options){
- 		
-	 	return checkOptions(options, StudentTokens.CHANGEREQUEST);
- 	}
-
- 	protected boolean isSaveChangeRequestEnabled(Map<String,Object> options){
-	 	
- 		return checkOptions(options, StudentTokens.CHANGEREQUEST);
- 	}
- 	
-
- 	
  
 		
 	
@@ -394,10 +369,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
   	
  		if(isExtractPlatformEnabled(loadOptions)){
 	 		extractPlatform(student, loadOptions);
- 		}
-  	
- 		if(isExtractChangeRequestEnabled(loadOptions)){
-	 		extractChangeRequest(student, loadOptions);
  		}
  
 		
@@ -475,26 +446,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		Platform platform = getPlatformDAO().load(platformId,options);
 		if(platform != null){
 			student.setPlatform(platform);
-		}
-		
- 		
- 		return student;
- 	}
- 		
-  
-
- 	protected Student extractChangeRequest(Student student, Map<String,Object> options) throws Exception{
-
-		if(student.getChangeRequest() == null){
-			return student;
-		}
-		String changeRequestId = student.getChangeRequest().getId();
-		if( changeRequestId == null){
-			return student;
-		}
-		ChangeRequest changeRequest = getChangeRequestDAO().load(changeRequestId,options);
-		if(changeRequest != null){
-			student.setChangeRequest(changeRequest);
 		}
 		
  		
@@ -754,56 +705,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
 		return countWithIds(StudentTable.COLUMN_PLATFORM, ids, options);
 	}
  	
-  	
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId,Map<String,Object> options){
- 	
-  		SmartList<Student> resultList = queryWith(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentMapper());
-		// analyzeStudentByChangeRequest(resultList, changeRequestId, options);
-		return resultList;
- 	}
- 	 
- 
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, int start, int count,Map<String,Object> options){
- 		
- 		SmartList<Student> resultList =  queryWithRange(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options, getStudentMapper(), start, count);
- 		//analyzeStudentByChangeRequest(resultList, changeRequestId, options);
- 		return resultList;
- 		
- 	}
- 	public void analyzeStudentByChangeRequest(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options){
-		if(resultList==null){
-			return;//do nothing when the list is null.
-		}
-		
- 		MultipleAccessKey filterKey = new MultipleAccessKey();
- 		filterKey.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
- 		Map<String,Object> emptyOptions = new HashMap<String,Object>();
- 		
- 		StatsInfo info = new StatsInfo();
- 		
- 
-		StatsItem createTimeStatsItem = new StatsItem();
-		//Student.CREATE_TIME_PROPERTY
-		createTimeStatsItem.setDisplayName("学生");
-		createTimeStatsItem.setInternalName(formatKeyForDateLine(Student.CREATE_TIME_PROPERTY));
-		createTimeStatsItem.setResult(statsWithGroup(DateKey.class,wrapWithDate(Student.CREATE_TIME_PROPERTY),filterKey,emptyOptions));
-		info.addItem(createTimeStatsItem);
- 				
- 		resultList.setStatsInfo(info);
-
- 	
- 		
- 	}
- 	@Override
- 	public int countStudentByChangeRequest(String changeRequestId,Map<String,Object> options){
-
- 		return countWith(StudentTable.COLUMN_CHANGE_REQUEST, changeRequestId, options);
- 	}
- 	@Override
-	public Map<String, Integer> countStudentByChangeRequestIds(String[] ids, Map<String, Object> options) {
-		return countWithIds(StudentTable.COLUMN_CHANGE_REQUEST, ids, options);
-	}
- 	
  	
 		
 		
@@ -946,13 +847,23 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		return prepareStudentCreateParameters(student);
  	}
  	protected Object[] prepareStudentUpdateParameters(Student student){
- 		Object[] parameters = new Object[13];
+ 		Object[] parameters = new Object[12];
  
+ 		
  		parameters[0] = student.getStudentName();
+ 		
+ 		
  		parameters[1] = student.getStudentNumber();
+ 		
+ 		
  		parameters[2] = student.getStudentAvatar();
+ 		
+ 		
  		parameters[3] = student.getGuardianName();
- 		parameters[4] = student.getGuardianMobile(); 	
+ 		
+ 		
+ 		parameters[4] = student.getGuardianMobile();
+ 		 	
  		if(student.getAddress() != null){
  			parameters[5] = student.getAddress().getId();
  		}
@@ -961,32 +872,40 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  			parameters[6] = student.getUser().getId();
  		}
  
- 		parameters[7] = student.getCreateTime(); 	
+ 		
+ 		parameters[7] = student.getCreateTime();
+ 		 	
  		if(student.getPlatform() != null){
  			parameters[8] = student.getPlatform().getId();
  		}
-  	
- 		if(student.getChangeRequest() != null){
- 			parameters[9] = student.getChangeRequest().getId();
- 		}
  		
- 		parameters[10] = student.nextVersion();
- 		parameters[11] = student.getId();
- 		parameters[12] = student.getVersion();
+ 		parameters[9] = student.nextVersion();
+ 		parameters[10] = student.getId();
+ 		parameters[11] = student.getVersion();
  				
  		return parameters;
  	}
  	protected Object[] prepareStudentCreateParameters(Student student){
-		Object[] parameters = new Object[11];
+		Object[] parameters = new Object[10];
 		String newStudentId=getNextId();
 		student.setId(newStudentId);
 		parameters[0] =  student.getId();
  
+ 		
  		parameters[1] = student.getStudentName();
+ 		
+ 		
  		parameters[2] = student.getStudentNumber();
+ 		
+ 		
  		parameters[3] = student.getStudentAvatar();
+ 		
+ 		
  		parameters[4] = student.getGuardianName();
- 		parameters[5] = student.getGuardianMobile(); 	
+ 		
+ 		
+ 		parameters[5] = student.getGuardianMobile();
+ 		 	
  		if(student.getAddress() != null){
  			parameters[6] = student.getAddress().getId();
  		
@@ -997,14 +916,11 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		
  		}
  		
- 		parameters[8] = student.getCreateTime(); 	
+ 		
+ 		parameters[8] = student.getCreateTime();
+ 		 	
  		if(student.getPlatform() != null){
  			parameters[9] = student.getPlatform().getId();
- 		
- 		}
- 		 	
- 		if(student.getChangeRequest() != null){
- 			parameters[10] = student.getChangeRequest().getId();
  		
  		}
  				
@@ -1026,10 +942,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
   	
  		if(isSavePlatformEnabled(options)){
 	 		savePlatform(student, options);
- 		}
-  	
- 		if(isSaveChangeRequestEnabled(options)){
-	 		saveChangeRequest(student, options);
  		}
  
 		
@@ -1097,23 +1009,6 @@ public class StudentJDBCTemplateDAO extends HealthBaseDAOImpl implements Student
  		}
  		
  		getPlatformDAO().save(student.getPlatform(),options);
- 		return student;
- 		
- 	}
- 	
- 	
- 	
- 	 
-	
-  
- 
- 	protected Student saveChangeRequest(Student student, Map<String,Object> options){
- 		//Call inject DAO to execute this method
- 		if(student.getChangeRequest() == null){
- 			return student;//do nothing when it is null
- 		}
- 		
- 		getChangeRequestDAO().save(student.getChangeRequest(),options);
  		return student;
  		
  	}

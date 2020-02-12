@@ -1,66 +1,53 @@
-import React from 'react';
-import { Icon, Divider, Avata, Card, Col } from 'antd';
+import React from 'react'
+import { Icon,Divider, Avata, Card, Col} from 'antd'
 
-import { Link } from 'dva/router';
-import moment from 'moment';
-import ImagePreview from '../../components/ImagePreview';
-import appLocaleName from '../../common/Locale.tool';
-import BaseTool from '../../common/Base.tool';
-import GlobalComponents from '../../custcomponents';
-import DescriptionList from '../../components/DescriptionList';
-const { Description } = DescriptionList;
+import { Link } from 'dva/router'
+import moment from 'moment'
+import ImagePreview from '../../components/ImagePreview'
+import appLocaleName from '../../common/Locale.tool'
+import BaseTool from '../../common/Base.tool'
+import GlobalComponents from '../../custcomponents'
+import DescriptionList from '../../components/DescriptionList'
+const { Description } = DescriptionList
 
 const {
-  defaultRenderReferenceCell,
-  defaultRenderBooleanCell,
-  defaultRenderMoneyCell,
-  defaultRenderDateTimeCell,
-  defaultRenderImageCell,
-  defaultRenderAvatarCell,
-  defaultRenderDateCell,
-  defaultRenderIdentifier,
-  defaultRenderTextCell,
-  defaultSearchLocalData,
-} = BaseTool;
+	defaultRenderReferenceCell,
+	defaultRenderBooleanCell,
+	defaultRenderMoneyCell,
+	defaultRenderDateTimeCell,
+	defaultRenderImageCell,
+	defaultRenderAvatarCell,
+	defaultRenderDateCell,
+	defaultRenderIdentifier,
+	defaultRenderTextCell,
+	defaultSearchLocalData,
+} = BaseTool
 
-const renderTextCell = defaultRenderTextCell;
-const renderIdentifier = defaultRenderIdentifier;
-const renderDateCell = defaultRenderDateCell;
-const renderDateTimeCell = defaultRenderDateTimeCell;
-const renderImageCell = defaultRenderImageCell;
-const renderAvatarCell = defaultRenderAvatarCell;
-const renderMoneyCell = defaultRenderMoneyCell;
-const renderBooleanCell = defaultRenderBooleanCell;
-const renderReferenceCell = defaultRenderReferenceCell;
+const renderTextCell=defaultRenderTextCell
+const renderIdentifier=defaultRenderIdentifier
+const renderDateCell=defaultRenderDateCell
+const renderDateTimeCell=defaultRenderDateTimeCell
+const renderImageCell=defaultRenderImageCell
+const renderAvatarCell=defaultRenderAvatarCell
+const renderMoneyCell=defaultRenderMoneyCell
+const renderBooleanCell=defaultRenderBooleanCell
+const renderReferenceCell=defaultRenderReferenceCell
 
-const menuData = {
-  menuName: window.trans('student_daily_answer'),
-  menuFor: 'studentDailyAnswer',
-  subItems: [
-    {
-      name: 'studentAnswerList',
-      displayName: window.mtrans(
-        'student_answer',
-        'student_daily_answer.student_answer_list',
-        false
-      ),
-      type: 'studentAnswer',
-      icon: '500px',
-      readPermission: false,
-      createPermission: false,
-      deletePermission: false,
-      updatePermission: false,
-      executionPermission: false,
-      viewGroup: '__no_group',
-    },
-  ],
-};
 
-const settingMenuData = {
-  menuName: window.trans('student_daily_answer'),
-  menuFor: 'studentDailyAnswer',
-  subItems: [],
-};
+
+const menuData = {menuName: window.trans('student_daily_answer'), menuFor: "studentDailyAnswer",
+  		subItems: [
+  {name: 'studentAnswerList', displayName: window.mtrans('student_answer','student_daily_answer.student_answer_list',false), type:'studentAnswer',icon:'500px',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  
+  		],
+}
+
+
+const settingMenuData = {menuName: window.trans('student_daily_answer'), menuFor: "studentDailyAnswer",
+  		subItems: [
+  
+  		],
+}
 
 const fieldLabels = {
   id: window.trans('student_daily_answer.id'),
@@ -69,141 +56,72 @@ const fieldLabels = {
   answer: window.trans('student_daily_answer.answer'),
   createTime: window.trans('student_daily_answer.create_time'),
   lastUpdateTime: window.trans('student_daily_answer.last_update_time'),
-  changeRequest: window.trans('student_daily_answer.change_request'),
-};
+
+}
 
 const displayColumns = [
-  {
-    title: fieldLabels.id,
-    debugtype: 'string',
-    dataIndex: 'id',
-    width: '8',
-    render: (text, record) => renderTextCell(text, record, 'studentDailyAnswer'),
-    sorter: true,
-  },
-  {
-    title: fieldLabels.studentHealthSurvey,
-    dataIndex: 'studentHealthSurvey',
-    render: (text, record) => renderReferenceCell(text, record),
-    sorter: true,
-  },
-  {
-    title: fieldLabels.question,
-    dataIndex: 'question',
-    render: (text, record) => renderReferenceCell(text, record),
-    sorter: true,
-  },
-  {
-    title: fieldLabels.answer,
-    debugtype: 'string',
-    dataIndex: 'answer',
-    width: '5',
-    render: (text, record) => renderTextCell(text, record),
-  },
-  {
-    title: fieldLabels.createTime,
-    dataIndex: 'createTime',
-    render: (text, record) => renderDateTimeCell(text, record),
-    sorter: true,
-  },
-  {
-    title: fieldLabels.lastUpdateTime,
-    dataIndex: 'lastUpdateTime',
-    render: (text, record) => renderDateTimeCell(text, record),
-    sorter: true,
-  },
-  {
-    title: fieldLabels.changeRequest,
-    dataIndex: 'changeRequest',
-    render: (text, record) => renderReferenceCell(text, record),
-    sorter: true,
-  },
-];
+  { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'studentDailyAnswer') , sorter: true },
+  { title: fieldLabels.studentHealthSurvey, dataIndex: 'studentHealthSurvey', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.question, dataIndex: 'question', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.answer, debugtype: 'string', dataIndex: 'answer', width: '5',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.createTime, dataIndex: 'createTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
+  { title: fieldLabels.lastUpdateTime, dataIndex: 'lastUpdateTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
 
-const searchLocalData = (targetObject, searchTerm) =>
-  defaultSearchLocalData(menuData, targetObject, searchTerm);
+]
 
-const renderItemOfList = (studentDailyAnswer, targetComponent, columCount) => {
-  const displayColumnsCount = columCount || 2;
-  const userContext = null;
+
+const searchLocalData =(targetObject,searchTerm)=> defaultSearchLocalData(menuData,targetObject,searchTerm)
+
+const renderItemOfList=(studentDailyAnswer, targetComponent, columCount)=>{
+  const displayColumnsCount = columCount || 2
+  const userContext = null
   return (
     <div key={studentDailyAnswer.id}>
-      <DescriptionList key={studentDailyAnswer.id} size="small" col="2">
-        <Description term={fieldLabels.id} style={{ wordBreak: 'break-all' }}>
-          {studentDailyAnswer.id}
-        </Description>
-        <Description term={fieldLabels.studentHealthSurvey}>
-          <div>
-            {studentDailyAnswer.studentHealthSurvey == null
-              ? appLocaleName(userContext, 'NotAssigned')
-              : `${studentDailyAnswer.studentHealthSurvey.displayName}(${
-                  studentDailyAnswer.studentHealthSurvey.id
-                })`}
-          </div>
-        </Description>
-        <Description term={fieldLabels.question}>
-          <div>
-            {studentDailyAnswer.question == null
-              ? appLocaleName(userContext, 'NotAssigned')
-              : `${studentDailyAnswer.question.displayName}(${studentDailyAnswer.question.id})`}
-          </div>
-        </Description>
-        <Description term={fieldLabels.answer} style={{ wordBreak: 'break-all' }}>
-          {studentDailyAnswer.answer}
-        </Description>
-        <Description term={fieldLabels.createTime}>
-          <div>{moment(studentDailyAnswer.createTime).format('YYYY-MM-DD HH:mm')}</div>
-        </Description>
-        <Description term={fieldLabels.lastUpdateTime}>
-          <div>{moment(studentDailyAnswer.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</div>
-        </Description>
-        <Description term={fieldLabels.changeRequest}>
-          <div>
-            {studentDailyAnswer.changeRequest == null
-              ? appLocaleName(userContext, 'NotAssigned')
-              : `${studentDailyAnswer.changeRequest.displayName}(${
-                  studentDailyAnswer.changeRequest.id
-                })`}
-          </div>
-        </Description>
+	
+      <DescriptionList  key={studentDailyAnswer.id} size="small" col="2" >
+        <Description term={fieldLabels.id} style={{wordBreak: 'break-all'}}>{studentDailyAnswer.id}</Description> 
+        <Description term={fieldLabels.studentHealthSurvey}><div>{studentDailyAnswer.studentHealthSurvey==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.studentHealthSurvey.displayName}(${studentDailyAnswer.studentHealthSurvey.id})`}
+        </div></Description>
+        <Description term={fieldLabels.question}><div>{studentDailyAnswer.question==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.question.displayName}(${studentDailyAnswer.question.id})`}
+        </div></Description>
+        <Description term={fieldLabels.answer} style={{wordBreak: 'break-all'}}>{studentDailyAnswer.answer}</Description> 
+        <Description term={fieldLabels.createTime}><div>{ moment(studentDailyAnswer.createTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
+        <Description term={fieldLabels.lastUpdateTime}><div>{ moment(studentDailyAnswer.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
+	
+        
       </DescriptionList>
       <Divider style={{ height: '2px' }} />
     </div>
-  );
-};
+	)
 
-const packFormValuesToObject = formValuesToPack => {
-  const { answer, studentHealthSurveyId, questionId, changeRequestId } = formValuesToPack;
-  const studentHealthSurvey = { id: studentHealthSurveyId, version: 2 ^ 31 };
-  const question = { id: questionId, version: 2 ^ 31 };
-  const changeRequest = { id: changeRequestId, version: 2 ^ 31 };
-  const data = { answer, studentHealthSurvey, question, changeRequest };
-  return data;
-};
-const unpackObjectToFormValues = objectToUnpack => {
-  const { answer, studentHealthSurvey, question, changeRequest } = objectToUnpack;
-  const studentHealthSurveyId = studentHealthSurvey ? studentHealthSurvey.id : null;
-  const questionId = question ? question.id : null;
-  const changeRequestId = changeRequest ? changeRequest.id : null;
-  const data = { answer, studentHealthSurveyId, questionId, changeRequestId };
-  return data;
-};
-const stepOf = (targetComponent, title, content, position, index) => {
-  return {
-    title,
-    content,
-    position,
-    packFunction: packFormValuesToObject,
-    unpackFunction: unpackObjectToFormValues,
-    index,
-  };
-};
-const StudentDailyAnswerBase = {
-  menuData,
-  displayColumns,
-  fieldLabels,
-  renderItemOfList,
-  stepOf,
-  searchLocalData,
-};
-export default StudentDailyAnswerBase;
+}
+	
+const packFormValuesToObject = ( formValuesToPack )=>{
+	const {answer, studentHealthSurveyId, questionId} = formValuesToPack
+	const studentHealthSurvey = {id: studentHealthSurveyId, version: 2^31}
+	const question = {id: questionId, version: 2^31}
+	const data = {answer, studentHealthSurvey, question}
+	return data
+}
+const unpackObjectToFormValues = ( objectToUnpack )=>{
+	const {answer, studentHealthSurvey, question} = objectToUnpack
+	const studentHealthSurveyId = studentHealthSurvey ? studentHealthSurvey.id : null
+	const questionId = question ? question.id : null
+	const data = {answer, studentHealthSurveyId, questionId}
+	return data
+}
+const stepOf=(targetComponent, title, content, position, index)=>{
+	return {
+		title,
+		content,
+		position,
+		packFunction: packFormValuesToObject,
+		unpackFunction: unpackObjectToFormValues,
+		index,
+      }
+}
+const StudentDailyAnswerBase={menuData,displayColumns,fieldLabels,renderItemOfList, stepOf, searchLocalData}
+export default StudentDailyAnswerBase
+
+
+

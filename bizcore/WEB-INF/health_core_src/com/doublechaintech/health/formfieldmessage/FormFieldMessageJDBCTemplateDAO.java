@@ -435,13 +435,19 @@ public class FormFieldMessageJDBCTemplateDAO extends HealthBaseDAOImpl implement
  	protected Object[] prepareFormFieldMessageUpdateParameters(FormFieldMessage formFieldMessage){
  		Object[] parameters = new Object[7];
  
+ 		
  		parameters[0] = formFieldMessage.getTitle();
- 		parameters[1] = formFieldMessage.getParameterName(); 	
+ 		
+ 		
+ 		parameters[1] = formFieldMessage.getParameterName();
+ 		 	
  		if(formFieldMessage.getForm() != null){
  			parameters[2] = formFieldMessage.getForm().getId();
  		}
  
- 		parameters[3] = formFieldMessage.getLevel();		
+ 		
+ 		parameters[3] = formFieldMessage.getLevel();
+ 				
  		parameters[4] = formFieldMessage.nextVersion();
  		parameters[5] = formFieldMessage.getId();
  		parameters[6] = formFieldMessage.getVersion();
@@ -454,14 +460,20 @@ public class FormFieldMessageJDBCTemplateDAO extends HealthBaseDAOImpl implement
 		formFieldMessage.setId(newFormFieldMessageId);
 		parameters[0] =  formFieldMessage.getId();
  
+ 		
  		parameters[1] = formFieldMessage.getTitle();
- 		parameters[2] = formFieldMessage.getParameterName(); 	
+ 		
+ 		
+ 		parameters[2] = formFieldMessage.getParameterName();
+ 		 	
  		if(formFieldMessage.getForm() != null){
  			parameters[3] = formFieldMessage.getForm().getId();
  		
  		}
  		
- 		parameters[4] = formFieldMessage.getLevel();		
+ 		
+ 		parameters[4] = formFieldMessage.getLevel();
+ 				
  				
  		return parameters;
  	}

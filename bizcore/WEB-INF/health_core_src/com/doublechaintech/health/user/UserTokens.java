@@ -72,7 +72,6 @@ public class UserTokens extends CommonTokens{
 	protected static UserTokens allTokens(){
 		
 		return start()
-			.withAddress()
 			.withPlatform()
 			.withTeacherList()
 			.withStudentList()
@@ -84,7 +83,6 @@ public class UserTokens extends CommonTokens{
 	public static UserTokens withoutListsTokens(){
 		
 		return start()
-			.withAddress()
 			.withPlatform();
 	
 	}
@@ -104,16 +102,6 @@ public class UserTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String ADDRESS = "address";
-	public String getAddress(){
-		return ADDRESS;
-	}
-	public UserTokens withAddress(){		
-		addSimpleOptions(ADDRESS);
-		return this;
-	}
-	
-	
 	protected static final String PLATFORM = "platform";
 	public String getPlatform(){
 		return PLATFORM;
@@ -378,7 +366,7 @@ public class UserTokens extends CommonTokens{
 	
 	
 	public UserTokens searchAllTextOfClassDailyHealthSurveyList(String verb, String value){	
-		String field = "id|name";
+		String field = "id|name|downloadUrl";
 		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
 		return this;
 	}

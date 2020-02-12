@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -20,14 +21,12 @@ import com.terapico.uccaf.BaseUserContext;
 
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
 import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 import com.doublechaintech.health.platform.CandidatePlatform;
-import com.doublechaintech.health.changerequest.CandidateChangeRequest;
 import com.doublechaintech.health.location.CandidateLocation;
 import com.doublechaintech.health.user.CandidateUser;
 
@@ -170,7 +169,6 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		addAction(userContext, student, tokens,"student.transfer_to_address","transferToAnotherAddress","transferToAnotherAddress/"+student.getId()+"/","main","primary");
 		addAction(userContext, student, tokens,"student.transfer_to_user","transferToAnotherUser","transferToAnotherUser/"+student.getId()+"/","main","primary");
 		addAction(userContext, student, tokens,"student.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+student.getId()+"/","main","primary");
-		addAction(userContext, student, tokens,"student.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+student.getId()+"/","main","primary");
 		addAction(userContext, student, tokens,"student.addStudentHealthSurvey","addStudentHealthSurvey","addStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, student, tokens,"student.removeStudentHealthSurvey","removeStudentHealthSurvey","removeStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, student, tokens,"student.updateStudentHealthSurvey","updateStudentHealthSurvey","updateStudentHealthSurvey/"+student.getId()+"/","studentHealthSurveyList","primary");
@@ -190,8 +188,8 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
  	
  	
 
-	public Student createStudent(HealthUserContext userContext, String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String addressId,String userId,String platformId,String changeRequestId) throws Exception
-	//public Student createStudent(HealthUserContext userContext,String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String platformId, String changeRequestId) throws Exception
+	public Student createStudent(HealthUserContext userContext, String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String addressId,String userId,String platformId) throws Exception
+	//public Student createStudent(HealthUserContext userContext,String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String userId, String platformId) throws Exception
 	{
 
 		
@@ -230,11 +228,6 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		student.setPlatform(platform);
 		
 		
-			
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
-		student.setChangeRequest(changeRequest);
-		
-		
 
 		student = saveStudent(userContext, student, emptyOptions());
 		
@@ -260,22 +253,35 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		
 
 		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
+		
+			
 		}
 		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		
+			
 		}
 		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
+		
+			
 		}
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
+		
+			
 		}
 		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
+		
+			
 		}		
-
-				
 
 				
 
@@ -536,66 +542,7 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String studentId, String anotherChangeRequestId) throws Exception
- 	{
-
- 		checkerOf(userContext).checkIdOfStudent(studentId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
- 		checkerOf(userContext).throwExceptionIfHasErrors(StudentManagerException.class);
-
- 	}
- 	public Student transferToAnotherChangeRequest(HealthUserContext userContext, String studentId, String anotherChangeRequestId) throws Exception
- 	{
- 		checkParamsForTransferingAnotherChangeRequest(userContext, studentId,anotherChangeRequestId);
- 
-		Student student = loadStudent(userContext, studentId, allTokens());	
-		synchronized(student){
-			//will be good when the student loaded from this JVM process cache.
-			//also good when there is a ram based DAO implementation
-			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
-			student.updateChangeRequest(changeRequest);		
-			student = saveStudent(userContext, student, emptyOptions());
-			
-			return present(userContext,student, allTokens());
-			
-		}
-
- 	}
-
-	
-
-
-	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
-
-		CandidateChangeRequest result = new CandidateChangeRequest();
-		result.setOwnerClass(ownerClass);
-		result.setOwnerId(id);
-		result.setFilterKey(filterKey==null?"":filterKey.trim());
-		result.setPageNo(pageNo);
-		result.setValueFieldName("id");
-		result.setDisplayFieldName("name");
-
-		pageNo = Math.max(1, pageNo);
-		int pageSize = 20;
-		//requestCandidateProductForSkuAsOwner
-		SmartList<ChangeRequest> candidateList = changeRequestDaoOf(userContext).requestCandidateChangeRequestForStudent(userContext,ownerClass, id, filterKey, pageNo, pageSize);
-		result.setCandidates(candidateList);
-		int totalCount = candidateList.getTotalCount();
-		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
-		return result;
-	}
-
  //--------------------------------------------------------------
-	
-
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
- 	{
-
- 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
- 	}
- 	
-
-
 	
 
  	protected User loadUser(HealthUserContext userContext, String newUserId, Map<String,Object> options) throws Exception
@@ -988,7 +935,9 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		
 
 		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -1027,10 +976,44 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 
 	}
 	/*
+	public  Student associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String studentId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		Student student = loadStudent(userContext, studentId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(StudentHealthSurvey studentHealthSurvey: student.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveStudent(userContext, student);
+	}
 	*/
 
+	public  Student associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String studentId, String  studentHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		Student student = loadStudent(userContext, studentId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(StudentHealthSurvey studentHealthSurvey: student.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveStudent(userContext, student);
+	}
 
 
 	protected void checkParamsForAddingHealthSurveyReport(HealthUserContext userContext, String studentId, String surveyName, DateTime surveyTime, String teacherName, String school, String schoolClass, String studentName, String studentNumber, String guardianName, String guardianMobile, String teacherId, String surveyId,String [] tokensExpr) throws Exception{
@@ -1268,39 +1251,57 @@ public class StudentManagerImpl extends CustomHealthCheckerManager implements St
 		
 
 		if(HealthSurveyReport.SURVEY_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(parseTimestamp(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.TEACHER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 		if(HealthSurveyReport.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(parseString(newValueExpr));
+		
 		}
 		
 	

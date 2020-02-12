@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -90,6 +91,7 @@ public class UserWhiteList extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeUserIdentityProperty(String newValueExpr){
+	
 		String oldValue = getUserIdentity();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -99,12 +101,13 @@ public class UserWhiteList extends BaseEntity implements  java.io.Serializable{
 		updateUserIdentity(newValue);
 		this.onChangeProperty(USER_IDENTITY_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeUserSpecialFunctionsProperty(String newValueExpr){
+	
 		String oldValue = getUserSpecialFunctions();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -114,7 +117,7 @@ public class UserWhiteList extends BaseEntity implements  java.io.Serializable{
 		updateUserSpecialFunctions(newValue);
 		this.onChangeProperty(USER_SPECIAL_FUNCTIONS_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

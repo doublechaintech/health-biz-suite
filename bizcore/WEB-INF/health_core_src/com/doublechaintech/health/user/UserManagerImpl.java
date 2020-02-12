@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -22,13 +23,11 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfo;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.question.Question;
 
 import com.doublechaintech.health.platform.CandidatePlatform;
-import com.doublechaintech.health.location.CandidateLocation;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
@@ -167,7 +166,6 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		addAction(userContext, user, tokens,"@update","updateUser","updateUser/"+user.getId()+"/","main","primary");
 		addAction(userContext, user, tokens,"@copy","cloneUser","cloneUser/"+user.getId()+"/","main","primary");
 		
-		addAction(userContext, user, tokens,"user.transfer_to_address","transferToAnotherAddress","transferToAnotherAddress/"+user.getId()+"/","main","primary");
 		addAction(userContext, user, tokens,"user.transfer_to_platform","transferToAnotherPlatform","transferToAnotherPlatform/"+user.getId()+"/","main","primary");
 		addAction(userContext, user, tokens,"user.addTeacher","addTeacher","addTeacher/"+user.getId()+"/","teacherList","primary");
 		addAction(userContext, user, tokens,"user.removeTeacher","removeTeacher","removeTeacher/"+user.getId()+"/","teacherList","primary");
@@ -200,8 +198,8 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
  	
  	
 
-	public User createUser(HealthUserContext userContext, String name,String avatar,String addressId,String platformId) throws Exception
-	//public User createUser(HealthUserContext userContext,String name, String avatar, String addressId, String platformId) throws Exception
+	public User createUser(HealthUserContext userContext, String name,String avatar,String platformId) throws Exception
+	//public User createUser(HealthUserContext userContext,String name, String avatar, String platformId) throws Exception
 	{
 
 		
@@ -218,11 +216,6 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 		user.setName(name);
 		user.setAvatar(avatar);
-			
-		Location address = loadLocation(userContext, addressId,emptyOptions());
-		user.setAddress(address);
-		
-		
 		user.setCreateTime(userContext.now());
 			
 		Platform platform = loadPlatform(userContext, platformId,emptyOptions());
@@ -254,13 +247,17 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(User.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfUser(parseString(newValueExpr));
+		
+			
 		}
 		if(User.AVATAR_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAvatarOfUser(parseString(newValueExpr));
+		
+			
 		}		
-
-				
 
 		
 	
@@ -373,56 +370,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		return UserTokens.mergeAll(tokens).done();
 	}
 	
-	protected void checkParamsForTransferingAnotherAddress(HealthUserContext userContext, String userId, String anotherAddressId) throws Exception
- 	{
-
- 		checkerOf(userContext).checkIdOfUser(userId);
- 		checkerOf(userContext).checkIdOfLocation(anotherAddressId);//check for optional reference
- 		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
-
- 	}
- 	public User transferToAnotherAddress(HealthUserContext userContext, String userId, String anotherAddressId) throws Exception
- 	{
- 		checkParamsForTransferingAnotherAddress(userContext, userId,anotherAddressId);
- 
-		User user = loadUser(userContext, userId, allTokens());	
-		synchronized(user){
-			//will be good when the user loaded from this JVM process cache.
-			//also good when there is a ram based DAO implementation
-			Location address = loadLocation(userContext, anotherAddressId, emptyOptions());		
-			user.updateAddress(address);		
-			user = saveUser(userContext, user, emptyOptions());
-			
-			return present(userContext,user, allTokens());
-			
-		}
-
- 	}
-
-	
-
-
-	public CandidateLocation requestCandidateAddress(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
-
-		CandidateLocation result = new CandidateLocation();
-		result.setOwnerClass(ownerClass);
-		result.setOwnerId(id);
-		result.setFilterKey(filterKey==null?"":filterKey.trim());
-		result.setPageNo(pageNo);
-		result.setValueFieldName("id");
-		result.setDisplayFieldName("name");
-
-		pageNo = Math.max(1, pageNo);
-		int pageSize = 20;
-		//requestCandidateProductForSkuAsOwner
-		SmartList<Location> candidateList = locationDaoOf(userContext).requestCandidateLocationForUser(userContext,ownerClass, id, filterKey, pageNo, pageSize);
-		result.setCandidates(candidateList);
-		int totalCount = candidateList.getTotalCount();
-		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
-		return result;
-	}
-
- 	protected void checkParamsForTransferingAnotherPlatform(HealthUserContext userContext, String userId, String anotherPlatformId) throws Exception
+	protected void checkParamsForTransferingAnotherPlatform(HealthUserContext userContext, String userId, String anotherPlatformId) throws Exception
  	{
 
  		checkerOf(userContext).checkIdOfUser(userId);
@@ -472,16 +420,6 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 
  //--------------------------------------------------------------
-	
-
- 	protected Location loadLocation(HealthUserContext userContext, String newAddressId, Map<String,Object> options) throws Exception
- 	{
-
- 		return locationDaoOf(userContext).load(newAddressId, options);
- 	}
- 	
-
-
 	
 
  	protected Platform loadPlatform(HealthUserContext userContext, String newPlatformId, Map<String,Object> options) throws Exception
@@ -600,24 +538,6 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 				//Also good when there is a RAM based DAO implementation
 
 				userDaoOf(userContext).planToRemoveStudentListWithPlatform(user, platformId, this.emptyOptions());
-
-				user = saveUser(userContext, user, tokens().withStudentList().done());
-				return user;
-			}
-	}
-	//disconnect User with change_request in Student
-	protected User breakWithStudentByChangeRequest(HealthUserContext userContext, String userId, String changeRequestId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			User user = loadUser(userContext, userId, allTokens());
-
-			synchronized(user){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				userDaoOf(userContext).planToRemoveStudentListWithChangeRequest(user, changeRequestId, this.emptyOptions());
 
 				user = saveUser(userContext, user, tokens().withStudentList().done());
 				return user;
@@ -971,23 +891,33 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(Teacher.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		
 		}
 		
 	
@@ -1026,13 +956,47 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 	}
 	/*
+	public  User associateTeacherListToNewChangeRequest(HealthUserContext userContext, String userId, String  teacherIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchTeacherListWith(Teacher.ID_PROPERTY, "oneof", this.joinArray("|", teacherIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(Teacher teacher: user.getTeacherList()) {
+			//TODO: need to check if already associated
+			teacher.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 	*/
 
+	public  User associateTeacherListToChangeRequest(HealthUserContext userContext, String userId, String  teacherIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchTeacherListWith(Teacher.ID_PROPERTY, "oneof", this.joinArray("|", teacherIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(Teacher teacher: user.getTeacherList()) {
+			//TODO: need to check if already associated
+			teacher.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
+
+
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfUser(userId);
 
@@ -1050,19 +1014,17 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		checkerOf(userContext).checkAddressIdOfStudent(addressId);
 		
 		checkerOf(userContext).checkPlatformIdOfStudent(platformId);
-		
-		checkerOf(userContext).checkChangeRequestIdOfStudent(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
 
 
 	}
-	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  User addStudent(HealthUserContext userContext, String userId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,userId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId, changeRequestId,tokensExpr);
+		checkParamsForAddingStudent(userContext,userId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId, changeRequestId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, addressId, platformId);
 
 		User user = loadUser(userContext, userId, emptyOptions());
 		synchronized(user){
@@ -1121,7 +1083,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId, String changeRequestId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String addressId, String platformId) throws Exception{
 
 		Student student = new Student();
 		
@@ -1137,10 +1099,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		student.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		student.setPlatform(platform);		
-		ChangeRequest  changeRequest = new ChangeRequest();
-		changeRequest.setId(changeRequestId);		
-		student.setChangeRequest(changeRequest);
+		student.setPlatform(platform);
 	
 		
 		return student;
@@ -1253,23 +1212,33 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1568,23 +1537,33 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(Question.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1623,13 +1602,47 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 	}
 	/*
+	public  User associateQuestionListToNewCq(HealthUserContext userContext, String userId, String  questionIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest cq = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(Question question: user.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCq(cq);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 	*/
 
+	public  User associateQuestionListToCq(HealthUserContext userContext, String userId, String  questionIds[], String cqId, String [] tokensExpr) throws Exception {
 
 
 
-	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String userId, String name, String teacherId, DateTime surveyTime, String changeRequestId,String [] tokensExpr) throws Exception{
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest cq = changeRequestManagerOf(userContext).loadChangeRequest(userContext,cqId,new String[]{"none"} );
+
+		for(Question question: user.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCq(cq);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
+
+
+	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String userId, String name, String teacherId, DateTime surveyTime, String downloadUrl, String changeRequestId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfUser(userId);
 
@@ -1640,18 +1653,20 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(surveyTime);
 		
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(downloadUrl);
+		
 		checkerOf(userContext).checkChangeRequestIdOfClassDailyHealthSurvey(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
 
 
 	}
-	public  User addClassDailyHealthSurvey(HealthUserContext userContext, String userId, String name, String teacherId, DateTime surveyTime, String changeRequestId, String [] tokensExpr) throws Exception
+	public  User addClassDailyHealthSurvey(HealthUserContext userContext, String userId, String name, String teacherId, DateTime surveyTime, String downloadUrl, String changeRequestId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingClassDailyHealthSurvey(userContext,userId,name, teacherId, surveyTime, changeRequestId,tokensExpr);
+		checkParamsForAddingClassDailyHealthSurvey(userContext,userId,name, teacherId, surveyTime, downloadUrl, changeRequestId,tokensExpr);
 
-		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, teacherId, surveyTime, changeRequestId);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, teacherId, surveyTime, downloadUrl, changeRequestId);
 
 		User user = loadUser(userContext, userId, emptyOptions());
 		synchronized(user){
@@ -1664,20 +1679,21 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 			return present(userContext,user, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String userId,String id,String name,DateTime surveyTime,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String userId,String id,String name,DateTime surveyTime,String downloadUrl,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfUser(userId);
 		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(id);
 
 		checkerOf(userContext).checkNameOfClassDailyHealthSurvey( name);
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey( surveyTime);
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey( downloadUrl);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(UserManagerException.class);
 
 	}
-	public  User updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String userId, String id,String name,DateTime surveyTime, String [] tokensExpr) throws Exception
+	public  User updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String userId, String id,String name,DateTime surveyTime,String downloadUrl, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,userId,id,name,surveyTime,tokensExpr);
+		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,userId,id,name,surveyTime,downloadUrl,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1694,6 +1710,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 		item.updateName( name );
 		item.updateSurveyTime( surveyTime );
+		item.updateDownloadUrl( downloadUrl );
 
 
 		//checkParamsForAddingClassDailyHealthSurvey(userContext,userId,name, code, used,tokensExpr);
@@ -1704,7 +1721,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 	}
 
 
-	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, String teacherId, DateTime surveyTime, String changeRequestId) throws Exception{
+	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, String teacherId, DateTime surveyTime, String downloadUrl, String changeRequestId) throws Exception{
 
 		ClassDailyHealthSurvey classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		
@@ -1714,6 +1731,7 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		teacher.setId(teacherId);		
 		classDailyHealthSurvey.setTeacher(teacher);		
 		classDailyHealthSurvey.setSurveyTime(surveyTime);		
+		classDailyHealthSurvey.setDownloadUrl(downloadUrl);		
 		ChangeRequest  changeRequest = new ChangeRequest();
 		changeRequest.setId(changeRequestId);		
 		classDailyHealthSurvey.setChangeRequest(changeRequest);
@@ -1829,11 +1847,21 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(ClassDailyHealthSurvey.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 		if(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(parseTimestamp(newValueExpr));
+		
+		}
+		
+		if(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1872,10 +1900,44 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 
 	}
 	/*
+	public  User associateClassDailyHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String userId, String  classDailyHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", classDailyHealthSurveyIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(ClassDailyHealthSurvey classDailyHealthSurvey: user.getClassDailyHealthSurveyList()) {
+			//TODO: need to check if already associated
+			classDailyHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 	*/
 
+	public  User associateClassDailyHealthSurveyListToChangeRequest(HealthUserContext userContext, String userId, String  classDailyHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchClassDailyHealthSurveyListWith(ClassDailyHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", classDailyHealthSurveyIds)).done();
+
+		User user = loadUser(userContext, userId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(ClassDailyHealthSurvey classDailyHealthSurvey: user.getClassDailyHealthSurveyList()) {
+			//TODO: need to check if already associated
+			classDailyHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveUser(userContext, user);
+	}
 
 
 	protected void checkParamsForAddingWechatLoginInfo(HealthUserContext userContext, String userId, String appId, String openId, String sessionKey,String [] tokensExpr) throws Exception{
@@ -2074,15 +2136,21 @@ public class UserManagerImpl extends CustomHealthCheckerManager implements UserM
 		
 
 		if(WechatLoginInfo.APP_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAppIdOfWechatLoginInfo(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatLoginInfo.OPEN_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOpenIdOfWechatLoginInfo(parseString(newValueExpr));
+		
 		}
 		
 		if(WechatLoginInfo.SESSION_KEY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSessionKeyOfWechatLoginInfo(parseString(newValueExpr));
+		
 		}
 		
 	

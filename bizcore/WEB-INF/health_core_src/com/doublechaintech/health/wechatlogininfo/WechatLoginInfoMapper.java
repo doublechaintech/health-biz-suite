@@ -30,7 +30,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setId(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(WechatLoginInfoTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -60,7 +62,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setAppId(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String appId = rs.getString(WechatLoginInfoTable.COLUMN_APP_ID);
+		
 		if(appId == null){
 			//do nothing when nothing found in database
 			return;
@@ -72,7 +76,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setOpenId(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String openId = rs.getString(WechatLoginInfoTable.COLUMN_OPEN_ID);
+		
 		if(openId == null){
 			//do nothing when nothing found in database
 			return;
@@ -84,7 +90,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setSessionKey(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String sessionKey = rs.getString(WechatLoginInfoTable.COLUMN_SESSION_KEY);
+		
 		if(sessionKey == null){
 			//do nothing when nothing found in database
 			return;
@@ -96,7 +104,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setLastUpdateTime(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date lastUpdateTime = rs.getTimestamp(WechatLoginInfoTable.COLUMN_LAST_UPDATE_TIME);
+		
 		if(lastUpdateTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -108,7 +118,9 @@ public class WechatLoginInfoMapper extends BaseRowMapper<WechatLoginInfo>{
 	protected void setVersion(WechatLoginInfo wechatLoginInfo, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(WechatLoginInfoTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

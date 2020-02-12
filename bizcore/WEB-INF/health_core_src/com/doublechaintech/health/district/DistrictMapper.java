@@ -30,7 +30,9 @@ public class DistrictMapper extends BaseRowMapper<District>{
 	protected void setId(District district, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(DistrictTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -42,7 +44,9 @@ public class DistrictMapper extends BaseRowMapper<District>{
 	protected void setName(District district, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(DistrictTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -90,7 +94,9 @@ public class DistrictMapper extends BaseRowMapper<District>{
 	protected void setCreateTime(District district, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(DistrictTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -102,7 +108,9 @@ public class DistrictMapper extends BaseRowMapper<District>{
 	protected void setVersion(District district, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(DistrictTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

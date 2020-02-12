@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -251,31 +252,58 @@ public class HealthSurveyReportManagerImpl extends CustomHealthCheckerManager im
 		
 
 		if(HealthSurveyReport.SURVEY_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyNameOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfHealthSurveyReport(parseTimestamp(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.TEACHER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTeacherNameOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNumberOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}
 		if(HealthSurveyReport.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfHealthSurveyReport(parseString(newValueExpr));
+		
+			
 		}		
 
 				
@@ -827,11 +855,15 @@ public class HealthSurveyReportManagerImpl extends CustomHealthCheckerManager im
 		
 
 		if(StudentAnswer.QUESTION_TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkQuestionTopicOfStudentAnswer(parseString(newValueExpr));
+		
 		}
 		
 		if(StudentAnswer.ANSWER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerOfStudentAnswer(parseString(newValueExpr));
+		
 		}
 		
 	

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
@@ -33,7 +33,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	public static final String USER_PROPERTY                  = "user"              ;
 	public static final String CREATE_TIME_PROPERTY           = "createTime"        ;
 	public static final String PLATFORM_PROPERTY              = "platform"          ;
-	public static final String CHANGE_REQUEST_PROPERTY        = "changeRequest"     ;
 	public static final String VERSION_PROPERTY               = "version"           ;
 
 	public static final String STUDENT_HEALTH_SURVEY_LIST               = "studentHealthSurveyList";
@@ -68,7 +67,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	protected		User                	mUser               ;
 	protected		DateTime            	mCreateTime         ;
 	protected		Platform            	mPlatform           ;
-	protected		ChangeRequest       	mChangeRequest      ;
 	protected		int                 	mVersion            ;
 	
 	
@@ -94,7 +92,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		setAddress( null );
 		setUser( null );
 		setPlatform( null );
-		setChangeRequest( null );
 
 		this.changed = true;
 	}
@@ -128,6 +125,7 @@ public class Student extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeStudentNameProperty(String newValueExpr){
+	
 		String oldValue = getStudentName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -137,12 +135,13 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateStudentName(newValue);
 		this.onChangeProperty(STUDENT_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStudentNumberProperty(String newValueExpr){
+	
 		String oldValue = getStudentNumber();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -152,12 +151,13 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateStudentNumber(newValue);
 		this.onChangeProperty(STUDENT_NUMBER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStudentAvatarProperty(String newValueExpr){
+	
 		String oldValue = getStudentAvatar();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -167,12 +167,13 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateStudentAvatar(newValue);
 		this.onChangeProperty(STUDENT_AVATAR_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeGuardianNameProperty(String newValueExpr){
+	
 		String oldValue = getGuardianName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -182,12 +183,13 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateGuardianName(newValue);
 		this.onChangeProperty(GUARDIAN_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeGuardianMobileProperty(String newValueExpr){
+	
 		String oldValue = getGuardianMobile();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -197,12 +199,13 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateGuardianMobile(newValue);
 		this.onChangeProperty(GUARDIAN_MOBILE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCreateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -212,7 +215,7 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		updateCreateTime(newValue);
 		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
@@ -248,9 +251,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		}
 		if(PLATFORM_PROPERTY.equals(property)){
 			return getPlatform();
-		}
-		if(CHANGE_REQUEST_PROPERTY.equals(property)){
-			return getChangeRequest();
 		}
 		if(STUDENT_HEALTH_SURVEY_LIST.equals(property)){
 			List<BaseEntity> list = getStudentHealthSurveyList().stream().map(item->item).collect(Collectors.toList());
@@ -450,27 +450,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 	
 	public void clearPlatform(){
 		setPlatform ( null );
-		this.changed = true;
-	}
-	
-	public void setChangeRequest(ChangeRequest changeRequest){
-		this.mChangeRequest = changeRequest;;
-	}
-	public ChangeRequest getChangeRequest(){
-		return this.mChangeRequest;
-	}
-	public Student updateChangeRequest(ChangeRequest changeRequest){
-		this.mChangeRequest = changeRequest;;
-		this.changed = true;
-		return this;
-	}
-	public void mergeChangeRequest(ChangeRequest changeRequest){
-		if(changeRequest != null) { setChangeRequest(changeRequest);}
-	}
-	
-	
-	public void clearChangeRequest(){
-		setChangeRequest ( null );
 		this.changed = true;
 	}
 	
@@ -710,7 +689,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		addToEntityList(this, entityList, getAddress(), internalType);
 		addToEntityList(this, entityList, getUser(), internalType);
 		addToEntityList(this, entityList, getPlatform(), internalType);
-		addToEntityList(this, entityList, getChangeRequest(), internalType);
 
 		
 	}
@@ -748,7 +726,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		appendKeyValuePair(result, USER_PROPERTY, getUser());
 		appendKeyValuePair(result, CREATE_TIME_PROPERTY, getCreateTime());
 		appendKeyValuePair(result, PLATFORM_PROPERTY, getPlatform());
-		appendKeyValuePair(result, CHANGE_REQUEST_PROPERTY, getChangeRequest());
 		appendKeyValuePair(result, VERSION_PROPERTY, getVersion());
 		appendKeyValuePair(result, STUDENT_HEALTH_SURVEY_LIST, getStudentHealthSurveyList());
 		if(!getStudentHealthSurveyList().isEmpty()){
@@ -784,7 +761,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			dest.setUser(getUser());
 			dest.setCreateTime(getCreateTime());
 			dest.setPlatform(getPlatform());
-			dest.setChangeRequest(getChangeRequest());
 			dest.setVersion(getVersion());
 			dest.setStudentHealthSurveyList(getStudentHealthSurveyList());
 			dest.setHealthSurveyReportList(getHealthSurveyReportList());
@@ -811,7 +787,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 			dest.mergeUser(getUser());
 			dest.mergeCreateTime(getCreateTime());
 			dest.mergePlatform(getPlatform());
-			dest.mergeChangeRequest(getChangeRequest());
 			dest.mergeVersion(getVersion());
 			dest.mergeStudentHealthSurveyList(getStudentHealthSurveyList());
 			dest.mergeHealthSurveyReportList(getHealthSurveyReportList());
@@ -842,7 +817,7 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		return baseDest;
 	}
 	public Object[] toFlatArray(){
-		return new Object[]{getId(), getStudentName(), getStudentNumber(), getStudentAvatar(), getGuardianName(), getGuardianMobile(), getAddress(), getUser(), getCreateTime(), getPlatform(), getChangeRequest(), getVersion()};
+		return new Object[]{getId(), getStudentName(), getStudentNumber(), getStudentAvatar(), getGuardianName(), getGuardianMobile(), getAddress(), getUser(), getCreateTime(), getPlatform(), getVersion()};
 	}
 	public String toString(){
 		StringBuilder stringBuilder=new StringBuilder(128);
@@ -863,9 +838,6 @@ public class Student extends BaseEntity implements  java.io.Serializable{
 		stringBuilder.append("\tcreateTime='"+getCreateTime()+"';");
 		if(getPlatform() != null ){
  			stringBuilder.append("\tplatform='Platform("+getPlatform().getId()+")';");
- 		}
-		if(getChangeRequest() != null ){
- 			stringBuilder.append("\tchangeRequest='ChangeRequest("+getChangeRequest().getId()+")';");
  		}
 		stringBuilder.append("\tversion='"+getVersion()+"';");
 		stringBuilder.append("}");

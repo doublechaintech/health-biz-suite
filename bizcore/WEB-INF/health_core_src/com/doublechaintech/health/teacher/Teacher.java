@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -127,6 +128,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -136,12 +138,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeMobileProperty(String newValueExpr){
+	
 		String oldValue = getMobile();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -151,12 +154,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateMobile(newValue);
 		this.onChangeProperty(MOBILE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSchoolProperty(String newValueExpr){
+	
 		String oldValue = getSchool();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -166,12 +170,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateSchool(newValue);
 		this.onChangeProperty(SCHOOL_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSchoolClassProperty(String newValueExpr){
+	
 		String oldValue = getSchoolClass();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -181,12 +186,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateSchoolClass(newValue);
 		this.onChangeProperty(SCHOOL_CLASS_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeClassSizeProperty(String newValueExpr){
+	
 		int oldValue = getClassSize();
 		int newValue = parseInt(newValueExpr);
 		if(equalsInt(oldValue , newValue)){
@@ -196,12 +202,13 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateClassSize(newValue);
 		this.onChangeProperty(CLASS_SIZE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCreateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -211,7 +218,7 @@ public class Teacher extends BaseEntity implements  java.io.Serializable{
 		updateCreateTime(newValue);
 		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

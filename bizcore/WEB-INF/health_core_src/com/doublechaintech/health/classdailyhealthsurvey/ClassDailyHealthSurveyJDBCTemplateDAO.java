@@ -947,48 +947,62 @@ public class ClassDailyHealthSurveyJDBCTemplateDAO extends HealthBaseDAOImpl imp
  		return prepareClassDailyHealthSurveyCreateParameters(classDailyHealthSurvey);
  	}
  	protected Object[] prepareClassDailyHealthSurveyUpdateParameters(ClassDailyHealthSurvey classDailyHealthSurvey){
- 		Object[] parameters = new Object[8];
+ 		Object[] parameters = new Object[9];
  
- 		parameters[0] = classDailyHealthSurvey.getName(); 	
+ 		
+ 		parameters[0] = classDailyHealthSurvey.getName();
+ 		 	
  		if(classDailyHealthSurvey.getTeacher() != null){
  			parameters[1] = classDailyHealthSurvey.getTeacher().getId();
  		}
  
- 		parameters[2] = classDailyHealthSurvey.getSurveyTime(); 	
+ 		
+ 		parameters[2] = classDailyHealthSurvey.getSurveyTime();
+ 		 	
  		if(classDailyHealthSurvey.getCreator() != null){
  			parameters[3] = classDailyHealthSurvey.getCreator().getId();
  		}
-  	
+ 
+ 		
+ 		parameters[4] = classDailyHealthSurvey.getDownloadUrl();
+ 		 	
  		if(classDailyHealthSurvey.getChangeRequest() != null){
- 			parameters[4] = classDailyHealthSurvey.getChangeRequest().getId();
+ 			parameters[5] = classDailyHealthSurvey.getChangeRequest().getId();
  		}
  		
- 		parameters[5] = classDailyHealthSurvey.nextVersion();
- 		parameters[6] = classDailyHealthSurvey.getId();
- 		parameters[7] = classDailyHealthSurvey.getVersion();
+ 		parameters[6] = classDailyHealthSurvey.nextVersion();
+ 		parameters[7] = classDailyHealthSurvey.getId();
+ 		parameters[8] = classDailyHealthSurvey.getVersion();
  				
  		return parameters;
  	}
  	protected Object[] prepareClassDailyHealthSurveyCreateParameters(ClassDailyHealthSurvey classDailyHealthSurvey){
-		Object[] parameters = new Object[6];
+		Object[] parameters = new Object[7];
 		String newClassDailyHealthSurveyId=getNextId();
 		classDailyHealthSurvey.setId(newClassDailyHealthSurveyId);
 		parameters[0] =  classDailyHealthSurvey.getId();
  
- 		parameters[1] = classDailyHealthSurvey.getName(); 	
+ 		
+ 		parameters[1] = classDailyHealthSurvey.getName();
+ 		 	
  		if(classDailyHealthSurvey.getTeacher() != null){
  			parameters[2] = classDailyHealthSurvey.getTeacher().getId();
  		
  		}
  		
- 		parameters[3] = classDailyHealthSurvey.getSurveyTime(); 	
+ 		
+ 		parameters[3] = classDailyHealthSurvey.getSurveyTime();
+ 		 	
  		if(classDailyHealthSurvey.getCreator() != null){
  			parameters[4] = classDailyHealthSurvey.getCreator().getId();
  		
  		}
+ 		
+ 		
+ 		parameters[5] = classDailyHealthSurvey.getDownloadUrl();
  		 	
  		if(classDailyHealthSurvey.getChangeRequest() != null){
- 			parameters[5] = classDailyHealthSurvey.getChangeRequest().getId();
+ 			parameters[6] = classDailyHealthSurvey.getChangeRequest().getId();
  		
  		}
  				

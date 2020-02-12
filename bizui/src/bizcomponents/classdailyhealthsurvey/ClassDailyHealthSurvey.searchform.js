@@ -135,6 +135,7 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'name'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'teacher'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'creator'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'downloadUrl'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'changeRequest'))
 
      
@@ -287,6 +288,14 @@ componentDidMount() {
                  
                   )}
                 </Form.Item></Col>
+
+          <Col md={8} sm={24}>
+            <FormItem label={fieldLabels.downloadUrl}>
+              {getFieldDecorator('downloadUrl')(
+                <Input placeholder={appLocaleName(userContext,"PleaseInput")} />
+              )}
+            </FormItem>
+          </Col>
  <Col md={8} sm={24}>
                     <Form.Item label={fieldLabels.changeRequest}>
                   {getFieldDecorator('changeRequest', {initialValue: tryinit('changeRequest')})(

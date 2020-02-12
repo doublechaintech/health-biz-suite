@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -95,6 +96,7 @@ public class CandidateElement extends BaseEntity implements  java.io.Serializabl
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -104,12 +106,13 @@ public class CandidateElement extends BaseEntity implements  java.io.Serializabl
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeTypeProperty(String newValueExpr){
+	
 		String oldValue = getType();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -119,12 +122,13 @@ public class CandidateElement extends BaseEntity implements  java.io.Serializabl
 		updateType(newValue);
 		this.onChangeProperty(TYPE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeImageProperty(String newValueExpr){
+	
 		String oldValue = getImage();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -134,7 +138,7 @@ public class CandidateElement extends BaseEntity implements  java.io.Serializabl
 		updateImage(newValue);
 		this.onChangeProperty(IMAGE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

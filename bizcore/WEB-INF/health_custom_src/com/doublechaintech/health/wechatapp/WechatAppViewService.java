@@ -52,21 +52,54 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 		return page.doRender(ctx);
 	}
 	
-	// 这个程序员很懒,什么也没留下(teacher login)
-	public Object teacherLogin(HealthUserContext userContext, com.terapico.caf.baseelement.LoginParam loginParam) throws Exception {
-		String accessUrl = makeUrlF("teacherLogin", false, loginParam);
+	// 这个程序员很懒,什么也没留下(update profile)
+	public Object customerUpdateProfile(HealthUserContext userContext, String name , String avatar , String userType) throws Exception {
+		String accessUrl = makeUrlF("customerUpdateProfile", false, name , avatar , userType);
 		
 		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
 		ctx.setAccessUrl(accessUrl);
-		getCurrentUserInfo(ctx);
+		ensureCurrentUserInfo(ctx);
 		ctx.addFootprint(this);
-		ctx.setLoginParam(loginParam);
-		commonLog(ctx, "teacherLogin", "这个程序员很懒,什么也没留下", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false, loginParam), null);
-		int resultCode = processRequestTeacherLogin(ctx);
+		ctx.setName(name);
+		ctx.setAvatar(avatar);
+		ctx.setUserType(userType);
+		commonLog(ctx, "customerUpdateProfile", "这个程序员很懒,什么也没留下", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false, name , avatar , userType), null);
+		int resultCode = processRequestCustomerUpdateProfile(ctx);
 		if (returnRightNow(resultCode)){
 			return ctx.getResultObject();
 		}
-		BaseViewPage page = assemblerMePage(ctx, "teacherLogin");
+		BaseViewPage page = assemblerMePage(ctx, "customerUpdateProfile");
+		return page.doRender(ctx);
+	}
+	
+	// 这个程序员很懒,什么也没留下(switch to teacher)
+	public Object customerSwitchToTeacher(HealthUserContext userContext) throws Exception {
+		String accessUrl = makeUrlF("customerSwitchToTeacher", false);
+		
+		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
+		ctx.setAccessUrl(accessUrl);
+		ensureCurrentUserInfo(ctx);
+		ctx.addFootprint(this);
+		commonLog(ctx, "customerSwitchToTeacher", "这个程序员很懒,什么也没留下", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false), null);
+		int resultCode = processRequestCustomerSwitchToTeacher(ctx);
+		if (returnRightNow(resultCode)){
+			return ctx.getResultObject();
+		}
+		BaseViewPage page = null;
+		switch(resultCode){
+			case PRC_EMPTY_CLASS:{
+				// 
+				page = assemblerAddClassPage(ctx, "customerSwitchToTeacher");
+				break;
+			}
+			case PRC_BY_DEFAULT: {
+				page = assemblerMePage(ctx, "customerSwitchToTeacher");
+				break;
+			}
+			default: {
+				throw new Exception("未定义的分支代码"+resultCode);
+			}
+		}
 		return page.doRender(ctx);
 	}
 	
@@ -105,7 +138,7 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 			if (returnRightNow(resultCode)){
 				return ctx.getResultObject();
 			}
-			BaseViewPage page = assemblerSurveyListPage(ctx, "customerSubmitClass");
+			BaseViewPage page = assemblerMePage(ctx, "customerSubmitClass");
 			return page.doRender(ctx);
 		}finally {
 			ctx.clearFormResubmitFlag();
@@ -185,35 +218,20 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 		return page.doRender(ctx);
 	}
 	
-	// 学生登录填写问卷(student login)
-	public Object studentLogin(HealthUserContext userContext, String surveyId) throws Exception {
-		String accessUrl = makeUrlF("studentLogin", false, surveyId);
+	// 这个程序员很懒,什么也没留下(switch to student)
+	public Object customerSwitchToStudent(HealthUserContext userContext) throws Exception {
+		String accessUrl = makeUrlF("customerSwitchToStudent", false);
 		
 		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
 		ctx.setAccessUrl(accessUrl);
-		getCurrentUserInfo(ctx);
+		ensureCurrentUserInfo(ctx);
 		ctx.addFootprint(this);
-		ctx.setSurveyId(surveyId);
-		commonLog(ctx, "studentLogin", "学生登录填写问卷", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false, surveyId), null);
-		int resultCode = processRequestStudentLogin(ctx);
+		commonLog(ctx, "customerSwitchToStudent", "这个程序员很懒,什么也没留下", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false), null);
+		int resultCode = processRequestCustomerSwitchToStudent(ctx);
 		if (returnRightNow(resultCode)){
 			return ctx.getResultObject();
 		}
-		BaseViewPage page = null;
-		switch(resultCode){
-			case PRC_SUBMITTED:{
-				// 
-				page = assemblerStudentSurveyDetailPage(ctx, "studentLogin");
-				break;
-			}
-			case PRC_BY_DEFAULT: {
-				page = assemblerStudentSurveyFormPage(ctx, "studentLogin");
-				break;
-			}
-			default: {
-				throw new Exception("未定义的分支代码"+resultCode);
-			}
-		}
+		BaseViewPage page = assemblerStudentSurveyListPage(ctx, "customerSwitchToStudent");
 		return page.doRender(ctx);
 	}
 	
@@ -235,7 +253,7 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 		switch(resultCode){
 			case PRC_SUBMITTED:{
 				// 
-				page = assemblerStudentSurveyDetailPage(ctx, "customerStudentViewSurvey");
+				page = assemblerStudentSurveyListPage(ctx, "customerStudentViewSurvey");
 				break;
 			}
 			case PRC_BY_DEFAULT: {
@@ -246,6 +264,24 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 				throw new Exception("未定义的分支代码"+resultCode);
 			}
 		}
+		return page.doRender(ctx);
+	}
+	
+	// 这个程序员很懒,什么也没留下(view student survey detail)
+	public Object customerViewStudentSurveyDetail(HealthUserContext userContext, String studentSurveyId) throws Exception {
+		String accessUrl = makeUrlF("customerViewStudentSurveyDetail", false, studentSurveyId);
+		
+		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
+		ctx.setAccessUrl(accessUrl);
+		ensureCurrentUserInfo(ctx);
+		ctx.addFootprint(this);
+		ctx.setStudentSurveyId(studentSurveyId);
+		commonLog(ctx, "customerViewStudentSurveyDetail", "这个程序员很懒,什么也没留下", ctx.getRemoteIP(), ctx.tokenId(), makeUrlF("", false, studentSurveyId), null);
+		int resultCode = processRequestCustomerViewStudentSurveyDetail(ctx);
+		if (returnRightNow(resultCode)){
+			return ctx.getResultObject();
+		}
+		BaseViewPage page = assemblerStudentSurveyDetailPage(ctx, "customerViewStudentSurveyDetail");
 		return page.doRender(ctx);
 	}
 	
@@ -265,7 +301,7 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 		if (returnRightNow(resultCode)){
 			return ctx.getResultObject();
 		}
-		BaseViewPage page = assemblerStudentSurveyDetailPage(ctx, "customerSubmitStudentSurvey");
+		BaseViewPage page = assemblerStudentSurveyListPage(ctx, "customerSubmitStudentSurvey");
 		return page.doRender(ctx);
 	}
 	

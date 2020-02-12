@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -231,10 +232,16 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(SurveyStatus.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfSurveyStatus(parseString(newValueExpr));
+		
+			
 		}
 		if(SurveyStatus.CODE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCodeOfSurveyStatus(parseString(newValueExpr));
+		
+			
 		}		
 
 		
@@ -730,7 +737,9 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -769,10 +778,44 @@ public class SurveyStatusManagerImpl extends CustomHealthCheckerManager implemen
 
 	}
 	/*
+	public  SurveyStatus associateStudentHealthSurveyListToNewChangeRequest(HealthUserContext userContext, String surveyStatusId, String  studentHealthSurveyIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		SurveyStatus surveyStatus = loadSurveyStatus(userContext, surveyStatusId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(StudentHealthSurvey studentHealthSurvey: surveyStatus.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveSurveyStatus(userContext, surveyStatus);
+	}
 	*/
 
+	public  SurveyStatus associateStudentHealthSurveyListToChangeRequest(HealthUserContext userContext, String surveyStatusId, String  studentHealthSurveyIds[], String changeRequestId, String [] tokensExpr) throws Exception {
 
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchStudentHealthSurveyListWith(StudentHealthSurvey.ID_PROPERTY, "oneof", this.joinArray("|", studentHealthSurveyIds)).done();
+
+		SurveyStatus surveyStatus = loadSurveyStatus(userContext, surveyStatusId, options);
+
+		ChangeRequest changeRequest = changeRequestManagerOf(userContext).loadChangeRequest(userContext,changeRequestId,new String[]{"none"} );
+
+		for(StudentHealthSurvey studentHealthSurvey: surveyStatus.getStudentHealthSurveyList()) {
+			//TODO: need to check if already associated
+			studentHealthSurvey.updateChangeRequest(changeRequest);
+		}
+		return this.internalSaveSurveyStatus(userContext, surveyStatus);
+	}
 
 
 	public void onNewInstanceCreated(HealthUserContext userContext, SurveyStatus newCreated) throws Exception{

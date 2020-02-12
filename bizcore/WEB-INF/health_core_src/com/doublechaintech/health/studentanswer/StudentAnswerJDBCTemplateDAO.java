@@ -544,8 +544,12 @@ public class StudentAnswerJDBCTemplateDAO extends HealthBaseDAOImpl implements S
  			parameters[1] = studentAnswer.getDailyAnswer().getId();
  		}
  
+ 		
  		parameters[2] = studentAnswer.getQuestionTopic();
- 		parameters[3] = studentAnswer.getAnswer();		
+ 		
+ 		
+ 		parameters[3] = studentAnswer.getAnswer();
+ 				
  		parameters[4] = studentAnswer.nextVersion();
  		parameters[5] = studentAnswer.getId();
  		parameters[6] = studentAnswer.getVersion();
@@ -568,8 +572,12 @@ public class StudentAnswerJDBCTemplateDAO extends HealthBaseDAOImpl implements S
  		
  		}
  		
+ 		
  		parameters[3] = studentAnswer.getQuestionTopic();
- 		parameters[4] = studentAnswer.getAnswer();		
+ 		
+ 		
+ 		parameters[4] = studentAnswer.getAnswer();
+ 				
  				
  		return parameters;
  	}
