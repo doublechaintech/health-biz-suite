@@ -4,6 +4,8 @@ import com.terapico.caf.viewpage.SerializeScope;
 import com.terapico.utils.CollectionUtils;
 import com.terapico.utils.MapUtil;
 
+import ch.qos.logback.core.db.dialect.DBUtil;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +21,11 @@ import com.doublechaintech.health.DAOGroup;
 import com.doublechaintech.health.HealthCustomConstants;
 import com.doublechaintech.health.HealthViewScope;
 import com.doublechaintech.health.MiscUtils;
+import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyTokens;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyTokens;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyVersionChangedException;
 import com.doublechaintech.health.teacher.Teacher;
@@ -149,13 +153,14 @@ public class MePage extends BaseViewPage {
 		List<Teacher> teachers = MiscUtils.collectReferencedObjectWithType(ctx, surveyList, Teacher.class);
 		ctx.getDAOGroup().getTeacherDAO().enhanceList(teachers);
 		if (surveyList != null) {
+			DBQuery dbQuery = new DBQuery();
 			surveyList.forEach(s -> {
 				s
 						.addItemToValueMap(HealthCustomConstants.LINK_TO_URL,
 								WechatAppViewBizService.makeViewSurveyDetailUrl(ctx, s.getId()));
 				s.addItemToValueMap("code", s.getId());
 				s.addItemToValueMap("classSize", s.getTeacher().getClassSize());
-				s.addItemToValueMap("answerCount", ctx.getDAOGroup().getStudentHealthSurveyDAO().countStudentHealthSurveyByClassDailyHealthSurvey(s.getId(), StudentHealthSurveyTokens.all()));
+				s.addItemToValueMap("answerCount", dbQuery.countStudentHealthSurveyListOfStudentBySurveyId(ctx, s.getId()));
 				s.addItemToValueMap("riskCount", MiscUtils.getRiskCount(ctx,s));
 				s.addItemToValueMap("school", s.getTeacher().getSchool());
 				s.addItemToValueMap("schoolClass", s.getTeacher().getSchoolClass());

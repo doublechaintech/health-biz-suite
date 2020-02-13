@@ -314,7 +314,7 @@ public class HealthChecker extends BaseChecker{
 	public static final String  STUDENT_NAME_OF_STUDENT ="student.student_name";
 	public HealthChecker checkStudentNameOfStudent(String studentName)
 	{		
-	 	checkStringLengthRange(studentName,1, 20,STUDENT_NAME_OF_STUDENT ); 		
+	 	checkStringLengthRange(studentName,0, 20,STUDENT_NAME_OF_STUDENT ); 		
 		
 		return this;
 	}	

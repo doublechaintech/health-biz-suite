@@ -41,7 +41,7 @@ public class StudentSurveyFormPage extends BaseViewPage {
 				.field("popup")
 				.field("toast", SerializeScope.EXCLUDE())
 				.field("refreshAction")
-				.field("actions",SerializeScope.INCLUDE().field("submit", HealthCustomConstants.ACTION_SCOPE))
+				.field("actions", SerializeScope.INCLUDE().field("submit", HealthCustomConstants.ACTION_SCOPE))
 				.field("actionList")
 				.field("form")
 				.field("surveyId")
@@ -49,19 +49,16 @@ public class StudentSurveyFormPage extends BaseViewPage {
 				.field("classSize")
 				.field("school")
 				.field("schoolClass")
-//				.field("answerCount")
-//				.field("riskCount")
-//				.field("questions",SerializeScope.INCLUDE().field("id").field("title").field("choices",SerializeScope.INCLUDE().field("id").field("text")));
-	.field("questionList", MiscUtils
-			.buildEntityScope(DailySurveyQuestion.ID_PROPERTY, "type","title","placeholder")
-				.field("candidateValues",
-						SerializeScope.INCLUDE().field("id").field("name")));
+				.field("alreadySubmitted")
+				.field("questionList",
+						MiscUtils.buildEntityScope(DailySurveyQuestion.ID_PROPERTY, "type", "title", "placeholder").field("candidateValues", SerializeScope.INCLUDE().field("id").field("name")));
 
 	@Override
 	protected SerializeScope getSerializeScope() {
 		return SCOPE;
 	}
 
+	@Override
 	public String getPageTitle() {
 		if (pageTitle == null) {
 			return "student survey form";
@@ -70,30 +67,17 @@ public class StudentSurveyFormPage extends BaseViewPage {
 	}
 
 	@Override
-	public void assemblerContent(HealthUserContext userContext, String requestName)throws Exception {
-		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl)userContext;
-		ClassDailyHealthSurvey survey = ctx.getManagerGroup().getClassDailyHealthSurveyManager().loadClassDailyHealthSurvey(ctx, ctx.getSurveyId(), ClassDailyHealthSurveyTokens.start().withDailySurveyQuestionList().toArray());
-		List<Object> result = new ArrayList<>();
+	public void assemblerContent(HealthUserContext userContext, String requestName) throws Exception {
+		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
+		ClassDailyHealthSurvey survey = ctx
+				.getManagerGroup()
+					.getClassDailyHealthSurveyManager()
+					.loadClassDailyHealthSurvey(ctx, ctx.getSurveyId(), ClassDailyHealthSurveyTokens.start().withDailySurveyQuestionList().toArray());
 		List<DailySurveyQuestion> questions = MiscUtils.constructQuestionList(survey.getDailySurveyQuestionList());
-//		survey.getDailySurveyQuestionList().forEach(q->{
-//			try {
-//				List<Map<String, Object>> selections = buildChoices(q);
-//				Map<String, Object> data = MapUtil.put("id", q.getId())
-//					.put("title", q.getTopic())
-//					.put("choices", selections)
-//					.into_map();
-//				
-//				result.add(data);
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//		});
 		List<Teacher> teachers = HealthBaseUtils.collectReferencedObjectWithType(ctx, survey, Teacher.class);
 		ctx.getDAOGroup().getTeacherDAO().enhanceList(teachers);
 		setPageTitle("尚未实现");
-		set("questionList",questions);
+		set("questionList", questions);
 		Map<String, Object> actions = new HashMap<>();
 		actions
 				.put("submit",
@@ -101,32 +85,17 @@ public class StudentSurveyFormPage extends BaseViewPage {
 								.put("code", "submit")
 									.put("title", "提交")
 									.put("icon", "submit")
-									.put("linkToUrl", WechatAppViewBizService.makeSubmitStudentSurveyUrl(ctx,"surveyId","answer","studentName"))
+									.put("linkToUrl", WechatAppViewBizService.makeSubmitStudentSurveyUrl(ctx, "surveyId", "answer", "studentName"))
 									.into_map());
-		set("surveyId",ctx.getSurveyId());
+		set("surveyId", ctx.getStudentSurveyId());
 		set("actions", actions);
-		
+
 		set("surveyDate", survey.getSurveyTime());
 		set("classSize", survey.getTeacher().getClassSize());
-		set("school",survey.getTeacher().getSchool());
-		set("schoolClass",survey.getTeacher().getSchoolClass());
-		set("answerCount",0);
-		set("riskCount",0);
+		set("school", survey.getTeacher().getSchool());
+		set("schoolClass", survey.getTeacher().getSchoolClass());
+		set("answerCount", 0);
+		set("riskCount", 0);
+		set("alreadySubmitted", ctx.isAlreadySubmitted());
 	}
-//	protected List<Map<String, Object>> buildChoices(DailySurveyQuestion question) {
-//		List<Map<String, Object>> result = new ArrayList<>();
-//		if(!TextUtil.isBlank(question.getOptionA())) {
-//			result.add(MapUtil.put("id", "A").put("text",  question.getOptionA()).into_map());
-//		}
-//		if(!TextUtil.isBlank(question.getOptionB())) {
-//			result.add(MapUtil.put("id", "B").put("text",  question.getOptionB()).into_map());
-//		}
-//		if(!TextUtil.isBlank(question.getOptionC())) {
-//			result.add(MapUtil.put("id", "C").put("text",  question.getOptionC()).into_map());
-//		}
-//		if(!TextUtil.isBlank(question.getOptionD())) {
-//			result.add(MapUtil.put("id", "D").put("text",  question.getOptionD()).into_map());
-//		}
-//		return result;
-//	}
 }

@@ -1,32 +1,33 @@
 package com.doublechaintech.health.wechatapp;
 
 import com.doublechaintech.health.user.User;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skynet.infrastructure.StorageService;
-import com.terapico.caf.BlobObject;
 import com.terapico.caf.DateTime;
 import com.terapico.caf.baseelement.LoginParam;
+import com.terapico.utils.CollectionUtils;
 import com.terapico.utils.DateTimeUtil;
 import com.terapico.utils.DebugUtil;
 import com.terapico.utils.MapUtil;
 import com.terapico.utils.RandomUtil;
-import com.terapico.utils.TextUtil;
-
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.util.Assert;
 
 import com.doublechaintech.health.CustomHealthUserContextImpl;
 import com.doublechaintech.health.HealthCustomConstants;
@@ -47,6 +48,7 @@ import com.doublechaintech.health.secuser.SecUser;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
+import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyTokens;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.teacher.TeacherFormProcessor;
@@ -55,13 +57,15 @@ import com.doublechaintech.health.teacher.TeacherTokens;
 /**
  * 此类负责：所有的业务逻辑，例如所有的过滤规则，计算规则
  * 
- * @author clariones
+ * @author Jarry Zhou
  *
  */
 public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 	private ChangeRequestCustomService changeRequestService;
 
-	// 处理请求：默认的客户端登录接口. 返回值：PRC_BY_DEFAULT: ;
+	/**
+	 * 处理请求：默认的客户端登录接口. 返回值：PRC_BY_DEFAULT: ;
+	 */
 	@Override
 	protected int processRequestClientLogin(CustomHealthUserContextImpl ctx) throws Exception {
 		LoginParam loginParam = ctx.getLoginParam();
@@ -69,8 +73,9 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 		return PRC_BY_DEFAULT;
 	}
 
-
-	// 处理请求：发布问卷. 返回值：PRC_BY_DEFAULT: ;
+	/**
+	 * 处理请求：发布问卷. 返回值：PRC_BY_DEFAULT: ;
+	 */
 	@Override
 	protected int processRequestCustomerPublishSurvey(CustomHealthUserContextImpl ctx) throws Exception {
 		String surveyDate = ctx.getSurveyDate();
@@ -84,12 +89,9 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 		ClassDailyHealthSurvey survey = new ClassDailyHealthSurvey()
 				.updateCreator(ctx.getCurrentUserInfo())
 					.updateSurveyTime(date)
-					.updateName(teacher.getSchoolClass() + "学生健康状况调查" + new SimpleDateFormat("yyyy-MM-dd").format(date))
+					.updateName(teacher.getSchoolClass() + "学生健康状况调查")
 					.updateTeacher(Teacher.refById(ctx.getTeacherId()));
-		SmartList<Question> questions = ctx
-				.getDAOGroup()
-					.getQuestionDAO()
-					.findQuestionByPlatform(HealthCustomConstants.ROOT_PLATFORM_ID, 0, 4, QuestionTokens.all());
+		SmartList<Question> questions = ctx.getDAOGroup().getQuestionDAO().findQuestionByPlatform(HealthCustomConstants.ROOT_PLATFORM_ID, 0, 4, QuestionTokens.all());
 		questions
 				.stream()
 					.map(q -> new DailySurveyQuestion()
@@ -111,8 +113,7 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 	}
 
 	@Override
-	protected void commonLog(CustomHealthUserContextImpl ctx, String eventCode, String title, String key1,
-			String key2, String key3, Object detailInfo) {
+	protected void commonLog(CustomHealthUserContextImpl ctx, String eventCode, String title, String key1, String key2, String key3, Object detailInfo) {
 		StringBuilder builder = new StringBuilder();
 		ctx
 				.log(builder
@@ -132,15 +133,13 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 	}
 
 	@Override
-	protected User onNewLogin(CustomHealthUserContextImpl ctx, LoginParam loginParam, BaseLoginHandler loginHandler)
-			throws Exception {
+	protected User onNewLogin(CustomHealthUserContextImpl ctx, LoginParam loginParam, BaseLoginHandler loginHandler) throws Exception {
 		String loginMethod = loginParam.getLoginMethod();
 		if (BaseLoginHandler.WECHAT_APP.equals(loginMethod)) {
 			String openId = (String) loginHandler.getProcessedLoginInfo(ctx).get("openId");
 			String sessionKey = (String) loginHandler.getProcessedLoginInfo(ctx).get("sessionKey");
-			
-			User user = userManagerOf(ctx)
-					.createUser(ctx, openId, "avatar.jpg", HealthCustomConstants.ROOT_PLATFORM_ID);
+
+			User user = userManagerOf(ctx).createUser(ctx, openId, "avatar.jpg", HealthCustomConstants.ROOT_PLATFORM_ID);
 			wechatLoginInfoManagerOf(ctx).createWechatLoginInfo(ctx, user.getId(), "", openId, sessionKey);
 
 			// 创建secUser
@@ -156,8 +155,7 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 			DateTime lastLoginTime = ctx.now();
 			String domainId = HealthCustomConstants.ROOT_USER_DOMAIN_ID;
 			SecUser secUser = secUserManagerOf(ctx)
-					.createSecUser(ctx, login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken,
-							verificationCode, verificationCodeExpire, lastLoginTime, domainId);
+					.createSecUser(ctx, login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire, lastLoginTime, domainId);
 			// 关联userApp
 			String title = "我的";
 			String secUserId = secUser.getId();
@@ -167,9 +165,7 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 			String objectType = User.INTERNAL_TYPE;
 			String objectId = user.getId();
 			String location = "/link/desktop";
-			userAppManagerOf(ctx)
-					.createUserApp(ctx, title, secUserId, appIcon, fullAccess, permission, objectType, objectId,
-							location);
+			userAppManagerOf(ctx).createUserApp(ctx, title, secUserId, appIcon, fullAccess, permission, objectType, objectId, location);
 
 			return user;
 		}
@@ -177,8 +173,6 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 		this.throwsExceptionWithMessage(ctx, "找不到用户，登录失败");
 		return null;
 	}
-
-
 
 	@Override
 	protected int processRequestCustomerViewClassDetail(CustomHealthUserContextImpl ctx) throws Exception {
@@ -223,28 +217,10 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 		return PRC_BY_DEFAULT;
 	}
 
-	
-
 	@Override
 	protected int processRequestCustomerAddSurvey(CustomHealthUserContextImpl ctx) throws Exception {
 		return 0;
 	}
-
-//	public Object addStudent(CustomHealthUserContextImpl ctx) throws Exception {
-//		String studentAvatar = ctx.getStudentAvatar();
-//		String studentName = ctx.getStudentName();
-//		String studentNumber = ctx.getStudentNumber();
-//		ChangeRequest cr = new ChangeRequest()
-//				.updateRequestType(ChangeRequestType.refById(ChangeRequestType.ADD_STUDENT));
-//		cr
-//				.addStudent(new Student()
-//						.updatePlatform(Platform.refById(HealthCustomConstants.ROOT_PLATFORM_ID))
-//							.updateStudentNumber(studentNumber)
-//							.updateStudentName(studentName));
-//		getChangeRequestService().process(ctx, cr);
-//		return PRC_BY_DEFAULT;
-//	}
-
 
 	protected ChangeRequest buildNewChangeRequest(String changeRequestType) {
 		return new ChangeRequest()
@@ -255,142 +231,202 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 
 	@Override
 	protected int processRequestCustomerStudentViewSurvey(CustomHealthUserContextImpl ctx) throws Exception {
-		StudentHealthSurvey studentSurvey = new DBQuery()
-				.findStudentHealthSurveyWhichStudentBySurveyId(ctx, ctx.getSurveyId(),
-						ctx.getCurrentUserInfo().getId());
-		// 如果没有当前学生的问卷实例，根据问卷模版创建问卷实例
-		if (studentSurvey == null) {
-			return PRC_BY_DEFAULT;
+
+		String surveyId = ctx.getSurveyId();
+		ClassDailyHealthSurvey survey = classDailyHealthSurveyManagerOf(ctx).loadClassDailyHealthSurvey(ctx, surveyId, ClassDailyHealthSurveyTokens.start().toArray());
+		if (survey == null) {
+			throw new HealthException("调查问卷" + surveyId + "不存在.");
 		}
-		// 如果有当前学生的问卷实例，那么只做展示
-		ctx.setStudentSurvey(studentSurvey);
-		return PRC_SUBMITTED;
+		StudentHealthSurvey submittedStudentSurvey = new DBQuery().findStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId(ctx, surveyId, ctx.getCurrentUserInfo().getId());
+		if (submittedStudentSurvey != null) {
+			ctx.setAlreadySubmitted(true);
+		}
+		StudentHealthSurvey unSubmittedStudentSurvey = new DBQuery().findStudentHealthSurveyWhichStudentBySurveyId(ctx, surveyId, ctx.getCurrentUserInfo().getId());
+		// 如果没有当前学生的问卷实例，根据问卷模版创建问卷实例
+		if(unSubmittedStudentSurvey==null) {
+			unSubmittedStudentSurvey = createNewStudentHealthSurvey(ctx, survey);
+		}
+		ctx.setStudentSurveyId(unSubmittedStudentSurvey.getId());
+		return PRC_BY_DEFAULT;
 	}
 
-	@Override
-	protected int processRequestCustomerSubmitStudentSurvey(CustomHealthUserContextImpl ctx) throws Exception {
+	protected StudentHealthSurvey createNewStudentHealthSurvey(CustomHealthUserContextImpl ctx, ClassDailyHealthSurvey survey) throws Exception {
 		ChangeRequest cr = buildNewChangeRequest(ChangeRequestType.FILL_SURVEY);
-		Student student = Optional.ofNullable(new DBQuery().findStudentWhichNameIs(ctx, ctx.getStudentName(),ctx.getCurrentUserInfo().getId())).orElse(new Student().updateStudentName(ctx.getStudentName()).updateUser(ctx.getCurrentUserInfo()).updatePlatform(Platform.refById(HealthCustomConstants.ROOT_PLATFORM_ID))).updateGuardianMobile("13333333333");
-		ClassDailyHealthSurvey survey = classDailyHealthSurveyManagerOf(ctx).loadClassDailyHealthSurvey(ctx, ctx.getSurveyId(), ClassDailyHealthSurveyTokens.start().toArray());
-		List<Teacher> teacherList = MiscUtils.collectReferencedObjectWithType(ctx, survey, Teacher.class);
-		teacherDaoOf(ctx).enhanceList(teacherList);
+		SmartList<StudentHealthSurvey> mySurveys = new DBQuery().queryStudentHealthSurveyListOfUser(ctx, ctx.getCurrentUserInfo().getId());
+		Student student = null;
+		if (mySurveys == null || mySurveys.isEmpty()) {
+			student = new Student()
+					.updateStudentName(ctx.getStudentName())
+						.updateUser(ctx.getCurrentUserInfo())
+						.updatePlatform(Platform.refById(HealthCustomConstants.ROOT_PLATFORM_ID))
+						.updateGuardianMobile("13333333333");
+			studentManagerOf(ctx).internalSaveStudent(ctx, student);
+		} else {
+			student = mySurveys.first().getStudent();
+		}
 		StudentHealthSurvey studentSurvey = new StudentHealthSurvey()
 				.updateAnswerTime(DateTime.now())
-					.updateClassDailyHealthSurvey(ClassDailyHealthSurvey.refById(ctx.getSurveyId()))
-					.updateStudent(student)
-					.updateSurveyStatus(SurveyStatus.refById(SurveyStatus.SUBMITTE))
-					.updateTeacher(survey.getTeacher());
-		
-		/**
-		 * 假设提交的是
-		 * {
-		 * 	"answer":{
-		 * 		"questionID1":"A"
-		 * 		"questionID2":"b"
-		 * 	},
-		 * 	"studentName":"张三"
-		 * }
-		 */
-		Map<String,String> answer =  new ObjectMapper().readValue(ctx.getAnswer(),Map.class);
-		answer.forEach((questionId,ans)->{
-			studentSurvey.addStudentDailyAnswer(new StudentDailyAnswer().updateAnswer(ans).updateQuestion(DailySurveyQuestion.refById(questionId)));
-		});
+					.updateClassDailyHealthSurvey(survey)
+					.updateSurveyStatus(SurveyStatus.refById(SurveyStatus.UN_SUBMITTED))
+					.updateTeacher(Teacher.refById(survey.getTeacher().getId()))
+					.updateStudent(student);
+		cr.addStudentHealthSurvey(studentSurvey);
+		ChangeRequest processed = getChangeRequestService().process(ctx, cr);
+		return processed.getStudentHealthSurveyList().first();
+	}
+
+	/**
+	 * 假设提交的是 { "answer":{ "questionID1":"A" "questionID2":"b" }, "studentName":"张三"
+	 * }
+	 */
+	@Override
+	protected int processRequestCustomerSubmitStudentSurvey(CustomHealthUserContextImpl ctx) throws Exception {
+		ctx.log("student name:"+ctx.getStudentName());
+		ctx.log("answers:"+ctx.getAnswer());
+		ctx.log("survey id"+ctx.getSurveyId());
+		String studentSurveyId = ctx.getSurveyId();
+		StudentHealthSurvey studentSurvey = studentHealthSurveyManagerOf(ctx).loadStudentHealthSurvey(ctx, studentSurveyId, StudentHealthSurveyTokens.start().toArray());
+		Student student = Optional
+				.ofNullable(new DBQuery().findStudentWhichNameIs(ctx, ctx.getStudentName(), ctx.getCurrentUserInfo().getId()))
+					.orElse(new Student()
+							.updateStudentName(ctx.getStudentName())
+								.updateUser(ctx.getCurrentUserInfo())
+								.updatePlatform(Platform.refById(HealthCustomConstants.ROOT_PLATFORM_ID)))
+					.updateGuardianMobile("13333333333");
+		studentSurvey.updateAnswerTime(DateTime.now()).updateStudent(student).updateSurveyStatus(SurveyStatus.refById(SurveyStatus.SUBMITTE));
+		Map<String, String> answer = new ObjectMapper().readValue(ctx.getAnswer(), Map.class);
+		validateAnswer(ctx,answer,studentSurvey);
+		answer
+				.forEach((questionId, ans) -> studentSurvey
+						.addStudentDailyAnswer(new StudentDailyAnswer().updateAnswer(ans).updateQuestion(DailySurveyQuestion.refById(questionId))));
+		ChangeRequest cr = buildNewChangeRequest(ChangeRequestType.FILL_SURVEY);
+		cr.addStudentHealthSurvey(studentSurvey);
 		checkerOf(ctx).checkAndFixStudentHealthSurvey(studentSurvey);
 		checkerOf(ctx).throwExceptionIfHasErrors(HealthException.class);
-		cr.addStudentHealthSurvey(studentSurvey);
 		ChangeRequest processed = getChangeRequestService().process(ctx, cr);
 		ctx.setStudentSurvey(processed.getStudentHealthSurveyList().first());
 		ctx.setStudentSurveyId(processed.getStudentHealthSurveyList().first().getId());
 		return PRC_BY_DEFAULT;
 	}
 	
-	
-	public Object export(CustomHealthUserContextImpl ctx,String surveyId) throws Exception {
+	protected void validateAnswer(CustomHealthUserContextImpl ctx,Map<String, String> answers,StudentHealthSurvey studentSurvey) throws Exception {
+		if(answers==null||answers.isEmpty()) {
+			throw new HealthException("请填写完所有问题的答案！");
+		}
+		
+		/**
+		 * 验证是不是答的对的题目
+		 */
+		List<ClassDailyHealthSurvey> surveys = MiscUtils.collectReferencedObjectWithType(ctx, studentSurvey, ClassDailyHealthSurvey.class);
+		classDailyHealthSurveyDaoOf(ctx).enhanceList(surveys);
+		ClassDailyHealthSurvey survey = studentSurvey.getClassDailyHealthSurvey();
+		classDailyHealthSurveyDaoOf(ctx).loadOurDailySurveyQuestionList(ctx, CollectionUtils.toList(survey), ClassDailyHealthSurveyTokens.all());
+		SmartList<DailySurveyQuestion> questions = survey.getDailySurveyQuestionList();
+		Map<String, List<DailySurveyQuestion>> questionMap = questions.stream().collect(Collectors.groupingBy(DailySurveyQuestion::getId));
+		Integer answeredCount = Optional.ofNullable(answers).map(Map::size).orElse(0);
+		ctx.log("answer count"+answeredCount);
+		ctx.log("survey"+survey);
+		ctx.log("questions:"+questions.size());
+		if(answeredCount<questions.size()) {
+			throw new HealthException("请填写所有问题的答案！");
+		}else if(answeredCount>questions.size()) {
+			throw new HealthException("请正确提交问题的答案！");
+		}
+		
+		List<String> selectList = CollectionUtils.toList("A","B","C","D");
+		for(String questionId:answers.keySet()) {
+			List<DailySurveyQuestion> question = questionMap.get(questionId);
+			String answer = answers.get(questionId);
+			if(question==null||question.isEmpty()) {
+				throw new HealthException("请提交正确的问题答案！");
+			}
+			DailySurveyQuestion q = question.get(0);
+			if(QuestionType.SINGLE_SELECT.equals(question.get(0).getQuestionType().getId())) {
+				must(selectList.contains(answer),"请提交正确的选项！");
+			}else {
+				must(answer!=null&&!answer.isEmpty(),"请填写所有问题的答案！");
+			}
+		}
+		checkerOf(ctx).checkStudentNameOfStudent(ctx.getStudentName());
+		checkerOf(ctx).throwExceptionIfHasErrors(HealthException.class);
+	}
+
+	public Object export(CustomHealthUserContextImpl ctx, String surveyId) throws Exception {
 		ctx.forceRenderingAsJson();
 		ClassDailyHealthSurvey survey = new DBQuery().findClassDailyHealthSurveyWhichId(ctx, surveyId);
-		if(survey==null) {
-			throw new HealthException("找不到调查问卷"+surveyId);
+		if (survey == null) {
+			throw new HealthException("找不到调查问卷" + surveyId);
 		}
-		if(!TextUtil.isBlank(survey.getDownloadUrl())) {
-			return MapUtil.put("url", survey.getDownloadUrl()).into_map();
-		}
-		HSSFWorkbook excel = createExcel(ctx,survey);
+		HSSFWorkbook excel = createExcel(survey);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
 			excel.write(bos);
 		} finally {
-		    bos.close();
+			bos.close();
 		}
 		byte[] bytes = bos.toByteArray();
 		StorageService storageService = (StorageService) ctx.getBean("storageService");
-		String url = storageService.upload("jiyibao/"+survey.getName()+".xls",bytes);
+		String url = storageService.upload("jiyibao/" + survey.getName() + ".xls", bytes);
 		survey.updateDownloadUrl(url);
 		classDailyHealthSurveyManagerOf(ctx).internalSaveClassDailyHealthSurvey(ctx, survey);
-//		BlobObject blobObject = new BlobObject();
-//		blobObject.setData(bytes);
-//		blobObject.addHeader("content-type", "application/octet-stream;charset=utf-8;");
-////		classDailyHealthSurveyManagerOf(ctx).internalSaveClassDailyHealthSurvey(ctx, survey);
-		return  MapUtil.put("url", survey.getDownloadUrl()).into_map();
+		return MapUtil.put("url", survey.getDownloadUrl()).into_map();
 	}
-	
-	public static String makeExportSurveyUrl(CustomHealthUserContextImpl ctx, String surveyId){
+
+	public static String makeExportSurveyUrl(CustomHealthUserContextImpl ctx, String surveyId) {
 		return makeUrl("export", surveyId);
 	}
-	
-	protected HSSFWorkbook createExcel(CustomHealthUserContextImpl ctx,ClassDailyHealthSurvey survey ) throws Exception {
+
+	protected HSSFWorkbook createExcel(ClassDailyHealthSurvey survey) throws Exception {
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
 		HSSFSheet sheet = hssfWorkbook.createSheet(survey.getName());
-		
-//		Row head = sheet.createRow(0);
-//		head.createCell(0).setCellValue(survey.getName());
+
 		Row titleRow = sheet.createRow(0);
 		SmartList<DailySurveyQuestion> questionList = survey.getDailySurveyQuestionList();
 		titleRow.createCell(0).setCellValue("日期");
 		titleRow.createCell(1).setCellValue("班级");
 		titleRow.createCell(2).setCellValue("姓名");
-		Map<String,Integer> rowMap = new HashMap<>();
+		Map<String, Integer> rowMap = new HashMap<>();
 		for (int i = 0; i < questionList.size(); i++) {
 			DailySurveyQuestion question = questionList.get(i);
-			titleRow.createCell(i+3).setCellValue(question.getTopic());
-			rowMap.put(question.getId(),i+3);
+			titleRow.createCell(i + 3).setCellValue(question.getTopic());
+			rowMap.put(question.getId(), i + 3);
 		}
-		
+
 		SmartList<StudentHealthSurvey> studentSurveyList = survey.getStudentHealthSurveyList();
-		
-		
+
 		for (int i = 0; i < studentSurveyList.size(); i++) {
-			Row row = sheet.createRow(i+1);
+			Row row = sheet.createRow(i + 1);
 			StudentHealthSurvey studentHealthSurvey = studentSurveyList.get(i);
 			row.createCell(0).setCellValue(new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss").format(studentHealthSurvey.getAnswerTime()));
-			row.createCell(1).setCellValue(survey.getTeacher().getSchool()+survey.getTeacher().getSchoolClass());
+			row.createCell(1).setCellValue(survey.getTeacher().getSchool() + survey.getTeacher().getSchoolClass());
 			row.createCell(2).setCellValue(studentHealthSurvey.getStudent().getStudentName());
 			SmartList<StudentDailyAnswer> answers = studentHealthSurvey.getStudentDailyAnswerList();
 			for (StudentDailyAnswer as : answers) {
 				DailySurveyQuestion question = as.getQuestion();
-				Object answerText = QuestionType.SINGLE_SELECT.equals(question.getQuestionType().getId())?question.propertyOf("option"+as.getAnswer()):as.getAnswer();
-				row.createCell(rowMap.get(as.getQuestion().getId())).setCellValue((String)answerText);
+				Object answerText = QuestionType.SINGLE_SELECT.equals(question.getQuestionType().getId()) ? question.propertyOf("option" + as.getAnswer()) : as.getAnswer();
+				row.createCell(rowMap.get(as.getQuestion().getId())).setCellValue((String) answerText);
 			}
 		}
-		for (int i = 0; i < rowMap.size()+3; i++) {
-			sheet.autoSizeColumn(i);
+		int columnCount = rowMap.size() + 3;
+		int rowCount = studentSurveyList.size() + 1;
+		for (int i = 0; i < columnCount; i++) {
+			final int ii = i;
+			int colMaxCellLength = IntStream.range(0, rowCount).map(j -> sheet.getRow(j).getCell(ii).getStringCellValue().getBytes().length * 256).max().orElse(30);
+			sheet.setColumnWidth(i, colMaxCellLength);
 		}
 		return hssfWorkbook;
 	}
-	
-	
-
 
 	@Override
 	protected int processRequestViewHomepage(CustomHealthUserContextImpl ctx) throws Exception {
 		return PRC_BY_DEFAULT;
 	}
 
-
 	@Override
 	protected int processRequestCustomerViewStudentSurveyDetail(CustomHealthUserContextImpl ctx) throws Exception {
 		return PRC_BY_DEFAULT;
 	}
-	
+
 	public ChangeRequestCustomService getChangeRequestService() {
 		return changeRequestService;
 	}
@@ -399,29 +435,29 @@ public class WechatAppViewBizService extends BasicWechatAppViewBizService {
 		this.changeRequestService = changeRequestService;
 	}
 
-
-
-
 	@Override
 	protected int processRequestCustomerSwitchToTeacher(CustomHealthUserContextImpl ctx) throws Exception {
 		return PRC_BY_DEFAULT;
 	}
-
 
 	@Override
 	protected int processRequestCustomerSwitchToStudent(CustomHealthUserContextImpl ctx) throws Exception {
 		return PRC_BY_DEFAULT;
 	}
 
-
 	@Override
 	protected int processRequestCustomerUpdateProfile(CustomHealthUserContextImpl ctx) throws Exception {
 		User user = ctx.getCurrentUserInfo().updateName(ctx.getName()).updateAvatar(ctx.getAvatar());
 		User savedUser = userManagerOf(ctx).internalSaveUser(ctx, user);
 		cacheLoginedUser(ctx, ctx.getJwtKeyId(), ctx.getSecUser(), currentApp(ctx), savedUser);
-		return PRC_BY_DEFAULT;
+
+		return StringUtils.equalsIgnoreCase(ctx.getUserType(), "guardian") ? PRC_BY_DEFAULT : PRC_SWITCHTOTEACHER;
 	}
 	
-	
+	protected void must(boolean condition,String message) throws HealthException {
+		if(!condition) {
+			throw new HealthException(message);
+		}
+	}
 
 }

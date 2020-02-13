@@ -51,7 +51,7 @@
   />
 
   <student
-    student_name="刘婵|刘阿斗|李天一|[1,20]"
+    student_name="刘婵|刘阿斗|李天一|[0,20]"
     student_number="A01|[0,99]"
     student_avatar="student.jpg"
     guardian_name="刘备|刘玄德|张飞|张翼德|[0,20]"

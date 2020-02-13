@@ -62,11 +62,13 @@ public abstract class WechatAppDBQueryHelper{
 		String sql = "SELECT DISTINCT T1.* from student_health_survey_data T1 " +
 			"        LEFT JOIN student_data T2 ON T1.student = T2.id " +
 			"    WHERE  ((T1.class_daily_health_survey = ?)" +
-			"      AND (T2.user = ?)) " +
+			"      AND (T2.user = ?)" +
+			"      AND (T1.survey_status = ?)) " +
 			"    ORDER BY T1.id DESC " +
 			"    LIMIT ? ";
 		params.add(surveyId);
 		params.add(userId);
+		params.add(SurveyStatus.UN_SUBMITTED);
 		params.add(1);
 		return sql;
 	}
@@ -84,6 +86,81 @@ public abstract class WechatAppDBQueryHelper{
 		// 默认什么都不增强. 需要额外增强请重载此函数
 	}
 
+	/**
+	 * .
+	 */
+    public StudentHealthSurvey findStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId( CustomHealthUserContextImpl ctx , String surveyId , String userId ) throws Exception {
+		List<Object> params = new ArrayList<>();
+		String sql = prepareSqlAndParamsForFindStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId(ctx, params, surveyId , userId);
+		SmartList<StudentHealthSurvey> list = ctx.getDAOGroup().getStudentHealthSurveyDAO().queryList(sql, params.toArray());
+		if (list == null) {
+			return null;
+		}
+		StudentHealthSurvey result = list.first();
+		enhanceStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId(ctx, result, "findStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId", surveyId , userId);
+		return result;
+	}
+
+	protected String prepareSqlAndParamsForFindStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId( CustomHealthUserContextImpl ctx, List<Object> params, String surveyId , String userId ) throws Exception {
+		String sql = "SELECT DISTINCT T1.* from student_health_survey_data T1 " +
+			"        LEFT JOIN student_data T2 ON T1.student = T2.id " +
+			"    WHERE  ((T1.class_daily_health_survey = ?)" +
+			"      AND (T2.user = ?)" +
+			"      AND (T1.survey_status = ?)) " +
+			"    ORDER BY T1.id DESC " +
+			"    LIMIT ? ";
+		params.add(surveyId);
+		params.add(userId);
+		params.add(SurveyStatus.SUBMITTE);
+		params.add(1);
+		return sql;
+	}
+	
+	protected void enhanceStudentHealthSurveyWhichIsSubmittedByStudentAndSurveyId(CustomHealthUserContextImpl ctx, StudentHealthSurvey data, String queryName, String surveyId , String userId ) throws Exception {
+		if (data == null) {
+			return;
+		}
+		List<StudentDailyAnswer> studentDailyAnswerListListOfStudentHealthSurveyAsT1 = ctx.getDAOGroup().getStudentHealthSurveyDAO().loadOurStudentDailyAnswerList(ctx,asList(data), EO);
+		List<DailySurveyQuestion> questionListOfStudentDailyAnswerAsT2 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentDailyAnswerListListOfStudentHealthSurveyAsT1, DailySurveyQuestion.class);
+		ctx.getDAOGroup().enhanceList(questionListOfStudentDailyAnswerAsT2, DailySurveyQuestion.class);
+	}
+	
+
+	/**
+	 * .
+	 */
+	public SmartList<StudentHealthSurvey> queryStudentHealthSurveyListOfStudentBySurveyId( CustomHealthUserContextImpl ctx , String surveyId ) throws Exception {
+		List<Object> params = new ArrayList<>();
+		String sql = prepareSqlAndParamsForQueryStudentHealthSurveyListOfStudentBySurveyId(ctx, params, surveyId);
+		
+		SmartList<StudentHealthSurvey> list = executeQueryStudentHealthSurveyListOfStudentBySurveyId(ctx, sql, params);
+		list.setRowsPerPage(Integer.MAX_VALUE);
+		if (list == null || list.isEmpty()){
+			return list;
+		}
+		ctx.setLastRecordId(null);
+		enhanceStudentHealthSurveyListOfStudentBySurveyId(ctx, list, "queryStudentHealthSurveyListOfStudentBySurveyId", surveyId);
+		return list;
+	}
+	protected SmartList<StudentHealthSurvey> executeQueryStudentHealthSurveyListOfStudentBySurveyId(CustomHealthUserContextImpl ctx, String sql, List<Object> params) throws Exception {
+		return ctx.getDAOGroup().getStudentHealthSurveyDAO().queryList(sql, params.toArray());
+	}
+	/**
+	 * .
+	 */
+	protected String prepareSqlAndParamsForQueryStudentHealthSurveyListOfStudentBySurveyId( CustomHealthUserContextImpl ctx , List<Object> params, String surveyId ) throws Exception {
+	
+		String sql = "SELECT DISTINCT T1.* from student_health_survey_data T1 " +
+			"    WHERE  ((T1.class_daily_health_survey = ?)" +
+			"      AND (T1.survey_status = ?)) " +
+			"    ORDER BY T1.id DESC ";
+		params.add(surveyId);
+		params.add(SurveyStatus.SUBMITTE);
+		return sql;
+	}
+	protected void enhanceStudentHealthSurveyListOfStudentBySurveyId(CustomHealthUserContextImpl ctx, SmartList<StudentHealthSurvey> list, String queryName, String surveyId) throws Exception {
+		// 重载此函数, 根据查询的结果, 加载更多的相关数据
+	}
 	/**
 	 * .
 	 */
@@ -189,13 +266,13 @@ public abstract class WechatAppDBQueryHelper{
 		if (list == null || list.isEmpty()) {
 			return;
 		}
-		List<StudentDailyAnswer> studentDailyAnswerListListOfStudentHealthSurveyAsT1 = ctx.getDAOGroup().getStudentHealthSurveyDAO().loadOurStudentDailyAnswerList(ctx,list, EO);
-		List<DailySurveyQuestion> questionListOfStudentDailyAnswerAsT2 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentDailyAnswerListListOfStudentHealthSurveyAsT1, DailySurveyQuestion.class);
-		ctx.getDAOGroup().enhanceList(questionListOfStudentDailyAnswerAsT2, DailySurveyQuestion.class);
-		List<QuestionType> questionTypeListOfDailySurveyQuestionAsT3 = HealthBaseUtils.collectReferencedObjectWithType(ctx, questionListOfStudentDailyAnswerAsT2, QuestionType.class);
-		ctx.getDAOGroup().enhanceList(questionTypeListOfDailySurveyQuestionAsT3, QuestionType.class);
 		List<Student> studentListOfStudentHealthSurveyAsT1 = HealthBaseUtils.collectReferencedObjectWithType(ctx, list, Student.class);
 		ctx.getDAOGroup().enhanceList(studentListOfStudentHealthSurveyAsT1, Student.class);
+		List<StudentDailyAnswer> studentDailyAnswerListListOfStudentHealthSurveyAsT1 = ctx.getDAOGroup().getStudentHealthSurveyDAO().loadOurStudentDailyAnswerList(ctx,list, EO);
+		List<DailySurveyQuestion> questionListOfStudentDailyAnswerAsT3 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentDailyAnswerListListOfStudentHealthSurveyAsT1, DailySurveyQuestion.class);
+		ctx.getDAOGroup().enhanceList(questionListOfStudentDailyAnswerAsT3, DailySurveyQuestion.class);
+		List<QuestionType> questionTypeListOfDailySurveyQuestionAsT4 = HealthBaseUtils.collectReferencedObjectWithType(ctx, questionListOfStudentDailyAnswerAsT3, QuestionType.class);
+		ctx.getDAOGroup().enhanceList(questionTypeListOfDailySurveyQuestionAsT4, QuestionType.class);
 	}
 	/**
 	 * .
@@ -228,15 +305,15 @@ public abstract class WechatAppDBQueryHelper{
 		}
 		List<Teacher> teacherListOfClassDailyHealthSurveyAsT1 = HealthBaseUtils.collectReferencedObjectWithType(ctx, data, Teacher.class);
 		ctx.getDAOGroup().enhanceList(teacherListOfClassDailyHealthSurveyAsT1, Teacher.class);
+		List<DailySurveyQuestion> dailySurveyQuestionListListOfClassDailyHealthSurveyAsT1 = ctx.getDAOGroup().getClassDailyHealthSurveyDAO().loadOurDailySurveyQuestionList(ctx,asList(data), EO);
 		List<StudentHealthSurvey> studentHealthSurveyListListOfClassDailyHealthSurveyAsT1 = ctx.getDAOGroup().getClassDailyHealthSurveyDAO().loadOurStudentHealthSurveyList(ctx,asList(data), EO);
-		List<Student> studentListOfStudentHealthSurveyAsT3 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentHealthSurveyListListOfClassDailyHealthSurveyAsT1, Student.class);
-		ctx.getDAOGroup().enhanceList(studentListOfStudentHealthSurveyAsT3, Student.class);
-		List<StudentDailyAnswer> studentDailyAnswerListListOfStudentHealthSurveyAsT3 = ctx.getDAOGroup().getStudentHealthSurveyDAO().loadOurStudentDailyAnswerList(ctx,studentHealthSurveyListListOfClassDailyHealthSurveyAsT1, EO);
-		List<DailySurveyQuestion> questionListOfStudentDailyAnswerAsT5 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentDailyAnswerListListOfStudentHealthSurveyAsT3, DailySurveyQuestion.class);
+		List<StudentDailyAnswer> studentDailyAnswerListListOfStudentHealthSurveyAsT4 = ctx.getDAOGroup().getStudentHealthSurveyDAO().loadOurStudentDailyAnswerList(ctx,studentHealthSurveyListListOfClassDailyHealthSurveyAsT1, EO);
+		List<DailySurveyQuestion> questionListOfStudentDailyAnswerAsT5 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentDailyAnswerListListOfStudentHealthSurveyAsT4, DailySurveyQuestion.class);
 		ctx.getDAOGroup().enhanceList(questionListOfStudentDailyAnswerAsT5, DailySurveyQuestion.class);
 		List<QuestionType> questionTypeListOfDailySurveyQuestionAsT6 = HealthBaseUtils.collectReferencedObjectWithType(ctx, questionListOfStudentDailyAnswerAsT5, QuestionType.class);
 		ctx.getDAOGroup().enhanceList(questionTypeListOfDailySurveyQuestionAsT6, QuestionType.class);
-		List<DailySurveyQuestion> dailySurveyQuestionListListOfClassDailyHealthSurveyAsT1 = ctx.getDAOGroup().getClassDailyHealthSurveyDAO().loadOurDailySurveyQuestionList(ctx,asList(data), EO);
+		List<Student> studentListOfStudentHealthSurveyAsT4 = HealthBaseUtils.collectReferencedObjectWithType(ctx, studentHealthSurveyListListOfClassDailyHealthSurveyAsT1, Student.class);
+		ctx.getDAOGroup().enhanceList(studentListOfStudentHealthSurveyAsT4, Student.class);
 	}
 	
 	protected void enhanceClassDailyHealthSurvey(CustomHealthUserContextImpl ctx, ClassDailyHealthSurvey data, String queryName) throws Exception {

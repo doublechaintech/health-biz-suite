@@ -18,6 +18,7 @@ import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurveyT
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyTokens;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.teacher.TeacherTokens;
+import com.doublechaintech.health.wechatapp.DBQuery;
 import com.doublechaintech.health.wechatapp.WechatAppViewBizService;
 
 public class SurveyListPage extends BaseViewPage {
@@ -73,13 +74,14 @@ public class SurveyListPage extends BaseViewPage {
 							TeacherTokens.start().withClassDailyHealthSurveyList().toArray());
 		SmartList<ClassDailyHealthSurvey> surveyList = teacher.getClassDailyHealthSurveyList();
 		if (surveyList != null) {
+			DBQuery dbQuery = new DBQuery();
 			surveyList.forEach(s -> {
 				s
 						.addItemToValueMap(HealthCustomConstants.LINK_TO_URL,
 								WechatAppViewBizService.makeViewSurveyDetailUrl(ctx, s.getId()));
 				s.addItemToValueMap("code", s.getId());
 				s.addItemToValueMap("classSize", teacher.getClassSize());
-				s.addItemToValueMap("answerCount", ctx.getDAOGroup().getStudentHealthSurveyDAO().countStudentHealthSurveyByClassDailyHealthSurvey(s.getId(), StudentHealthSurveyTokens.all()));
+				s.addItemToValueMap("answerCount", dbQuery.countStudentHealthSurveyListOfStudentBySurveyId(ctx, s.getId()));
 				s.addItemToValueMap("riskCount", MiscUtils.getRiskCount(ctx,s));
 				s.addItemToValueMap("schoolClass", teacher.getSchoolClass());
 				s.addItemToValueMap("school", teacher.getSchool());

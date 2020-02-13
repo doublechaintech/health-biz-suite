@@ -21,6 +21,7 @@ import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
+import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.teacher.TeacherTokens;
 import com.doublechaintech.health.wechatapp.DBQuery;
@@ -47,6 +48,7 @@ public class StudentSurveyListPage extends BaseViewPage {
 									.field("linkToUrl")
 									.field("surveyTime")
 									.field("studentName")
+									.field("tips")
 									.field("infoList", SerializeScope.INCLUDE().field("title").field("value")));
 
 	@Override
@@ -67,35 +69,29 @@ public class StudentSurveyListPage extends BaseViewPage {
 		String userId = ctx.getCurrentUserInfo().getId();
 		SmartList<StudentHealthSurvey> surveyList = new DBQuery().queryStudentHealthSurveyListOfUser(ctx, userId);
 		setPageTitle("问卷历史");
-		List<ClassDailyHealthSurvey> surveys = MiscUtils
-				.collectReferencedObjectWithType(ctx, surveyList, ClassDailyHealthSurvey.class);
+		List<ClassDailyHealthSurvey> surveys = MiscUtils.collectReferencedObjectWithType(ctx, surveyList, ClassDailyHealthSurvey.class);
 		ctx.getDAOGroup().getClassDailyHealthSurveyDAO().enhanceList(surveys);
 		if (surveyList != null) {
 			surveyList.forEach(s -> {
-				s
-						.addItemToValueMap(HealthCustomConstants.LINK_TO_URL,
-								WechatAppViewBizService.makeViewStudentSurveyDetailUrl(ctx, s.getId()));
+				s.addItemToValueMap(HealthCustomConstants.LINK_TO_URL, WechatAppViewBizService.makeViewStudentSurveyDetailUrl(ctx, s.getId()));
 				s.addItemToValueMap("code", s.getId());
 				s.addItemToValueMap("title", s.getClassDailyHealthSurvey().getName());
-				s
-						.addItemToValueMap("linkToUrl",
-								WechatAppViewBizService.makeViewStudentSurveyDetailUrl(ctx, s.getId()));
+				if(SurveyStatus.UN_SUBMITTED.equals(s.getSurveyStatus().getId())) {
+					s.addItemToValueMap("linkToUrl", WechatAppViewBizService.makeStudentViewSurveyUrl(ctx, s.getClassDailyHealthSurvey().getId()));
+					s.addItemToValueMap("tips", s.getClassDailyHealthSurvey().getName());
+				}
+				
 
 				s.addItemToValueMap("surveyTime", s.getClassDailyHealthSurvey().getSurveyTime());
 				s.addItemToValueMap("studentName", s.getStudent().getStudentName());
 				List<Map<String, String>> infoList = new ArrayList<>();
 				s.getStudentDailyAnswerList().forEach(ans -> {
-					Object answerText = QuestionType.SINGLE_SELECT.equals(ans.getQuestion().getQuestionType().getId())
-							? ans.getQuestion().propertyOf("option" + ans.getAnswer())
+					Object answerText = QuestionType.SINGLE_SELECT.equals(ans.getQuestion().getQuestionType().getId()) ? ans.getQuestion().propertyOf("option" + ans.getAnswer())
 							: ans.getAnswer();
-					infoList
-							.add(MapUtil
-									.put("title", ans.getQuestion().getTopic())
-										.put("value", answerText)
-										.into_map(String.class));
+					infoList.add(MapUtil.put("title", ans.getQuestion().getTopic()).put("value", answerText).into_map(String.class));
 					infoList.add(Collections.emptyMap());
 				});
-				infoList.remove(infoList.size() - 1);
+				//infoList.remove(infoList.size() - 1);
 				s.addItemToValueMap("infoList", infoList);
 			});
 		}

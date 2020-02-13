@@ -74,7 +74,7 @@
 	<table name="student_data">
 		<fields>
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
-			<field name="student_name" type="string" checkType="StringLengthRange" min="1" max="20" description="学生的名字" />
+			<field name="student_name" type="string" checkType="StringLengthRange" min="0" max="20" description="学生的名字" />
 			<field name="student_number" type="string" checkType="StringLengthRange" min="0" max="99" description="学生数量" />
 			<field name="student_avatar" type="string_image" checkType="Image" min="0" max="512" description="学生阿凡达" />
 			<field name="guardian_name" type="string" checkType="StringLengthRange" min="0" max="20" description="监护人姓名" />

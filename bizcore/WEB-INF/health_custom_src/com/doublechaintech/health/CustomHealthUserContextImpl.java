@@ -34,6 +34,17 @@ public class CustomHealthUserContextImpl extends HealthBizUserContextImpl {
 	private String userType;
 	private String avatar;
 
+	private boolean alreadySubmitted;
+	
+	
+
+	public boolean isAlreadySubmitted() {
+		return alreadySubmitted;
+	}
+
+	public void setAlreadySubmitted(boolean alreadySubmitted) {
+		this.alreadySubmitted = alreadySubmitted;
+	}
 
 	public String getName() {
 		return name;

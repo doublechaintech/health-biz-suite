@@ -66,8 +66,9 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	}
 	public static final int $PRC_RESULT_OBJECT_WAS_SET = -1;
 	public static final int PRC_BY_DEFAULT = 0;
-	public static final int PRC_EMPTY_CLASS = 1;
-	public static final int PRC_SUBMITTED = 2;
+	public static final int PRC_SWITCHTOTEACHER = 1;
+	public static final int PRC_EMPTY_CLASS = 2;
+	public static final int PRC_SUBMITTED = 3;
 	protected boolean returnRightNow(int resultCode) {
 		return $PRC_RESULT_OBJECT_WAS_SET == resultCode;
 	}
@@ -531,7 +532,7 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	protected abstract int processRequestViewHomepage(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：默认的客户端登录接口. 返回值：PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestClientLogin(CustomHealthUserContextImpl ctx) throws Exception;
-	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_BY_DEFAULT: ;  */
+	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_SWITCHTOTEACHER: ; PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerUpdateProfile(CustomHealthUserContextImpl ctx) throws Exception;
 	/** 处理请求：这个程序员很懒,什么也没留下. 返回值：PRC_EMPTY_CLASS: ; PRC_BY_DEFAULT: ;  */
 	protected abstract int processRequestCustomerSwitchToTeacher(CustomHealthUserContextImpl ctx) throws Exception;
@@ -566,13 +567,13 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 		page.assemblerContent(ctx, requestName);
 		return page;
 	}
-	protected AddSurveyPage assemblerAddSurveyPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
-		AddSurveyPage page = new AddSurveyPage();
+	protected StudentSurveyListPage assemblerStudentSurveyListPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
+		StudentSurveyListPage page = new StudentSurveyListPage();
 		page.assemblerContent(ctx, requestName);
 		return page;
 	}
-	protected StudentSurveyListPage assemblerStudentSurveyListPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
-		StudentSurveyListPage page = new StudentSurveyListPage();
+	protected AddSurveyPage assemblerAddSurveyPage(CustomHealthUserContextImpl ctx, String requestName)throws Exception {
+		AddSurveyPage page = new AddSurveyPage();
 		page.assemblerContent(ctx, requestName);
 		return page;
 	}

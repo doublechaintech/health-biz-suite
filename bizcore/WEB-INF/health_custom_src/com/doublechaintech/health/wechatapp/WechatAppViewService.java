@@ -68,7 +68,21 @@ public abstract class WechatAppViewService extends BaseWechatAppViewService{
 		if (returnRightNow(resultCode)){
 			return ctx.getResultObject();
 		}
-		BaseViewPage page = assemblerMePage(ctx, "customerUpdateProfile");
+		BaseViewPage page = null;
+		switch(resultCode){
+			case PRC_SWITCHTOTEACHER:{
+				// 
+				page = assemblerMePage(ctx, "customerUpdateProfile");
+				break;
+			}
+			case PRC_BY_DEFAULT: {
+				page = assemblerStudentSurveyListPage(ctx, "customerUpdateProfile");
+				break;
+			}
+			default: {
+				throw new Exception("未定义的分支代码"+resultCode);
+			}
+		}
 		return page.doRender(ctx);
 	}
 	

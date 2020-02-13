@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -89,17 +90,7 @@ public class SurveyDetailPage extends BaseViewPage {
 	public void assemblerContent(HealthUserContext userContext, String requestName) throws Exception {
 		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
 		String surveyId = ctx.getSurveyId();
-		ClassDailyHealthSurvey survey = ctx
-				.getManagerGroup()
-					.getClassDailyHealthSurveyManager()
-					.loadClassDailyHealthSurvey(ctx, surveyId,
-							ClassDailyHealthSurveyTokens
-									.start()
-										.withDailySurveyQuestionList()
-										.withStudentHealthSurveyList()
-										.searchStudentHealthSurveyListWith(StudentHealthSurvey.SURVEY_STATUS_PROPERTY,
-												"eq", SurveyStatus.SUBMITTE)
-										.toArray());
+		ClassDailyHealthSurvey survey = new DBQuery().findClassDailyHealthSurveyWhichId(ctx, surveyId);
 		List<Teacher> teachers = HealthBaseUtils.collectReferencedObjectWithType(ctx, survey, Teacher.class);
 		ctx.getDAOGroup().getTeacherDAO().enhanceList(teachers);
 		SmartList<DailySurveyQuestion> questionList = survey.getDailySurveyQuestionList();
@@ -117,10 +108,7 @@ public class SurveyDetailPage extends BaseViewPage {
 		set("classSize", survey.getTeacher().getClassSize());
 		set("school", survey.getTeacher().getSchool());
 		set("schoolClass", survey.getTeacher().getSchoolClass());
-		set("answerCount", ctx
-				.getDAOGroup()
-					.getStudentHealthSurveyDAO()
-					.countStudentHealthSurveyByClassDailyHealthSurvey(survey.getId(), StudentHealthSurveyTokens.all()));
+		set("answerCount", new DBQuery().countStudentHealthSurveyListOfStudentBySurveyId(ctx, surveyId));
 		set("riskCount", MiscUtils.getRiskCount(ctx,survey));
 		Map<String, Object> actions = new HashMap<>();
 		actions
@@ -147,19 +135,24 @@ public class SurveyDetailPage extends BaseViewPage {
 		ClassDailyHealthSurvey previousSurvey = new DBQuery()
 				.findClassDailyHealthSurveyWhichLastTime(ctx, currentSurvey.getTeacher().getId(),
 						currentSurvey.getSurveyTime());
-		if (previousSurvey == null || previousSurvey.getStudentHealthSurveyList() == null) {
+		if (previousSurvey == null || previousSurvey.getStudentHealthSurveyList() == null||previousSurvey.getStudentHealthSurveyList().isEmpty()) {
 			return Collections.emptyList();
 		}
-		List<String> replied = studentAnswers
+		List<String> replied = Optional.ofNullable(studentAnswers
 				.stream()
 					.map(StudentHealthSurvey::getStudent)
 					.map(Student::getStudentName)
-					.collect(Collectors.toList());
-		return previousSurvey
+					.collect(Collectors.toList())).orElse(new ArrayList<String>());
+		
+		List<Student> previousRepliedStudents= previousSurvey
 				.getStudentHealthSurveyList()
 					.stream()
-					.map(StudentHealthSurvey::getStudent)
-					.filter(s -> !replied.contains(s.getStudentName())).map(student->MapUtil.put("id", student.getId()).put("name", student.getStudentName()).into_map())
+					.map(StudentHealthSurvey::getStudent).collect(Collectors.toList());
+		if(previousRepliedStudents==null||previousRepliedStudents.isEmpty()) {
+			return Collections.emptyList();
+		}
+		
+		return previousRepliedStudents.stream().filter(s->s.getStudentName()!=null&&!replied.contains(s.getStudentName())).map(student->MapUtil.put("id", student.getId()).put("name", student.getStudentName()).into_map())
 					.collect(Collectors.toList());
 	}
 
@@ -168,8 +161,9 @@ public class SurveyDetailPage extends BaseViewPage {
 		if (studentSurveys == null || studentSurveys.isEmpty()) {
 			return Collections.emptyList();
 		}
-		List<Map<String, String>> infoList = new ArrayList<>();
-		studentSurveys.forEach(s -> {
+		List<StudentHealthSurvey> submitted = studentSurveys.stream().filter(s->SurveyStatus.SUBMITTE.equals(s.getSurveyStatus().getId()))
+		.sorted((o1, o2) -> o2.getAnswerTime().compareTo(o1.getAnswerTime())).collect(Collectors.toList());
+		submitted.forEach(s -> {
 			s
 					.addItemToValueMap(HealthCustomConstants.LINK_TO_URL,
 							WechatAppViewBizService.makeViewStudentSurveyDetailUrl(ctx, s.getId()));
@@ -177,14 +171,15 @@ public class SurveyDetailPage extends BaseViewPage {
 			s.addItemToValueMap("title", s.getClassDailyHealthSurvey().getName());
 			s.addItemToValueMap("linkToUrl", WechatAppViewBizService.makeViewStudentSurveyDetailUrl(ctx, s.getId()));
 
-			s.addItemToValueMap("surveyTime", s.getClassDailyHealthSurvey().getSurveyTime());
+			s.addItemToValueMap("surveyTime", s.getAnswerTime());
 			try {
 				List<Student> students = MiscUtils.collectReferencedObjectWithType(ctx, s, Student.class);
-				ctx.getDAOGroup().getStudentDAO().enhanceList(students);
+				Optional.ofNullable(students).ifPresent(studentList->ctx.getDAOGroup().getStudentDAO().enhanceList(studentList));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			s.addItemToValueMap("studentName", s.getStudent().getStudentName());
+			s.addItemToValueMap("studentName", Optional.ofNullable(s.getStudent()).map(Student::getStudentName).orElse(""));
+			List<Map<String, String>> infoList = new ArrayList<>();
 			s.getStudentDailyAnswerList().forEach(ans -> {
 				List<DailySurveyQuestion> questions;
 				try {
@@ -203,10 +198,10 @@ public class SurveyDetailPage extends BaseViewPage {
 									.into_map(String.class));
 				infoList.add(Collections.emptyMap());
 			});
-			infoList.remove(infoList.size() - 1);
+//			infoList.remove(infoList.size() - 1);
 			s.addItemToValueMap("infoList", infoList);
 		});
-		return studentSurveys;
+		return submitted;
 	}
 	
 	protected void enhanceAnswer(CustomHealthUserContextImpl ctx,StudentDailyAnswer answer) throws Exception {

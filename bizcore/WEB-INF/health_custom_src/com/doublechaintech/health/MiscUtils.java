@@ -66,7 +66,7 @@ public class MiscUtils extends HealthBaseUtils {
 							.collect(Collectors.toList());
 				q.addItemToValueMap("candidateValues", qList);
 			} else if (QuestionType.TEXT_INPUT.equals(q.getQuestionType().getId())) {
-				q.addItemToValueMap("placeholder", "");
+				q.addItemToValueMap("placeholder", "请填写今日体温");
 			}
 			q.addItemToValueMap("title", q.getTopic());
 
@@ -186,12 +186,11 @@ public class MiscUtils extends HealthBaseUtils {
 				.put("Q000001", "A")
 					.put("Q000002", "A")
 					.put("Q000003", "B")
-					.put("Q000004", "37.3")
 					.into_map(String.class);
-		String riskAnswer = (String) riskMap.get(question.getId());
+		String riskAnswer = (String) riskMap.get(question.getSurveyQuestion().getId());
 
 		if (QuestionType.SINGLE_SELECT.equals(question.getQuestionType().getId())) {
-			return riskMap.get(question.getId()).equals(answer);
+			return StringUtils.equalsIgnoreCase(riskAnswer, answer);
 		} else {
 			if (StringUtils.isNumeric(riskAnswer) && StringUtils.isNumeric(answer)) {
 				return new BigDecimal(answer).doubleValue() - new BigDecimal(riskAnswer).doubleValue() > 0;
