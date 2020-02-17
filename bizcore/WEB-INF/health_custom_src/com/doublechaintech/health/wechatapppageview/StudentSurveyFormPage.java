@@ -76,7 +76,7 @@ public class StudentSurveyFormPage extends BaseViewPage {
 		List<DailySurveyQuestion> questions = MiscUtils.constructQuestionList(survey.getDailySurveyQuestionList());
 		List<Teacher> teachers = HealthBaseUtils.collectReferencedObjectWithType(ctx, survey, Teacher.class);
 		ctx.getDAOGroup().getTeacherDAO().enhanceList(teachers);
-		setPageTitle("尚未实现");
+		setPageTitle("填写问卷");
 		set("questionList", questions);
 		Map<String, Object> actions = new HashMap<>();
 		actions

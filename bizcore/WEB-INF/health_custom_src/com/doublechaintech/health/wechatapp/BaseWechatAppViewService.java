@@ -185,7 +185,7 @@ public abstract class BaseWechatAppViewService extends BasicWxappService impleme
 	protected String makeClientToken(CustomHealthUserContextImpl ctx, String loginInfoCacheToken, User loginTarget) {
 		String jwtTokenString = JWTUtil.getJwtToken(loginInfoCacheToken,
 				HealthBaseUtils.getOssUploadFolderName(User.INTERNAL_TYPE, loginTarget.getId(), ctx.isProductEnvironment()),
-				ctx.isProductEnvironment()?"product":"test", "health",ctx.now());
+				ctx.isProductEnvironment()?"product":"test", ctx.tokenId(),ctx.now());
 		return jwtTokenString;
 	}
 
