@@ -60,7 +60,7 @@ const fieldLabels = {
 const displayColumns = [
   { title: fieldLabels.id, debugtype: 'string', dataIndex: 'id', width: '8', render: (text, record)=>renderTextCell(text,record,'surveyStatus') , sorter: true },
   { title: fieldLabels.name, debugtype: 'string', dataIndex: 'name', width: '7',render: (text, record)=>renderTextCell(text,record)},
-  { title: fieldLabels.code, debugtype: 'string', dataIndex: 'code', width: '15',render: (text, record)=>renderTextCell(text,record)},
+  { title: fieldLabels.code, debugtype: 'string', dataIndex: 'code', width: '16',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.platform, dataIndex: 'platform', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]

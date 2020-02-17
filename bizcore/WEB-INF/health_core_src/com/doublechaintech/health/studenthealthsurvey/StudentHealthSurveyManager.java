@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -33,9 +34,9 @@ public interface StudentHealthSurveyManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String changeRequestId ,String [] tokensExpr)  throws Exception;
+	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer ,String [] tokensExpr)  throws Exception;
 	
-	public  StudentHealthSurvey addStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer, String changeRequestId , String [] tokensExpr)  throws Exception;
+	public  StudentHealthSurvey addStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer , String [] tokensExpr)  throws Exception;
 	public  StudentHealthSurvey removeStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr)  throws Exception;
 	public  StudentHealthSurvey updateStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 

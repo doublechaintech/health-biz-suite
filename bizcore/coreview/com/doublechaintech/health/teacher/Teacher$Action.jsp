@@ -22,6 +22,7 @@
 <li><span>${userContext.localeMap['teacher.mobile']}</span> ${teacher.maskedMobile}</li>
 <li><span>${userContext.localeMap['teacher.school']}</span> ${teacher.school}</li>
 <li><span>${userContext.localeMap['teacher.school_class']}</span> ${teacher.schoolClass}</li>
+<li><span>${userContext.localeMap['teacher.class_size']}</span> ${teacher.classSize}</li>
 <li><span>${userContext.localeMap['teacher.create_time']}</span> <fmt:formatDate pattern="yyyy-MM-dd" value="${teacher.createTime}" /></li>
 
 	

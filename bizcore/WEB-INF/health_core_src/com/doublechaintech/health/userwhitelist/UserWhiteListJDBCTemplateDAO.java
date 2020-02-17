@@ -435,8 +435,12 @@ public class UserWhiteListJDBCTemplateDAO extends HealthBaseDAOImpl implements U
  	protected Object[] prepareUserWhiteListUpdateParameters(UserWhiteList userWhiteList){
  		Object[] parameters = new Object[6];
  
+ 		
  		parameters[0] = userWhiteList.getUserIdentity();
- 		parameters[1] = userWhiteList.getUserSpecialFunctions(); 	
+ 		
+ 		
+ 		parameters[1] = userWhiteList.getUserSpecialFunctions();
+ 		 	
  		if(userWhiteList.getDomain() != null){
  			parameters[2] = userWhiteList.getDomain().getId();
  		}
@@ -453,8 +457,12 @@ public class UserWhiteListJDBCTemplateDAO extends HealthBaseDAOImpl implements U
 		userWhiteList.setId(newUserWhiteListId);
 		parameters[0] =  userWhiteList.getId();
  
+ 		
  		parameters[1] = userWhiteList.getUserIdentity();
- 		parameters[2] = userWhiteList.getUserSpecialFunctions(); 	
+ 		
+ 		
+ 		parameters[2] = userWhiteList.getUserSpecialFunctions();
+ 		 	
  		if(userWhiteList.getDomain() != null){
  			parameters[3] = userWhiteList.getDomain().getId();
  		

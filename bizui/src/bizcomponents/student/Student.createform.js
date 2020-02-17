@@ -19,17 +19,17 @@ const testValues = {};
 /*
 const testValues = {
   studentName: '刘婵',
-  studentId: 'A01',
+  studentNumber: 'A01',
   guardianName: '刘备',
   guardianMobile: '18012341234',
   addressId: 'L000001',
   userId: 'U000001',
   platformId: 'P000001',
-  changeRequestId: 'CR000001',
 }
 */
 
 const imageKeys = [
+  'studentAvatar',
 ]
 
 

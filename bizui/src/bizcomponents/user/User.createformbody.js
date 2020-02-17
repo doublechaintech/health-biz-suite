@@ -18,7 +18,6 @@ const testValues = {};
 /*
 const testValues = {
   name: '张三',
-  addressId: 'L000001',
   platformId: 'P000001',
 }
 */
@@ -141,25 +140,6 @@ class UserCreateFormBody extends Component {
 
        
  
-              <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.address} {...formItemLayout}>
-                  {getFieldDecorator('addressId', {
-                  	initialValue: tryinit('address'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('address')}
-                    targetType={"address"} 
-                    requestFunction={UserService.requestCandidateAddress}/>
-                  
-                 
-                  )}
-                </Form.Item>
-              </Col>
-
-           
-
               <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.platform} {...formItemLayout}>
                   {getFieldDecorator('platformId', {

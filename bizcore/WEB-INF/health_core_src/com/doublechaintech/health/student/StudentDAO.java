@@ -10,13 +10,13 @@ import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.user.User;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportDAO;
 import com.doublechaintech.health.location.LocationDAO;
-import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 import com.doublechaintech.health.platform.PlatformDAO;
 import com.doublechaintech.health.user.UserDAO;
@@ -52,8 +52,12 @@ public interface StudentDAO extends BaseDAO{
 
 	public StudentHealthSurveyDAO getStudentHealthSurveyDAO();
 		
+	public HealthSurveyReportDAO getHealthSurveyReportDAO();
+		
 	
  	public SmartList<Student> requestCandidateStudentForStudentHealthSurvey(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+ 	public SmartList<Student> requestCandidateStudentForHealthSurveyReport(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
 		
 	
 	public Student planToRemoveStudentHealthSurveyList(Student student, String studentHealthSurveyIds[], Map<String,Object> options)throws Exception;
@@ -74,6 +78,17 @@ public interface StudentDAO extends BaseDAO{
 	//disconnect Student with change_request in StudentHealthSurvey
 	public Student planToRemoveStudentHealthSurveyListWithChangeRequest(Student student, String changeRequestId, Map<String,Object> options)throws Exception;
 	public int countStudentHealthSurveyListWithChangeRequest(String studentId, String changeRequestId, Map<String,Object> options)throws Exception;
+	
+	public Student planToRemoveHealthSurveyReportList(Student student, String healthSurveyReportIds[], Map<String,Object> options)throws Exception;
+
+
+	//disconnect Student with teacher in HealthSurveyReport
+	public Student planToRemoveHealthSurveyReportListWithTeacher(Student student, String teacherId, Map<String,Object> options)throws Exception;
+	public int countHealthSurveyReportListWithTeacher(String studentId, String teacherId, Map<String,Object> options)throws Exception;
+	
+	//disconnect Student with survey in HealthSurveyReport
+	public Student planToRemoveHealthSurveyReportListWithSurvey(Student student, String surveyId, Map<String,Object> options)throws Exception;
+	public int countHealthSurveyReportListWithSurvey(String studentId, String surveyId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<Student> queryList(String sql, Object ... parmeters);
@@ -102,17 +117,12 @@ public interface StudentDAO extends BaseDAO{
  	public void analyzeStudentByPlatform(SmartList<Student> resultList, String platformId, Map<String,Object> options);
 
  
-  
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public int countStudentByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentByChangeRequestIds(String[] ids, Map<String,Object> options);
- 	public SmartList<Student> findStudentByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentByChangeRequest(SmartList<Student> resultList, String changeRequestId, Map<String,Object> options);
-
- 
  
 	// 需要一个加载引用我的对象的enhance方法:StudentHealthSurvey的student的StudentHealthSurveyList
 	public SmartList<StudentHealthSurvey> loadOurStudentHealthSurveyList(HealthUserContext userContext, List<Student> us, Map<String,Object> options) throws Exception;
+	
+	// 需要一个加载引用我的对象的enhance方法:HealthSurveyReport的student的HealthSurveyReportList
+	public SmartList<HealthSurveyReport> loadOurHealthSurveyReportList(HealthUserContext userContext, List<Student> us, Map<String,Object> options) throws Exception;
 	
 }
 

@@ -137,6 +137,7 @@ componentDidMount() {
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'school'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'schoolClass'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'platform'))
+		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'user'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'changeRequest'))
 
      
@@ -297,6 +298,18 @@ componentDidMount() {
                     disabled={!availableForEdit('platform')}
                     targetType={"platform"} 
                     requestFunction={TeacherService.requestCandidatePlatform} useForSearch />
+                  	
+                 
+                  )}
+                </Form.Item></Col>
+ <Col md={8} sm={24}>
+                    <Form.Item label={fieldLabels.user}>
+                  {getFieldDecorator('user', {initialValue: tryinit('user')})(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('user')}
+                    targetType={"user"} 
+                    requestFunction={TeacherService.requestCandidateUser} useForSearch />
                   	
                  
                   )}

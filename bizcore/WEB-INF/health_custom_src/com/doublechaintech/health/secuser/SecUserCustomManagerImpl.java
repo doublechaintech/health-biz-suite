@@ -1,5 +1,4 @@
 
-
 /*
 
 这里面放置你需要定制的行为，可以增加方法，也可以重写原来的方法，主要是增加新的约束和关联。
@@ -10,16 +9,23 @@
 
 */
 
-
 package com.doublechaintech.health.secuser;
-import java.util.Date;
-import com.doublechaintech.health.HealthUserContext;
 
-public class SecUserCustomManagerImpl extends CustomSecUserManagerImpl{
+import javax.servlet.http.HttpServletRequest;
 
+import com.doublechaintech.health.CustomHealthUserContextImpl;
+import com.doublechaintech.health.UserContextImpl;
 
+public class SecUserCustomManagerImpl extends CustomSecUserManagerImpl {
 
+	@Override
+	protected void init(UserContextImpl userContext, HttpServletRequest request) {
+		super.init(userContext, request);
+		CustomHealthUserContextImpl ctx = (CustomHealthUserContextImpl) userContext;
+		if (!ctx.isProductEnvironment()) {
 
+			ctx.setCookies(request.getCookies());
+		}
+	}
 
 }
-

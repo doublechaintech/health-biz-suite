@@ -52,25 +52,33 @@ const buildSteps=(targetComponent, stepCode)=>{
 
 	const changeRequestStepOf = GlobalComponents.ChangeRequestBase.stepOf
 	const teacherStepOf = GlobalComponents.TeacherBase.stepOf
-	const studentStepOf = GlobalComponents.StudentBase.stepOf
 	const questionStepOf = GlobalComponents.QuestionBase.stepOf
 	const classDailyHealthSurveyStepOf = GlobalComponents.ClassDailyHealthSurveyBase.stepOf
 	const studentHealthSurveyStepOf = GlobalComponents.StudentHealthSurveyBase.stepOf
-	const studentDailyAnswerStepOf = GlobalComponents.StudentDailyAnswerBase.stepOf
 
 	const {ChangeRequestCreateFormBody} = GlobalComponents
 	const {TeacherCreateFormBody} = GlobalComponents
-	const {StudentCreateFormBody} = GlobalComponents
 	const {QuestionCreateFormBody} = GlobalComponents
 	const {ClassDailyHealthSurveyCreateFormBody} = GlobalComponents
 	const {StudentHealthSurveyCreateFormBody} = GlobalComponents
-	const {StudentDailyAnswerCreateFormBody} = GlobalComponents
 
   
   const stepCollection = {};
   
 
-  stepCollection['LOGIN'] =[
+  stepCollection['ADD_CLASS'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
+	completeStep()]
+
+  stepCollection['ADD_STUDENT'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
+	completeStep()]
+
+  stepCollection['PUBLISH_SURVEY'] =[
+	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
+	completeStep()]
+
+  stepCollection['FILL_SURVEY'] =[
 	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), ,
 	completeStep()]
 
@@ -89,19 +97,9 @@ const buildSteps=(targetComponent, stepCode)=>{
 	classDailyHealthSurveyStepOf(targetComponent, '创建每日健康调查', <ClassDailyHealthSurveyCreateFormBody {...targetComponent.props} hideTitle />, "classDailyHealthSurveyList", 0),
 	completeStep()]
 
-  stepCollection['ANSWER_QUESTION'] =[
-	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
-	studentDailyAnswerStepOf(targetComponent, '创建学生每天回答', <StudentDailyAnswerCreateFormBody {...targetComponent.props} hideTitle />, "studentDailyAnswerList", 0),
-	completeStep()]
-
   stepCollection['CREATE_QUESTION'] =[
 	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
 	questionStepOf(targetComponent, '创建检查问题', <QuestionCreateFormBody {...targetComponent.props} hideTitle />, "questionList", 0),
-	completeStep()]
-
-  stepCollection['REGISTER_STUDENT'] =[
-	changeRequestStepOf(targetComponent, '创建变更请求', <ChangeRequestCreateFormBody {...targetComponent.props} hideTitle />, "", 0), 
-	studentStepOf(targetComponent, '创建学生', <StudentCreateFormBody {...targetComponent.props} hideTitle />, "studentList", 0),
 	completeStep()]
 
   

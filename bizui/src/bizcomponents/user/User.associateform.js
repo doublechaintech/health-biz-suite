@@ -19,7 +19,6 @@ const testValues = {};
 /*
 const testValues = {
   name: '张三',
-  addressId: 'L000001',
   platformId: 'P000001',
 }
 */
@@ -75,6 +74,7 @@ class UserAssociateForm extends Component {
     const {UserService} = GlobalComponents
     const userContext = null
     
+ const {TeacherModalTable} = GlobalComponents;
  const {StudentModalTable} = GlobalComponents;
  const {QuestionModalTable} = GlobalComponents;
  const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
@@ -182,21 +182,6 @@ class UserAssociateForm extends Component {
             <Row gutter={16}>
 
               <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.address} {...formItemLayout}>
-                  {getFieldDecorator('addressId', {
-                  	initialValue: tryinit('address'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                <SelectObject 
-                    disabled={!availableForEdit('address')}
-                    targetType={"address"} 
-                    requestFunction={UserService.requestCandidateAddress}/>
-  
-                  )}
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} md={12} sm={24}>
                 <Form.Item label={fieldLabels.platform} {...formItemLayout}>
                   {getFieldDecorator('platformId', {
                   	initialValue: tryinit('platform'),
@@ -222,6 +207,7 @@ class UserAssociateForm extends Component {
 			
         </Card>
         
+	<TeacherModalTable data={data.teacherList} owner={owner} />
 	<StudentModalTable data={data.studentList} owner={owner} />
 	<QuestionModalTable data={data.questionList} owner={owner} />
 	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />

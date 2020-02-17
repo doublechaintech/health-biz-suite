@@ -19,7 +19,6 @@ const testValues = {};
 /*
 const testValues = {
   name: '张三',
-  addressId: 'L000001',
   platformId: 'P000001',
 }
 */

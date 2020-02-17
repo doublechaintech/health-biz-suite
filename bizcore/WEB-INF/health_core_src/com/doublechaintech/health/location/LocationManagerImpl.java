@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -22,13 +23,11 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.district.District;
 import com.doublechaintech.health.province.Province;
-import com.doublechaintech.health.user.User;
 
 import com.doublechaintech.health.district.CandidateDistrict;
 import com.doublechaintech.health.province.CandidateProvince;
 
 import com.doublechaintech.health.platform.Platform;
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.user.User;
 
@@ -168,10 +167,6 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		addAction(userContext, location, tokens,"location.removeStudent","removeStudent","removeStudent/"+location.getId()+"/","studentList","primary");
 		addAction(userContext, location, tokens,"location.updateStudent","updateStudent","updateStudent/"+location.getId()+"/","studentList","primary");
 		addAction(userContext, location, tokens,"location.copyStudentFrom","copyStudentFrom","copyStudentFrom/"+location.getId()+"/","studentList","primary");
-		addAction(userContext, location, tokens,"location.addUser","addUser","addUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.removeUser","removeUser","removeUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.updateUser","updateUser","updateUser/"+location.getId()+"/","userList","primary");
-		addAction(userContext, location, tokens,"location.copyUserFrom","copyUserFrom","copyUserFrom/"+location.getId()+"/","userList","primary");
 	
 		
 		
@@ -240,20 +235,32 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		
 
 		if(Location.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfLocation(parseString(newValueExpr));
+		
+			
 		}
 		if(Location.ADDRESS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAddressOfLocation(parseString(newValueExpr));
+		
+			
 		}		
 
 				
 
 		
 		if(Location.LATITUDE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLatitudeOfLocation(parseBigDecimal(newValueExpr));
+		
+			
 		}
 		if(Location.LONGITUDE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLongitudeOfLocation(parseBigDecimal(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
@@ -354,7 +361,6 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
 		.sortStudentListWith("id","desc")
-		.sortUserListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -522,24 +528,6 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 
 
-	//disconnect Location with student_id in Student
-	protected Location breakWithStudentByStudentId(HealthUserContext userContext, String locationId, String studentIdId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Location location = loadLocation(userContext, locationId, allTokens());
-
-			synchronized(location){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				locationDaoOf(userContext).planToRemoveStudentListWithStudentId(location, studentIdId, this.emptyOptions());
-
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
-				return location;
-			}
-	}
 	//disconnect Location with user in Student
 	protected Location breakWithStudentByUser(HealthUserContext userContext, String locationId, String userId,  String [] tokensExpr)
 		 throws Exception{
@@ -576,56 +564,22 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 				return location;
 			}
 	}
-	//disconnect Location with change_request in Student
-	protected Location breakWithStudentByChangeRequest(HealthUserContext userContext, String locationId, String changeRequestId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Location location = loadLocation(userContext, locationId, allTokens());
-
-			synchronized(location){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				locationDaoOf(userContext).planToRemoveStudentListWithChangeRequest(location, changeRequestId, this.emptyOptions());
-
-				location = saveLocation(userContext, location, tokens().withStudentList().done());
-				return location;
-			}
-	}
-	//disconnect Location with platform in User
-	protected Location breakWithUserByPlatform(HealthUserContext userContext, String locationId, String platformId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			Location location = loadLocation(userContext, locationId, allTokens());
-
-			synchronized(location){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				locationDaoOf(userContext).planToRemoveUserListWithPlatform(location, platformId, this.emptyOptions());
-
-				location = saveLocation(userContext, location, tokens().withUserList().done());
-				return location;
-			}
-	}
 
 
 
 
 
 
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfLocation(locationId);
 
 		
 		checkerOf(userContext).checkStudentNameOfStudent(studentName);
 		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent(studentNumber);
+		
+		checkerOf(userContext).checkStudentAvatarOfStudent(studentAvatar);
 		
 		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
 		
@@ -634,19 +588,17 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		checkerOf(userContext).checkUserIdOfStudent(userId);
 		
 		checkerOf(userContext).checkPlatformIdOfStudent(platformId);
-		
-		checkerOf(userContext).checkChangeRequestIdOfStudent(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 
 	}
-	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId, String [] tokensExpr) throws Exception
+	public  Location addStudent(HealthUserContext userContext, String locationId, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudent(userContext,locationId,studentName, studentId, guardianName, guardianMobile, userId, platformId, changeRequestId,tokensExpr);
+		checkParamsForAddingStudent(userContext,locationId,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, userId, platformId,tokensExpr);
 
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, userId, platformId, changeRequestId);
+		Student student = createStudent(userContext,studentName, studentNumber, studentAvatar, guardianName, guardianMobile, userId, platformId);
 
 		Location location = loadLocation(userContext, locationId, emptyOptions());
 		synchronized(location){
@@ -659,22 +611,23 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String locationId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String locationId,String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfLocation(locationId);
 		checkerOf(userContext).checkIdOfStudent(id);
 
 		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
+		checkerOf(userContext).checkStudentNumberOfStudent( studentNumber);
+		checkerOf(userContext).checkStudentAvatarOfStudent( studentAvatar);
 		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
 		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
 
 	}
-	public  Location updateStudentProperties(HealthUserContext userContext, String locationId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
+	public  Location updateStudentProperties(HealthUserContext userContext, String locationId, String id,String studentName,String studentNumber,String studentAvatar,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingStudentProperties(userContext,locationId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
+		checkParamsForUpdatingStudentProperties(userContext,locationId,id,studentName,studentNumber,studentAvatar,guardianName,guardianMobile,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -690,7 +643,8 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		Student item = locationToUpdate.getStudentList().first();
 
 		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
+		item.updateStudentNumber( studentNumber );
+		item.updateStudentAvatar( studentAvatar );
 		item.updateGuardianName( guardianName );
 		item.updateGuardianMobile( guardianMobile );
 
@@ -703,13 +657,14 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 	}
 
 
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String userId, String platformId, String changeRequestId) throws Exception{
+	protected Student createStudent(HealthUserContext userContext, String studentName, String studentNumber, String studentAvatar, String guardianName, String guardianMobile, String userId, String platformId) throws Exception{
 
 		Student student = new Student();
 		
 		
 		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
+		student.setStudentNumber(studentNumber);		
+		student.setStudentAvatar(studentAvatar);		
 		student.setGuardianName(guardianName);		
 		student.setGuardianMobile(guardianMobile);		
 		User  user = new User();
@@ -718,10 +673,7 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		student.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		student.setPlatform(platform);		
-		ChangeRequest  changeRequest = new ChangeRequest();
-		changeRequest.setId(changeRequestId);		
-		student.setChangeRequest(changeRequest);
+		student.setPlatform(platform);
 	
 		
 		return student;
@@ -834,19 +786,33 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 		
 
 		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
+		
 		}
 		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
+		if(Student.STUDENT_NUMBER_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkStudentNumberOfStudent(parseString(newValueExpr));
+		
+		}
+		
+		if(Student.STUDENT_AVATAR_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkStudentAvatarOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
+		
 		}
 		
 		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -880,251 +846,6 @@ public class LocationManagerImpl extends CustomHealthCheckerManager implements L
 			student.changeProperty(property, newValueExpr);
 			
 			location = saveLocation(userContext, location, tokens().withStudentList().done());
-			return present(userContext,location, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfLocation(locationId);
-
-		
-		checkerOf(userContext).checkNameOfUser(name);
-		
-		checkerOf(userContext).checkAvatarOfUser(avatar);
-		
-		checkerOf(userContext).checkPlatformIdOfUser(platformId);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-
-	}
-	public  Location addUser(HealthUserContext userContext, String locationId, String name, String avatar, String platformId, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingUser(userContext,locationId,name, avatar, platformId,tokensExpr);
-
-		User user = createUser(userContext,name, avatar, platformId);
-
-		Location location = loadLocation(userContext, locationId, emptyOptions());
-		synchronized(location){
-			//Will be good when the location loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			location.addUser( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
-			
-			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, user);
-			return present(userContext,location, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingUserProperties(HealthUserContext userContext, String locationId,String id,String name,String avatar,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfUser(id);
-
-		checkerOf(userContext).checkNameOfUser( name);
-		checkerOf(userContext).checkAvatarOfUser( avatar);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-	}
-	public  Location updateUserProperties(HealthUserContext userContext, String locationId, String id,String name,String avatar, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingUserProperties(userContext,locationId,id,name,avatar,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withUserListList()
-				.searchUserListWith(User.ID_PROPERTY, "is", id).done();
-
-		Location locationToUpdate = loadLocation(userContext, locationId, options);
-
-		if(locationToUpdate.getUserList().isEmpty()){
-			throw new LocationManagerException("User is NOT FOUND with id: '"+id+"'");
-		}
-
-		User item = locationToUpdate.getUserList().first();
-
-		item.updateName( name );
-		item.updateAvatar( avatar );
-
-
-		//checkParamsForAddingUser(userContext,locationId,name, code, used,tokensExpr);
-		Location location = saveLocation(userContext, locationToUpdate, tokens().withUserList().done());
-		synchronized(location){
-			return present(userContext,location, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected User createUser(HealthUserContext userContext, String name, String avatar, String platformId) throws Exception{
-
-		User user = new User();
-		
-		
-		user.setName(name);		
-		user.setAvatar(avatar);		
-		user.setCreateTime(userContext.now());		
-		Platform  platform = new Platform();
-		platform.setId(platformId);		
-		user.setPlatform(platform);
-	
-		
-		return user;
-
-
-	}
-
-	protected User createIndexedUser(String id, int version){
-
-		User user = new User();
-		user.setId(id);
-		user.setVersion(version);
-		return user;
-
-	}
-
-	protected void checkParamsForRemovingUserList(HealthUserContext userContext, String locationId,
-			String userIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfLocation(locationId);
-		for(String userIdItem: userIds){
-			checkerOf(userContext).checkIdOfUser(userIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-	}
-	public  Location removeUserList(HealthUserContext userContext, String locationId,
-			String userIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingUserList(userContext, locationId,  userIds, tokensExpr);
-
-
-			Location location = loadLocation(userContext, locationId, allTokens());
-			synchronized(location){
-				//Will be good when the location loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				locationDaoOf(userContext).planToRemoveUserList(location, userIds, allTokens());
-				location = saveLocation(userContext, location, tokens().withUserList().done());
-				deleteRelationListInGraph(userContext, location.getUserList());
-				return present(userContext,location, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-	}
-	public  Location removeUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingUser(userContext,locationId, userId, userVersion,tokensExpr);
-
-		User user = createIndexedUser(userId, userVersion);
-		Location location = loadLocation(userContext, locationId, allTokens());
-		synchronized(location){
-			//Will be good when the location loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			location.removeUser( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
-			deleteRelationInGraph(userContext, user);
-			return present(userContext,location, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingUser(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfLocation( locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-	}
-	public  Location copyUserFrom(HealthUserContext userContext, String locationId,
-		String userId, int userVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingUser(userContext,locationId, userId, userVersion,tokensExpr);
-
-		User user = createIndexedUser(userId, userVersion);
-		Location location = loadLocation(userContext, locationId, allTokens());
-		synchronized(location){
-			//Will be good when the location loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			location.copyUserFrom( user );
-			location = saveLocation(userContext, location, tokens().withUserList().done());
-			
-			userContext.getManagerGroup().getUserManager().onNewInstanceCreated(userContext, (User)location.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,location, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfLocation(locationId);
-		checkerOf(userContext).checkIdOfUser(userId);
-		checkerOf(userContext).checkVersionOfUser(userVersion);
-		
-
-		if(User.NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkNameOfUser(parseString(newValueExpr));
-		}
-		
-		if(User.AVATAR_PROPERTY.equals(property)){
-			checkerOf(userContext).checkAvatarOfUser(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(LocationManagerException.class);
-
-	}
-
-	public  Location updateUser(HealthUserContext userContext, String locationId, String userId, int userVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingUser(userContext, locationId, userId, userVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withUserList().searchUserListWith(User.ID_PROPERTY, "eq", userId).done();
-
-
-
-		Location location = loadLocation(userContext, locationId, loadTokens);
-
-		synchronized(location){
-			//Will be good when the location loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//location.removeUser( user );
-			//make changes to AcceleraterAccount.
-			User userIndex = createIndexedUser(userId, userVersion);
-
-			User user = location.findTheUser(userIndex);
-			if(user == null){
-				throw new LocationManagerException(user+" is NOT FOUND" );
-			}
-
-			user.changeProperty(property, newValueExpr);
-			
-			location = saveLocation(userContext, location, tokens().withUserList().done());
 			return present(userContext,location, mergedAllTokens(tokensExpr));
 		}
 

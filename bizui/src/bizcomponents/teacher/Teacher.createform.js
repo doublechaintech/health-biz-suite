@@ -22,7 +22,9 @@ const testValues = {
   mobile: '18012341234',
   school: '益州小学',
   schoolClass: '教科院一年级5班',
+  classSize: '1',
   platformId: 'P000001',
+  userId: 'U000001',
   changeRequestId: 'CR000001',
 }
 */

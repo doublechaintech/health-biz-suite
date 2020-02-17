@@ -735,17 +735,31 @@ public class UserAppJDBCTemplateDAO extends HealthBaseDAOImpl implements UserApp
  	protected Object[] prepareUserAppUpdateParameters(UserApp userApp){
  		Object[] parameters = new Object[11];
  
- 		parameters[0] = userApp.getTitle(); 	
+ 		
+ 		parameters[0] = userApp.getTitle();
+ 		 	
  		if(userApp.getSecUser() != null){
  			parameters[1] = userApp.getSecUser().getId();
  		}
  
+ 		
  		parameters[2] = userApp.getAppIcon();
+ 		
+ 		
  		parameters[3] = userApp.getFullAccess();
+ 		
+ 		
  		parameters[4] = userApp.getPermission();
+ 		
+ 		
  		parameters[5] = userApp.getObjectType();
+ 		
+ 		
  		parameters[6] = userApp.getObjectId();
- 		parameters[7] = userApp.getLocation();		
+ 		
+ 		
+ 		parameters[7] = userApp.getLocation();
+ 				
  		parameters[8] = userApp.nextVersion();
  		parameters[9] = userApp.getId();
  		parameters[10] = userApp.getVersion();
@@ -758,18 +772,32 @@ public class UserAppJDBCTemplateDAO extends HealthBaseDAOImpl implements UserApp
 		userApp.setId(newUserAppId);
 		parameters[0] =  userApp.getId();
  
- 		parameters[1] = userApp.getTitle(); 	
+ 		
+ 		parameters[1] = userApp.getTitle();
+ 		 	
  		if(userApp.getSecUser() != null){
  			parameters[2] = userApp.getSecUser().getId();
  		
  		}
  		
+ 		
  		parameters[3] = userApp.getAppIcon();
+ 		
+ 		
  		parameters[4] = userApp.getFullAccess();
+ 		
+ 		
  		parameters[5] = userApp.getPermission();
+ 		
+ 		
  		parameters[6] = userApp.getObjectType();
+ 		
+ 		
  		parameters[7] = userApp.getObjectId();
- 		parameters[8] = userApp.getLocation();		
+ 		
+ 		
+ 		parameters[8] = userApp.getLocation();
+ 				
  				
  		return parameters;
  	}

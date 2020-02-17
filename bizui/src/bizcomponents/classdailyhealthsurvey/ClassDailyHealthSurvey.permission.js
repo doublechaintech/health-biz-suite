@@ -34,6 +34,7 @@ const internalSummaryOf = (classDailyHealthSurvey,targetComponent) =>{
 <Description term="ID">{classDailyHealthSurvey.id}</Description> 
 <Description term="名称">{classDailyHealthSurvey.name}</Description> 
 <Description term="调查的时间">{ moment(classDailyHealthSurvey.surveyTime).format('YYYY-MM-DD')}</Description> 
+<Description term="下载网址">{classDailyHealthSurvey.downloadUrl}</Description> 
 	
       </DescriptionList>
 	)
@@ -58,7 +59,7 @@ class ClassDailyHealthSurveyPermission extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  classDailyHealthSurvey = this.props.classDailyHealthSurvey
-    const { id,displayName, dailySurveyQuestionCount, studentHealthSurveyCount } = classDailyHealthSurvey
+    const { id,displayName, dailySurveyQuestionCount, studentHealthSurveyCount, healthSurveyReportCount } = classDailyHealthSurvey
     const  returnURL = `/classDailyHealthSurvey/${id}/dashboard`
     const cardsData = {cardsName:"每日健康调查",cardsFor: "classDailyHealthSurvey",cardsSource: classDailyHealthSurvey,displayName,returnURL,
   		subItems: [

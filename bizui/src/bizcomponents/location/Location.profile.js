@@ -53,7 +53,7 @@ class LocationProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  location = this.props.location;
-    const { id,displayName, studentCount, userCount } = location
+    const { id,displayName, studentCount } = location
     const  returnURL = `/location/${id}/dashboard`
     const cardsData = {cardsName:"位置",cardsFor: "location",cardsSource: location,displayName,returnURL,
   		subItems: [

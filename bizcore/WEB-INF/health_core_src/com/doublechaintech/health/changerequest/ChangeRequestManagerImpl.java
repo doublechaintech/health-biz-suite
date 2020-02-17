@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -22,9 +23,7 @@ import com.terapico.uccaf.BaseUserContext;
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.teacher.Teacher;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
-import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
 import com.doublechaintech.health.changerequesttype.ChangeRequestType;
-import com.doublechaintech.health.student.Student;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.question.Question;
 
@@ -33,13 +32,10 @@ import com.doublechaintech.health.changerequesttype.CandidateChangeRequestType;
 
 import com.doublechaintech.health.platform.Platform;
 import com.doublechaintech.health.changerequest.ChangeRequest;
-import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.questiontype.QuestionType;
 import com.doublechaintech.health.teacher.Teacher;
-import com.doublechaintech.health.location.Location;
 import com.doublechaintech.health.classdailyhealthsurvey.ClassDailyHealthSurvey;
 import com.doublechaintech.health.student.Student;
-import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 import com.doublechaintech.health.surveystatus.SurveyStatus;
 import com.doublechaintech.health.user.User;
 
@@ -179,10 +175,6 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		addAction(userContext, changeRequest, tokens,"change_request.removeTeacher","removeTeacher","removeTeacher/"+changeRequest.getId()+"/","teacherList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.updateTeacher","updateTeacher","updateTeacher/"+changeRequest.getId()+"/","teacherList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.copyTeacherFrom","copyTeacherFrom","copyTeacherFrom/"+changeRequest.getId()+"/","teacherList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.addStudent","addStudent","addStudent/"+changeRequest.getId()+"/","studentList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.removeStudent","removeStudent","removeStudent/"+changeRequest.getId()+"/","studentList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.updateStudent","updateStudent","updateStudent/"+changeRequest.getId()+"/","studentList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.copyStudentFrom","copyStudentFrom","copyStudentFrom/"+changeRequest.getId()+"/","studentList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.addQuestion","addQuestion","addQuestion/"+changeRequest.getId()+"/","questionList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.removeQuestion","removeQuestion","removeQuestion/"+changeRequest.getId()+"/","questionList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.updateQuestion","updateQuestion","updateQuestion/"+changeRequest.getId()+"/","questionList","primary");
@@ -195,10 +187,6 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		addAction(userContext, changeRequest, tokens,"change_request.removeStudentHealthSurvey","removeStudentHealthSurvey","removeStudentHealthSurvey/"+changeRequest.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.updateStudentHealthSurvey","updateStudentHealthSurvey","updateStudentHealthSurvey/"+changeRequest.getId()+"/","studentHealthSurveyList","primary");
 		addAction(userContext, changeRequest, tokens,"change_request.copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom","copyStudentHealthSurveyFrom/"+changeRequest.getId()+"/","studentHealthSurveyList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.addStudentDailyAnswer","addStudentDailyAnswer","addStudentDailyAnswer/"+changeRequest.getId()+"/","studentDailyAnswerList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.removeStudentDailyAnswer","removeStudentDailyAnswer","removeStudentDailyAnswer/"+changeRequest.getId()+"/","studentDailyAnswerList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.updateStudentDailyAnswer","updateStudentDailyAnswer","updateStudentDailyAnswer/"+changeRequest.getId()+"/","studentDailyAnswerList","primary");
-		addAction(userContext, changeRequest, tokens,"change_request.copyStudentDailyAnswerFrom","copyStudentDailyAnswerFrom","copyStudentDailyAnswerFrom/"+changeRequest.getId()+"/","studentDailyAnswerList","primary");
 	
 		
 		
@@ -263,7 +251,10 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(ChangeRequest.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfChangeRequest(parseString(newValueExpr));
+		
+			
 		}		
 
 				
@@ -368,11 +359,9 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
 		.sortTeacherListWith("id","desc")
-		.sortStudentListWith("id","desc")
 		.sortQuestionListWith("id","desc")
 		.sortClassDailyHealthSurveyListWith("id","desc")
 		.sortStudentHealthSurveyListWith("id","desc")
-		.sortStudentDailyAnswerListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -592,8 +581,8 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 				return changeRequest;
 			}
 	}
-	//disconnect ChangeRequest with student_id in Student
-	protected ChangeRequest breakWithStudentByStudentId(HealthUserContext userContext, String changeRequestId, String studentIdId,  String [] tokensExpr)
+	//disconnect ChangeRequest with user in Teacher
+	protected ChangeRequest breakWithTeacherByUser(HealthUserContext userContext, String changeRequestId, String userId,  String [] tokensExpr)
 		 throws Exception{
 
 			//TODO add check code here
@@ -604,63 +593,9 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 				//Will be good when the thread loaded from this JVM process cache.
 				//Also good when there is a RAM based DAO implementation
 
-				changeRequestDaoOf(userContext).planToRemoveStudentListWithStudentId(changeRequest, studentIdId, this.emptyOptions());
+				changeRequestDaoOf(userContext).planToRemoveTeacherListWithUser(changeRequest, userId, this.emptyOptions());
 
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-				return changeRequest;
-			}
-	}
-	//disconnect ChangeRequest with address in Student
-	protected ChangeRequest breakWithStudentByAddress(HealthUserContext userContext, String changeRequestId, String addressId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-
-			synchronized(changeRequest){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				changeRequestDaoOf(userContext).planToRemoveStudentListWithAddress(changeRequest, addressId, this.emptyOptions());
-
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-				return changeRequest;
-			}
-	}
-	//disconnect ChangeRequest with user in Student
-	protected ChangeRequest breakWithStudentByUser(HealthUserContext userContext, String changeRequestId, String userId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-
-			synchronized(changeRequest){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				changeRequestDaoOf(userContext).planToRemoveStudentListWithUser(changeRequest, userId, this.emptyOptions());
-
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-				return changeRequest;
-			}
-	}
-	//disconnect ChangeRequest with platform in Student
-	protected ChangeRequest breakWithStudentByPlatform(HealthUserContext userContext, String changeRequestId, String platformId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-
-			synchronized(changeRequest){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				changeRequestDaoOf(userContext).planToRemoveStudentListWithPlatform(changeRequest, platformId, this.emptyOptions());
-
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
+				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withTeacherList().done());
 				return changeRequest;
 			}
 	}
@@ -826,49 +761,13 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 				return changeRequest;
 			}
 	}
-	//disconnect ChangeRequest with student_health_survey in StudentDailyAnswer
-	protected ChangeRequest breakWithStudentDailyAnswerByStudentHealthSurvey(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-
-			synchronized(changeRequest){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				changeRequestDaoOf(userContext).planToRemoveStudentDailyAnswerListWithStudentHealthSurvey(changeRequest, studentHealthSurveyId, this.emptyOptions());
-
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-				return changeRequest;
-			}
-	}
-	//disconnect ChangeRequest with question in StudentDailyAnswer
-	protected ChangeRequest breakWithStudentDailyAnswerByQuestion(HealthUserContext userContext, String changeRequestId, String questionId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-
-			synchronized(changeRequest){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				changeRequestDaoOf(userContext).planToRemoveStudentDailyAnswerListWithQuestion(changeRequest, questionId, this.emptyOptions());
-
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-				return changeRequest;
-			}
-	}
 
 
 
 
 
 
-	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 
@@ -881,18 +780,22 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 		checkerOf(userContext).checkSchoolClassOfTeacher(schoolClass);
 		
+		checkerOf(userContext).checkClassSizeOfTeacher(classSize);
+		
 		checkerOf(userContext).checkPlatformIdOfTeacher(platformId);
+		
+		checkerOf(userContext).checkUserIdOfTeacher(userId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 
 	}
-	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId, String [] tokensExpr) throws Exception
+	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingTeacher(userContext,changeRequestId,name, mobile, school, schoolClass, platformId,tokensExpr);
+		checkParamsForAddingTeacher(userContext,changeRequestId,name, mobile, school, schoolClass, classSize, platformId, userId,tokensExpr);
 
-		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, platformId);
+		Teacher teacher = createTeacher(userContext,name, mobile, school, schoolClass, classSize, platformId, userId);
 
 		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
 		synchronized(changeRequest){
@@ -905,7 +808,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String changeRequestId,String id,String name,String mobile,String school,String schoolClass,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingTeacherProperties(HealthUserContext userContext, String changeRequestId,String id,String name,String mobile,String school,String schoolClass,int classSize,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 		checkerOf(userContext).checkIdOfTeacher(id);
@@ -914,13 +817,14 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		checkerOf(userContext).checkMobileOfTeacher( mobile);
 		checkerOf(userContext).checkSchoolOfTeacher( school);
 		checkerOf(userContext).checkSchoolClassOfTeacher( schoolClass);
+		checkerOf(userContext).checkClassSizeOfTeacher( classSize);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 	}
-	public  ChangeRequest updateTeacherProperties(HealthUserContext userContext, String changeRequestId, String id,String name,String mobile,String school,String schoolClass, String [] tokensExpr) throws Exception
+	public  ChangeRequest updateTeacherProperties(HealthUserContext userContext, String changeRequestId, String id,String name,String mobile,String school,String schoolClass,int classSize, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingTeacherProperties(userContext,changeRequestId,id,name,mobile,school,schoolClass,tokensExpr);
+		checkParamsForUpdatingTeacherProperties(userContext,changeRequestId,id,name,mobile,school,schoolClass,classSize,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -939,6 +843,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		item.updateMobile( mobile );
 		item.updateSchool( school );
 		item.updateSchoolClass( schoolClass );
+		item.updateClassSize( classSize );
 
 
 		//checkParamsForAddingTeacher(userContext,changeRequestId,name, code, used,tokensExpr);
@@ -949,7 +854,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	}
 
 
-	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, String platformId) throws Exception{
+	protected Teacher createTeacher(HealthUserContext userContext, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId) throws Exception{
 
 		Teacher teacher = new Teacher();
 		
@@ -958,10 +863,14 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		teacher.setMobile(mobile);		
 		teacher.setSchool(school);		
 		teacher.setSchoolClass(schoolClass);		
+		teacher.setClassSize(classSize);		
 		teacher.setCreateTime(userContext.now());		
 		Platform  platform = new Platform();
 		platform.setId(platformId);		
-		teacher.setPlatform(platform);
+		teacher.setPlatform(platform);		
+		User  user = new User();
+		user.setId(userId);		
+		teacher.setUser(user);
 	
 		
 		return teacher;
@@ -1074,19 +983,33 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(Teacher.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.MOBILE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkMobileOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.SCHOOL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolOfTeacher(parseString(newValueExpr));
+		
 		}
 		
 		if(Teacher.SCHOOL_CLASS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSchoolClassOfTeacher(parseString(newValueExpr));
+		
+		}
+		
+		if(Teacher.CLASS_SIZE_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkClassSizeOfTeacher(parseInt(newValueExpr));
+		
 		}
 		
 	
@@ -1120,279 +1043,6 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			teacher.changeProperty(property, newValueExpr);
 			
 			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withTeacherList().done());
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-
-		
-		checkerOf(userContext).checkStudentNameOfStudent(studentName);
-		
-		checkerOf(userContext).checkStudentIdOfStudent(studentId);
-		
-		checkerOf(userContext).checkGuardianNameOfStudent(guardianName);
-		
-		checkerOf(userContext).checkGuardianMobileOfStudent(guardianMobile);
-		
-		checkerOf(userContext).checkAddressIdOfStudent(addressId);
-		
-		checkerOf(userContext).checkUserIdOfStudent(userId);
-		
-		checkerOf(userContext).checkPlatformIdOfStudent(platformId);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-
-	}
-	public  ChangeRequest addStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingStudent(userContext,changeRequestId,studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId,tokensExpr);
-
-		Student student = createStudent(userContext,studentName, studentId, guardianName, guardianMobile, addressId, userId, platformId);
-
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			changeRequest.addStudent( student );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-			
-			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, student);
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingStudentProperties(HealthUserContext userContext, String changeRequestId,String id,String studentName,String studentId,String guardianName,String guardianMobile,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		checkerOf(userContext).checkIdOfStudent(id);
-
-		checkerOf(userContext).checkStudentNameOfStudent( studentName);
-		checkerOf(userContext).checkStudentIdOfStudent( studentId);
-		checkerOf(userContext).checkGuardianNameOfStudent( guardianName);
-		checkerOf(userContext).checkGuardianMobileOfStudent( guardianMobile);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest updateStudentProperties(HealthUserContext userContext, String changeRequestId, String id,String studentName,String studentId,String guardianName,String guardianMobile, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingStudentProperties(userContext,changeRequestId,id,studentName,studentId,guardianName,guardianMobile,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withStudentListList()
-				.searchStudentListWith(Student.ID_PROPERTY, "is", id).done();
-
-		ChangeRequest changeRequestToUpdate = loadChangeRequest(userContext, changeRequestId, options);
-
-		if(changeRequestToUpdate.getStudentList().isEmpty()){
-			throw new ChangeRequestManagerException("Student is NOT FOUND with id: '"+id+"'");
-		}
-
-		Student item = changeRequestToUpdate.getStudentList().first();
-
-		item.updateStudentName( studentName );
-		item.updateStudentId( studentId );
-		item.updateGuardianName( guardianName );
-		item.updateGuardianMobile( guardianMobile );
-
-
-		//checkParamsForAddingStudent(userContext,changeRequestId,name, code, used,tokensExpr);
-		ChangeRequest changeRequest = saveChangeRequest(userContext, changeRequestToUpdate, tokens().withStudentList().done());
-		synchronized(changeRequest){
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected Student createStudent(HealthUserContext userContext, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId) throws Exception{
-
-		Student student = new Student();
-		
-		
-		student.setStudentName(studentName);		
-		student.setStudentId(studentId);		
-		student.setGuardianName(guardianName);		
-		student.setGuardianMobile(guardianMobile);		
-		Location  address = new Location();
-		address.setId(addressId);		
-		student.setAddress(address);		
-		User  user = new User();
-		user.setId(userId);		
-		student.setUser(user);		
-		student.setCreateTime(userContext.now());		
-		Platform  platform = new Platform();
-		platform.setId(platformId);		
-		student.setPlatform(platform);
-	
-		
-		return student;
-
-
-	}
-
-	protected Student createIndexedStudent(String id, int version){
-
-		Student student = new Student();
-		student.setId(id);
-		student.setVersion(version);
-		return student;
-
-	}
-
-	protected void checkParamsForRemovingStudentList(HealthUserContext userContext, String changeRequestId,
-			String studentIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		for(String studentIdItem: studentIds){
-			checkerOf(userContext).checkIdOfStudent(studentIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest removeStudentList(HealthUserContext userContext, String changeRequestId,
-			String studentIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingStudentList(userContext, changeRequestId,  studentIds, tokensExpr);
-
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-			synchronized(changeRequest){
-				//Will be good when the changeRequest loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				changeRequestDaoOf(userContext).planToRemoveStudentList(changeRequest, studentIds, allTokens());
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-				deleteRelationListInGraph(userContext, changeRequest.getStudentList());
-				return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingStudent(HealthUserContext userContext, String changeRequestId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfChangeRequest( changeRequestId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest removeStudent(HealthUserContext userContext, String changeRequestId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingStudent(userContext,changeRequestId, studentId, studentVersion,tokensExpr);
-
-		Student student = createIndexedStudent(studentId, studentVersion);
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			changeRequest.removeStudent( student );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-			deleteRelationInGraph(userContext, student);
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingStudent(HealthUserContext userContext, String changeRequestId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfChangeRequest( changeRequestId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest copyStudentFrom(HealthUserContext userContext, String changeRequestId,
-		String studentId, int studentVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingStudent(userContext,changeRequestId, studentId, studentVersion,tokensExpr);
-
-		Student student = createIndexedStudent(studentId, studentVersion);
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			
-
-			changeRequest.copyStudentFrom( student );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
-			
-			userContext.getManagerGroup().getStudentManager().onNewInstanceCreated(userContext, (Student)changeRequest.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingStudent(HealthUserContext userContext, String changeRequestId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		checkerOf(userContext).checkIdOfStudent(studentId);
-		checkerOf(userContext).checkVersionOfStudent(studentVersion);
-		
-
-		if(Student.STUDENT_NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentNameOfStudent(parseString(newValueExpr));
-		}
-		
-		if(Student.STUDENT_ID_PROPERTY.equals(property)){
-			checkerOf(userContext).checkStudentIdOfStudent(parseString(newValueExpr));
-		}
-		
-		if(Student.GUARDIAN_NAME_PROPERTY.equals(property)){
-			checkerOf(userContext).checkGuardianNameOfStudent(parseString(newValueExpr));
-		}
-		
-		if(Student.GUARDIAN_MOBILE_PROPERTY.equals(property)){
-			checkerOf(userContext).checkGuardianMobileOfStudent(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-
-	public  ChangeRequest updateStudent(HealthUserContext userContext, String changeRequestId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingStudent(userContext, changeRequestId, studentId, studentVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withStudentList().searchStudentListWith(Student.ID_PROPERTY, "eq", studentId).done();
-
-
-
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, loadTokens);
-
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//changeRequest.removeStudent( student );
-			//make changes to AcceleraterAccount.
-			Student studentIndex = createIndexedStudent(studentId, studentVersion);
-
-			Student student = changeRequest.findTheStudent(studentIndex);
-			if(student == null){
-				throw new ChangeRequestManagerException(student+" is NOT FOUND" );
-			}
-
-			student.changeProperty(property, newValueExpr);
-			
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentList().done());
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 
@@ -1624,23 +1274,33 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(Question.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -1679,7 +1339,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 	}
 	/*
-	public  ChangeRequest associateQuestionListToNewCreator(HealthUserContext userContext, String changeRequestId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception {
+	public  ChangeRequest associateQuestionListToNewCreator(HealthUserContext userContext, String changeRequestId, String  questionIds[], String name, String avatar, String platformId, String [] tokensExpr) throws Exception {
 
 
 
@@ -1689,7 +1349,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, options);
 
-		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, addressId, platformId);
+		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, platformId);
 
 		for(Question question: changeRequest.getQuestionList()) {
 			//TODO: need to check if already associated
@@ -1719,7 +1379,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	}
 
 
-	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 
@@ -1731,17 +1391,19 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(surveyTime);
 		
 		checkerOf(userContext).checkCreatorIdOfClassDailyHealthSurvey(creatorId);
+		
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(downloadUrl);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 
 	}
-	public  ChangeRequest addClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId, String [] tokensExpr) throws Exception
+	public  ChangeRequest addClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingClassDailyHealthSurvey(userContext,changeRequestId,name, teacherId, surveyTime, creatorId,tokensExpr);
+		checkParamsForAddingClassDailyHealthSurvey(userContext,changeRequestId,name, teacherId, surveyTime, creatorId, downloadUrl,tokensExpr);
 
-		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, teacherId, surveyTime, creatorId);
+		ClassDailyHealthSurvey classDailyHealthSurvey = createClassDailyHealthSurvey(userContext,name, teacherId, surveyTime, creatorId, downloadUrl);
 
 		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
 		synchronized(changeRequest){
@@ -1754,20 +1416,21 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 	}
-	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String changeRequestId,String id,String name,DateTime surveyTime,String [] tokensExpr) throws Exception {
+	protected void checkParamsForUpdatingClassDailyHealthSurveyProperties(HealthUserContext userContext, String changeRequestId,String id,String name,DateTime surveyTime,String downloadUrl,String [] tokensExpr) throws Exception {
 
 		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
 		checkerOf(userContext).checkIdOfClassDailyHealthSurvey(id);
 
 		checkerOf(userContext).checkNameOfClassDailyHealthSurvey( name);
 		checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey( surveyTime);
+		checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey( downloadUrl);
 
 		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
 
 	}
-	public  ChangeRequest updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String changeRequestId, String id,String name,DateTime surveyTime, String [] tokensExpr) throws Exception
+	public  ChangeRequest updateClassDailyHealthSurveyProperties(HealthUserContext userContext, String changeRequestId, String id,String name,DateTime surveyTime,String downloadUrl, String [] tokensExpr) throws Exception
 	{
-		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,changeRequestId,id,name,surveyTime,tokensExpr);
+		checkParamsForUpdatingClassDailyHealthSurveyProperties(userContext,changeRequestId,id,name,surveyTime,downloadUrl,tokensExpr);
 
 		Map<String, Object> options = tokens()
 				.allTokens()
@@ -1784,6 +1447,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 
 		item.updateName( name );
 		item.updateSurveyTime( surveyTime );
+		item.updateDownloadUrl( downloadUrl );
 
 
 		//checkParamsForAddingClassDailyHealthSurvey(userContext,changeRequestId,name, code, used,tokensExpr);
@@ -1794,7 +1458,7 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 	}
 
 
-	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, String teacherId, DateTime surveyTime, String creatorId) throws Exception{
+	protected ClassDailyHealthSurvey createClassDailyHealthSurvey(HealthUserContext userContext, String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl) throws Exception{
 
 		ClassDailyHealthSurvey classDailyHealthSurvey = new ClassDailyHealthSurvey();
 		
@@ -1806,7 +1470,8 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		classDailyHealthSurvey.setSurveyTime(surveyTime);		
 		User  creator = new User();
 		creator.setId(creatorId);		
-		classDailyHealthSurvey.setCreator(creator);
+		classDailyHealthSurvey.setCreator(creator);		
+		classDailyHealthSurvey.setDownloadUrl(downloadUrl);
 	
 		
 		return classDailyHealthSurvey;
@@ -1919,11 +1584,21 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(ClassDailyHealthSurvey.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 		if(ClassDailyHealthSurvey.SURVEY_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSurveyTimeOfClassDailyHealthSurvey(parseTimestamp(newValueExpr));
+		
+		}
+		
+		if(ClassDailyHealthSurvey.DOWNLOAD_URL_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkDownloadUrlOfClassDailyHealthSurvey(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -2175,7 +1850,9 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(StudentHealthSurvey.ANSWER_TIME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerTimeOfStudentHealthSurvey(parseTimestamp(newValueExpr));
+		
 		}
 		
 	
@@ -2209,248 +1886,6 @@ public class ChangeRequestManagerImpl extends CustomHealthCheckerManager impleme
 			studentHealthSurvey.changeProperty(property, newValueExpr);
 			studentHealthSurvey.updateLastUpdateTime(userContext.now());
 			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentHealthSurveyList().done());
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-	}
-	/*
-
-	*/
-
-
-
-
-	protected void checkParamsForAddingStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, String questionId, String answer,String [] tokensExpr) throws Exception{
-
-				checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-
-		
-		checkerOf(userContext).checkStudentHealthSurveyIdOfStudentDailyAnswer(studentHealthSurveyId);
-		
-		checkerOf(userContext).checkQuestionIdOfStudentDailyAnswer(questionId);
-		
-		checkerOf(userContext).checkAnswerOfStudentDailyAnswer(answer);
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-
-	}
-	public  ChangeRequest addStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, String questionId, String answer, String [] tokensExpr) throws Exception
-	{
-
-		checkParamsForAddingStudentDailyAnswer(userContext,changeRequestId,studentHealthSurveyId, questionId, answer,tokensExpr);
-
-		StudentDailyAnswer studentDailyAnswer = createStudentDailyAnswer(userContext,studentHealthSurveyId, questionId, answer);
-
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, emptyOptions());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			changeRequest.addStudentDailyAnswer( studentDailyAnswer );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-			
-			userContext.getManagerGroup().getStudentDailyAnswerManager().onNewInstanceCreated(userContext, studentDailyAnswer);
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-	}
-	protected void checkParamsForUpdatingStudentDailyAnswerProperties(HealthUserContext userContext, String changeRequestId,String id,String answer,String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		checkerOf(userContext).checkIdOfStudentDailyAnswer(id);
-
-		checkerOf(userContext).checkAnswerOfStudentDailyAnswer( answer);
-
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest updateStudentDailyAnswerProperties(HealthUserContext userContext, String changeRequestId, String id,String answer, String [] tokensExpr) throws Exception
-	{
-		checkParamsForUpdatingStudentDailyAnswerProperties(userContext,changeRequestId,id,answer,tokensExpr);
-
-		Map<String, Object> options = tokens()
-				.allTokens()
-				//.withStudentDailyAnswerListList()
-				.searchStudentDailyAnswerListWith(StudentDailyAnswer.ID_PROPERTY, "is", id).done();
-
-		ChangeRequest changeRequestToUpdate = loadChangeRequest(userContext, changeRequestId, options);
-
-		if(changeRequestToUpdate.getStudentDailyAnswerList().isEmpty()){
-			throw new ChangeRequestManagerException("StudentDailyAnswer is NOT FOUND with id: '"+id+"'");
-		}
-
-		StudentDailyAnswer item = changeRequestToUpdate.getStudentDailyAnswerList().first();
-
-		item.updateAnswer( answer );
-
-
-		//checkParamsForAddingStudentDailyAnswer(userContext,changeRequestId,name, code, used,tokensExpr);
-		ChangeRequest changeRequest = saveChangeRequest(userContext, changeRequestToUpdate, tokens().withStudentDailyAnswerList().done());
-		synchronized(changeRequest){
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-	}
-
-
-	protected StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String questionId, String answer) throws Exception{
-
-		StudentDailyAnswer studentDailyAnswer = new StudentDailyAnswer();
-		
-		
-		StudentHealthSurvey  studentHealthSurvey = new StudentHealthSurvey();
-		studentHealthSurvey.setId(studentHealthSurveyId);		
-		studentDailyAnswer.setStudentHealthSurvey(studentHealthSurvey);		
-		DailySurveyQuestion  question = new DailySurveyQuestion();
-		question.setId(questionId);		
-		studentDailyAnswer.setQuestion(question);		
-		studentDailyAnswer.setAnswer(answer);		
-		studentDailyAnswer.setCreateTime(userContext.now());		
-		studentDailyAnswer.setLastUpdateTime(userContext.now());
-	
-		
-		return studentDailyAnswer;
-
-
-	}
-
-	protected StudentDailyAnswer createIndexedStudentDailyAnswer(String id, int version){
-
-		StudentDailyAnswer studentDailyAnswer = new StudentDailyAnswer();
-		studentDailyAnswer.setId(id);
-		studentDailyAnswer.setVersion(version);
-		return studentDailyAnswer;
-
-	}
-
-	protected void checkParamsForRemovingStudentDailyAnswerList(HealthUserContext userContext, String changeRequestId,
-			String studentDailyAnswerIds[],String [] tokensExpr) throws Exception {
-
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		for(String studentDailyAnswerIdItem: studentDailyAnswerIds){
-			checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerIdItem);
-		}
-
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest removeStudentDailyAnswerList(HealthUserContext userContext, String changeRequestId,
-			String studentDailyAnswerIds[],String [] tokensExpr) throws Exception{
-
-			checkParamsForRemovingStudentDailyAnswerList(userContext, changeRequestId,  studentDailyAnswerIds, tokensExpr);
-
-
-			ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-			synchronized(changeRequest){
-				//Will be good when the changeRequest loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-				changeRequestDaoOf(userContext).planToRemoveStudentDailyAnswerList(changeRequest, studentDailyAnswerIds, allTokens());
-				changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-				deleteRelationListInGraph(userContext, changeRequest.getStudentDailyAnswerList());
-				return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-			}
-	}
-
-	protected void checkParamsForRemovingStudentDailyAnswer(HealthUserContext userContext, String changeRequestId,
-		String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfChangeRequest( changeRequestId);
-		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
-		checkerOf(userContext).checkVersionOfStudentDailyAnswer(studentDailyAnswerVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest removeStudentDailyAnswer(HealthUserContext userContext, String changeRequestId,
-		String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForRemovingStudentDailyAnswer(userContext,changeRequestId, studentDailyAnswerId, studentDailyAnswerVersion,tokensExpr);
-
-		StudentDailyAnswer studentDailyAnswer = createIndexedStudentDailyAnswer(studentDailyAnswerId, studentDailyAnswerVersion);
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			changeRequest.removeStudentDailyAnswer( studentDailyAnswer );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-			deleteRelationInGraph(userContext, studentDailyAnswer);
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-
-	}
-	protected void checkParamsForCopyingStudentDailyAnswer(HealthUserContext userContext, String changeRequestId,
-		String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr) throws Exception{
-		
-		checkerOf(userContext).checkIdOfChangeRequest( changeRequestId);
-		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
-		checkerOf(userContext).checkVersionOfStudentDailyAnswer(studentDailyAnswerVersion);
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-	public  ChangeRequest copyStudentDailyAnswerFrom(HealthUserContext userContext, String changeRequestId,
-		String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr) throws Exception{
-
-		checkParamsForCopyingStudentDailyAnswer(userContext,changeRequestId, studentDailyAnswerId, studentDailyAnswerVersion,tokensExpr);
-
-		StudentDailyAnswer studentDailyAnswer = createIndexedStudentDailyAnswer(studentDailyAnswerId, studentDailyAnswerVersion);
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, allTokens());
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-
-			studentDailyAnswer.updateLastUpdateTime(userContext.now());
-
-			changeRequest.copyStudentDailyAnswerFrom( studentDailyAnswer );
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
-			
-			userContext.getManagerGroup().getStudentDailyAnswerManager().onNewInstanceCreated(userContext, (StudentDailyAnswer)changeRequest.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
-			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
-		}
-
-	}
-
-	protected void checkParamsForUpdatingStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
-		
-
-		
-		checkerOf(userContext).checkIdOfChangeRequest(changeRequestId);
-		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
-		checkerOf(userContext).checkVersionOfStudentDailyAnswer(studentDailyAnswerVersion);
-		
-
-		if(StudentDailyAnswer.ANSWER_PROPERTY.equals(property)){
-			checkerOf(userContext).checkAnswerOfStudentDailyAnswer(parseString(newValueExpr));
-		}
-		
-	
-		checkerOf(userContext).throwExceptionIfHasErrors(ChangeRequestManagerException.class);
-
-	}
-
-	public  ChangeRequest updateStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr)
-			throws Exception{
-
-		checkParamsForUpdatingStudentDailyAnswer(userContext, changeRequestId, studentDailyAnswerId, studentDailyAnswerVersion, property, newValueExpr,  tokensExpr);
-
-		Map<String,Object> loadTokens = this.tokens().withStudentDailyAnswerList().searchStudentDailyAnswerListWith(StudentDailyAnswer.ID_PROPERTY, "eq", studentDailyAnswerId).done();
-
-
-
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId, loadTokens);
-
-		synchronized(changeRequest){
-			//Will be good when the changeRequest loaded from this JVM process cache.
-			//Also good when there is a RAM based DAO implementation
-			//changeRequest.removeStudentDailyAnswer( studentDailyAnswer );
-			//make changes to AcceleraterAccount.
-			StudentDailyAnswer studentDailyAnswerIndex = createIndexedStudentDailyAnswer(studentDailyAnswerId, studentDailyAnswerVersion);
-
-			StudentDailyAnswer studentDailyAnswer = changeRequest.findTheStudentDailyAnswer(studentDailyAnswerIndex);
-			if(studentDailyAnswer == null){
-				throw new ChangeRequestManagerException(studentDailyAnswer+" is NOT FOUND" );
-			}
-
-			studentDailyAnswer.changeProperty(property, newValueExpr);
-			studentDailyAnswer.updateLastUpdateTime(userContext.now());
-			changeRequest = saveChangeRequest(userContext, changeRequest, tokens().withStudentDailyAnswerList().done());
 			return present(userContext,changeRequest, mergedAllTokens(tokensExpr));
 		}
 

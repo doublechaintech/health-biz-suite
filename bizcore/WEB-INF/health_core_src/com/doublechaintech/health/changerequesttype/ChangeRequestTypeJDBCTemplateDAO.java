@@ -545,12 +545,24 @@ public class ChangeRequestTypeJDBCTemplateDAO extends HealthBaseDAOImpl implemen
  	protected Object[] prepareChangeRequestTypeUpdateParameters(ChangeRequestType changeRequestType){
  		Object[] parameters = new Object[10];
  
+ 		
  		parameters[0] = changeRequestType.getName();
+ 		
+ 		
  		parameters[1] = changeRequestType.getCode();
+ 		
+ 		
  		parameters[2] = changeRequestType.getIcon();
+ 		
+ 		
  		parameters[3] = changeRequestType.getDisplayOrder();
+ 		
+ 		
  		parameters[4] = changeRequestType.getBindTypes();
- 		parameters[5] = changeRequestType.getStepConfiguration(); 	
+ 		
+ 		
+ 		parameters[5] = changeRequestType.getStepConfiguration();
+ 		 	
  		if(changeRequestType.getPlatform() != null){
  			parameters[6] = changeRequestType.getPlatform().getId();
  		}
@@ -567,12 +579,24 @@ public class ChangeRequestTypeJDBCTemplateDAO extends HealthBaseDAOImpl implemen
 		changeRequestType.setId(newChangeRequestTypeId);
 		parameters[0] =  changeRequestType.getId();
  
+ 		
  		parameters[1] = changeRequestType.getName();
+ 		
+ 		
  		parameters[2] = changeRequestType.getCode();
+ 		
+ 		
  		parameters[3] = changeRequestType.getIcon();
+ 		
+ 		
  		parameters[4] = changeRequestType.getDisplayOrder();
+ 		
+ 		
  		parameters[5] = changeRequestType.getBindTypes();
- 		parameters[6] = changeRequestType.getStepConfiguration(); 	
+ 		
+ 		
+ 		parameters[6] = changeRequestType.getStepConfiguration();
+ 		 	
  		if(changeRequestType.getPlatform() != null){
  			parameters[7] = changeRequestType.getPlatform().getId();
  		

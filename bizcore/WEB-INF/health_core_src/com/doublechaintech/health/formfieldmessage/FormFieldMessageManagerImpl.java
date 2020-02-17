@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -216,15 +217,24 @@ public class FormFieldMessageManagerImpl extends CustomHealthCheckerManager impl
 		
 
 		if(FormFieldMessage.TITLE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTitleOfFormFieldMessage(parseString(newValueExpr));
+		
+			
 		}
 		if(FormFieldMessage.PARAMETER_NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkParameterNameOfFormFieldMessage(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(FormFieldMessage.LEVEL_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLevelOfFormFieldMessage(parseString(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(FormFieldMessageManagerException.class);

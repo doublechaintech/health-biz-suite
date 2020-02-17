@@ -210,6 +210,36 @@ import SurveyStatusProfile from './surveystatus/SurveyStatus.profile';
 import SurveyStatusCreateFormBody from './surveystatus/SurveyStatus.createformbody';
 import SurveyStatusService from './surveystatus/SurveyStatus.service';
 import SurveyStatusUpdateForm from './surveystatus/SurveyStatus.updateform';
+import HealthSurveyReportBase from './healthsurveyreport/HealthSurveyReport.base';
+import HealthSurveyReportBizApp from './healthsurveyreport/HealthSurveyReport.app';
+import HealthSurveyReportModel from './healthsurveyreport/HealthSurveyReport.model';
+import HealthSurveyReportDashboard from './healthsurveyreport/HealthSurveyReport.dashboard';
+import HealthSurveyReportModalTable from './healthsurveyreport/HealthSurveyReport.modaltable';
+import HealthSurveyReportSearch from './healthsurveyreport/HealthSurveyReport.search';
+import HealthSurveyReportSearchForm from './healthsurveyreport/HealthSurveyReport.searchform';
+import HealthSurveyReportCreateForm from './healthsurveyreport/HealthSurveyReport.createform';
+import HealthSurveyReportAssociateForm from './healthsurveyreport/HealthSurveyReport.associateform';
+import HealthSurveyReportTable from './healthsurveyreport/HealthSurveyReport.table';
+import HealthSurveyReportPermission from './healthsurveyreport/HealthSurveyReport.permission';
+import HealthSurveyReportProfile from './healthsurveyreport/HealthSurveyReport.profile';
+import HealthSurveyReportCreateFormBody from './healthsurveyreport/HealthSurveyReport.createformbody';
+import HealthSurveyReportService from './healthsurveyreport/HealthSurveyReport.service';
+import HealthSurveyReportUpdateForm from './healthsurveyreport/HealthSurveyReport.updateform';
+import StudentAnswerBase from './studentanswer/StudentAnswer.base';
+import StudentAnswerBizApp from './studentanswer/StudentAnswer.app';
+import StudentAnswerModel from './studentanswer/StudentAnswer.model';
+import StudentAnswerDashboard from './studentanswer/StudentAnswer.dashboard';
+import StudentAnswerModalTable from './studentanswer/StudentAnswer.modaltable';
+import StudentAnswerSearch from './studentanswer/StudentAnswer.search';
+import StudentAnswerSearchForm from './studentanswer/StudentAnswer.searchform';
+import StudentAnswerCreateForm from './studentanswer/StudentAnswer.createform';
+import StudentAnswerAssociateForm from './studentanswer/StudentAnswer.associateform';
+import StudentAnswerTable from './studentanswer/StudentAnswer.table';
+import StudentAnswerPermission from './studentanswer/StudentAnswer.permission';
+import StudentAnswerProfile from './studentanswer/StudentAnswer.profile';
+import StudentAnswerCreateFormBody from './studentanswer/StudentAnswer.createformbody';
+import StudentAnswerService from './studentanswer/StudentAnswer.service';
+import StudentAnswerUpdateForm from './studentanswer/StudentAnswer.updateform';
 import UserBase from './user/User.base';
 import UserBizApp from './user/User.app';
 import UserModel from './user/User.model';
@@ -543,6 +573,8 @@ const BizModels = [
 	StudentHealthSurveyModel,
 	StudentDailyAnswerModel,
 	SurveyStatusModel,
+	HealthSurveyReportModel,
+	StudentAnswerModel,
 	UserModel,
 	WechatLoginInfoModel,
 	ChangeRequestModel,
@@ -595,6 +627,8 @@ menuLibrary.dailySurveyQuestion = DailySurveyQuestionBase.menuData
 menuLibrary.studentHealthSurvey = StudentHealthSurveyBase.menuData
 menuLibrary.studentDailyAnswer = StudentDailyAnswerBase.menuData
 menuLibrary.surveyStatus = SurveyStatusBase.menuData
+menuLibrary.healthSurveyReport = HealthSurveyReportBase.menuData
+menuLibrary.studentAnswer = StudentAnswerBase.menuData
 menuLibrary.user = UserBase.menuData
 menuLibrary.wechatLoginInfo = WechatLoginInfoBase.menuData
 menuLibrary.changeRequest = ChangeRequestBase.menuData
@@ -650,6 +684,8 @@ const ViewMapping = {
   'com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey': {name:'studentHealthSurvey'},
   'com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer': {name:'studentDailyAnswer'},
   'com.doublechaintech.health.surveystatus.SurveyStatus': {name:'surveyStatus'},
+  'com.doublechaintech.health.healthsurveyreport.HealthSurveyReport': {name:'healthSurveyReport'},
+  'com.doublechaintech.health.studentanswer.StudentAnswer': {name:'studentAnswer'},
   'com.doublechaintech.health.user.User': {name:'user'},
   'com.doublechaintech.health.wechatlogininfo.WechatLoginInfo': {name:'wechatLoginInfo'},
   'com.doublechaintech.health.changerequest.ChangeRequest': {name:'changeRequest'},
@@ -926,6 +962,36 @@ const OOTBComponents={
     SurveyStatusCreateFormBody,
     SurveyStatusService,
     SurveyStatusUpdateForm,
+    HealthSurveyReportBase,
+    HealthSurveyReportBizApp,
+    HealthSurveyReportModel,
+    HealthSurveyReportDashboard,
+    HealthSurveyReportModalTable,
+    HealthSurveyReportSearch,
+    HealthSurveyReportSearchForm,
+    HealthSurveyReportCreateForm,
+    HealthSurveyReportAssociateForm,
+    HealthSurveyReportTable,
+    HealthSurveyReportPermission,
+    HealthSurveyReportProfile,
+    HealthSurveyReportCreateFormBody,
+    HealthSurveyReportService,
+    HealthSurveyReportUpdateForm,
+    StudentAnswerBase,
+    StudentAnswerBizApp,
+    StudentAnswerModel,
+    StudentAnswerDashboard,
+    StudentAnswerModalTable,
+    StudentAnswerSearch,
+    StudentAnswerSearchForm,
+    StudentAnswerCreateForm,
+    StudentAnswerAssociateForm,
+    StudentAnswerTable,
+    StudentAnswerPermission,
+    StudentAnswerProfile,
+    StudentAnswerCreateFormBody,
+    StudentAnswerService,
+    StudentAnswerUpdateForm,
     UserBase,
     UserBizApp,
     UserModel,

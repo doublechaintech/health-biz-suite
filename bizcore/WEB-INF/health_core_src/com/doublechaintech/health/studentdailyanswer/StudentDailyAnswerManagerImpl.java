@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -19,14 +20,15 @@ import com.doublechaintech.health.userapp.UserApp;
 import com.terapico.uccaf.BaseUserContext;
 
 
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
-import com.doublechaintech.health.changerequest.CandidateChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.CandidateDailySurveyQuestion;
 import com.doublechaintech.health.studenthealthsurvey.CandidateStudentHealthSurvey;
 
+import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswer;
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReport;
 
 
 
@@ -160,7 +162,10 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		
 		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_student_health_survey","transferToAnotherStudentHealthSurvey","transferToAnotherStudentHealthSurvey/"+studentDailyAnswer.getId()+"/","main","primary");
 		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_question","transferToAnotherQuestion","transferToAnotherQuestion/"+studentDailyAnswer.getId()+"/","main","primary");
-		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.transfer_to_change_request","transferToAnotherChangeRequest","transferToAnotherChangeRequest/"+studentDailyAnswer.getId()+"/","main","primary");
+		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.addStudentAnswer","addStudentAnswer","addStudentAnswer/"+studentDailyAnswer.getId()+"/","studentAnswerList","primary");
+		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.removeStudentAnswer","removeStudentAnswer","removeStudentAnswer/"+studentDailyAnswer.getId()+"/","studentAnswerList","primary");
+		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.updateStudentAnswer","updateStudentAnswer","updateStudentAnswer/"+studentDailyAnswer.getId()+"/","studentAnswerList","primary");
+		addAction(userContext, studentDailyAnswer, tokens,"student_daily_answer.copyStudentAnswerFrom","copyStudentAnswerFrom","copyStudentAnswerFrom/"+studentDailyAnswer.getId()+"/","studentAnswerList","primary");
 	
 		
 		
@@ -172,8 +177,8 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
  	
  	
 
-	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer,String changeRequestId) throws Exception
-	//public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext,String studentHealthSurveyId, String questionId, String answer, String changeRequestId) throws Exception
+	public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId,String questionId,String answer) throws Exception
+	//public StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext,String studentHealthSurveyId, String questionId, String answer) throws Exception
 	{
 
 		
@@ -200,11 +205,6 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		studentDailyAnswer.setAnswer(answer);
 		studentDailyAnswer.setCreateTime(userContext.now());
 		studentDailyAnswer.setLastUpdateTime(userContext.now());
-			
-		ChangeRequest changeRequest = loadChangeRequest(userContext, changeRequestId,emptyOptions());
-		studentDailyAnswer.setChangeRequest(changeRequest);
-		
-		
 
 		studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, emptyOptions());
 		
@@ -234,10 +234,11 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 
 		
 		if(StudentDailyAnswer.ANSWER_PROPERTY.equals(property)){
-			checkerOf(userContext).checkAnswerOfStudentDailyAnswer(parseString(newValueExpr));
-		}		
-
 		
+			checkerOf(userContext).checkAnswerOfStudentDailyAnswer(parseString(newValueExpr));
+		
+			
+		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
 
@@ -336,6 +337,7 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 	}
 	protected Map<String,Object> viewTokens(){
 		return tokens().allTokens()
+		.sortStudentAnswerListWith("id","desc")
 		.analyzeAllLists().done();
 
 	}
@@ -441,66 +443,7 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 		return result;
 	}
 
- 	protected void checkParamsForTransferingAnotherChangeRequest(HealthUserContext userContext, String studentDailyAnswerId, String anotherChangeRequestId) throws Exception
- 	{
-
- 		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
- 		checkerOf(userContext).checkIdOfChangeRequest(anotherChangeRequestId);//check for optional reference
- 		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
-
- 	}
- 	public StudentDailyAnswer transferToAnotherChangeRequest(HealthUserContext userContext, String studentDailyAnswerId, String anotherChangeRequestId) throws Exception
- 	{
- 		checkParamsForTransferingAnotherChangeRequest(userContext, studentDailyAnswerId,anotherChangeRequestId);
- 
-		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());	
-		synchronized(studentDailyAnswer){
-			//will be good when the studentDailyAnswer loaded from this JVM process cache.
-			//also good when there is a ram based DAO implementation
-			ChangeRequest changeRequest = loadChangeRequest(userContext, anotherChangeRequestId, emptyOptions());		
-			studentDailyAnswer.updateChangeRequest(changeRequest);		
-			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, emptyOptions());
-			
-			return present(userContext,studentDailyAnswer, allTokens());
-			
-		}
-
- 	}
-
-	
-
-
-	public CandidateChangeRequest requestCandidateChangeRequest(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo) throws Exception {
-
-		CandidateChangeRequest result = new CandidateChangeRequest();
-		result.setOwnerClass(ownerClass);
-		result.setOwnerId(id);
-		result.setFilterKey(filterKey==null?"":filterKey.trim());
-		result.setPageNo(pageNo);
-		result.setValueFieldName("id");
-		result.setDisplayFieldName("name");
-
-		pageNo = Math.max(1, pageNo);
-		int pageSize = 20;
-		//requestCandidateProductForSkuAsOwner
-		SmartList<ChangeRequest> candidateList = changeRequestDaoOf(userContext).requestCandidateChangeRequestForStudentDailyAnswer(userContext,ownerClass, id, filterKey, pageNo, pageSize);
-		result.setCandidates(candidateList);
-		int totalCount = candidateList.getTotalCount();
-		result.setTotalPage(Math.max(1, (totalCount + pageSize -1)/pageSize ));
-		return result;
-	}
-
  //--------------------------------------------------------------
-	
-
- 	protected ChangeRequest loadChangeRequest(HealthUserContext userContext, String newChangeRequestId, Map<String,Object> options) throws Exception
- 	{
-
- 		return changeRequestDaoOf(userContext).load(newChangeRequestId, options);
- 	}
- 	
-
-
 	
 
  	protected StudentHealthSurvey loadStudentHealthSurvey(HealthUserContext userContext, String newStudentHealthSurveyId, Map<String,Object> options) throws Exception
@@ -562,8 +505,274 @@ public class StudentDailyAnswerManagerImpl extends CustomHealthCheckerManager im
 	}
 
 
+	//disconnect StudentDailyAnswer with health_survey_report in StudentAnswer
+	protected StudentDailyAnswer breakWithStudentAnswerByHealthSurveyReport(HealthUserContext userContext, String studentDailyAnswerId, String healthSurveyReportId,  String [] tokensExpr)
+		 throws Exception{
+
+			//TODO add check code here
+
+			StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());
+
+			synchronized(studentDailyAnswer){
+				//Will be good when the thread loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+
+				studentDailyAnswerDaoOf(userContext).planToRemoveStudentAnswerListWithHealthSurveyReport(studentDailyAnswer, healthSurveyReportId, this.emptyOptions());
+
+				studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+				return studentDailyAnswer;
+			}
+	}
 
 
+
+
+
+
+	protected void checkParamsForAddingStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String healthSurveyReportId, String questionTopic, String answer,String [] tokensExpr) throws Exception{
+
+				checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
+
+		
+		checkerOf(userContext).checkHealthSurveyReportIdOfStudentAnswer(healthSurveyReportId);
+		
+		checkerOf(userContext).checkQuestionTopicOfStudentAnswer(questionTopic);
+		
+		checkerOf(userContext).checkAnswerOfStudentAnswer(answer);
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+
+	}
+	public  StudentDailyAnswer addStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String healthSurveyReportId, String questionTopic, String answer, String [] tokensExpr) throws Exception
+	{
+
+		checkParamsForAddingStudentAnswer(userContext,studentDailyAnswerId,healthSurveyReportId, questionTopic, answer,tokensExpr);
+
+		StudentAnswer studentAnswer = createStudentAnswer(userContext,healthSurveyReportId, questionTopic, answer);
+
+		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, emptyOptions());
+		synchronized(studentDailyAnswer){
+			//Will be good when the studentDailyAnswer loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			studentDailyAnswer.addStudentAnswer( studentAnswer );
+			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+			
+			userContext.getManagerGroup().getStudentAnswerManager().onNewInstanceCreated(userContext, studentAnswer);
+			return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+		}
+	}
+	protected void checkParamsForUpdatingStudentAnswerProperties(HealthUserContext userContext, String studentDailyAnswerId,String id,String questionTopic,String answer,String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
+		checkerOf(userContext).checkIdOfStudentAnswer(id);
+
+		checkerOf(userContext).checkQuestionTopicOfStudentAnswer( questionTopic);
+		checkerOf(userContext).checkAnswerOfStudentAnswer( answer);
+
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+	}
+	public  StudentDailyAnswer updateStudentAnswerProperties(HealthUserContext userContext, String studentDailyAnswerId, String id,String questionTopic,String answer, String [] tokensExpr) throws Exception
+	{
+		checkParamsForUpdatingStudentAnswerProperties(userContext,studentDailyAnswerId,id,questionTopic,answer,tokensExpr);
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				//.withStudentAnswerListList()
+				.searchStudentAnswerListWith(StudentAnswer.ID_PROPERTY, "is", id).done();
+
+		StudentDailyAnswer studentDailyAnswerToUpdate = loadStudentDailyAnswer(userContext, studentDailyAnswerId, options);
+
+		if(studentDailyAnswerToUpdate.getStudentAnswerList().isEmpty()){
+			throw new StudentDailyAnswerManagerException("StudentAnswer is NOT FOUND with id: '"+id+"'");
+		}
+
+		StudentAnswer item = studentDailyAnswerToUpdate.getStudentAnswerList().first();
+
+		item.updateQuestionTopic( questionTopic );
+		item.updateAnswer( answer );
+
+
+		//checkParamsForAddingStudentAnswer(userContext,studentDailyAnswerId,name, code, used,tokensExpr);
+		StudentDailyAnswer studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswerToUpdate, tokens().withStudentAnswerList().done());
+		synchronized(studentDailyAnswer){
+			return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+		}
+	}
+
+
+	protected StudentAnswer createStudentAnswer(HealthUserContext userContext, String healthSurveyReportId, String questionTopic, String answer) throws Exception{
+
+		StudentAnswer studentAnswer = new StudentAnswer();
+		
+		
+		HealthSurveyReport  healthSurveyReport = new HealthSurveyReport();
+		healthSurveyReport.setId(healthSurveyReportId);		
+		studentAnswer.setHealthSurveyReport(healthSurveyReport);		
+		studentAnswer.setQuestionTopic(questionTopic);		
+		studentAnswer.setAnswer(answer);
+	
+		
+		return studentAnswer;
+
+
+	}
+
+	protected StudentAnswer createIndexedStudentAnswer(String id, int version){
+
+		StudentAnswer studentAnswer = new StudentAnswer();
+		studentAnswer.setId(id);
+		studentAnswer.setVersion(version);
+		return studentAnswer;
+
+	}
+
+	protected void checkParamsForRemovingStudentAnswerList(HealthUserContext userContext, String studentDailyAnswerId,
+			String studentAnswerIds[],String [] tokensExpr) throws Exception {
+
+		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
+		for(String studentAnswerIdItem: studentAnswerIds){
+			checkerOf(userContext).checkIdOfStudentAnswer(studentAnswerIdItem);
+		}
+
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+	}
+	public  StudentDailyAnswer removeStudentAnswerList(HealthUserContext userContext, String studentDailyAnswerId,
+			String studentAnswerIds[],String [] tokensExpr) throws Exception{
+
+			checkParamsForRemovingStudentAnswerList(userContext, studentDailyAnswerId,  studentAnswerIds, tokensExpr);
+
+
+			StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());
+			synchronized(studentDailyAnswer){
+				//Will be good when the studentDailyAnswer loaded from this JVM process cache.
+				//Also good when there is a RAM based DAO implementation
+				studentDailyAnswerDaoOf(userContext).planToRemoveStudentAnswerList(studentDailyAnswer, studentAnswerIds, allTokens());
+				studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+				deleteRelationListInGraph(userContext, studentDailyAnswer.getStudentAnswerList());
+				return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+			}
+	}
+
+	protected void checkParamsForRemovingStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId,
+		String studentAnswerId, int studentAnswerVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfStudentDailyAnswer( studentDailyAnswerId);
+		checkerOf(userContext).checkIdOfStudentAnswer(studentAnswerId);
+		checkerOf(userContext).checkVersionOfStudentAnswer(studentAnswerVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+	}
+	public  StudentDailyAnswer removeStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId,
+		String studentAnswerId, int studentAnswerVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForRemovingStudentAnswer(userContext,studentDailyAnswerId, studentAnswerId, studentAnswerVersion,tokensExpr);
+
+		StudentAnswer studentAnswer = createIndexedStudentAnswer(studentAnswerId, studentAnswerVersion);
+		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());
+		synchronized(studentDailyAnswer){
+			//Will be good when the studentDailyAnswer loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			studentDailyAnswer.removeStudentAnswer( studentAnswer );
+			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+			deleteRelationInGraph(userContext, studentAnswer);
+			return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+		}
+
+
+	}
+	protected void checkParamsForCopyingStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId,
+		String studentAnswerId, int studentAnswerVersion,String [] tokensExpr) throws Exception{
+		
+		checkerOf(userContext).checkIdOfStudentDailyAnswer( studentDailyAnswerId);
+		checkerOf(userContext).checkIdOfStudentAnswer(studentAnswerId);
+		checkerOf(userContext).checkVersionOfStudentAnswer(studentAnswerVersion);
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+	}
+	public  StudentDailyAnswer copyStudentAnswerFrom(HealthUserContext userContext, String studentDailyAnswerId,
+		String studentAnswerId, int studentAnswerVersion,String [] tokensExpr) throws Exception{
+
+		checkParamsForCopyingStudentAnswer(userContext,studentDailyAnswerId, studentAnswerId, studentAnswerVersion,tokensExpr);
+
+		StudentAnswer studentAnswer = createIndexedStudentAnswer(studentAnswerId, studentAnswerVersion);
+		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, allTokens());
+		synchronized(studentDailyAnswer){
+			//Will be good when the studentDailyAnswer loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+
+			
+
+			studentDailyAnswer.copyStudentAnswerFrom( studentAnswer );
+			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+			
+			userContext.getManagerGroup().getStudentAnswerManager().onNewInstanceCreated(userContext, (StudentAnswer)studentDailyAnswer.getFlexiableObjects().get(BaseEntity.COPIED_CHILD));
+			return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+		}
+
+	}
+
+	protected void checkParamsForUpdatingStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String studentAnswerId, int studentAnswerVersion, String property, String newValueExpr,String [] tokensExpr) throws Exception{
+		
+
+		
+		checkerOf(userContext).checkIdOfStudentDailyAnswer(studentDailyAnswerId);
+		checkerOf(userContext).checkIdOfStudentAnswer(studentAnswerId);
+		checkerOf(userContext).checkVersionOfStudentAnswer(studentAnswerVersion);
+		
+
+		if(StudentAnswer.QUESTION_TOPIC_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkQuestionTopicOfStudentAnswer(parseString(newValueExpr));
+		
+		}
+		
+		if(StudentAnswer.ANSWER_PROPERTY.equals(property)){
+		
+			checkerOf(userContext).checkAnswerOfStudentAnswer(parseString(newValueExpr));
+		
+		}
+		
+	
+		checkerOf(userContext).throwExceptionIfHasErrors(StudentDailyAnswerManagerException.class);
+
+	}
+
+	public  StudentDailyAnswer updateStudentAnswer(HealthUserContext userContext, String studentDailyAnswerId, String studentAnswerId, int studentAnswerVersion, String property, String newValueExpr,String [] tokensExpr)
+			throws Exception{
+
+		checkParamsForUpdatingStudentAnswer(userContext, studentDailyAnswerId, studentAnswerId, studentAnswerVersion, property, newValueExpr,  tokensExpr);
+
+		Map<String,Object> loadTokens = this.tokens().withStudentAnswerList().searchStudentAnswerListWith(StudentAnswer.ID_PROPERTY, "eq", studentAnswerId).done();
+
+
+
+		StudentDailyAnswer studentDailyAnswer = loadStudentDailyAnswer(userContext, studentDailyAnswerId, loadTokens);
+
+		synchronized(studentDailyAnswer){
+			//Will be good when the studentDailyAnswer loaded from this JVM process cache.
+			//Also good when there is a RAM based DAO implementation
+			//studentDailyAnswer.removeStudentAnswer( studentAnswer );
+			//make changes to AcceleraterAccount.
+			StudentAnswer studentAnswerIndex = createIndexedStudentAnswer(studentAnswerId, studentAnswerVersion);
+
+			StudentAnswer studentAnswer = studentDailyAnswer.findTheStudentAnswer(studentAnswerIndex);
+			if(studentAnswer == null){
+				throw new StudentDailyAnswerManagerException(studentAnswer+" is NOT FOUND" );
+			}
+
+			studentAnswer.changeProperty(property, newValueExpr);
+			
+			studentDailyAnswer = saveStudentDailyAnswer(userContext, studentDailyAnswer, tokens().withStudentAnswerList().done());
+			return present(userContext,studentDailyAnswer, mergedAllTokens(tokensExpr));
+		}
+
+	}
+	/*
+
+	*/
 
 
 

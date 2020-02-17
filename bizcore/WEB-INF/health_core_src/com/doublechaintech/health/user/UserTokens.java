@@ -72,8 +72,8 @@ public class UserTokens extends CommonTokens{
 	protected static UserTokens allTokens(){
 		
 		return start()
-			.withAddress()
 			.withPlatform()
+			.withTeacherList()
 			.withStudentList()
 			.withQuestionList()
 			.withClassDailyHealthSurveyList()
@@ -83,7 +83,6 @@ public class UserTokens extends CommonTokens{
 	public static UserTokens withoutListsTokens(){
 		
 		return start()
-			.withAddress()
 			.withPlatform();
 	
 	}
@@ -103,16 +102,6 @@ public class UserTokens extends CommonTokens{
 		return this;
 	}
 
-	protected static final String ADDRESS = "address";
-	public String getAddress(){
-		return ADDRESS;
-	}
-	public UserTokens withAddress(){		
-		addSimpleOptions(ADDRESS);
-		return this;
-	}
-	
-	
 	protected static final String PLATFORM = "platform";
 	public String getPlatform(){
 		return PLATFORM;
@@ -123,6 +112,76 @@ public class UserTokens extends CommonTokens{
 	}
 	
 	
+	protected static final String TEACHER_LIST = "teacherList";
+	public String getTeacherList(){
+		return TEACHER_LIST;
+	}
+	public UserTokens withTeacherList(){		
+		addSimpleOptions(TEACHER_LIST);
+		return this;
+	}
+	public UserTokens analyzeTeacherList(){		
+		addSimpleOptions(TEACHER_LIST+".anaylze");
+		return this;
+	}
+	public boolean analyzeTeacherListEnabled(){		
+		
+		if(checkOptions(this.options(), TEACHER_LIST+".anaylze")){
+			return true; //most of the case, should call here
+		}
+		//if not true, then query for global setting
+		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
+	}
+	public UserTokens extractMoreFromTeacherList(String idsSeperatedWithComma){		
+		addSimpleOptions(TEACHER_LIST+".extractIds", idsSeperatedWithComma);
+		return this;
+	}
+	
+	
+	
+	
+	private int teacherListSortCounter = 0;
+	public UserTokens sortTeacherListWith(String field, String descOrAsc){		
+		addSortMoreOptions(TEACHER_LIST,teacherListSortCounter++, field, descOrAsc);
+		return this;
+	}
+	private int teacherListSearchCounter = 0;
+	public UserTokens searchTeacherListWith(String field, String verb, String value){		
+		
+		withTeacherList();
+		addSearchMoreOptions(TEACHER_LIST,teacherListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public UserTokens searchAllTextOfTeacherList(String verb, String value){	
+		String field = "id|name|mobile|school|schoolClass";
+		addSearchMoreOptions(TEACHER_LIST,teacherListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public UserTokens rowsPerPageOfTeacherList(int rowsPerPage){		
+		addSimpleOptions(TEACHER_LIST+"RowsPerPage",rowsPerPage);
+		return this;
+	}
+	public UserTokens currentPageNumberOfTeacherList(int currentPageNumber){		
+		addSimpleOptions(TEACHER_LIST+"CurrentPage",currentPageNumber);
+		return this;
+	}
+	public UserTokens retainColumnsOfTeacherList(String[] columns){		
+		addSimpleOptions(TEACHER_LIST+"RetainColumns",columns);
+		return this;
+	}
+	public UserTokens excludeColumnsOfTeacherList(String[] columns){		
+		addSimpleOptions(TEACHER_LIST+"ExcludeColumns",columns);
+		return this;
+	}
+	
+	
+		
 	protected static final String STUDENT_LIST = "studentList";
 	public String getStudentList(){
 		return STUDENT_LIST;
@@ -167,7 +226,7 @@ public class UserTokens extends CommonTokens{
 	
 	
 	public UserTokens searchAllTextOfStudentList(String verb, String value){	
-		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		String field = "id|studentName|studentNumber|guardianName|guardianMobile";
 		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -307,7 +366,7 @@ public class UserTokens extends CommonTokens{
 	
 	
 	public UserTokens searchAllTextOfClassDailyHealthSurveyList(String verb, String value){	
-		String field = "id|name";
+		String field = "id|name|downloadUrl";
 		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -406,6 +465,7 @@ public class UserTokens extends CommonTokens{
 	
 	public  UserTokens searchEntireObjectText(String verb, String value){
 		
+		searchAllTextOfTeacherList(verb, value);	
 		searchAllTextOfStudentList(verb, value);	
 		searchAllTextOfQuestionList(verb, value);	
 		searchAllTextOfClassDailyHealthSurveyList(verb, value);	

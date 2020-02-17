@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -226,7 +227,10 @@ public class ProvinceManagerImpl extends CustomHealthCheckerManager implements P
 		
 
 		if(Province.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfProvince(parseString(newValueExpr));
+		
+			
 		}		
 
 		
@@ -671,7 +675,9 @@ public class ProvinceManagerImpl extends CustomHealthCheckerManager implements P
 		
 
 		if(City.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfCity(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -921,19 +927,27 @@ public class ProvinceManagerImpl extends CustomHealthCheckerManager implements P
 		
 
 		if(Location.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfLocation(parseString(newValueExpr));
+		
 		}
 		
 		if(Location.ADDRESS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAddressOfLocation(parseString(newValueExpr));
+		
 		}
 		
 		if(Location.LATITUDE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLatitudeOfLocation(parseBigDecimal(newValueExpr));
+		
 		}
 		
 		if(Location.LONGITUDE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLongitudeOfLocation(parseBigDecimal(newValueExpr));
+		
 		}
 		
 	

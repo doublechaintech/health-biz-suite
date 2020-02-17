@@ -29,6 +29,10 @@ import com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerManager;
 
 import com.doublechaintech.health.surveystatus.SurveyStatusManager;
 
+import com.doublechaintech.health.healthsurveyreport.HealthSurveyReportManager;
+
+import com.doublechaintech.health.studentanswer.StudentAnswerManager;
+
 import com.doublechaintech.health.user.UserManager;
 
 import com.doublechaintech.health.wechatlogininfo.WechatLoginInfoManager;
@@ -101,6 +105,10 @@ public class ManagerGroup {
 	protected StudentDailyAnswerManager studentDailyAnswerManager;
 
 	protected SurveyStatusManager surveyStatusManager;
+
+	protected HealthSurveyReportManager healthSurveyReportManager;
+
+	protected StudentAnswerManager studentAnswerManager;
 
 	protected UserManager userManager;
 
@@ -255,6 +263,22 @@ public class ManagerGroup {
 	}
 	public void setSurveyStatusManager(SurveyStatusManager manager){
 		this.surveyStatusManager = manager;
+	}
+
+
+	public HealthSurveyReportManager getHealthSurveyReportManager(){
+		return this.healthSurveyReportManager;
+	}
+	public void setHealthSurveyReportManager(HealthSurveyReportManager manager){
+		this.healthSurveyReportManager = manager;
+	}
+
+
+	public StudentAnswerManager getStudentAnswerManager(){
+		return this.studentAnswerManager;
+	}
+	public void setStudentAnswerManager(StudentAnswerManager manager){
+		this.studentAnswerManager = manager;
 	}
 
 

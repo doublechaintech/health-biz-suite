@@ -182,6 +182,58 @@ constructor(props) {
 
 
 
+  getStudentAnswerSearch = () => {
+    const {StudentAnswerSearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('student_answer','student_daily_answer.student_answer_list',false),
+      role: "studentAnswer",
+      data: state._studentDailyAnswer.studentAnswerList,
+      metaInfo: state._studentDailyAnswer.studentAnswerListMetaInfo,
+      count: state._studentDailyAnswer.studentAnswerCount,
+      returnURL: `/studentDailyAnswer/${state._studentDailyAnswer.id}/dashboard`,
+      currentPage: state._studentDailyAnswer.studentAnswerCurrentPageNumber,
+      searchFormParameters: state._studentDailyAnswer.studentAnswerSearchFormParameters,
+      searchParameters: {...state._studentDailyAnswer.searchParameters},
+      expandForm: state._studentDailyAnswer.expandForm,
+      loading: state._studentDailyAnswer.loading,
+      partialList: state._studentDailyAnswer.partialList,
+      owner: { type: '_studentDailyAnswer', id: state._studentDailyAnswer.id, 
+      referenceName: 'dailyAnswer', 
+      listName: 'studentAnswerList', ref:state._studentDailyAnswer, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(StudentAnswerSearch)
+  }
+  
+  getStudentAnswerCreateForm = () => {
+   	const {StudentAnswerCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "studentAnswer",
+      data: state._studentDailyAnswer.studentAnswerList,
+      metaInfo: state._studentDailyAnswer.studentAnswerListMetaInfo,
+      count: state._studentDailyAnswer.studentAnswerCount,
+      returnURL: `/studentDailyAnswer/${state._studentDailyAnswer.id}/list`,
+      currentPage: state._studentDailyAnswer.studentAnswerCurrentPageNumber,
+      searchFormParameters: state._studentDailyAnswer.studentAnswerSearchFormParameters,
+      loading: state._studentDailyAnswer.loading,
+      owner: { type: '_studentDailyAnswer', id: state._studentDailyAnswer.id, referenceName: 'dailyAnswer', listName: 'studentAnswerList', ref:state._studentDailyAnswer, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(StudentAnswerCreateForm)
+  }
+  
+  getStudentAnswerUpdateForm = () => {
+    const userContext = null
+  	const {StudentAnswerUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._studentDailyAnswer.selectedRows,
+      role: "studentAnswer",
+      currentUpdateIndex: state._studentDailyAnswer.currentUpdateIndex,
+      owner: { type: '_studentDailyAnswer', id: state._studentDailyAnswer.id, listName: 'studentAnswerList', ref:state._studentDailyAnswer, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(StudentAnswerUpdateForm)
+  }
+
 
   
 
@@ -206,7 +258,11 @@ constructor(props) {
   	{path:"/studentDailyAnswer/:id/permission", component: StudentDailyAnswerPermission},
   	
   	
-  	{path:"/studentDailyAnswer/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
+  	
+  	{path:"/studentDailyAnswer/:id/list/studentAnswerList", component: this.getStudentAnswerSearch()},
+  	{path:"/studentDailyAnswer/:id/list/studentAnswerCreateForm", component: this.getStudentAnswerCreateForm()},
+  	{path:"/studentDailyAnswer/:id/list/studentAnswerUpdateForm", component: this.getStudentAnswerUpdateForm()},
+   	{path:"/studentDailyAnswer/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 
   	]

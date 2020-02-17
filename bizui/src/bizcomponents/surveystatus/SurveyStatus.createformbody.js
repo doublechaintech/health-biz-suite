@@ -18,7 +18,7 @@ const testValues = {};
 /*
 const testValues = {
   name: '未提交',
-  code: 'UnSubmitted',
+  code: 'UN_SUBMITTED',
   platformId: 'P000001',
 }
 */

@@ -23,7 +23,7 @@ const testValues = {
   optionB: '有',
   optionC: '不确定',
   optionD: '不知道',
-  questionTypeId: 'OptionSelect',
+  questionTypeId: 'SINGLE_SELECT',
   platformId: 'P000001',
   creatorId: 'U000001',
   cqId: 'CR000001',

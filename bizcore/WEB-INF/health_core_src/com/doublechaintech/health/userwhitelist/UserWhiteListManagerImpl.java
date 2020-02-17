@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -214,10 +215,16 @@ public class UserWhiteListManagerImpl extends CustomHealthCheckerManager impleme
 		
 
 		if(UserWhiteList.USER_IDENTITY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUserIdentityOfUserWhiteList(parseString(newValueExpr));
+		
+			
 		}
 		if(UserWhiteList.USER_SPECIAL_FUNCTIONS_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkUserSpecialFunctionsOfUserWhiteList(parseString(newValueExpr));
+		
+			
 		}		
 
 		

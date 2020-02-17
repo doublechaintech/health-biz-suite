@@ -22,7 +22,7 @@ const testValues = {
   optionB: '有',
   optionC: '不确定',
   optionD: '不知道',
-  questionTypeId: 'OptionSelect',
+  questionTypeId: 'SINGLE_SELECT',
   platformId: 'P000001',
   creatorId: 'U000001',
   cqId: 'CR000001',
@@ -247,7 +247,7 @@ class QuestionCreateFormBody extends Component {
                 <Form.Item label={fieldLabels.cq} {...formItemLayout}>
                   {getFieldDecorator('cqId', {
                   	initialValue: tryinit('cq'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 

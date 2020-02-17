@@ -133,7 +133,6 @@ componentDidMount() {
      
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'id'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'contains', 'name'))
-		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'address'))
 		pushIfNotNull(paramList,this.buildStringSearchParameters(listName, fieldsValue,'eq', 'platform'))
 
      
@@ -262,18 +261,6 @@ componentDidMount() {
               )}
             </FormItem>
           </Col>
- <Col md={8} sm={24}>
-                    <Form.Item label={fieldLabels.address}>
-                  {getFieldDecorator('address', {initialValue: tryinit('address')})(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('address')}
-                    targetType={"address"} 
-                    requestFunction={UserService.requestCandidateAddress} useForSearch />
-                  	
-                 
-                  )}
-                </Form.Item></Col>
  <Col md={8} sm={24}>
                     <Form.Item label={fieldLabels.platform}>
                   {getFieldDecorator('platform', {initialValue: tryinit('platform')})(

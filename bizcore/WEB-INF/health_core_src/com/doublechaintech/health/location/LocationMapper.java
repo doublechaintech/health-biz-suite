@@ -32,7 +32,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setId(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(LocationTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -44,7 +46,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setName(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(LocationTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -56,7 +60,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setAddress(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String address = rs.getString(LocationTable.COLUMN_ADDRESS);
+		
 		if(address == null){
 			//do nothing when nothing found in database
 			return;
@@ -104,7 +110,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setLatitude(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		BigDecimal latitude = rs.getBigDecimal(LocationTable.COLUMN_LATITUDE);
+		
 		if(latitude == null){
 			//do nothing when nothing found in database
 			return;
@@ -116,7 +124,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setLongitude(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		BigDecimal longitude = rs.getBigDecimal(LocationTable.COLUMN_LONGITUDE);
+		
 		if(longitude == null){
 			//do nothing when nothing found in database
 			return;
@@ -128,7 +138,9 @@ public class LocationMapper extends BaseRowMapper<Location>{
 	protected void setVersion(Location location, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(LocationTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

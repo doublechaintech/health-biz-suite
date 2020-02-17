@@ -117,6 +117,75 @@ export default {
 
 
 
+    *addTeacher({ payload }, { call, put }) {
+      const userContext = null
+      const {UserService} = GlobalComponents;
+
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(UserService.addTeacher, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+      yield put({ type: 'updateState', payload: newPlayload })
+      // yield put(routerRedux.push(`/user/${id}/list/${role}CreateForm'))
+      notifySuccess(userContext)
+      if (continueNext) {
+        return
+      }
+      const partialList = true
+      const newState = {...data, partialList}
+      const location = { pathname: `/user/${id}/list/TeacherList/老师+${appLocaleName(userContext,'List')}`, state: newState }
+      yield put(routerRedux.push(location))
+    },
+    *updateTeacher({ payload }, { call, put }) {
+      const userContext = null
+      const {UserService} = GlobalComponents;      
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(UserService.updateTeacher, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const partialList = true
+      
+      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+      
+      if (continueNext) {
+        return
+      }
+      const location = { pathname: `/user/${id}/list/TeacherList/老师列表`, state: newPlayload }
+      yield put(routerRedux.push(location))
+    },
+    *gotoNextTeacherUpdateRow({ payload }, { call, put }) {
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
+      yield put({ type: 'updateState', payload: newPlayload })
+    },
+    *removeTeacherList({ payload }, { call, put }) {
+     const userContext = null
+      const {UserService} = GlobalComponents; 
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(UserService.removeTeacherList, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+    },
+
+
+
+
     *addStudent({ payload }, { call, put }) {
       const userContext = null
       const {UserService} = GlobalComponents;

@@ -39,7 +39,8 @@ const { Option } = Select
 
 
 const imageList =(student)=>{return [
-	 ]}
+	   {"title":'学生阿凡达',"imageLocation":student.studentAvatar},
+]}
 
 const internalImageListOf = (student) =>defaultImageListOf(student,imageList)
 
@@ -118,7 +119,7 @@ const internalSummaryOf = (student,targetComponent) =>{
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID" style={{wordBreak: 'break-all'}}>{student.id}</Description> 
 <Description term="学生的名字" style={{wordBreak: 'break-all'}}>{student.studentName}</Description> 
-<Description term="学生证" style={{wordBreak: 'break-all'}}>{student.studentId}</Description> 
+<Description term="学生数量" style={{wordBreak: 'break-all'}}>{student.studentNumber}</Description> 
 <Description term="监护人姓名" style={{wordBreak: 'break-all'}}>{student.guardianName}</Description> 
 <Description term="监护人手机" style={{wordBreak: 'break-all'}}>{student.guardianMobile}</Description> 
 <Description term="地址">{student.address==null?appLocaleName(userContext,"NotAssigned"):`${student.address.displayName}(${student.address.id})`}
@@ -134,12 +135,6 @@ const internalSummaryOf = (student,targetComponent) =>{
   style={{fontSize: 20,color:"red"}} />
 </Description>
 <Description term="创建时间">{ moment(student.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
-<Description term="变更请求">{student.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${student.changeRequest.displayName}(${student.changeRequest.id})`}
- <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"变更请求","changeRequest",StudentService.requestCandidateChangeRequest,
-	      StudentService.transferToAnotherChangeRequest,"anotherChangeRequestId",student.changeRequest?student.changeRequest.id:"")} 
-  style={{fontSize: 20,color:"red"}} />
-</Description>
 	
         {buildTransferModal(student,targetComponent)}
       </DescriptionList>
@@ -171,7 +166,7 @@ class StudentDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, studentHealthSurveyListMetaInfo, studentHealthSurveyCount } = this.props.student
+    const { id,displayName, studentHealthSurveyListMetaInfo, healthSurveyReportListMetaInfo, studentHealthSurveyCount, healthSurveyReportCount } = this.props.student
     if(!this.props.student.class){
       return null
     }
@@ -181,6 +176,7 @@ class StudentDashboard extends Component {
     	cardsSource: this.props.student,returnURL,displayName,
   		subItems: [
 {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','student.student_health_survey_list',false) ,viewGroup:'__no_group', type:'studentHealthSurvey',count:studentHealthSurveyCount,addFunction: true, role: 'studentHealthSurvey', metaInfo: studentHealthSurveyListMetaInfo, renderItem: GlobalComponents.StudentHealthSurveyBase.renderItemOfList},
+{name: 'healthSurveyReportList', displayName: window.mtrans('health_survey_report','student.health_survey_report_list',false) ,viewGroup:'__no_group', type:'healthSurveyReport',count:healthSurveyReportCount,addFunction: true, role: 'healthSurveyReport', metaInfo: healthSurveyReportListMetaInfo, renderItem: GlobalComponents.HealthSurveyReportBase.renderItemOfList},
     
       	],
    		subSettingItems: [

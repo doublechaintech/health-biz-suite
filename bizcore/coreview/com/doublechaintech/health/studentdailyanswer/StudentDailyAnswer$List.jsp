@@ -113,9 +113,6 @@
 <c:if test="${param.referName ne 'lastUpdateTime'}">
 	<th>${userContext.localeMap['student_daily_answer.last_update_time']}</th>
 </c:if>
-<c:if test="${param.referName ne 'changeRequest'}">
-	<th>${userContext.localeMap['student_daily_answer.change_request']}</th>
-</c:if>
 <th>${userContext.localeMap['@action']}</th>
 		</tr></thead>
 		<tbody>
@@ -163,26 +160,7 @@
 <c:if test="${param.referName ne 'answer'}">	<td contenteditable='true' class='edit-value'  propertyToChange='answer' storedCellValue='${item.answer}' prefix='${ownerBeanName}Manager/updateStudentDailyAnswer/${result.id}/${item.id}/'>${item.answer}</td>
 </c:if><c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateStudentDailyAnswer/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
 </c:if><c:if test="${param.referName ne 'lastUpdateTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='lastUpdateTime' storedCellValue='${item.lastUpdateTime}' prefix='${ownerBeanName}Manager/updateStudentDailyAnswer/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.lastUpdateTime}" /></td>
-</c:if><c:if test="${param.referName ne 'changeRequest'}">
-	<td class="select_candidate_td"
-			data-candidate-method="./studentDailyAnswerManager/requestCandidateChangeRequest/${ownerBeanName}/${item.id}/"
-			data-switch-method="./studentDailyAnswerManager/transferToAnotherChangeRequest/${item.id}/"
-			data-link-template="./changeRequestManager/view/${'$'}{ID}/">
-		<span class="display_span">
-			<c:if test="${not empty  item.changeRequest}">
-			<a href='./changeRequestManager/view/${item.changeRequest.id}/'>${item.changeRequest.displayName}</a>
-			</c:if>
-			<c:if test="${empty  item.changeRequest}">
-			<a href='#'></a>
-			</c:if>
-			<button class="btn btn-link candidate-action">...</button>
-		</span>
-		<div class="candidate_span" style="display:none;">
-			<input type="text" data-provide="typeahead" class="input-sm form-control candidate-filter-input" autocomplete="off" />
-		</div>
-	</td>
 </c:if>
-
 				<td>
 
 				<a href='#${ownerBeanName}Manager/removeStudentDailyAnswer/${result.id}/${item.id}/' class='delete-action btn btn-danger btn-xs'><i class="fa fa-trash-o fa-lg"></i> ${userContext.localeMap['@delete']}</a>

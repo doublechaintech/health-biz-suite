@@ -451,14 +451,22 @@ public class WechatMiniappIdentifyJDBCTemplateDAO extends HealthBaseDAOImpl impl
  	protected Object[] prepareWechatMiniappIdentifyUpdateParameters(WechatMiniappIdentify wechatMiniappIdentify){
  		Object[] parameters = new Object[8];
  
+ 		
  		parameters[0] = wechatMiniappIdentify.getOpenId();
- 		parameters[1] = wechatMiniappIdentify.getAppId(); 	
+ 		
+ 		
+ 		parameters[1] = wechatMiniappIdentify.getAppId();
+ 		 	
  		if(wechatMiniappIdentify.getSecUser() != null){
  			parameters[2] = wechatMiniappIdentify.getSecUser().getId();
  		}
  
+ 		
  		parameters[3] = wechatMiniappIdentify.getCreateTime();
- 		parameters[4] = wechatMiniappIdentify.getLastLoginTime();		
+ 		
+ 		
+ 		parameters[4] = wechatMiniappIdentify.getLastLoginTime();
+ 				
  		parameters[5] = wechatMiniappIdentify.nextVersion();
  		parameters[6] = wechatMiniappIdentify.getId();
  		parameters[7] = wechatMiniappIdentify.getVersion();
@@ -471,15 +479,23 @@ public class WechatMiniappIdentifyJDBCTemplateDAO extends HealthBaseDAOImpl impl
 		wechatMiniappIdentify.setId(newWechatMiniappIdentifyId);
 		parameters[0] =  wechatMiniappIdentify.getId();
  
+ 		
  		parameters[1] = wechatMiniappIdentify.getOpenId();
- 		parameters[2] = wechatMiniappIdentify.getAppId(); 	
+ 		
+ 		
+ 		parameters[2] = wechatMiniappIdentify.getAppId();
+ 		 	
  		if(wechatMiniappIdentify.getSecUser() != null){
  			parameters[3] = wechatMiniappIdentify.getSecUser().getId();
  		
  		}
  		
+ 		
  		parameters[4] = wechatMiniappIdentify.getCreateTime();
- 		parameters[5] = wechatMiniappIdentify.getLastLoginTime();		
+ 		
+ 		
+ 		parameters[5] = wechatMiniappIdentify.getLastLoginTime();
+ 				
  				
  		return parameters;
  	}

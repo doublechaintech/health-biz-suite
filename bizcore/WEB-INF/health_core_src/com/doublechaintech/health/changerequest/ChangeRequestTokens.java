@@ -75,11 +75,9 @@ public class ChangeRequestTokens extends CommonTokens{
 			.withRequestType()
 			.withPlatform()
 			.withTeacherList()
-			.withStudentList()
 			.withQuestionList()
 			.withClassDailyHealthSurveyList()
-			.withStudentHealthSurveyList()
-			.withStudentDailyAnswerList();
+			.withStudentHealthSurveyList();
 	
 	}
 	public static ChangeRequestTokens withoutListsTokens(){
@@ -190,76 +188,6 @@ public class ChangeRequestTokens extends CommonTokens{
 	}
 	public ChangeRequestTokens excludeColumnsOfTeacherList(String[] columns){		
 		addSimpleOptions(TEACHER_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
-	protected static final String STUDENT_LIST = "studentList";
-	public String getStudentList(){
-		return STUDENT_LIST;
-	}
-	public ChangeRequestTokens withStudentList(){		
-		addSimpleOptions(STUDENT_LIST);
-		return this;
-	}
-	public ChangeRequestTokens analyzeStudentList(){		
-		addSimpleOptions(STUDENT_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeStudentListEnabled(){		
-		
-		if(checkOptions(this.options(), STUDENT_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public ChangeRequestTokens extractMoreFromStudentList(String idsSeperatedWithComma){		
-		addSimpleOptions(STUDENT_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int studentListSortCounter = 0;
-	public ChangeRequestTokens sortStudentListWith(String field, String descOrAsc){		
-		addSortMoreOptions(STUDENT_LIST,studentListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int studentListSearchCounter = 0;
-	public ChangeRequestTokens searchStudentListWith(String field, String verb, String value){		
-		
-		withStudentList();
-		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens searchAllTextOfStudentList(String verb, String value){	
-		String field = "id|studentName|studentId|guardianName|guardianMobile";
-		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens rowsPerPageOfStudentList(int rowsPerPage){		
-		addSimpleOptions(STUDENT_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public ChangeRequestTokens currentPageNumberOfStudentList(int currentPageNumber){		
-		addSimpleOptions(STUDENT_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public ChangeRequestTokens retainColumnsOfStudentList(String[] columns){		
-		addSimpleOptions(STUDENT_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public ChangeRequestTokens excludeColumnsOfStudentList(String[] columns){		
-		addSimpleOptions(STUDENT_LIST+"ExcludeColumns",columns);
 		return this;
 	}
 	
@@ -379,7 +307,7 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	
 	public ChangeRequestTokens searchAllTextOfClassDailyHealthSurveyList(String verb, String value){	
-		String field = "id|name";
+		String field = "id|name|downloadUrl";
 		addSearchMoreOptions(CLASS_DAILY_HEALTH_SURVEY_LIST,classDailyHealthSurveyListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -475,85 +403,13 @@ public class ChangeRequestTokens extends CommonTokens{
 	
 	
 		
-	protected static final String STUDENT_DAILY_ANSWER_LIST = "studentDailyAnswerList";
-	public String getStudentDailyAnswerList(){
-		return STUDENT_DAILY_ANSWER_LIST;
-	}
-	public ChangeRequestTokens withStudentDailyAnswerList(){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST);
-		return this;
-	}
-	public ChangeRequestTokens analyzeStudentDailyAnswerList(){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeStudentDailyAnswerListEnabled(){		
-		
-		if(checkOptions(this.options(), STUDENT_DAILY_ANSWER_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public ChangeRequestTokens extractMoreFromStudentDailyAnswerList(String idsSeperatedWithComma){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int studentDailyAnswerListSortCounter = 0;
-	public ChangeRequestTokens sortStudentDailyAnswerListWith(String field, String descOrAsc){		
-		addSortMoreOptions(STUDENT_DAILY_ANSWER_LIST,studentDailyAnswerListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int studentDailyAnswerListSearchCounter = 0;
-	public ChangeRequestTokens searchStudentDailyAnswerListWith(String field, String verb, String value){		
-		
-		withStudentDailyAnswerList();
-		addSearchMoreOptions(STUDENT_DAILY_ANSWER_LIST,studentDailyAnswerListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens searchAllTextOfStudentDailyAnswerList(String verb, String value){	
-		String field = "id|answer";
-		addSearchMoreOptions(STUDENT_DAILY_ANSWER_LIST,studentDailyAnswerListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public ChangeRequestTokens rowsPerPageOfStudentDailyAnswerList(int rowsPerPage){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public ChangeRequestTokens currentPageNumberOfStudentDailyAnswerList(int currentPageNumber){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public ChangeRequestTokens retainColumnsOfStudentDailyAnswerList(String[] columns){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public ChangeRequestTokens excludeColumnsOfStudentDailyAnswerList(String[] columns){		
-		addSimpleOptions(STUDENT_DAILY_ANSWER_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	
 	public  ChangeRequestTokens searchEntireObjectText(String verb, String value){
 		
 		searchAllTextOfTeacherList(verb, value);	
-		searchAllTextOfStudentList(verb, value);	
 		searchAllTextOfQuestionList(verb, value);	
 		searchAllTextOfClassDailyHealthSurveyList(verb, value);	
 		searchAllTextOfStudentHealthSurveyList(verb, value);	
-		searchAllTextOfStudentDailyAnswerList(verb, value);	
 		return this;
 	}
 }

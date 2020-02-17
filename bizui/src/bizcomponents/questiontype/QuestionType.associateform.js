@@ -18,8 +18,8 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  name: '选择题',
-  code: 'OptionSelect',
+  name: '单选题',
+  code: 'SINGLE_SELECT',
   platformId: 'P000001',
 }
 */

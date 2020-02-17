@@ -53,6 +53,10 @@
 <span >${result.schoolClass}</span>
 </div>
 <div class="col-xs-12 col-md-3 summary-section">
+<span class="summary-label">${userContext.localeMap['teacher.class_size']}</span>
+<span >${result.classSize}</span>
+</div>
+<div class="col-xs-12 col-md-3 summary-section">
 <span class="summary-label">${userContext.localeMap['teacher.create_time']}</span>
 <span ><fmt:formatDate pattern="yyyy-MM-dd" value="${result.createTime}" /></span>
 </div>

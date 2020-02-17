@@ -58,7 +58,7 @@ class UserPermission extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  user = this.props.user
-    const { id,displayName, studentCount, questionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = user
+    const { id,displayName, teacherCount, studentCount, questionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = user
     const  returnURL = `/user/${id}/dashboard`
     const cardsData = {cardsName:"用户",cardsFor: "user",cardsSource: user,displayName,returnURL,
   		subItems: [

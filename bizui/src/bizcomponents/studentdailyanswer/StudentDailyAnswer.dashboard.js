@@ -132,12 +132,6 @@ const internalSummaryOf = (studentDailyAnswer,targetComponent) =>{
 <Description term="回答" style={{wordBreak: 'break-all'}}>{studentDailyAnswer.answer}</Description> 
 <Description term="创建时间">{ moment(studentDailyAnswer.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
 <Description term="最后更新时间">{ moment(studentDailyAnswer.lastUpdateTime).format('YYYY-MM-DD HH:mm')}</Description> 
-<Description term="变更请求">{studentDailyAnswer.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${studentDailyAnswer.changeRequest.displayName}(${studentDailyAnswer.changeRequest.id})`}
- <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"变更请求","changeRequest",StudentDailyAnswerService.requestCandidateChangeRequest,
-	      StudentDailyAnswerService.transferToAnotherChangeRequest,"anotherChangeRequestId",studentDailyAnswer.changeRequest?studentDailyAnswer.changeRequest.id:"")} 
-  style={{fontSize: 20,color:"red"}} />
-</Description>
 	
         {buildTransferModal(studentDailyAnswer,targetComponent)}
       </DescriptionList>
@@ -169,7 +163,7 @@ class StudentDailyAnswerDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName,  } = this.props.studentDailyAnswer
+    const { id,displayName, studentAnswerListMetaInfo, studentAnswerCount } = this.props.studentDailyAnswer
     if(!this.props.studentDailyAnswer.class){
       return null
     }
@@ -178,6 +172,7 @@ class StudentDailyAnswerDashboard extends Component {
     const cardsData = {cardsName:"学生每天回答",cardsFor: "studentDailyAnswer",
     	cardsSource: this.props.studentDailyAnswer,returnURL,displayName,
   		subItems: [
+{name: 'studentAnswerList', displayName: window.mtrans('student_answer','student_daily_answer.student_answer_list',false) ,viewGroup:'__no_group', type:'studentAnswer',count:studentAnswerCount,addFunction: true, role: 'studentAnswer', metaInfo: studentAnswerListMetaInfo, renderItem: GlobalComponents.StudentAnswerBase.renderItemOfList},
     
       	],
    		subSettingItems: [

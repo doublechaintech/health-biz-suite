@@ -435,17 +435,39 @@ public class ObjectAccessJDBCTemplateDAO extends HealthBaseDAOImpl implements Ob
  	protected Object[] prepareObjectAccessUpdateParameters(ObjectAccess objectAccess){
  		Object[] parameters = new Object[15];
  
+ 		
  		parameters[0] = objectAccess.getName();
+ 		
+ 		
  		parameters[1] = objectAccess.getObjectType();
+ 		
+ 		
  		parameters[2] = objectAccess.getList1();
+ 		
+ 		
  		parameters[3] = objectAccess.getList2();
+ 		
+ 		
  		parameters[4] = objectAccess.getList3();
+ 		
+ 		
  		parameters[5] = objectAccess.getList4();
+ 		
+ 		
  		parameters[6] = objectAccess.getList5();
+ 		
+ 		
  		parameters[7] = objectAccess.getList6();
+ 		
+ 		
  		parameters[8] = objectAccess.getList7();
+ 		
+ 		
  		parameters[9] = objectAccess.getList8();
- 		parameters[10] = objectAccess.getList9(); 	
+ 		
+ 		
+ 		parameters[10] = objectAccess.getList9();
+ 		 	
  		if(objectAccess.getApp() != null){
  			parameters[11] = objectAccess.getApp().getId();
  		}
@@ -462,17 +484,39 @@ public class ObjectAccessJDBCTemplateDAO extends HealthBaseDAOImpl implements Ob
 		objectAccess.setId(newObjectAccessId);
 		parameters[0] =  objectAccess.getId();
  
+ 		
  		parameters[1] = objectAccess.getName();
+ 		
+ 		
  		parameters[2] = objectAccess.getObjectType();
+ 		
+ 		
  		parameters[3] = objectAccess.getList1();
+ 		
+ 		
  		parameters[4] = objectAccess.getList2();
+ 		
+ 		
  		parameters[5] = objectAccess.getList3();
+ 		
+ 		
  		parameters[6] = objectAccess.getList4();
+ 		
+ 		
  		parameters[7] = objectAccess.getList5();
+ 		
+ 		
  		parameters[8] = objectAccess.getList6();
+ 		
+ 		
  		parameters[9] = objectAccess.getList7();
+ 		
+ 		
  		parameters[10] = objectAccess.getList8();
- 		parameters[11] = objectAccess.getList9(); 	
+ 		
+ 		
+ 		parameters[11] = objectAccess.getList9();
+ 		 	
  		if(objectAccess.getApp() != null){
  			parameters[12] = objectAccess.getApp().getId();
  		

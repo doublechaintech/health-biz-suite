@@ -552,7 +552,9 @@ public class UserDomainJDBCTemplateDAO extends HealthBaseDAOImpl implements User
  	protected Object[] prepareUserDomainUpdateParameters(UserDomain userDomain){
  		Object[] parameters = new Object[4];
  
- 		parameters[0] = userDomain.getName();		
+ 		
+ 		parameters[0] = userDomain.getName();
+ 				
  		parameters[1] = userDomain.nextVersion();
  		parameters[2] = userDomain.getId();
  		parameters[3] = userDomain.getVersion();
@@ -565,7 +567,9 @@ public class UserDomainJDBCTemplateDAO extends HealthBaseDAOImpl implements User
 		userDomain.setId(newUserDomainId);
 		parameters[0] =  userDomain.getId();
  
- 		parameters[1] = userDomain.getName();		
+ 		
+ 		parameters[1] = userDomain.getName();
+ 				
  				
  		return parameters;
  	}

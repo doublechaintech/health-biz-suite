@@ -31,7 +31,9 @@ public class ChangeRequestMapper extends BaseRowMapper<ChangeRequest>{
 	protected void setId(ChangeRequest changeRequest, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(ChangeRequestTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -43,7 +45,9 @@ public class ChangeRequestMapper extends BaseRowMapper<ChangeRequest>{
 	protected void setName(ChangeRequest changeRequest, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(ChangeRequestTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -55,7 +59,9 @@ public class ChangeRequestMapper extends BaseRowMapper<ChangeRequest>{
 	protected void setCreateTime(ChangeRequest changeRequest, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(ChangeRequestTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -67,7 +73,9 @@ public class ChangeRequestMapper extends BaseRowMapper<ChangeRequest>{
 	protected void setRemoteIp(ChangeRequest changeRequest, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String remoteIp = rs.getString(ChangeRequestTable.COLUMN_REMOTE_IP);
+		
 		if(remoteIp == null){
 			//do nothing when nothing found in database
 			return;
@@ -115,7 +123,9 @@ public class ChangeRequestMapper extends BaseRowMapper<ChangeRequest>{
 	protected void setVersion(ChangeRequest changeRequest, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(ChangeRequestTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

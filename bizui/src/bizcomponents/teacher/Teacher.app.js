@@ -286,6 +286,58 @@ constructor(props) {
     }))(StudentHealthSurveyUpdateForm)
   }
 
+  getHealthSurveyReportSearch = () => {
+    const {HealthSurveyReportSearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('health_survey_report','teacher.health_survey_report_list',false),
+      role: "healthSurveyReport",
+      data: state._teacher.healthSurveyReportList,
+      metaInfo: state._teacher.healthSurveyReportListMetaInfo,
+      count: state._teacher.healthSurveyReportCount,
+      returnURL: `/teacher/${state._teacher.id}/dashboard`,
+      currentPage: state._teacher.healthSurveyReportCurrentPageNumber,
+      searchFormParameters: state._teacher.healthSurveyReportSearchFormParameters,
+      searchParameters: {...state._teacher.searchParameters},
+      expandForm: state._teacher.expandForm,
+      loading: state._teacher.loading,
+      partialList: state._teacher.partialList,
+      owner: { type: '_teacher', id: state._teacher.id, 
+      referenceName: 'teacher', 
+      listName: 'healthSurveyReportList', ref:state._teacher, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(HealthSurveyReportSearch)
+  }
+  
+  getHealthSurveyReportCreateForm = () => {
+   	const {HealthSurveyReportCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "healthSurveyReport",
+      data: state._teacher.healthSurveyReportList,
+      metaInfo: state._teacher.healthSurveyReportListMetaInfo,
+      count: state._teacher.healthSurveyReportCount,
+      returnURL: `/teacher/${state._teacher.id}/list`,
+      currentPage: state._teacher.healthSurveyReportCurrentPageNumber,
+      searchFormParameters: state._teacher.healthSurveyReportSearchFormParameters,
+      loading: state._teacher.loading,
+      owner: { type: '_teacher', id: state._teacher.id, referenceName: 'teacher', listName: 'healthSurveyReportList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(HealthSurveyReportCreateForm)
+  }
+  
+  getHealthSurveyReportUpdateForm = () => {
+    const userContext = null
+  	const {HealthSurveyReportUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._teacher.selectedRows,
+      role: "healthSurveyReport",
+      currentUpdateIndex: state._teacher.currentUpdateIndex,
+      owner: { type: '_teacher', id: state._teacher.id, listName: 'healthSurveyReportList', ref:state._teacher, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(HealthSurveyReportUpdateForm)
+  }
+
 
   
 
@@ -318,6 +370,10 @@ constructor(props) {
   	{path:"/teacher/:id/list/studentHealthSurveyList", component: this.getStudentHealthSurveySearch()},
   	{path:"/teacher/:id/list/studentHealthSurveyCreateForm", component: this.getStudentHealthSurveyCreateForm()},
   	{path:"/teacher/:id/list/studentHealthSurveyUpdateForm", component: this.getStudentHealthSurveyUpdateForm()},
+   	
+  	{path:"/teacher/:id/list/healthSurveyReportList", component: this.getHealthSurveyReportSearch()},
+  	{path:"/teacher/:id/list/healthSurveyReportCreateForm", component: this.getHealthSurveyReportCreateForm()},
+  	{path:"/teacher/:id/list/healthSurveyReportUpdateForm", component: this.getHealthSurveyReportUpdateForm()},
    	{path:"/teacher/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

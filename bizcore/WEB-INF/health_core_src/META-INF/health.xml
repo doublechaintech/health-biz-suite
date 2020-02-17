@@ -109,25 +109,27 @@
 		<property name="dataSource" ref="dataSource" /><property name="districtDAO" ref="districtDAO" /><property name="provinceDAO" ref="provinceDAO" />
 		<property name="studentDAO" ref="studentDAO" />
 		
-		<property name="userDAO" ref="userDAO" />
-		
 	</bean>
 	<bean id="locationDAO" parent="locationDAOBase"></bean>
 	
 
 	<bean id="teacherDAOBase" class="com.doublechaintech.health.teacher.TeacherJDBCTemplateDAO">
-		<property name="dataSource" ref="dataSource" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="dataSource" ref="dataSource" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="userDAO" ref="userDAO" /><property name="platformDAO" ref="platformDAO" />
 		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" />
 		
 		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+		<property name="healthSurveyReportDAO" ref="healthSurveyReportDAO" />
 		
 	</bean>
 	<bean id="teacherDAO" parent="teacherDAOBase"></bean>
 	
 
 	<bean id="studentDAOBase" class="com.doublechaintech.health.student.StudentJDBCTemplateDAO">
-		<property name="dataSource" ref="dataSource" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="userDAO" ref="userDAO" /><property name="locationDAO" ref="locationDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="dataSource" ref="dataSource" /><property name="userDAO" ref="userDAO" /><property name="locationDAO" ref="locationDAO" /><property name="platformDAO" ref="platformDAO" />
 		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
+		
+		<property name="healthSurveyReportDAO" ref="healthSurveyReportDAO" />
 		
 	</bean>
 	<bean id="studentDAO" parent="studentDAOBase"></bean>
@@ -157,6 +159,8 @@
 		
 		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
 		
+		<property name="healthSurveyReportDAO" ref="healthSurveyReportDAO" />
+		
 	</bean>
 	<bean id="classDailyHealthSurveyDAO" parent="classDailyHealthSurveyDAOBase"></bean>
 	
@@ -178,7 +182,9 @@
 	
 
 	<bean id="studentDailyAnswerDAOBase" class="com.doublechaintech.health.studentdailyanswer.StudentDailyAnswerJDBCTemplateDAO">
-		<property name="dataSource" ref="dataSource" /><property name="changeRequestDAO" ref="changeRequestDAO" /><property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" /><property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" />
+		<property name="dataSource" ref="dataSource" /><property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" /><property name="dailySurveyQuestionDAO" ref="dailySurveyQuestionDAO" />
+		<property name="studentAnswerDAO" ref="studentAnswerDAO" />
+		
 	</bean>
 	<bean id="studentDailyAnswerDAO" parent="studentDailyAnswerDAOBase"></bean>
 	
@@ -191,8 +197,24 @@
 	<bean id="surveyStatusDAO" parent="surveyStatusDAOBase"></bean>
 	
 
+	<bean id="healthSurveyReportDAOBase" class="com.doublechaintech.health.healthsurveyreport.HealthSurveyReportJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" /><property name="teacherDAO" ref="teacherDAO" /><property name="studentDAO" ref="studentDAO" />
+		<property name="studentAnswerDAO" ref="studentAnswerDAO" />
+		
+	</bean>
+	<bean id="healthSurveyReportDAO" parent="healthSurveyReportDAOBase"></bean>
+	
+
+	<bean id="studentAnswerDAOBase" class="com.doublechaintech.health.studentanswer.StudentAnswerJDBCTemplateDAO">
+		<property name="dataSource" ref="dataSource" /><property name="healthSurveyReportDAO" ref="healthSurveyReportDAO" /><property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO" />
+	</bean>
+	<bean id="studentAnswerDAO" parent="studentAnswerDAOBase"></bean>
+	
+
 	<bean id="userDAOBase" class="com.doublechaintech.health.user.UserJDBCTemplateDAO">
-		<property name="dataSource" ref="dataSource" /><property name="locationDAO" ref="locationDAO" /><property name="platformDAO" ref="platformDAO" />
+		<property name="dataSource" ref="dataSource" /><property name="platformDAO" ref="platformDAO" />
+		<property name="teacherDAO" ref="teacherDAO" />
+		
 		<property name="studentDAO" ref="studentDAO" />
 		
 		<property name="questionDAO" ref="questionDAO" />
@@ -215,15 +237,11 @@
 		<property name="dataSource" ref="dataSource" /><property name="changeRequestTypeDAO" ref="changeRequestTypeDAO" /><property name="platformDAO" ref="platformDAO" />
 		<property name="teacherDAO" ref="teacherDAO" />
 		
-		<property name="studentDAO" ref="studentDAO" />
-		
 		<property name="questionDAO" ref="questionDAO" />
 		
 		<property name="classDailyHealthSurveyDAO" ref="classDailyHealthSurveyDAO" />
 		
 		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO" />
-		
-		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO" />
 		
 	</bean>
 	<bean id="changeRequestDAO" parent="changeRequestDAOBase"></bean>
@@ -383,6 +401,8 @@
 		<property name="studentHealthSurveyDAO" ref="studentHealthSurveyDAO"/>
 		<property name="studentDailyAnswerDAO" ref="studentDailyAnswerDAO"/>
 		<property name="surveyStatusDAO" ref="surveyStatusDAO"/>
+		<property name="healthSurveyReportDAO" ref="healthSurveyReportDAO"/>
+		<property name="studentAnswerDAO" ref="studentAnswerDAO"/>
 		<property name="userDAO" ref="userDAO"/>
 		<property name="wechatLoginInfoDAO" ref="wechatLoginInfoDAO"/>
 		<property name="changeRequestDAO" ref="changeRequestDAO"/>

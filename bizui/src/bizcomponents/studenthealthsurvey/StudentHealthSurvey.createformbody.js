@@ -17,9 +17,9 @@ const {fieldLabels} = StudentHealthSurveyBase
 const testValues = {};
 /*
 const testValues = {
-  answerTime: '2020-01-24 13:44:38',
+  answerTime: '2020-01-26 07:16:10',
   studentId: 'S000001',
-  surveyStatusId: 'UnSubmitted',
+  surveyStatusId: 'UN_SUBMITTED',
   teacherId: 'T000001',
   classDailyHealthSurveyId: 'CDHS000001',
   changeRequestId: 'CR000001',
@@ -223,7 +223,7 @@ class StudentHealthSurveyCreateFormBody extends Component {
                 <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
                   {getFieldDecorator('changeRequestId', {
                   	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 

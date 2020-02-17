@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.RemoteInitiable;
 import com.terapico.utils.TextUtil;
 
@@ -623,7 +624,9 @@ public class BaseEntity implements Serializable, RemoteInitiable{
 	protected String parseString(String stringExpr){		
 		return stringExpr;
 	}
-	
+	protected Images parseImages(String stringExpr){		
+		return Images.fromString(stringExpr);
+	}
 	
 	protected boolean equalsInt(int a, int b){
 		return a==b;
@@ -642,7 +645,7 @@ public class BaseEntity implements Serializable, RemoteInitiable{
 		return a.equals(b);
 	}
 	
-	private boolean equalsObject(Object a, Object b){
+	protected boolean equalsObject(Object a, Object b){
 		if(a==b){
 			return true;//they can be both null, or exact the same object, this is much faster than equals function
 		}

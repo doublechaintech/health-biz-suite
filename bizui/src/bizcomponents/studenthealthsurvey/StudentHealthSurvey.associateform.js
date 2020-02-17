@@ -18,9 +18,9 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  answerTime: '2020-01-12 08:43:26',
+  answerTime: '2020-02-08 16:54:25',
   studentId: 'S000001',
-  surveyStatusId: 'UnSubmitted',
+  surveyStatusId: 'UN_SUBMITTED',
   teacherId: 'T000001',
   classDailyHealthSurveyId: 'CDHS000001',
   changeRequestId: 'CR000001',
@@ -229,7 +229,7 @@ class StudentHealthSurveyAssociateForm extends Component {
                 <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
                   {getFieldDecorator('changeRequestId', {
                   	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
                     disabled={!availableForEdit('changeRequest')}

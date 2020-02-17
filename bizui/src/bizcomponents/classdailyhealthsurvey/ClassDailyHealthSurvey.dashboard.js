@@ -131,6 +131,7 @@ const internalSummaryOf = (classDailyHealthSurvey,targetComponent) =>{
 	      ClassDailyHealthSurveyService.transferToAnotherCreator,"anotherCreatorId",classDailyHealthSurvey.creator?classDailyHealthSurvey.creator.id:"")} 
   style={{fontSize: 20,color:"red"}} />
 </Description>
+<Description term="下载网址" style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.downloadUrl}</Description> 
 <Description term="变更请求">{classDailyHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.changeRequest.displayName}(${classDailyHealthSurvey.changeRequest.id})`}
  <Icon type="swap" onClick={()=>
   showTransferModel(targetComponent,"变更请求","changeRequest",ClassDailyHealthSurveyService.requestCandidateChangeRequest,
@@ -168,7 +169,7 @@ class ClassDailyHealthSurveyDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, dailySurveyQuestionListMetaInfo, studentHealthSurveyListMetaInfo, dailySurveyQuestionCount, studentHealthSurveyCount } = this.props.classDailyHealthSurvey
+    const { id,displayName, dailySurveyQuestionListMetaInfo, studentHealthSurveyListMetaInfo, healthSurveyReportListMetaInfo, dailySurveyQuestionCount, studentHealthSurveyCount, healthSurveyReportCount } = this.props.classDailyHealthSurvey
     if(!this.props.classDailyHealthSurvey.class){
       return null
     }
@@ -179,6 +180,7 @@ class ClassDailyHealthSurveyDashboard extends Component {
   		subItems: [
 {name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','class_daily_health_survey.daily_survey_question_list',false) ,viewGroup:'__no_group', type:'dailySurveyQuestion',count:dailySurveyQuestionCount,addFunction: true, role: 'dailySurveyQuestion', metaInfo: dailySurveyQuestionListMetaInfo, renderItem: GlobalComponents.DailySurveyQuestionBase.renderItemOfList},
 {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','class_daily_health_survey.student_health_survey_list',false) ,viewGroup:'__no_group', type:'studentHealthSurvey',count:studentHealthSurveyCount,addFunction: true, role: 'studentHealthSurvey', metaInfo: studentHealthSurveyListMetaInfo, renderItem: GlobalComponents.StudentHealthSurveyBase.renderItemOfList},
+{name: 'healthSurveyReportList', displayName: window.mtrans('health_survey_report','class_daily_health_survey.health_survey_report_list',false) ,viewGroup:'__no_group', type:'healthSurveyReport',count:healthSurveyReportCount,addFunction: true, role: 'healthSurveyReport', metaInfo: healthSurveyReportListMetaInfo, renderItem: GlobalComponents.HealthSurveyReportBase.renderItemOfList},
     
       	],
    		subSettingItems: [

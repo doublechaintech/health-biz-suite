@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -19,13 +20,13 @@ import com.doublechaintech.health.question.Question;
 @JsonSerialize(using = QuestionTypeSerializer.class)
 public class QuestionType extends BaseEntity implements  java.io.Serializable{
 
-	public static final String OPTION_SELECT = "OptionSelect";	// 选择题
-	public static final String TEXT_INPUT = "TextInput";	// 简答题
+	public static final String SINGLE_SELECT = "SINGLE_SELECT";	// 单选题
+	public static final String TEXT_INPUT = "TEXT_INPUT";	// 简答题
 	public static List<KeyValuePair> CODE_NAME_LIST;
 	static {
 		CODE_NAME_LIST = new ArrayList<>();
 
-		CODE_NAME_LIST.add(new KeyValuePair(OPTION_SELECT, "选择题"));
+		CODE_NAME_LIST.add(new KeyValuePair(SINGLE_SELECT, "单选题"));
 		CODE_NAME_LIST.add(new KeyValuePair(TEXT_INPUT, "简答题"));
 	}
 	
@@ -105,6 +106,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -114,12 +116,13 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCodeProperty(String newValueExpr){
+	
 		String oldValue = getCode();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -129,7 +132,7 @@ public class QuestionType extends BaseEntity implements  java.io.Serializable{
 		updateCode(newValue);
 		this.onChangeProperty(CODE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

@@ -33,7 +33,7 @@ const internalSummaryOf = (student,targetComponent) =>{
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID">{student.id}</Description> 
 <Description term="学生的名字">{student.studentName}</Description> 
-<Description term="学生证">{student.studentId}</Description> 
+<Description term="学生数量">{student.studentNumber}</Description> 
 <Description term="监护人姓名">{student.guardianName}</Description> 
 <Description term="监护人手机">{student.guardianMobile}</Description> 
 <Description term="创建时间">{ moment(student.createTime).format('YYYY-MM-DD')}</Description> 
@@ -61,7 +61,7 @@ class StudentPermission extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  student = this.props.student
-    const { id,displayName, studentHealthSurveyCount } = student
+    const { id,displayName, studentHealthSurveyCount, healthSurveyReportCount } = student
     const  returnURL = `/student/${id}/dashboard`
     const cardsData = {cardsName:"学生",cardsFor: "student",cardsSource: student,displayName,returnURL,
   		subItems: [

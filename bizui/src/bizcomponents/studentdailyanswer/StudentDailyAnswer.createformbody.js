@@ -20,7 +20,6 @@ const testValues = {
   answer: 'A',
   studentHealthSurveyId: 'SHS000001',
   questionId: 'DSQ000001',
-  changeRequestId: 'CR000001',
 }
 */
 
@@ -171,25 +170,6 @@ class StudentDailyAnswerCreateFormBody extends Component {
                     disabled={!availableForEdit('question')}
                     targetType={"question"} 
                     requestFunction={StudentDailyAnswerService.requestCandidateQuestion}/>
-                  
-                 
-                  )}
-                </Form.Item>
-              </Col>
-
-           
-
-              <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
-                  {getFieldDecorator('changeRequestId', {
-                  	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('changeRequest')}
-                    targetType={"changeRequest"} 
-                    requestFunction={StudentDailyAnswerService.requestCandidateChangeRequest}/>
                   
                  
                   )}

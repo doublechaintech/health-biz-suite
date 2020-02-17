@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -215,10 +216,16 @@ public class LoginHistoryManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(LoginHistory.FROM_IP_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkFromIpOfLoginHistory(parseString(newValueExpr));
+		
+			
 		}
 		if(LoginHistory.DESCRIPTION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDescriptionOfLoginHistory(parseString(newValueExpr));
+		
+			
 		}		
 
 		

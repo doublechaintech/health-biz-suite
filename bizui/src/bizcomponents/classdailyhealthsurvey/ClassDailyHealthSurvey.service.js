@@ -111,6 +111,28 @@ const removeStudentHealthSurveyList = (targetObjectId, parameters) => {
 
 
 
+const addHealthSurveyReport = (targetObjectId, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/addHealthSurveyReport/classDailyHealthSurveyId/surveyName/surveyTime/teacherName/school/schoolClass/studentName/studentNumber/guardianName/guardianMobile/studentId/teacherId/tokensExpr/`
+  const classDailyHealthSurveyId = targetObjectId
+  const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateHealthSurveyReport = (targetObjectId, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/updateHealthSurveyReportProperties/classDailyHealthSurveyId/id/surveyName/surveyTime/teacherName/school/schoolClass/studentName/studentNumber/guardianName/guardianMobile/tokensExpr/`
+  const classDailyHealthSurveyId = targetObjectId
+  const requestParameters = { ...parameters, classDailyHealthSurveyId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeHealthSurveyReportList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}classDailyHealthSurveyManager/removeHealthSurveyReportList/classDailyHealthSurveyId/healthSurveyReportIds/tokensExpr/`
+  const requestParameters = { ...parameters, classDailyHealthSurveyId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
 // Filter this out when no functions
 
 const  listFunctions = () => {
@@ -141,10 +163,13 @@ const ClassDailyHealthSurveyService = { view,
   load,
   addDailySurveyQuestion,
   addStudentHealthSurvey,
+  addHealthSurveyReport,
   updateDailySurveyQuestion,
   updateStudentHealthSurvey,
+  updateHealthSurveyReport,
   removeDailySurveyQuestionList,
   removeStudentHealthSurveyList,
+  removeHealthSurveyReportList,
   requestCandidateTeacher,
   requestCandidateCreator,
   requestCandidateChangeRequest,

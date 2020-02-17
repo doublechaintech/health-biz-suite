@@ -650,7 +650,9 @@ public class CityJDBCTemplateDAO extends HealthBaseDAOImpl implements CityDAO{
  	protected Object[] prepareCityUpdateParameters(City city){
  		Object[] parameters = new Object[7];
  
- 		parameters[0] = city.getName(); 	
+ 		
+ 		parameters[0] = city.getName();
+ 		 	
  		if(city.getProvince() != null){
  			parameters[1] = city.getProvince().getId();
  		}
@@ -659,7 +661,9 @@ public class CityJDBCTemplateDAO extends HealthBaseDAOImpl implements CityDAO{
  			parameters[2] = city.getPlatform().getId();
  		}
  
- 		parameters[3] = city.getCreateTime();		
+ 		
+ 		parameters[3] = city.getCreateTime();
+ 				
  		parameters[4] = city.nextVersion();
  		parameters[5] = city.getId();
  		parameters[6] = city.getVersion();
@@ -672,7 +676,9 @@ public class CityJDBCTemplateDAO extends HealthBaseDAOImpl implements CityDAO{
 		city.setId(newCityId);
 		parameters[0] =  city.getId();
  
- 		parameters[1] = city.getName(); 	
+ 		
+ 		parameters[1] = city.getName();
+ 		 	
  		if(city.getProvince() != null){
  			parameters[2] = city.getProvince().getId();
  		
@@ -683,7 +689,9 @@ public class CityJDBCTemplateDAO extends HealthBaseDAOImpl implements CityDAO{
  		
  		}
  		
- 		parameters[4] = city.getCreateTime();		
+ 		
+ 		parameters[4] = city.getCreateTime();
+ 				
  				
  		return parameters;
  	}

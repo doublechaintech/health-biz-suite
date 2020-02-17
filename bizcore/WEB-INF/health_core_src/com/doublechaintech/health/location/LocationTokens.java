@@ -74,8 +74,7 @@ public class LocationTokens extends CommonTokens{
 		return start()
 			.withDistrict()
 			.withProvince()
-			.withStudentList()
-			.withUserList();
+			.withStudentList();
 	
 	}
 	public static LocationTokens withoutListsTokens(){
@@ -165,7 +164,7 @@ public class LocationTokens extends CommonTokens{
 	
 	
 	public LocationTokens searchAllTextOfStudentList(String verb, String value){	
-		String field = "id|studentName|studentId|guardianName|guardianMobile";
+		String field = "id|studentName|studentNumber|guardianName|guardianMobile";
 		addSearchMoreOptions(STUDENT_LIST,studentListSearchCounter++, field, verb, value);
 		return this;
 	}
@@ -191,81 +190,10 @@ public class LocationTokens extends CommonTokens{
 	
 	
 		
-	protected static final String USER_LIST = "userList";
-	public String getUserList(){
-		return USER_LIST;
-	}
-	public LocationTokens withUserList(){		
-		addSimpleOptions(USER_LIST);
-		return this;
-	}
-	public LocationTokens analyzeUserList(){		
-		addSimpleOptions(USER_LIST+".anaylze");
-		return this;
-	}
-	public boolean analyzeUserListEnabled(){		
-		
-		if(checkOptions(this.options(), USER_LIST+".anaylze")){
-			return true; //most of the case, should call here
-		}
-		//if not true, then query for global setting
-		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
-	}
-	public LocationTokens extractMoreFromUserList(String idsSeperatedWithComma){		
-		addSimpleOptions(USER_LIST+".extractIds", idsSeperatedWithComma);
-		return this;
-	}
-	
-	
-	
-	
-	private int userListSortCounter = 0;
-	public LocationTokens sortUserListWith(String field, String descOrAsc){		
-		addSortMoreOptions(USER_LIST,userListSortCounter++, field, descOrAsc);
-		return this;
-	}
-	private int userListSearchCounter = 0;
-	public LocationTokens searchUserListWith(String field, String verb, String value){		
-		
-		withUserList();
-		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public LocationTokens searchAllTextOfUserList(String verb, String value){	
-		String field = "id|name";
-		addSearchMoreOptions(USER_LIST,userListSearchCounter++, field, verb, value);
-		return this;
-	}
-	
-	
-	
-	public LocationTokens rowsPerPageOfUserList(int rowsPerPage){		
-		addSimpleOptions(USER_LIST+"RowsPerPage",rowsPerPage);
-		return this;
-	}
-	public LocationTokens currentPageNumberOfUserList(int currentPageNumber){		
-		addSimpleOptions(USER_LIST+"CurrentPage",currentPageNumber);
-		return this;
-	}
-	public LocationTokens retainColumnsOfUserList(String[] columns){		
-		addSimpleOptions(USER_LIST+"RetainColumns",columns);
-		return this;
-	}
-	public LocationTokens excludeColumnsOfUserList(String[] columns){		
-		addSimpleOptions(USER_LIST+"ExcludeColumns",columns);
-		return this;
-	}
-	
-	
-		
 	
 	public  LocationTokens searchEntireObjectText(String verb, String value){
 		
 		searchAllTextOfStudentList(verb, value);	
-		searchAllTextOfUserList(verb, value);	
 		return this;
 	}
 }

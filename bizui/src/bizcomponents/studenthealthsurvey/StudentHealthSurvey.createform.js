@@ -18,9 +18,9 @@ const { TextArea } = Input
 const testValues = {};
 /*
 const testValues = {
-  answerTime: '2020-01-22 06:10:34',
+  answerTime: '2020-02-10 12:24:08',
   studentId: 'S000001',
-  surveyStatusId: 'UnSubmitted',
+  surveyStatusId: 'UN_SUBMITTED',
   teacherId: 'T000001',
   classDailyHealthSurveyId: 'CDHS000001',
   changeRequestId: 'CR000001',

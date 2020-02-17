@@ -297,6 +297,18 @@ class ClassDailyHealthSurveyUpdateForm extends Component {
                 </Form.Item>
               </Col>
 
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.downloadUrl} {...formItemLayout}>
+                  {getFieldDecorator('downloadUrl', {
+                    initialValue: selectedRow.downloadUrl,
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.downloadUrl} />
+                    
+                  )}
+                </Form.Item>
+              </Col>
+
             
        
         

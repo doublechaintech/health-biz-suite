@@ -97,13 +97,13 @@ const renderItemOfList=(wechatMiniappIdentify, targetComponent, columCount)=>{
 const packFormValuesToObject = ( formValuesToPack )=>{
 	const {openId, appId, lastLoginTime, secUserId} = formValuesToPack
 	const secUser = {id: secUserId, version: 2^31}
-	const data = {openId, appId, lastLoginTime, secUser}
+	const data = {openId, appId, lastLoginTime:moment(lastLoginTime).valueOf(), secUser}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
 	const {openId, appId, lastLoginTime, secUser} = objectToUnpack
 	const secUserId = secUser ? secUser.id : null
-	const data = {openId, appId, lastLoginTime, secUserId}
+	const data = {openId, appId, lastLoginTime:moment(lastLoginTime), secUserId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

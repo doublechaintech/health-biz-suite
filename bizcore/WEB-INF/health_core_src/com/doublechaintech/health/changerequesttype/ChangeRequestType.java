@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -18,12 +19,18 @@ import com.doublechaintech.health.changerequest.ChangeRequest;
 @JsonSerialize(using = ChangeRequestTypeSerializer.class)
 public class ChangeRequestType extends BaseEntity implements  java.io.Serializable{
 
-	public static final String LOGIN = "LOGIN";	// 登录
+	public static final String ADD_CLASS = "ADD_CLASS";	// 添加班级
+	public static final String ADD_STUDENT = "ADD_STUDENT";	// 添加学生
+	public static final String PUBLISH_SURVEY = "PUBLISH_SURVEY";	// 发布问卷
+	public static final String FILL_SURVEY = "FILL_SURVEY";	// 填写问卷
 	public static List<KeyValuePair> CODE_NAME_LIST;
 	static {
 		CODE_NAME_LIST = new ArrayList<>();
 
-		CODE_NAME_LIST.add(new KeyValuePair(LOGIN, "登录"));
+		CODE_NAME_LIST.add(new KeyValuePair(ADD_CLASS, "添加班级"));
+		CODE_NAME_LIST.add(new KeyValuePair(ADD_STUDENT, "添加学生"));
+		CODE_NAME_LIST.add(new KeyValuePair(PUBLISH_SURVEY, "发布问卷"));
+		CODE_NAME_LIST.add(new KeyValuePair(FILL_SURVEY, "填写问卷"));
 	}
 	
 	public static final String ID_PROPERTY                    = "id"                ;
@@ -120,6 +127,7 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
     
     
 	protected void changeNameProperty(String newValueExpr){
+	
 		String oldValue = getName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -129,12 +137,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateName(newValue);
 		this.onChangeProperty(NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCodeProperty(String newValueExpr){
+	
 		String oldValue = getCode();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -144,12 +153,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateCode(newValue);
 		this.onChangeProperty(CODE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeIconProperty(String newValueExpr){
+	
 		String oldValue = getIcon();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -159,12 +169,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateIcon(newValue);
 		this.onChangeProperty(ICON_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDisplayOrderProperty(String newValueExpr){
+	
 		int oldValue = getDisplayOrder();
 		int newValue = parseInt(newValueExpr);
 		if(equalsInt(oldValue , newValue)){
@@ -174,12 +185,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateDisplayOrder(newValue);
 		this.onChangeProperty(DISPLAY_ORDER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeBindTypesProperty(String newValueExpr){
+	
 		String oldValue = getBindTypes();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -189,12 +201,13 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateBindTypes(newValue);
 		this.onChangeProperty(BIND_TYPES_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeStepConfigurationProperty(String newValueExpr){
+	
 		String oldValue = getStepConfiguration();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -204,7 +217,7 @@ public class ChangeRequestType extends BaseEntity implements  java.io.Serializab
 		updateStepConfiguration(newValue);
 		this.onChangeProperty(STEP_CONFIGURATION_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

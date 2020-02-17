@@ -234,58 +234,6 @@ constructor(props) {
     }))(StudentUpdateForm)
   }
 
-  getUserSearch = () => {
-    const {UserSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('user','location.user_list',false),
-      role: "user",
-      data: state._location.userList,
-      metaInfo: state._location.userListMetaInfo,
-      count: state._location.userCount,
-      returnURL: `/location/${state._location.id}/dashboard`,
-      currentPage: state._location.userCurrentPageNumber,
-      searchFormParameters: state._location.userSearchFormParameters,
-      searchParameters: {...state._location.searchParameters},
-      expandForm: state._location.expandForm,
-      loading: state._location.loading,
-      partialList: state._location.partialList,
-      owner: { type: '_location', id: state._location.id, 
-      referenceName: 'address', 
-      listName: 'userList', ref:state._location, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserSearch)
-  }
-  
-  getUserCreateForm = () => {
-   	const {UserCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "user",
-      data: state._location.userList,
-      metaInfo: state._location.userListMetaInfo,
-      count: state._location.userCount,
-      returnURL: `/location/${state._location.id}/list`,
-      currentPage: state._location.userCurrentPageNumber,
-      searchFormParameters: state._location.userSearchFormParameters,
-      loading: state._location.loading,
-      owner: { type: '_location', id: state._location.id, referenceName: 'address', listName: 'userList', ref:state._location, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(UserCreateForm)
-  }
-  
-  getUserUpdateForm = () => {
-    const userContext = null
-  	const {UserUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._location.selectedRows,
-      role: "user",
-      currentUpdateIndex: state._location.currentUpdateIndex,
-      owner: { type: '_location', id: state._location.id, listName: 'userList', ref:state._location, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(UserUpdateForm)
-  }
-
 
   
 
@@ -314,10 +262,6 @@ constructor(props) {
   	{path:"/location/:id/list/studentList", component: this.getStudentSearch()},
   	{path:"/location/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
   	{path:"/location/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
-   	
-  	{path:"/location/:id/list/userList", component: this.getUserSearch()},
-  	{path:"/location/:id/list/userCreateForm", component: this.getUserCreateForm()},
-  	{path:"/location/:id/list/userUpdateForm", component: this.getUserUpdateForm()},
    	{path:"/location/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

@@ -18,17 +18,17 @@ const testValues = {};
 /*
 const testValues = {
   studentName: '刘婵',
-  studentId: 'A01',
+  studentNumber: 'A01',
   guardianName: '刘备',
   guardianMobile: '18012341234',
   addressId: 'L000001',
   userId: 'U000001',
   platformId: 'P000001',
-  changeRequestId: 'CR000001',
 }
 */
 
 const imageKeys = [
+  'studentAvatar',
 ]
 
 
@@ -143,11 +143,11 @@ class StudentCreateFormBody extends Component {
               </Col>
 
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.studentId} {...formItemLayout}>
-                  {getFieldDecorator('studentId', {
+                <Form.Item label={fieldLabels.studentNumber} {...formItemLayout}>
+                  {getFieldDecorator('studentNumber', {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.studentId} />
+                    <Input size="large"  placeHolder={fieldLabels.studentNumber} />
                   )}
                 </Form.Item>
               </Col>
@@ -179,7 +179,7 @@ class StudentCreateFormBody extends Component {
                 <Form.Item label={fieldLabels.address} {...formItemLayout}>
                   {getFieldDecorator('addressId', {
                   	initialValue: tryinit('address'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 
@@ -232,25 +232,6 @@ class StudentCreateFormBody extends Component {
 
            
 
-              <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
-                  {getFieldDecorator('changeRequestId', {
-                  	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                  
-                  <SelectObject 
-                    disabled={!availableForEdit('changeRequest')}
-                    targetType={"changeRequest"} 
-                    requestFunction={StudentService.requestCandidateChangeRequest}/>
-                  
-                 
-                  )}
-                </Form.Item>
-              </Col>
-
-           
-
 
 
 			 </Row>
@@ -261,6 +242,25 @@ class StudentCreateFormBody extends Component {
 
 
 
+
+       <Card title={<div>{appLocaleName(userContext,"Attachment")} <Popover title={appLocaleName(userContext,"ScanQRCodetoUploadfromSmartPhone")} content={<div><img src='./qrtest.png'/></div>}><Icon type="qrcode" ></Icon></Popover></div>} className={styles.card} bordered={false}>
+          <Form >
+            <Row gutter={16}>     
+           
+
+              <Col lg={6} md={12} sm={24}>
+                <ImageComponent
+                  buttonTitle={fieldLabels.studentAvatar}
+                  handlePreview={this.handlePreview}
+                  handleChange={event => this.handleChange(event, 'studentAvatar')}
+                  fileList={convertedImagesValues.studentAvatar}
+                />
+              </Col>
+
+             </Row>
+          </Form>
+        </Card>
+         
 
 
 

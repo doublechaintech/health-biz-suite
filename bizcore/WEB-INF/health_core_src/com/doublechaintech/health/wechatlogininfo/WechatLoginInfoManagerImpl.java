@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -219,13 +220,22 @@ public class WechatLoginInfoManagerImpl extends CustomHealthCheckerManager imple
 
 		
 		if(WechatLoginInfo.APP_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAppIdOfWechatLoginInfo(parseString(newValueExpr));
+		
+			
 		}
 		if(WechatLoginInfo.OPEN_ID_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOpenIdOfWechatLoginInfo(parseString(newValueExpr));
+		
+			
 		}
 		if(WechatLoginInfo.SESSION_KEY_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkSessionKeyOfWechatLoginInfo(parseString(newValueExpr));
+		
+			
 		}
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(WechatLoginInfoManagerException.class);

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -155,6 +156,7 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeLabelProperty(String newValueExpr){
+	
 		String oldValue = getLabel();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -164,12 +166,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateLabel(newValue);
 		this.onChangeProperty(LABEL_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLocaleKeyProperty(String newValueExpr){
+	
 		String oldValue = getLocaleKey();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -179,12 +182,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateLocaleKey(newValue);
 		this.onChangeProperty(LOCALE_KEY_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeParameterNameProperty(String newValueExpr){
+	
 		String oldValue = getParameterName();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -194,12 +198,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateParameterName(newValue);
 		this.onChangeProperty(PARAMETER_NAME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeTypeProperty(String newValueExpr){
+	
 		String oldValue = getType();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -209,12 +214,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateType(newValue);
 		this.onChangeProperty(TYPE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changePlaceholderProperty(String newValueExpr){
+	
 		String oldValue = getPlaceholder();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -224,12 +230,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updatePlaceholder(newValue);
 		this.onChangeProperty(PLACEHOLDER_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDefaultValueProperty(String newValueExpr){
+	
 		String oldValue = getDefaultValue();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -239,12 +246,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateDefaultValue(newValue);
 		this.onChangeProperty(DEFAULT_VALUE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDescriptionProperty(String newValueExpr){
+	
 		String oldValue = getDescription();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -254,12 +262,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateDescription(newValue);
 		this.onChangeProperty(DESCRIPTION_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeFieldGroupProperty(String newValueExpr){
+	
 		String oldValue = getFieldGroup();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -269,12 +278,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateFieldGroup(newValue);
 		this.onChangeProperty(FIELD_GROUP_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeMinimumValueProperty(String newValueExpr){
+	
 		String oldValue = getMinimumValue();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -284,12 +294,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateMinimumValue(newValue);
 		this.onChangeProperty(MINIMUM_VALUE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeMaximumValueProperty(String newValueExpr){
+	
 		String oldValue = getMaximumValue();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -299,12 +310,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateMaximumValue(newValue);
 		this.onChangeProperty(MAXIMUM_VALUE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeRequiredProperty(String newValueExpr){
+	
 		boolean oldValue = getRequired();
 		boolean newValue = parseBoolean(newValueExpr);
 		if(equalsBoolean(oldValue , newValue)){
@@ -314,12 +326,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateRequired(newValue);
 		this.onChangeProperty(REQUIRED_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDisabledProperty(String newValueExpr){
+	
 		boolean oldValue = getDisabled();
 		boolean newValue = parseBoolean(newValueExpr);
 		if(equalsBoolean(oldValue , newValue)){
@@ -329,12 +342,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateDisabled(newValue);
 		this.onChangeProperty(DISABLED_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCustomRenderingProperty(String newValueExpr){
+	
 		boolean oldValue = getCustomRendering();
 		boolean newValue = parseBoolean(newValueExpr);
 		if(equalsBoolean(oldValue , newValue)){
@@ -344,12 +358,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateCustomRendering(newValue);
 		this.onChangeProperty(CUSTOM_RENDERING_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCandidateValuesProperty(String newValueExpr){
+	
 		String oldValue = getCandidateValues();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -359,12 +374,13 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateCandidateValues(newValue);
 		this.onChangeProperty(CANDIDATE_VALUES_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeSuggestValuesProperty(String newValueExpr){
+	
 		String oldValue = getSuggestValues();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -374,7 +390,7 @@ public class FormField extends BaseEntity implements  java.io.Serializable{
 		updateSuggestValues(newValue);
 		this.onChangeProperty(SUGGEST_VALUES_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

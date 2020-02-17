@@ -451,11 +451,21 @@ public class QuickLinkJDBCTemplateDAO extends HealthBaseDAOImpl implements Quick
  	protected Object[] prepareQuickLinkUpdateParameters(QuickLink quickLink){
  		Object[] parameters = new Object[9];
  
+ 		
  		parameters[0] = quickLink.getName();
+ 		
+ 		
  		parameters[1] = quickLink.getIcon();
+ 		
+ 		
  		parameters[2] = quickLink.getImagePath();
+ 		
+ 		
  		parameters[3] = quickLink.getLinkTarget();
- 		parameters[4] = quickLink.getCreateTime(); 	
+ 		
+ 		
+ 		parameters[4] = quickLink.getCreateTime();
+ 		 	
  		if(quickLink.getApp() != null){
  			parameters[5] = quickLink.getApp().getId();
  		}
@@ -472,11 +482,21 @@ public class QuickLinkJDBCTemplateDAO extends HealthBaseDAOImpl implements Quick
 		quickLink.setId(newQuickLinkId);
 		parameters[0] =  quickLink.getId();
  
+ 		
  		parameters[1] = quickLink.getName();
+ 		
+ 		
  		parameters[2] = quickLink.getIcon();
+ 		
+ 		
  		parameters[3] = quickLink.getImagePath();
+ 		
+ 		
  		parameters[4] = quickLink.getLinkTarget();
- 		parameters[5] = quickLink.getCreateTime(); 	
+ 		
+ 		
+ 		parameters[5] = quickLink.getCreateTime();
+ 		 	
  		if(quickLink.getApp() != null){
  			parameters[6] = quickLink.getApp().getId();
  		

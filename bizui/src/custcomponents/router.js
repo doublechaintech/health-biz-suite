@@ -27,6 +27,8 @@ function RouterConfig({ history }) {
 	const {StudentHealthSurveyBizApp} = GlobalComponents
 	const {StudentDailyAnswerBizApp} = GlobalComponents
 	const {SurveyStatusBizApp} = GlobalComponents
+	const {HealthSurveyReportBizApp} = GlobalComponents
+	const {StudentAnswerBizApp} = GlobalComponents
 	const {UserBizApp} = GlobalComponents
 	const {WechatLoginInfoBizApp} = GlobalComponents
 	const {ChangeRequestBizApp} = GlobalComponents
@@ -71,6 +73,8 @@ function RouterConfig({ history }) {
           <Route path="/studentHealthSurvey/" component={StudentHealthSurveyBizApp} />
           <Route path="/studentDailyAnswer/" component={StudentDailyAnswerBizApp} />
           <Route path="/surveyStatus/" component={SurveyStatusBizApp} />
+          <Route path="/healthSurveyReport/" component={HealthSurveyReportBizApp} />
+          <Route path="/studentAnswer/" component={StudentAnswerBizApp} />
           <Route path="/user/" component={UserBizApp} />
           <Route path="/wechatLoginInfo/" component={WechatLoginInfoBizApp} />
           <Route path="/changeRequest/" component={ChangeRequestBizApp} />

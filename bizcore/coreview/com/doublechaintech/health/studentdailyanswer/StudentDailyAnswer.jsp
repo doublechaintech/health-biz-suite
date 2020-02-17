@@ -101,6 +101,7 @@
 	  <li class="active"><a data-toggle="tab" href="#summary" class="disabled"><i class="fa  fa-home"></i> ${userContext.localeMap['@summary']}</a></li>
 	 
 	<% StudentDailyAnswer result = (StudentDailyAnswer)request.getAttribute("result");  %>
+			<li><a data-toggle="tab" href="#studentAnswerList" class="disabled"> ${userContext.localeMap['student_answer']}</a></li>
  
 	</ul>
 	</div>
@@ -135,10 +136,6 @@
 <c:set var="referName" value="(question)" scope="request" />
 <sky:include page="com/doublechaintech/health/dailysurveyquestion/DailySurveyQuestion$Info.jsp" />
 
-<c:set var="changeRequest" value="${ result.changeRequest}" scope="request" />
-<c:set var="referName" value="" scope="request" />
-<sky:include page="com/doublechaintech/health/changerequest/ChangeRequest$Info.jsp" />
-
 </div>
 
 
@@ -158,7 +155,15 @@
 
 	
 
-	
+		<c:if test='${not empty userContext.accessTokens["studentAnswerList"] or ignoreListAccessControl}'>
+		<c:set var="studentAnswerList" value="${result.studentAnswerList}" scope="request"/>
+		<c:set var="studentAnswerListName" value="studentAnswerList" scope="request"/>
+		<div id="studentAnswerList" class="tab-pane fade sublist" refer-name="daily_answer">
+			<sky:include page="com/doublechaintech/health/studentanswer/StudentAnswer$List.jsp"
+					referName="dailyAnswer"/>
+		</div>
+	</c:if>
+
 	
 
 </div><!--<div class="tab-content" style="padding-top: 10px">-->

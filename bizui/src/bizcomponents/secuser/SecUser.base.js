@@ -117,13 +117,13 @@ const renderItemOfList=(secUser, targetComponent, columCount)=>{
 const packFormValuesToObject = ( formValuesToPack )=>{
 	const {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire, lastLoginTime, domainId} = formValuesToPack
 	const domain = {id: domainId, version: 2^31}
-	const data = {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire, lastLoginTime, domain}
+	const data = {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire:moment(verificationCodeExpire).valueOf(), lastLoginTime:moment(lastLoginTime).valueOf(), domain}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
 	const {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire, lastLoginTime, domain} = objectToUnpack
 	const domainId = domain ? domain.id : null
-	const data = {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire, lastLoginTime, domainId}
+	const data = {login, mobile, email, pwd, weixinOpenid, weixinAppid, accessToken, verificationCode, verificationCodeExpire:moment(verificationCodeExpire), lastLoginTime:moment(lastLoginTime), domainId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

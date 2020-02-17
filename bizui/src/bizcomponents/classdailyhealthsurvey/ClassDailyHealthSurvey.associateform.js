@@ -19,7 +19,8 @@ const testValues = {};
 /*
 const testValues = {
   name: '2020年1月25日益州小学学生健康调查问卷',
-  surveyTime: '2020-01-09 03:52:03',
+  surveyTime: '2020-02-01 13:40:31',
+  downloadUrl: 'https://oss',
   teacherId: 'T000001',
   creatorId: 'U000001',
   changeRequestId: 'CR000001',
@@ -78,6 +79,7 @@ class ClassDailyHealthSurveyAssociateForm extends Component {
     
  const {DailySurveyQuestionModalTable} = GlobalComponents;
  const {StudentHealthSurveyModalTable} = GlobalComponents;
+ const {HealthSurveyReportModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -158,6 +160,16 @@ class ClassDailyHealthSurveyAssociateForm extends Component {
                 </Form.Item>
               </Col>
 
+              <Col lg={12} md={12} sm={12}>
+                <Form.Item label={fieldLabels.downloadUrl} {...formItemLayout}>
+                  {getFieldDecorator('downloadUrl', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.downloadUrl} />
+                  )}
+                </Form.Item>
+              </Col>
+
             </Row>
 
 
@@ -209,7 +221,7 @@ class ClassDailyHealthSurveyAssociateForm extends Component {
                 <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
                   {getFieldDecorator('changeRequestId', {
                   	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
                     disabled={!availableForEdit('changeRequest')}
@@ -233,6 +245,7 @@ class ClassDailyHealthSurveyAssociateForm extends Component {
         
 	<DailySurveyQuestionModalTable data={data.dailySurveyQuestionList} owner={owner} />
 	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
+	<HealthSurveyReportModalTable data={data.healthSurveyReportList} owner={owner} />
         
         
         

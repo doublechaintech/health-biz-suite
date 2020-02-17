@@ -105,8 +105,19 @@ public class DebugUtil {
     					template = "<div>(%s)<lable ondblclick='handleDbClick(this)'>%s</lable>";
     					out.write(String.format(template,fieldValue.get("type"), fieldValue.get("name")));
     					template = "<input data-type=\"%s\" name=\"%s\" value=\"%s\"/>";
-    					out.write(String.format(template, fieldValue.get("type"), fieldValue.get("name"), 
+    					if (fieldValue.get("type").equals("images")) {
+    						try {
+    							template = "<input data-type=\"%s\" name=\"%s\" value=\'%s\'/>";
+								out.write(String.format(template, fieldValue.get("type"), fieldValue.get("name"), 
+										fieldValue.get("value")==null?"":dumpAsJson(fieldValue.get("value"),false)));
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+    					}else {
+    						out.write(String.format(template, fieldValue.get("type"), fieldValue.get("name"), 
     							fieldValue.get("value")==null?"":fieldValue.get("value")));
+    					}
     					Object candidateValues = fieldValue.get("candidateValues");
     					template = "</div>";
     					out.write(String.format(template));

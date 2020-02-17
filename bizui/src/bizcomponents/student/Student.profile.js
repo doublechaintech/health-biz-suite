@@ -53,7 +53,7 @@ class StudentProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  student = this.props.student;
-    const { id,displayName, studentHealthSurveyCount } = student
+    const { id,displayName, studentHealthSurveyCount, healthSurveyReportCount } = student
     const  returnURL = `/student/${id}/dashboard`
     const cardsData = {cardsName:"学生",cardsFor: "student",cardsSource: student,displayName,returnURL,
   		subItems: [

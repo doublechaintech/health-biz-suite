@@ -234,58 +234,6 @@ constructor(props) {
     }))(TeacherUpdateForm)
   }
 
-  getStudentSearch = () => {
-    const {StudentSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('student','change_request.student_list',false),
-      role: "student",
-      data: state._changeRequest.studentList,
-      metaInfo: state._changeRequest.studentListMetaInfo,
-      count: state._changeRequest.studentCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.studentCurrentPageNumber,
-      searchFormParameters: state._changeRequest.studentSearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'changeRequest', 
-      listName: 'studentList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentSearch)
-  }
-  
-  getStudentCreateForm = () => {
-   	const {StudentCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "student",
-      data: state._changeRequest.studentList,
-      metaInfo: state._changeRequest.studentListMetaInfo,
-      count: state._changeRequest.studentCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.studentCurrentPageNumber,
-      searchFormParameters: state._changeRequest.studentSearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'studentList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(StudentCreateForm)
-  }
-  
-  getStudentUpdateForm = () => {
-    const userContext = null
-  	const {StudentUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "student",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'studentList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentUpdateForm)
-  }
-
   getQuestionSearch = () => {
     const {QuestionSearch} = GlobalComponents;
     const userContext = null
@@ -442,58 +390,6 @@ constructor(props) {
     }))(StudentHealthSurveyUpdateForm)
   }
 
-  getStudentDailyAnswerSearch = () => {
-    const {StudentDailyAnswerSearch} = GlobalComponents;
-    const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      name: window.mtrans('student_daily_answer','change_request.student_daily_answer_list',false),
-      role: "studentDailyAnswer",
-      data: state._changeRequest.studentDailyAnswerList,
-      metaInfo: state._changeRequest.studentDailyAnswerListMetaInfo,
-      count: state._changeRequest.studentDailyAnswerCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/dashboard`,
-      currentPage: state._changeRequest.studentDailyAnswerCurrentPageNumber,
-      searchFormParameters: state._changeRequest.studentDailyAnswerSearchFormParameters,
-      searchParameters: {...state._changeRequest.searchParameters},
-      expandForm: state._changeRequest.expandForm,
-      loading: state._changeRequest.loading,
-      partialList: state._changeRequest.partialList,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, 
-      referenceName: 'changeRequest', 
-      listName: 'studentDailyAnswerList', ref:state._changeRequest, 
-      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentDailyAnswerSearch)
-  }
-  
-  getStudentDailyAnswerCreateForm = () => {
-   	const {StudentDailyAnswerCreateForm} = GlobalComponents;
-   	const userContext = null
-    return connect(state => ({
-      rule: state.rule,
-      role: "studentDailyAnswer",
-      data: state._changeRequest.studentDailyAnswerList,
-      metaInfo: state._changeRequest.studentDailyAnswerListMetaInfo,
-      count: state._changeRequest.studentDailyAnswerCount,
-      returnURL: `/changeRequest/${state._changeRequest.id}/list`,
-      currentPage: state._changeRequest.studentDailyAnswerCurrentPageNumber,
-      searchFormParameters: state._changeRequest.studentDailyAnswerSearchFormParameters,
-      loading: state._changeRequest.loading,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, referenceName: 'changeRequest', listName: 'studentDailyAnswerList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
-    }))(StudentDailyAnswerCreateForm)
-  }
-  
-  getStudentDailyAnswerUpdateForm = () => {
-    const userContext = null
-  	const {StudentDailyAnswerUpdateForm} = GlobalComponents;
-    return connect(state => ({
-      selectedRows: state._changeRequest.selectedRows,
-      role: "studentDailyAnswer",
-      currentUpdateIndex: state._changeRequest.currentUpdateIndex,
-      owner: { type: '_changeRequest', id: state._changeRequest.id, listName: 'studentDailyAnswerList', ref:state._changeRequest, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
-    }))(StudentDailyAnswerUpdateForm)
-  }
-
 
   
 
@@ -523,10 +419,6 @@ constructor(props) {
   	{path:"/changeRequest/:id/list/teacherCreateForm", component: this.getTeacherCreateForm()},
   	{path:"/changeRequest/:id/list/teacherUpdateForm", component: this.getTeacherUpdateForm()},
    	
-  	{path:"/changeRequest/:id/list/studentList", component: this.getStudentSearch()},
-  	{path:"/changeRequest/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
-  	{path:"/changeRequest/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},
-   	
   	{path:"/changeRequest/:id/list/questionList", component: this.getQuestionSearch()},
   	{path:"/changeRequest/:id/list/questionCreateForm", component: this.getQuestionCreateForm()},
   	{path:"/changeRequest/:id/list/questionUpdateForm", component: this.getQuestionUpdateForm()},
@@ -538,10 +430,6 @@ constructor(props) {
   	{path:"/changeRequest/:id/list/studentHealthSurveyList", component: this.getStudentHealthSurveySearch()},
   	{path:"/changeRequest/:id/list/studentHealthSurveyCreateForm", component: this.getStudentHealthSurveyCreateForm()},
   	{path:"/changeRequest/:id/list/studentHealthSurveyUpdateForm", component: this.getStudentHealthSurveyUpdateForm()},
-   	
-  	{path:"/changeRequest/:id/list/studentDailyAnswerList", component: this.getStudentDailyAnswerSearch()},
-  	{path:"/changeRequest/:id/list/studentDailyAnswerCreateForm", component: this.getStudentDailyAnswerCreateForm()},
-  	{path:"/changeRequest/:id/list/studentDailyAnswerUpdateForm", component: this.getStudentDailyAnswerUpdateForm()},
    	{path:"/changeRequest/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

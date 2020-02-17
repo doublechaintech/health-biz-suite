@@ -104,9 +104,6 @@
 <c:if test="${param.referName ne 'avatar'}">
 	<th>${userContext.localeMap['user.avatar']}</th>
 </c:if>
-<c:if test="${param.referName ne 'address'}">
-	<th>${userContext.localeMap['user.address']}</th>
-</c:if>
 <c:if test="${param.referName ne 'createTime'}">
 	<th>${userContext.localeMap['user.create_time']}</th>
 </c:if>
@@ -121,26 +118,7 @@
 				<tr currentVersion='${item.version}' id="user-${item.id}" ><td><a class="link-action-removed" href="./userManager/view/${item.id}/"> ${item.id}</a></td>
 <c:if test="${param.referName ne 'name'}">	<td contenteditable='true' class='edit-value'  propertyToChange='name' storedCellValue='${item.name}' prefix='${ownerBeanName}Manager/updateUser/${result.id}/${item.id}/'>${item.name}</td>
 </c:if><c:if test="${param.referName ne 'avatar'}">	<td contenteditable='true' class='edit-value'  propertyToChange='avatar' storedCellValue='${item.avatar}' prefix='${ownerBeanName}Manager/updateUser/${result.id}/${item.id}/'>${item.avatar}</td>
-</c:if><c:if test="${param.referName ne 'address'}">
-	<td class="select_candidate_td"
-			data-candidate-method="./userManager/requestCandidateAddress/${ownerBeanName}/${item.id}/"
-			data-switch-method="./userManager/transferToAnotherAddress/${item.id}/"
-			data-link-template="./locationManager/view/${'$'}{ID}/">
-		<span class="display_span">
-			<c:if test="${not empty  item.address}">
-			<a href='./locationManager/view/${item.address.id}/'>${item.address.displayName}</a>
-			</c:if>
-			<c:if test="${empty  item.address}">
-			<a href='#'></a>
-			</c:if>
-			<button class="btn btn-link candidate-action">...</button>
-		</span>
-		<div class="candidate_span" style="display:none;">
-			<input type="text" data-provide="typeahead" class="input-sm form-control candidate-filter-input" autocomplete="off" />
-		</div>
-	</td>
-</c:if>
-<c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateUser/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
+</c:if><c:if test="${param.referName ne 'createTime'}">	<td contenteditable='true' class='edit-value'  propertyToChange='createTime' storedCellValue='${item.createTime}' prefix='${ownerBeanName}Manager/updateUser/${result.id}/${item.id}/'><fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm:ss" value="${item.createTime}" /></td>
 </c:if><c:if test="${param.referName ne 'platform'}">
 	<td class="select_candidate_td"
 			data-candidate-method="./userManager/requestCandidatePlatform/${ownerBeanName}/${item.id}/"

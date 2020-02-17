@@ -455,10 +455,18 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
  			parameters[0] = wechatLoginInfo.getUser().getId();
  		}
  
+ 		
  		parameters[1] = wechatLoginInfo.getAppId();
+ 		
+ 		
  		parameters[2] = wechatLoginInfo.getOpenId();
+ 		
+ 		
  		parameters[3] = wechatLoginInfo.getSessionKey();
- 		parameters[4] = wechatLoginInfo.getLastUpdateTime();		
+ 		
+ 		
+ 		parameters[4] = wechatLoginInfo.getLastUpdateTime();
+ 				
  		parameters[5] = wechatLoginInfo.nextVersion();
  		parameters[6] = wechatLoginInfo.getId();
  		parameters[7] = wechatLoginInfo.getVersion();
@@ -476,10 +484,18 @@ public class WechatLoginInfoJDBCTemplateDAO extends HealthBaseDAOImpl implements
  		
  		}
  		
+ 		
  		parameters[2] = wechatLoginInfo.getAppId();
+ 		
+ 		
  		parameters[3] = wechatLoginInfo.getOpenId();
+ 		
+ 		
  		parameters[4] = wechatLoginInfo.getSessionKey();
- 		parameters[5] = wechatLoginInfo.getLastUpdateTime();		
+ 		
+ 		
+ 		parameters[5] = wechatLoginInfo.getLastUpdateTime();
+ 				
  				
  		return parameters;
  	}

@@ -182,6 +182,58 @@ constructor(props) {
 
 
 
+  getTeacherSearch = () => {
+    const {TeacherSearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('teacher','user.teacher_list',false),
+      role: "teacher",
+      data: state._user.teacherList,
+      metaInfo: state._user.teacherListMetaInfo,
+      count: state._user.teacherCount,
+      returnURL: `/user/${state._user.id}/dashboard`,
+      currentPage: state._user.teacherCurrentPageNumber,
+      searchFormParameters: state._user.teacherSearchFormParameters,
+      searchParameters: {...state._user.searchParameters},
+      expandForm: state._user.expandForm,
+      loading: state._user.loading,
+      partialList: state._user.partialList,
+      owner: { type: '_user', id: state._user.id, 
+      referenceName: 'user', 
+      listName: 'teacherList', ref:state._user, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(TeacherSearch)
+  }
+  
+  getTeacherCreateForm = () => {
+   	const {TeacherCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "teacher",
+      data: state._user.teacherList,
+      metaInfo: state._user.teacherListMetaInfo,
+      count: state._user.teacherCount,
+      returnURL: `/user/${state._user.id}/list`,
+      currentPage: state._user.teacherCurrentPageNumber,
+      searchFormParameters: state._user.teacherSearchFormParameters,
+      loading: state._user.loading,
+      owner: { type: '_user', id: state._user.id, referenceName: 'user', listName: 'teacherList', ref:state._user, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(TeacherCreateForm)
+  }
+  
+  getTeacherUpdateForm = () => {
+    const userContext = null
+  	const {TeacherUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._user.selectedRows,
+      role: "teacher",
+      currentUpdateIndex: state._user.currentUpdateIndex,
+      owner: { type: '_user', id: state._user.id, listName: 'teacherList', ref:state._user, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(TeacherUpdateForm)
+  }
+
   getStudentSearch = () => {
     const {StudentSearch} = GlobalComponents;
     const userContext = null
@@ -415,6 +467,10 @@ constructor(props) {
   	
   	
   	
+  	{path:"/user/:id/list/teacherList", component: this.getTeacherSearch()},
+  	{path:"/user/:id/list/teacherCreateForm", component: this.getTeacherCreateForm()},
+  	{path:"/user/:id/list/teacherUpdateForm", component: this.getTeacherUpdateForm()},
+   	
   	{path:"/user/:id/list/studentList", component: this.getStudentSearch()},
   	{path:"/user/:id/list/studentCreateForm", component: this.getStudentCreateForm()},
   	{path:"/user/:id/list/studentUpdateForm", component: this.getStudentUpdateForm()},

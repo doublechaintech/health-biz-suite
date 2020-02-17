@@ -48,22 +48,29 @@ const transferToAnotherQuestion = (id, parameters) => {
 
 
 
-const requestCandidateChangeRequest = (ownerClass, id, filterKey, pageNo) => {
- 
-  const url = `${PREFIX}studentDailyAnswerManager/requestCandidateChangeRequest/ownerClass/id/filterKey/pageNo/`
-  const requestParameters = {id, ownerClass,filterKey, pageNo}
-  return postForm({url,requestParameters})
-}	
 
-const transferToAnotherChangeRequest = (id, parameters) => {
-  const url = `${PREFIX}studentDailyAnswerManager/transferToAnotherChangeRequest/id/anotherChangeRequestId/`
-  const requestParameters = {id, ...parameters}
-  return postForm({url,requestParameters})
+
+
+
+const addStudentAnswer = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentDailyAnswerManager/addStudentAnswer/studentDailyAnswerId/healthSurveyReportId/questionTopic/answer/tokensExpr/`
+  const studentDailyAnswerId = targetObjectId
+  const requestParameters = { ...parameters, studentDailyAnswerId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
 }
 
+const updateStudentAnswer = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentDailyAnswerManager/updateStudentAnswerProperties/studentDailyAnswerId/id/questionTopic/answer/tokensExpr/`
+  const studentDailyAnswerId = targetObjectId
+  const requestParameters = { ...parameters, studentDailyAnswerId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
 
-
-
+const removeStudentAnswerList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentDailyAnswerManager/removeStudentAnswerList/studentDailyAnswerId/studentAnswerIds/tokensExpr/`
+  const requestParameters = { ...parameters, studentDailyAnswerId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
 
 
 
@@ -95,11 +102,12 @@ const  processRequest = (data) => {
 
 const StudentDailyAnswerService = { view,
   load,
+  addStudentAnswer,
+  updateStudentAnswer,
+  removeStudentAnswerList,
   requestCandidateStudentHealthSurvey,
   requestCandidateQuestion,
-  requestCandidateChangeRequest,
   transferToAnotherStudentHealthSurvey,
-  transferToAnotherQuestion,
-  transferToAnotherChangeRequest, listFunctions, saveRequest, processRequest}
+  transferToAnotherQuestion, listFunctions, saveRequest, processRequest}
 export default StudentDailyAnswerService
 

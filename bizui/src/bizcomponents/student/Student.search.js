@@ -66,19 +66,18 @@ const showAssociateDialog = (targetComponent) => {
   const { LocationAssociateForm } = GlobalComponents
   const { UserAssociateForm } = GlobalComponents
   const { PlatformAssociateForm } = GlobalComponents
-  const { ChangeRequestAssociateForm } = GlobalComponents
 
 
   return (
   <div>
   
-   
-  
     <LocationAssociateForm 
 	visible={currentAssociateModal==='address'} 
 	data={{studentList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'address')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'address')}/> <UserAssociateForm 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'address')}/>
+  
+    <UserAssociateForm 
 	visible={currentAssociateModal==='user'} 
 	data={{studentList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'user')} 
@@ -86,11 +85,7 @@ const showAssociateDialog = (targetComponent) => {
 	visible={currentAssociateModal==='platform'} 
 	data={{studentList:selectedRows}} owner={owner}  
 	onCancel={()=>toggleAssociateModalVisible(targetComponent,'platform')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'platform')}/> <ChangeRequestAssociateForm 
-	visible={currentAssociateModal==='changeRequest'} 
-	data={{studentList:selectedRows}} owner={owner}  
-	onCancel={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')} 
-	onCreate={()=>toggleAssociateModalVisible(targetComponent,'changeRequest')}/> 
+	onCreate={()=>toggleAssociateModalVisible(targetComponent,'platform')}/> 
  
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -98,6 +99,7 @@ public class GenericForm extends BaseEntity implements  java.io.Serializable{
     
     
 	protected void changeTitleProperty(String newValueExpr){
+	
 		String oldValue = getTitle();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -107,12 +109,13 @@ public class GenericForm extends BaseEntity implements  java.io.Serializable{
 		updateTitle(newValue);
 		this.onChangeProperty(TITLE_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeDescriptionProperty(String newValueExpr){
+	
 		String oldValue = getDescription();
 		String newValue = parseString(newValueExpr);
 		if(equalsString(oldValue , newValue)){
@@ -122,7 +125,7 @@ public class GenericForm extends BaseEntity implements  java.io.Serializable{
 		updateDescription(newValue);
 		this.onChangeProperty(DESCRIPTION_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

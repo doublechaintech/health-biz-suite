@@ -21,7 +21,9 @@ const testValues = {
   mobile: '18012341234',
   school: '益州小学',
   schoolClass: '教科院一年级5班',
+  classSize: '1',
   platformId: 'P000001',
+  userId: 'U000001',
   changeRequestId: 'CR000001',
 }
 */
@@ -170,6 +172,16 @@ class TeacherCreateFormBody extends Component {
                 </Form.Item>
               </Col>
 
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.classSize} {...formItemLayout}>
+                  {getFieldDecorator('classSize', {
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.classSize} />
+                  )}
+                </Form.Item>
+              </Col>
+
 
        
  
@@ -193,10 +205,29 @@ class TeacherCreateFormBody extends Component {
            
 
               <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.user} {...formItemLayout}>
+                  {getFieldDecorator('userId', {
+                  	initialValue: tryinit('user'),
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                  
+                  <SelectObject 
+                    disabled={!availableForEdit('user')}
+                    targetType={"user"} 
+                    requestFunction={TeacherService.requestCandidateUser}/>
+                  
+                 
+                  )}
+                </Form.Item>
+              </Col>
+
+           
+
+              <Col lg={24} md={24} sm={24}>
                 <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
                   {getFieldDecorator('changeRequestId', {
                   	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                   
                   <SelectObject 

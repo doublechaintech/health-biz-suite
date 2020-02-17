@@ -15,21 +15,20 @@
 	</bean>
 	
 	<!-- Start handle for different change request per type -->
-	<bean id="loginHandler" class="com.doublechaintech.health.changerequest.LoginHandler" ></bean>
+	<bean id="addClassHandler" class="com.doublechaintech.health.changerequest.AddClassHandler" ></bean>
+	<bean id="addStudentHandler" class="com.doublechaintech.health.changerequest.AddStudentHandler" ></bean>
+	<bean id="publishSurveyHandler" class="com.doublechaintech.health.changerequest.PublishSurveyHandler" ></bean>
+	<bean id="fillSurveyHandler" class="com.doublechaintech.health.changerequest.FillSurveyHandler" ></bean>
 	<bean id="answerSurveyHandler" class="com.doublechaintech.health.changerequest.AnswerSurveyHandler" ></bean>
 	<bean id="registerTeacherHandler" class="com.doublechaintech.health.changerequest.RegisterTeacherHandler" ></bean>
 	<bean id="createSurveyHandler" class="com.doublechaintech.health.changerequest.CreateSurveyHandler" ></bean>
-	<bean id="answerQuestionHandler" class="com.doublechaintech.health.changerequest.AnswerQuestionHandler" ></bean>
 	<bean id="createQuestionHandler" class="com.doublechaintech.health.changerequest.CreateQuestionHandler" ></bean>
-	<bean id="registerStudentHandler" class="com.doublechaintech.health.changerequest.RegisterStudentHandler" ></bean>
 
 	<!-- Detail Handler per event -->
 	<bean id="teacherProcessor" class="com.doublechaintech.health.changerequest.TeacherProcessor" ></bean>
-	<bean id="studentProcessor" class="com.doublechaintech.health.changerequest.StudentProcessor" ></bean>
 	<bean id="questionProcessor" class="com.doublechaintech.health.changerequest.QuestionProcessor" ></bean>
 	<bean id="classDailyHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.ClassDailyHealthSurveyProcessor" ></bean>
 	<bean id="studentHealthSurveyProcessor" class="com.doublechaintech.health.changerequest.StudentHealthSurveyProcessor" ></bean>
-	<bean id="studentDailyAnswerProcessor" class="com.doublechaintech.health.changerequest.StudentDailyAnswerProcessor" ></bean>
 
 </beans>
 

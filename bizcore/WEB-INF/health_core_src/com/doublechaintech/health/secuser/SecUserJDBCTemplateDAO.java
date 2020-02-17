@@ -881,16 +881,36 @@ public class SecUserJDBCTemplateDAO extends HealthBaseDAOImpl implements SecUser
  	protected Object[] prepareSecUserUpdateParameters(SecUser secUser){
  		Object[] parameters = new Object[14];
  
+ 		
  		parameters[0] = secUser.getLogin();
+ 		
+ 		
  		parameters[1] = secUser.getMobile();
+ 		
+ 		
  		parameters[2] = secUser.getEmail();
+ 		
+ 		
  		parameters[3] = secUser.getPwd();
+ 		
+ 		
  		parameters[4] = secUser.getWeixinOpenid();
+ 		
+ 		
  		parameters[5] = secUser.getWeixinAppid();
+ 		
+ 		
  		parameters[6] = secUser.getAccessToken();
+ 		
+ 		
  		parameters[7] = secUser.getVerificationCode();
+ 		
+ 		
  		parameters[8] = secUser.getVerificationCodeExpire();
- 		parameters[9] = secUser.getLastLoginTime(); 	
+ 		
+ 		
+ 		parameters[9] = secUser.getLastLoginTime();
+ 		 	
  		if(secUser.getDomain() != null){
  			parameters[10] = secUser.getDomain().getId();
  		}
@@ -907,16 +927,36 @@ public class SecUserJDBCTemplateDAO extends HealthBaseDAOImpl implements SecUser
 		secUser.setId(newSecUserId);
 		parameters[0] =  secUser.getId();
  
+ 		
  		parameters[1] = secUser.getLogin();
+ 		
+ 		
  		parameters[2] = secUser.getMobile();
+ 		
+ 		
  		parameters[3] = secUser.getEmail();
+ 		
+ 		
  		parameters[4] = secUser.getPwd();
+ 		
+ 		
  		parameters[5] = secUser.getWeixinOpenid();
+ 		
+ 		
  		parameters[6] = secUser.getWeixinAppid();
+ 		
+ 		
  		parameters[7] = secUser.getAccessToken();
+ 		
+ 		
  		parameters[8] = secUser.getVerificationCode();
+ 		
+ 		
  		parameters[9] = secUser.getVerificationCodeExpire();
- 		parameters[10] = secUser.getLastLoginTime(); 	
+ 		
+ 		
+ 		parameters[10] = secUser.getLastLoginTime();
+ 		 	
  		if(secUser.getDomain() != null){
  			parameters[11] = secUser.getDomain().getId();
  		

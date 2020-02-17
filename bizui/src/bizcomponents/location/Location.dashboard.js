@@ -164,7 +164,7 @@ class LocationDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, studentListMetaInfo, userListMetaInfo, studentCount, userCount } = this.props.location
+    const { id,displayName, studentListMetaInfo, studentCount } = this.props.location
     if(!this.props.location.class){
       return null
     }
@@ -174,7 +174,6 @@ class LocationDashboard extends Component {
     	cardsSource: this.props.location,returnURL,displayName,
   		subItems: [
 {name: 'studentList', displayName: window.mtrans('student','location.student_list',false) ,viewGroup:'__no_group', type:'student',count:studentCount,addFunction: true, role: 'student', metaInfo: studentListMetaInfo, renderItem: GlobalComponents.StudentBase.renderItemOfList},
-{name: 'userList', displayName: window.mtrans('user','location.user_list',false) ,viewGroup:'__no_group', type:'user',count:userCount,addFunction: true, role: 'user', metaInfo: userListMetaInfo, renderItem: GlobalComponents.UserBase.renderItemOfList},
     
       	],
    		subSettingItems: [

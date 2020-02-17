@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -236,22 +237,40 @@ public class ChangeRequestTypeManagerImpl extends CustomHealthCheckerManager imp
 		
 
 		if(ChangeRequestType.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfChangeRequestType(parseString(newValueExpr));
+		
+			
 		}
 		if(ChangeRequestType.CODE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCodeOfChangeRequestType(parseString(newValueExpr));
+		
+			
 		}
 		if(ChangeRequestType.ICON_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkIconOfChangeRequestType(parseString(newValueExpr));
+		
+			
 		}
 		if(ChangeRequestType.DISPLAY_ORDER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkDisplayOrderOfChangeRequestType(parseInt(newValueExpr));
+		
+			
 		}
 		if(ChangeRequestType.BIND_TYPES_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkBindTypesOfChangeRequestType(parseString(newValueExpr));
+		
+			
 		}
 		if(ChangeRequestType.STEP_CONFIGURATION_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkStepConfigurationOfChangeRequestType(parseString(newValueExpr));
+		
+			
 		}		
 
 		
@@ -678,7 +697,9 @@ public class ChangeRequestTypeManagerImpl extends CustomHealthCheckerManager imp
 		
 
 		if(ChangeRequest.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfChangeRequest(parseString(newValueExpr));
+		
 		}
 		
 	

@@ -19,7 +19,7 @@ const testValues = {};
 /*
 const testValues = {
   name: '答题',
-  requestTypeId: 'LOGIN',
+  requestTypeId: 'ADD_CLASS',
   platformId: 'P000001',
 }
 */
@@ -75,11 +75,9 @@ class ChangeRequestAssociateForm extends Component {
     const userContext = null
     
  const {TeacherModalTable} = GlobalComponents;
- const {StudentModalTable} = GlobalComponents;
  const {QuestionModalTable} = GlobalComponents;
  const {ClassDailyHealthSurveyModalTable} = GlobalComponents;
  const {StudentHealthSurveyModalTable} = GlobalComponents;
- const {StudentDailyAnswerModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -209,11 +207,9 @@ class ChangeRequestAssociateForm extends Component {
         </Card>
         
 	<TeacherModalTable data={data.teacherList} owner={owner} />
-	<StudentModalTable data={data.studentList} owner={owner} />
 	<QuestionModalTable data={data.questionList} owner={owner} />
 	<ClassDailyHealthSurveyModalTable data={data.classDailyHealthSurveyList} owner={owner} />
 	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
-	<StudentDailyAnswerModalTable data={data.studentDailyAnswerList} owner={owner} />
         
         
         

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.KeyValuePair;
@@ -114,6 +115,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
     
     
 	protected void changeAnswerTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getAnswerTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -123,12 +125,13 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		updateAnswerTime(newValue);
 		this.onChangeProperty(ANSWER_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeCreateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getCreateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -138,12 +141,13 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		updateCreateTime(newValue);
 		this.onChangeProperty(CREATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			
 			
 	protected void changeLastUpdateTimeProperty(String newValueExpr){
+	
 		DateTime oldValue = getLastUpdateTime();
 		DateTime newValue = parseTimestamp(newValueExpr);
 		if(equalsTimestamp(oldValue , newValue)){
@@ -153,7 +157,7 @@ public class StudentHealthSurvey extends BaseEntity implements  java.io.Serializ
 		updateLastUpdateTime(newValue);
 		this.onChangeProperty(LAST_UPDATE_TIME_PROPERTY, oldValue, newValue);
 		return;
-  
+   
 	}
 			
 			

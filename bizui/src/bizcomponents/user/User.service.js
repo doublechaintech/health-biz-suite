@@ -18,21 +18,6 @@ const load = (targetObjectId, parameters) => {
 
 
 
-const requestCandidateAddress = (ownerClass, id, filterKey, pageNo) => {
- 
-  const url = `${PREFIX}userManager/requestCandidateAddress/ownerClass/id/filterKey/pageNo/`
-  const requestParameters = {id, ownerClass,filterKey, pageNo}
-  return postForm({url,requestParameters})
-}	
-
-const transferToAnotherAddress = (id, parameters) => {
-  const url = `${PREFIX}userManager/transferToAnotherAddress/id/anotherAddressId/`
-  const requestParameters = {id, ...parameters}
-  return postForm({url,requestParameters})
-}
-
-
-
 const requestCandidatePlatform = (ownerClass, id, filterKey, pageNo) => {
  
   const url = `${PREFIX}userManager/requestCandidatePlatform/ownerClass/id/filterKey/pageNo/`
@@ -52,15 +37,37 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 
+const addTeacher = (targetObjectId, parameters) => {
+  const url = `${PREFIX}userManager/addTeacher/userId/name/mobile/school/schoolClass/classSize/platformId/changeRequestId/tokensExpr/`
+  const userId = targetObjectId
+  const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateTeacher = (targetObjectId, parameters) => {
+  const url = `${PREFIX}userManager/updateTeacherProperties/userId/id/name/mobile/school/schoolClass/classSize/tokensExpr/`
+  const userId = targetObjectId
+  const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeTeacherList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}userManager/removeTeacherList/userId/teacherIds/tokensExpr/`
+  const requestParameters = { ...parameters, userId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
 const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/addStudent/userId/studentName/studentId/guardianName/guardianMobile/addressId/platformId/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}userManager/addStudent/userId/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/addressId/platformId/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/updateStudentProperties/userId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
+  const url = `${PREFIX}userManager/updateStudentProperties/userId/id/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -97,14 +104,14 @@ const removeQuestionList = (targetObjectId, parameters) => {
 
 
 const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/addClassDailyHealthSurvey/userId/name/teacherId/surveyTime/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}userManager/addClassDailyHealthSurvey/userId/name/teacherId/surveyTime/downloadUrl/changeRequestId/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}userManager/updateClassDailyHealthSurveyProperties/userId/id/name/surveyTime/tokensExpr/`
+  const url = `${PREFIX}userManager/updateClassDailyHealthSurveyProperties/userId/id/name/surveyTime/downloadUrl/tokensExpr/`
   const userId = targetObjectId
   const requestParameters = { ...parameters, userId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -168,21 +175,22 @@ const  processRequest = (data) => {
 
 const UserService = { view,
   load,
+  addTeacher,
   addStudent,
   addQuestion,
   addClassDailyHealthSurvey,
   addWechatLoginInfo,
+  updateTeacher,
   updateStudent,
   updateQuestion,
   updateClassDailyHealthSurvey,
   updateWechatLoginInfo,
+  removeTeacherList,
   removeStudentList,
   removeQuestionList,
   removeClassDailyHealthSurveyList,
   removeWechatLoginInfoList,
-  requestCandidateAddress,
   requestCandidatePlatform,
-  transferToAnotherAddress,
   transferToAnotherPlatform, listFunctions, saveRequest, processRequest}
 export default UserService
 

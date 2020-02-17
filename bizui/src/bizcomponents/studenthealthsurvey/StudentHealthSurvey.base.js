@@ -115,7 +115,7 @@ const packFormValuesToObject = ( formValuesToPack )=>{
 	const teacher = {id: teacherId, version: 2^31}
 	const classDailyHealthSurvey = {id: classDailyHealthSurveyId, version: 2^31}
 	const changeRequest = {id: changeRequestId, version: 2^31}
-	const data = {answerTime, student, surveyStatus, teacher, classDailyHealthSurvey, changeRequest}
+	const data = {answerTime:moment(answerTime).valueOf(), student, surveyStatus, teacher, classDailyHealthSurvey, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
@@ -125,7 +125,7 @@ const unpackObjectToFormValues = ( objectToUnpack )=>{
 	const teacherId = teacher ? teacher.id : null
 	const classDailyHealthSurveyId = classDailyHealthSurvey ? classDailyHealthSurvey.id : null
 	const changeRequestId = changeRequest ? changeRequest.id : null
-	const data = {answerTime, studentId, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId}
+	const data = {answerTime:moment(answerTime), studentId, surveyStatusId, teacherId, classDailyHealthSurveyId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

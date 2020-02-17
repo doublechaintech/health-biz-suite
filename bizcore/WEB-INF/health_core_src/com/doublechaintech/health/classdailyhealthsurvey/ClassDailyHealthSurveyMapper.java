@@ -19,6 +19,7 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
  		setTeacher(classDailyHealthSurvey, rs, rowNumber); 		
  		setSurveyTime(classDailyHealthSurvey, rs, rowNumber); 		
  		setCreator(classDailyHealthSurvey, rs, rowNumber); 		
+ 		setDownloadUrl(classDailyHealthSurvey, rs, rowNumber); 		
  		setChangeRequest(classDailyHealthSurvey, rs, rowNumber); 		
  		setVersion(classDailyHealthSurvey, rs, rowNumber);
 
@@ -32,7 +33,9 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 	protected void setId(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(ClassDailyHealthSurveyTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -44,7 +47,9 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 	protected void setName(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(ClassDailyHealthSurveyTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -74,7 +79,9 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 	protected void setSurveyTime(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date surveyTime = rs.getTimestamp(ClassDailyHealthSurveyTable.COLUMN_SURVEY_TIME);
+		
 		if(surveyTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -100,7 +107,21 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
  		}
  		classDailyHealthSurvey.setCreator(createEmptyCreator(userId));
  	}
- 	 		
+ 	
+	protected void setDownloadUrl(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
+	
+		//there will be issue when the type is double/int/long
+		
+		String downloadUrl = rs.getString(ClassDailyHealthSurveyTable.COLUMN_DOWNLOAD_URL);
+		
+		if(downloadUrl == null){
+			//do nothing when nothing found in database
+			return;
+		}
+		
+		classDailyHealthSurvey.setDownloadUrl(downloadUrl);
+	}
+		 		
  	protected void setChangeRequest(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
  		String changeRequestId = rs.getString(ClassDailyHealthSurveyTable.COLUMN_CHANGE_REQUEST);
  		if( changeRequestId == null){
@@ -122,7 +143,9 @@ public class ClassDailyHealthSurveyMapper extends BaseRowMapper<ClassDailyHealth
 	protected void setVersion(ClassDailyHealthSurvey classDailyHealthSurvey, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(ClassDailyHealthSurveyTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

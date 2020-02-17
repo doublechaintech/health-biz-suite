@@ -53,14 +53,14 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 const addTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addTeacher/changeRequestId/name/mobile/school/schoolClass/platformId/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/addTeacher/changeRequestId/name/mobile/school/schoolClass/classSize/platformId/userId/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateTeacherProperties/changeRequestId/id/name/mobile/school/schoolClass/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/updateTeacherProperties/changeRequestId/id/name/mobile/school/schoolClass/classSize/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -68,28 +68,6 @@ const updateTeacher = (targetObjectId, parameters) => {
 
 const removeTeacherList = (targetObjectId, parameters) => {
   const url = `${PREFIX}changeRequestManager/removeTeacherList/changeRequestId/teacherIds/tokensExpr/`
-  const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-
-
-const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addStudent/changeRequestId/studentName/studentId/guardianName/guardianMobile/addressId/userId/platformId/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateStudentProperties/changeRequestId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const removeStudentList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeStudentList/changeRequestId/studentIds/tokensExpr/`
   const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -119,14 +97,14 @@ const removeQuestionList = (targetObjectId, parameters) => {
 
 
 const addClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addClassDailyHealthSurvey/changeRequestId/name/teacherId/surveyTime/creatorId/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/addClassDailyHealthSurvey/changeRequestId/name/teacherId/surveyTime/creatorId/downloadUrl/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateClassDailyHealthSurvey = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateClassDailyHealthSurveyProperties/changeRequestId/id/name/surveyTime/tokensExpr/`
+  const url = `${PREFIX}changeRequestManager/updateClassDailyHealthSurveyProperties/changeRequestId/id/name/surveyTime/downloadUrl/tokensExpr/`
   const changeRequestId = targetObjectId
   const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -162,28 +140,6 @@ const removeStudentHealthSurveyList = (targetObjectId, parameters) => {
 
 
 
-const addStudentDailyAnswer = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/addStudentDailyAnswer/changeRequestId/studentHealthSurveyId/questionId/answer/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const updateStudentDailyAnswer = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/updateStudentDailyAnswerProperties/changeRequestId/id/answer/tokensExpr/`
-  const changeRequestId = targetObjectId
-  const requestParameters = { ...parameters, changeRequestId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const removeStudentDailyAnswerList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}changeRequestManager/removeStudentDailyAnswerList/changeRequestId/studentDailyAnswerIds/tokensExpr/`
-  const requestParameters = { ...parameters, changeRequestId: targetObjectId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-
-
 // Filter this out when no functions
 
 const  listFunctions = () => {
@@ -213,23 +169,17 @@ const  processRequest = (data) => {
 const ChangeRequestService = { view,
   load,
   addTeacher,
-  addStudent,
   addQuestion,
   addClassDailyHealthSurvey,
   addStudentHealthSurvey,
-  addStudentDailyAnswer,
   updateTeacher,
-  updateStudent,
   updateQuestion,
   updateClassDailyHealthSurvey,
   updateStudentHealthSurvey,
-  updateStudentDailyAnswer,
   removeTeacherList,
-  removeStudentList,
   removeQuestionList,
   removeClassDailyHealthSurveyList,
   removeStudentHealthSurveyList,
-  removeStudentDailyAnswerList,
   requestCandidateRequestType,
   requestCandidatePlatform,
   transferToAnotherRequestType,

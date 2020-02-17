@@ -28,7 +28,9 @@ public class ProvinceMapper extends BaseRowMapper<Province>{
 	protected void setId(Province province, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(ProvinceTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -40,7 +42,9 @@ public class ProvinceMapper extends BaseRowMapper<Province>{
 	protected void setName(Province province, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(ProvinceTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -70,7 +74,9 @@ public class ProvinceMapper extends BaseRowMapper<Province>{
 	protected void setCreateTime(Province province, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date createTime = rs.getTimestamp(ProvinceTable.COLUMN_CREATE_TIME);
+		
 		if(createTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -82,7 +88,9 @@ public class ProvinceMapper extends BaseRowMapper<Province>{
 	protected void setVersion(Province province, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(ProvinceTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

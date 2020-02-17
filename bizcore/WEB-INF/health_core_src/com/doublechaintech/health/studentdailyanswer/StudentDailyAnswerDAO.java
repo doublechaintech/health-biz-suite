@@ -9,12 +9,12 @@ import com.doublechaintech.health.SmartList;
 import com.doublechaintech.health.MultipleAccessKey;
 import com.doublechaintech.health.HealthUserContext;
 
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
+import com.doublechaintech.health.studentanswer.StudentAnswer;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
+import com.doublechaintech.health.studentanswer.StudentAnswerDAO;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestionDAO;
-import com.doublechaintech.health.changerequest.ChangeRequestDAO;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurveyDAO;
 
 
@@ -46,7 +46,18 @@ public interface StudentDailyAnswerDAO extends BaseDAO{
 	public StudentDailyAnswer disconnectFromAll(String studentDailyAnswerId, int version) throws Exception;
 	public int deleteAll() throws Exception;
 
+	public StudentAnswerDAO getStudentAnswerDAO();
+		
 	
+ 	public SmartList<StudentDailyAnswer> requestCandidateStudentDailyAnswerForStudentAnswer(HealthUserContext userContext, String ownerClass, String id, String filterKey, int pageNo, int pageSize) throws Exception;
+		
+	
+	public StudentDailyAnswer planToRemoveStudentAnswerList(StudentDailyAnswer studentDailyAnswer, String studentAnswerIds[], Map<String,Object> options)throws Exception;
+
+
+	//disconnect StudentDailyAnswer with health_survey_report in StudentAnswer
+	public StudentDailyAnswer planToRemoveStudentAnswerListWithHealthSurveyReport(StudentDailyAnswer studentDailyAnswer, String healthSurveyReportId, Map<String,Object> options)throws Exception;
+	public int countStudentAnswerListWithHealthSurveyReport(String studentDailyAnswerId, String healthSurveyReportId, Map<String,Object> options)throws Exception;
 	
 	
 	public SmartList<StudentDailyAnswer> queryList(String sql, Object ... parmeters);
@@ -67,15 +78,10 @@ public interface StudentDailyAnswerDAO extends BaseDAO{
  	public void analyzeStudentDailyAnswerByQuestion(SmartList<StudentDailyAnswer> resultList, String dailySurveyQuestionId, Map<String,Object> options);
 
  
-  
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public int countStudentDailyAnswerByChangeRequest(String changeRequestId, Map<String,Object> options);
- 	public Map<String, Integer> countStudentDailyAnswerByChangeRequestIds(String[] ids, Map<String,Object> options);
- 	public SmartList<StudentDailyAnswer> findStudentDailyAnswerByChangeRequest(String changeRequestId, int start, int count, Map<String,Object> options);
- 	public void analyzeStudentDailyAnswerByChangeRequest(SmartList<StudentDailyAnswer> resultList, String changeRequestId, Map<String,Object> options);
-
  
- 
+	// 需要一个加载引用我的对象的enhance方法:StudentAnswer的dailyAnswer的StudentAnswerList
+	public SmartList<StudentAnswer> loadOurStudentAnswerList(HealthUserContext userContext, List<StudentDailyAnswer> us, Map<String,Object> options) throws Exception;
+	
 }
 
 

@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.utils.TextUtil;
 import java.util.Arrays;
 
@@ -1335,7 +1336,12 @@ public abstract class CommonJDBCTemplateDAO extends BaseEntity{
 		return result;
 	}
 	
-	
+	protected Object toSqlParameter(Object value) {
+		if (value == null) {
+			return value;
+		}
+		return value.toString();
+	}
 
 }
 

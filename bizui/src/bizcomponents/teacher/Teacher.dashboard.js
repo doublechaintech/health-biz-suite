@@ -121,7 +121,14 @@ const internalSummaryOf = (teacher,targetComponent) =>{
 <Description term="手机号码" style={{wordBreak: 'break-all'}}>{teacher.mobile}</Description> 
 <Description term="学校" style={{wordBreak: 'break-all'}}>{teacher.school}</Description> 
 <Description term="学校类" style={{wordBreak: 'break-all'}}>{teacher.schoolClass}</Description> 
+<Description term="班级规模" style={{wordBreak: 'break-all'}}>{teacher.classSize}</Description> 
 <Description term="创建时间">{ moment(teacher.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
+<Description term="用户">{teacher.user==null?appLocaleName(userContext,"NotAssigned"):`${teacher.user.displayName}(${teacher.user.id})`}
+ <Icon type="swap" onClick={()=>
+  showTransferModel(targetComponent,"用户","user",TeacherService.requestCandidateUser,
+	      TeacherService.transferToAnotherUser,"anotherUserId",teacher.user?teacher.user.id:"")} 
+  style={{fontSize: 20,color:"red"}} />
+</Description>
 <Description term="变更请求">{teacher.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${teacher.changeRequest.displayName}(${teacher.changeRequest.id})`}
  <Icon type="swap" onClick={()=>
   showTransferModel(targetComponent,"变更请求","changeRequest",TeacherService.requestCandidateChangeRequest,
@@ -159,7 +166,7 @@ class TeacherDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, classDailyHealthSurveyListMetaInfo, studentHealthSurveyListMetaInfo, classDailyHealthSurveyCount, studentHealthSurveyCount } = this.props.teacher
+    const { id,displayName, classDailyHealthSurveyListMetaInfo, studentHealthSurveyListMetaInfo, healthSurveyReportListMetaInfo, classDailyHealthSurveyCount, studentHealthSurveyCount, healthSurveyReportCount } = this.props.teacher
     if(!this.props.teacher.class){
       return null
     }
@@ -170,6 +177,7 @@ class TeacherDashboard extends Component {
   		subItems: [
 {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','teacher.class_daily_health_survey_list',false) ,viewGroup:'__no_group', type:'classDailyHealthSurvey',count:classDailyHealthSurveyCount,addFunction: true, role: 'classDailyHealthSurvey', metaInfo: classDailyHealthSurveyListMetaInfo, renderItem: GlobalComponents.ClassDailyHealthSurveyBase.renderItemOfList},
 {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','teacher.student_health_survey_list',false) ,viewGroup:'__no_group', type:'studentHealthSurvey',count:studentHealthSurveyCount,addFunction: true, role: 'studentHealthSurvey', metaInfo: studentHealthSurveyListMetaInfo, renderItem: GlobalComponents.StudentHealthSurveyBase.renderItemOfList},
+{name: 'healthSurveyReportList', displayName: window.mtrans('health_survey_report','teacher.health_survey_report_list',false) ,viewGroup:'__no_group', type:'healthSurveyReport',count:healthSurveyReportCount,addFunction: true, role: 'healthSurveyReport', metaInfo: healthSurveyReportListMetaInfo, renderItem: GlobalComponents.HealthSurveyReportBase.renderItemOfList},
     
       	],
    		subSettingItems: [

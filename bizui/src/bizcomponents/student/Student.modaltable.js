@@ -38,7 +38,7 @@ class StudentModalTable extends PureComponent {
           dataSource={data}
           columns={displayColumns}
           size="small"
-          scroll={{ x: 1125 }}
+          scroll={{ x: 1155 }}
         />
       </div>
     )

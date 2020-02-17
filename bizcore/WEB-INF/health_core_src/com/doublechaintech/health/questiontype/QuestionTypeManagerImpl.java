@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -237,10 +238,16 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(QuestionType.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfQuestionType(parseString(newValueExpr));
+		
+			
 		}
 		if(QuestionType.CODE_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkCodeOfQuestionType(parseString(newValueExpr));
+		
+			
 		}		
 
 		
@@ -768,23 +775,33 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(Question.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(Question.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfQuestion(parseString(newValueExpr));
+		
 		}
 		
 	
@@ -823,7 +840,7 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 
 	}
 	/*
-	public  QuestionType associateQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception {
+	public  QuestionType associateQuestionListToNewCreator(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String avatar, String platformId, String [] tokensExpr) throws Exception {
 
 
 
@@ -833,11 +850,28 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 
 		QuestionType questionType = loadQuestionType(userContext, questionTypeId, options);
 
-		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, addressId, platformId);
+		User creator = userManagerOf(userContext).createUser(userContext,  name,  avatar, platformId);
 
 		for(Question question: questionType.getQuestionList()) {
 			//TODO: need to check if already associated
 			question.updateCreator(creator);
+		}
+		return this.internalSaveQuestionType(userContext, questionType);
+	}	public  QuestionType associateQuestionListToNewCq(HealthUserContext userContext, String questionTypeId, String  questionIds[], String name, String requestTypeId, String platformId, String [] tokensExpr) throws Exception {
+
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, options);
+
+		ChangeRequest cq = changeRequestManagerOf(userContext).createChangeRequest(userContext,  name, requestTypeId, platformId);
+
+		for(Question question: questionType.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCq(cq);
 		}
 		return this.internalSaveQuestionType(userContext, questionType);
 	}
@@ -858,6 +892,23 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		for(Question question: questionType.getQuestionList()) {
 			//TODO: need to check if already associated
 			question.updateCreator(creator);
+		}
+		return this.internalSaveQuestionType(userContext, questionType);
+	}	public  QuestionType associateQuestionListToCq(HealthUserContext userContext, String questionTypeId, String  questionIds[], String cqId, String [] tokensExpr) throws Exception {
+
+
+
+		Map<String, Object> options = tokens()
+				.allTokens()
+				.searchQuestionListWith(Question.ID_PROPERTY, "oneof", this.joinArray("|", questionIds)).done();
+
+		QuestionType questionType = loadQuestionType(userContext, questionTypeId, options);
+
+		ChangeRequest cq = changeRequestManagerOf(userContext).loadChangeRequest(userContext,cqId,new String[]{"none"} );
+
+		for(Question question: questionType.getQuestionList()) {
+			//TODO: need to check if already associated
+			question.updateCq(cq);
 		}
 		return this.internalSaveQuestionType(userContext, questionType);
 	}
@@ -1078,23 +1129,33 @@ public class QuestionTypeManagerImpl extends CustomHealthCheckerManager implemen
 		
 
 		if(DailySurveyQuestion.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 		if(DailySurveyQuestion.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfDailySurveyQuestion(parseString(newValueExpr));
+		
 		}
 		
 	

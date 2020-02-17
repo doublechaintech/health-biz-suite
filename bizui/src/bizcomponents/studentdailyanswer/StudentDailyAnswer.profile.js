@@ -53,7 +53,7 @@ class StudentDailyAnswerProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  studentDailyAnswer = this.props.studentDailyAnswer;
-    const { id,displayName,  } = studentDailyAnswer
+    const { id,displayName, studentAnswerCount } = studentDailyAnswer
     const  returnURL = `/studentDailyAnswer/${id}/dashboard`
     const cardsData = {cardsName:"学生每天回答",cardsFor: "studentDailyAnswer",cardsSource: studentDailyAnswer,displayName,returnURL,
   		subItems: [

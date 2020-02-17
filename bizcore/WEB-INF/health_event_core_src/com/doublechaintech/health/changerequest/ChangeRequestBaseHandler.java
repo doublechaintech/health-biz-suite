@@ -10,7 +10,7 @@ import com.doublechaintech.health.CustomHealthCheckerManager;
 import com.doublechaintech.health.changerequest.ChangeRequest;
 public class ChangeRequestBaseHandler extends CustomHealthCheckerManager{
 	
-	private static final String SUB_EVENT_NAMES[]={"teacherProcessor","studentProcessor","questionProcessor","classDailyHealthSurveyProcessor","studentHealthSurveyProcessor","studentDailyAnswerProcessor"};
+	private static final String SUB_EVENT_NAMES[]={"teacherProcessor","questionProcessor","classDailyHealthSurveyProcessor","studentHealthSurveyProcessor"};
 	
 	public ChangeRequest handle(HealthUserContext userContext, ChangeRequest request) throws Exception {
 		

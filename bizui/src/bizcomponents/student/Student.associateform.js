@@ -19,18 +19,18 @@ const testValues = {};
 /*
 const testValues = {
   studentName: '刘婵',
-  studentId: 'A01',
+  studentNumber: 'A01',
   guardianName: '刘备',
   guardianMobile: '18012341234',
   addressId: 'L000001',
   userId: 'U000001',
   platformId: 'P000001',
-  changeRequestId: 'CR000001',
 }
 */
 
 
 const imageKeys = [
+  'studentAvatar',
 ]
 
 
@@ -80,6 +80,7 @@ class StudentAssociateForm extends Component {
     const userContext = null
     
  const {StudentHealthSurveyModalTable} = GlobalComponents;
+ const {HealthSurveyReportModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -151,11 +152,11 @@ class StudentAssociateForm extends Component {
               </Col>
 
               <Col lg={12} md={12} sm={12}>
-                <Form.Item label={fieldLabels.studentId} {...formItemLayout}>
-                  {getFieldDecorator('studentId', {
+                <Form.Item label={fieldLabels.studentNumber} {...formItemLayout}>
+                  {getFieldDecorator('studentNumber', {
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.studentId} />
+                    <Input size="large"  placeHolder={fieldLabels.studentNumber} />
                   )}
                 </Form.Item>
               </Col>
@@ -192,6 +193,21 @@ class StudentAssociateForm extends Component {
 
 
 
+       
+            <Row gutter={16}>
+
+              <Col lg={6} md={12} sm={24}>
+                <ImageComponent
+                  buttonTitle="学生阿凡达"
+                  handlePreview={this.handlePreview}
+                  handleChange={event => this.handleChange(event, 'studentAvatar')}
+                  fileList={convertedImagesValues.studentAvatar}
+                />
+              </Col>
+
+            </Row>
+         
+
 
 
        
@@ -201,7 +217,7 @@ class StudentAssociateForm extends Component {
                 <Form.Item label={fieldLabels.address} {...formItemLayout}>
                   {getFieldDecorator('addressId', {
                   	initialValue: tryinit('address'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                    rules: [{ required: false, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
                 <SelectObject 
                     disabled={!availableForEdit('address')}
@@ -242,21 +258,6 @@ class StudentAssociateForm extends Component {
                 </Form.Item>
               </Col>
 
-              <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
-                  {getFieldDecorator('changeRequestId', {
-                  	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                <SelectObject 
-                    disabled={!availableForEdit('changeRequest')}
-                    targetType={"changeRequest"} 
-                    requestFunction={StudentService.requestCandidateChangeRequest}/>
-  
-                  )}
-                </Form.Item>
-              </Col>
-
             </Row>
          
        
@@ -269,6 +270,7 @@ class StudentAssociateForm extends Component {
         </Card>
         
 	<StudentHealthSurveyModalTable data={data.studentHealthSurveyList} owner={owner} />
+	<HealthSurveyReportModalTable data={data.healthSurveyReportList} owner={owner} />
         
         
         

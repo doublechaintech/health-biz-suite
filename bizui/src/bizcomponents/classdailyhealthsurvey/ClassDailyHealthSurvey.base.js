@@ -39,6 +39,7 @@ const menuData = {menuName: window.trans('class_daily_health_survey'), menuFor: 
   		subItems: [
   {name: 'dailySurveyQuestionList', displayName: window.mtrans('daily_survey_question','class_daily_health_survey.daily_survey_question_list',false), type:'dailySurveyQuestion',icon:'question',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   {name: 'studentHealthSurveyList', displayName: window.mtrans('student_health_survey','class_daily_health_survey.student_health_survey_list',false), type:'studentHealthSurvey',icon:'th',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
+  {name: 'healthSurveyReportList', displayName: window.mtrans('health_survey_report','class_daily_health_survey.health_survey_report_list',false), type:'healthSurveyReport',icon:'th',readPermission: false,createPermission: false,deletePermission: false,updatePermission: false,executionPermission: false, viewGroup: '__no_group'},
   
   		],
 }
@@ -56,6 +57,7 @@ const fieldLabels = {
   teacher: window.trans('class_daily_health_survey.teacher'),
   surveyTime: window.trans('class_daily_health_survey.survey_time'),
   creator: window.trans('class_daily_health_survey.creator'),
+  downloadUrl: window.trans('class_daily_health_survey.download_url'),
   changeRequest: window.trans('class_daily_health_survey.change_request'),
 
 }
@@ -66,6 +68,7 @@ const displayColumns = [
   { title: fieldLabels.teacher, dataIndex: 'teacher', render: (text, record) => renderReferenceCell(text, record), sorter:true},
   { title: fieldLabels.surveyTime, dataIndex: 'surveyTime', render: (text, record) =>renderDateTimeCell(text,record), sorter: true},
   { title: fieldLabels.creator, dataIndex: 'creator', render: (text, record) => renderReferenceCell(text, record), sorter:true},
+  { title: fieldLabels.downloadUrl, debugtype: 'string_url', dataIndex: 'downloadUrl', width: '15',render: (text, record)=>renderTextCell(text,record)},
   { title: fieldLabels.changeRequest, dataIndex: 'changeRequest', render: (text, record) => renderReferenceCell(text, record), sorter:true},
 
 ]
@@ -87,6 +90,7 @@ const renderItemOfList=(classDailyHealthSurvey, targetComponent, columCount)=>{
         <Description term={fieldLabels.surveyTime}><div>{ moment(classDailyHealthSurvey.surveyTime).format('YYYY-MM-DD HH:mm')}</div></Description> 
         <Description term={fieldLabels.creator}><div>{classDailyHealthSurvey.creator==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.creator.displayName}(${classDailyHealthSurvey.creator.id})`}
         </div></Description>
+        <Description term={fieldLabels.downloadUrl} style={{wordBreak: 'break-all'}}>{classDailyHealthSurvey.downloadUrl}</Description> 
         <Description term={fieldLabels.changeRequest}><div>{classDailyHealthSurvey.changeRequest==null?appLocaleName(userContext,"NotAssigned"):`${classDailyHealthSurvey.changeRequest.displayName}(${classDailyHealthSurvey.changeRequest.id})`}
         </div></Description>
 	
@@ -99,19 +103,19 @@ const renderItemOfList=(classDailyHealthSurvey, targetComponent, columCount)=>{
 }
 	
 const packFormValuesToObject = ( formValuesToPack )=>{
-	const {name, surveyTime, teacherId, creatorId, changeRequestId} = formValuesToPack
+	const {name, surveyTime, downloadUrl, teacherId, creatorId, changeRequestId} = formValuesToPack
 	const teacher = {id: teacherId, version: 2^31}
 	const creator = {id: creatorId, version: 2^31}
 	const changeRequest = {id: changeRequestId, version: 2^31}
-	const data = {name, surveyTime, teacher, creator, changeRequest}
+	const data = {name, surveyTime:moment(surveyTime).valueOf(), downloadUrl, teacher, creator, changeRequest}
 	return data
 }
 const unpackObjectToFormValues = ( objectToUnpack )=>{
-	const {name, surveyTime, teacher, creator, changeRequest} = objectToUnpack
+	const {name, surveyTime, downloadUrl, teacher, creator, changeRequest} = objectToUnpack
 	const teacherId = teacher ? teacher.id : null
 	const creatorId = creator ? creator.id : null
 	const changeRequestId = changeRequest ? changeRequest.id : null
-	const data = {name, surveyTime, teacherId, creatorId, changeRequestId}
+	const data = {name, surveyTime:moment(surveyTime), downloadUrl, teacherId, creatorId, changeRequestId}
 	return data
 }
 const stepOf=(targetComponent, title, content, position, index)=>{

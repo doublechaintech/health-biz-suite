@@ -19,6 +19,7 @@ const { TextArea } = Input
 const imageURLPrefix = '//localhost:2090'
 
 const imageKeys = [
+  'studentAvatar',
 ]
 
 
@@ -286,12 +287,12 @@ class StudentUpdateForm extends Component {
               </Col>
 
               <Col lg={24} md={24} sm={24}>
-                <Form.Item label={fieldLabels.studentId} {...formItemLayout}>
-                  {getFieldDecorator('studentId', {
-                    initialValue: selectedRow.studentId,
+                <Form.Item label={fieldLabels.studentNumber} {...formItemLayout}>
+                  {getFieldDecorator('studentNumber', {
+                    initialValue: selectedRow.studentNumber,
                     rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
                   })(
-                    <Input size="large"  placeHolder={fieldLabels.studentId} />
+                    <Input size="large"  placeHolder={fieldLabels.studentNumber} />
                     
                   )}
                 </Form.Item>
@@ -337,6 +338,23 @@ class StudentUpdateForm extends Component {
 
 
 
+
+        <Card title={<div>{appLocaleName(userContext,"Attachment")} <Popover title={appLocaleName(userContext,"ScanQRCodetoUploadfromSmartPhone")} content={<div><img src='./qrtest.png'/></div>}><Icon type="qrcode" ></Icon></Popover></div>} className={styles.card} bordered={false}>
+          <Form >
+            <Row gutter={16}>
+
+              <Col lg={6} md={12} sm={24}>
+                <ImageComponent
+                  buttonTitle={window.trans('student')}
+                  handlePreview={this.handlePreview}
+                  handleChange={event => this.handleChange(event, 'studentAvatar')}
+                  fileList={convertedImagesValues.studentAvatar}
+                />
+              </Col>
+
+            </Row>
+          </Form>
+        </Card>
 
         <FooterToolbar>
           {getErrorInfo()}

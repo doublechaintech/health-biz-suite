@@ -53,7 +53,7 @@ class ClassDailyHealthSurveyProfile extends Component {
   render() {
     // eslint-disable-next-line max-len
     const  classDailyHealthSurvey = this.props.classDailyHealthSurvey;
-    const { id,displayName, dailySurveyQuestionCount, studentHealthSurveyCount } = classDailyHealthSurvey
+    const { id,displayName, dailySurveyQuestionCount, studentHealthSurveyCount, healthSurveyReportCount } = classDailyHealthSurvey
     const  returnURL = `/classDailyHealthSurvey/${id}/dashboard`
     const cardsData = {cardsName:"每日健康调查",cardsFor: "classDailyHealthSurvey",cardsSource: classDailyHealthSurvey,displayName,returnURL,
   		subItems: [

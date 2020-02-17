@@ -28,7 +28,9 @@ public class QuestionTypeMapper extends BaseRowMapper<QuestionType>{
 	protected void setId(QuestionType questionType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(QuestionTypeTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -40,7 +42,9 @@ public class QuestionTypeMapper extends BaseRowMapper<QuestionType>{
 	protected void setName(QuestionType questionType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String name = rs.getString(QuestionTypeTable.COLUMN_NAME);
+		
 		if(name == null){
 			//do nothing when nothing found in database
 			return;
@@ -52,7 +56,9 @@ public class QuestionTypeMapper extends BaseRowMapper<QuestionType>{
 	protected void setCode(QuestionType questionType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String code = rs.getString(QuestionTypeTable.COLUMN_CODE);
+		
 		if(code == null){
 			//do nothing when nothing found in database
 			return;
@@ -82,7 +88,9 @@ public class QuestionTypeMapper extends BaseRowMapper<QuestionType>{
 	protected void setVersion(QuestionType questionType, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(QuestionTypeTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

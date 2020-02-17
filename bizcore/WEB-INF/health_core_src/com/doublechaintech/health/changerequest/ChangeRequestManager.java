@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.doublechaintech.health.HealthUserContext;
 import com.doublechaintech.health.BaseEntity;
 import com.doublechaintech.health.BaseManager;
@@ -30,21 +31,11 @@ public interface ChangeRequestManager extends BaseManager{
 	/*======================================================DATA MAINTENANCE===========================================================*/
 	
 
-	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId ,String [] tokensExpr)  throws Exception;
+	//public  TeacherManager getTeacherManager(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId ,String [] tokensExpr)  throws Exception;
 	
-	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, String platformId , String [] tokensExpr)  throws Exception;
+	public  ChangeRequest addTeacher(HealthUserContext userContext, String changeRequestId, String name, String mobile, String school, String schoolClass, int classSize, String platformId, String userId , String [] tokensExpr)  throws Exception;
 	public  ChangeRequest removeTeacher(HealthUserContext userContext, String changeRequestId, String teacherId, int teacherVersion,String [] tokensExpr)  throws Exception;
 	public  ChangeRequest updateTeacher(HealthUserContext userContext, String changeRequestId, String teacherId, int teacherVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  StudentManager getStudentManager(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId ,String [] tokensExpr)  throws Exception;
-	
-	public  ChangeRequest addStudent(HealthUserContext userContext, String changeRequestId, String studentName, String studentId, String guardianName, String guardianMobile, String addressId, String userId, String platformId , String [] tokensExpr)  throws Exception;
-	public  ChangeRequest removeStudent(HealthUserContext userContext, String changeRequestId, String studentId, int studentVersion,String [] tokensExpr)  throws Exception;
-	public  ChangeRequest updateStudent(HealthUserContext userContext, String changeRequestId, String studentId, int studentVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 
@@ -57,14 +48,14 @@ public interface ChangeRequestManager extends BaseManager{
 	public  ChangeRequest updateQuestion(HealthUserContext userContext, String changeRequestId, String questionId, int questionVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
-	public  ChangeRequest associateQuestionListToNewCreator(HealthUserContext userContext, String changeRequestId, String  questionIds[], String name, String avatar, String addressId, String platformId, String [] tokensExpr) throws Exception ;
+	public  ChangeRequest associateQuestionListToNewCreator(HealthUserContext userContext, String changeRequestId, String  questionIds[], String name, String avatar, String platformId, String [] tokensExpr) throws Exception ;
 	public  ChangeRequest associateQuestionListToCreator(HealthUserContext userContext, String changeRequestId, String  questionIds[],String creatorId, String [] tokensExpr) throws Exception ;
 
 	*/
 
-	//public  ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId ,String [] tokensExpr)  throws Exception;
+	//public  ClassDailyHealthSurveyManager getClassDailyHealthSurveyManager(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl ,String [] tokensExpr)  throws Exception;
 	
-	public  ChangeRequest addClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId , String [] tokensExpr)  throws Exception;
+	public  ChangeRequest addClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String name, String teacherId, DateTime surveyTime, String creatorId, String downloadUrl , String [] tokensExpr)  throws Exception;
 	public  ChangeRequest removeClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion,String [] tokensExpr)  throws Exception;
 	public  ChangeRequest updateClassDailyHealthSurvey(HealthUserContext userContext, String changeRequestId, String classDailyHealthSurveyId, int classDailyHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
@@ -77,16 +68,6 @@ public interface ChangeRequestManager extends BaseManager{
 	public  ChangeRequest addStudentHealthSurvey(HealthUserContext userContext, String changeRequestId, String studentId, DateTime answerTime, String surveyStatusId, String teacherId, String classDailyHealthSurveyId , String [] tokensExpr)  throws Exception;
 	public  ChangeRequest removeStudentHealthSurvey(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, int studentHealthSurveyVersion,String [] tokensExpr)  throws Exception;
 	public  ChangeRequest updateStudentHealthSurvey(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, int studentHealthSurveyVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
-
-	/*
-
-	*/
-
-	//public  StudentDailyAnswerManager getStudentDailyAnswerManager(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, String questionId, String answer ,String [] tokensExpr)  throws Exception;
-	
-	public  ChangeRequest addStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentHealthSurveyId, String questionId, String answer , String [] tokensExpr)  throws Exception;
-	public  ChangeRequest removeStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentDailyAnswerId, int studentDailyAnswerVersion,String [] tokensExpr)  throws Exception;
-	public  ChangeRequest updateStudentDailyAnswer(HealthUserContext userContext, String changeRequestId, String studentDailyAnswerId, int studentDailyAnswerVersion, String property, String newValueExpr,String [] tokensExpr)  throws Exception;
 
 	/*
 

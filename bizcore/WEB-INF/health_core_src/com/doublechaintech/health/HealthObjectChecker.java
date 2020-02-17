@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 public class HealthObjectChecker extends HealthChecker{
 
 	Set<BaseEntity> checkedObjectSet;
@@ -214,7 +215,6 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(locationAsBaseEntity,"longitude",this::checkLongitudeOfLocation);
 		commonObjectPropertyCheck(locationAsBaseEntity,"version",this::checkVersionOfLocation);
 		commonObjectPropertyCheck(locationAsBaseEntity,"studentList",this::checkStudentListOfLocation);
-		commonObjectPropertyCheck(locationAsBaseEntity,"userList",this::checkUserListOfLocation);
 		return this;
 
 	}
@@ -230,12 +230,15 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(teacherAsBaseEntity,"mobile",this::checkMobileOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"school",this::checkSchoolOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"schoolClass",this::checkSchoolClassOfTeacher);
+		commonObjectPropertyCheck(teacherAsBaseEntity,"classSize",this::checkClassSizeOfTeacher);
 		commonObjectPropertyAssign(teacherAsBaseEntity,"createTime",this::assignCreateTimeOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"platform",this::checkPlatformOfTeacher);
+		commonObjectPropertyCheck(teacherAsBaseEntity,"user",this::checkUserOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"changeRequest",this::checkChangeRequestOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"version",this::checkVersionOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"classDailyHealthSurveyList",this::checkClassDailyHealthSurveyListOfTeacher);
 		commonObjectPropertyCheck(teacherAsBaseEntity,"studentHealthSurveyList",this::checkStudentHealthSurveyListOfTeacher);
+		commonObjectPropertyCheck(teacherAsBaseEntity,"healthSurveyReportList",this::checkHealthSurveyReportListOfTeacher);
 		return this;
 
 	}
@@ -248,16 +251,17 @@ public class HealthObjectChecker extends HealthChecker{
 		markAsChecked(studentAsBaseEntity);
 		commonObjectPropertyCheck(studentAsBaseEntity,"id",this::checkIdOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"studentName",this::checkStudentNameOfStudent);
-		commonObjectPropertyCheck(studentAsBaseEntity,"studentId",this::checkStudentIdOfStudent);
+		commonObjectPropertyCheck(studentAsBaseEntity,"studentNumber",this::checkStudentNumberOfStudent);
+		commonObjectPropertyCheck(studentAsBaseEntity,"studentAvatar",this::checkStudentAvatarOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"guardianName",this::checkGuardianNameOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"guardianMobile",this::checkGuardianMobileOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"address",this::checkAddressOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"user",this::checkUserOfStudent);
 		commonObjectPropertyAssign(studentAsBaseEntity,"createTime",this::assignCreateTimeOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"platform",this::checkPlatformOfStudent);
-		commonObjectPropertyCheck(studentAsBaseEntity,"changeRequest",this::checkChangeRequestOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"version",this::checkVersionOfStudent);
 		commonObjectPropertyCheck(studentAsBaseEntity,"studentHealthSurveyList",this::checkStudentHealthSurveyListOfStudent);
+		commonObjectPropertyCheck(studentAsBaseEntity,"healthSurveyReportList",this::checkHealthSurveyReportListOfStudent);
 		return this;
 
 	}
@@ -312,10 +316,12 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"teacher",this::checkTeacherOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"surveyTime",this::checkSurveyTimeOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"creator",this::checkCreatorOfClassDailyHealthSurvey);
+		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"downloadUrl",this::checkDownloadUrlOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"changeRequest",this::checkChangeRequestOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"version",this::checkVersionOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"dailySurveyQuestionList",this::checkDailySurveyQuestionListOfClassDailyHealthSurvey);
 		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"studentHealthSurveyList",this::checkStudentHealthSurveyListOfClassDailyHealthSurvey);
+		commonObjectPropertyCheck(classDailyHealthSurveyAsBaseEntity,"healthSurveyReportList",this::checkHealthSurveyReportListOfClassDailyHealthSurvey);
 		return this;
 
 	}
@@ -374,8 +380,8 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(studentDailyAnswerAsBaseEntity,"answer",this::checkAnswerOfStudentDailyAnswer);
 		commonObjectPropertyAssign(studentDailyAnswerAsBaseEntity,"createTime",this::assignCreateTimeOfStudentDailyAnswer);
 		commonObjectPropertyAssign(studentDailyAnswerAsBaseEntity,"lastUpdateTime",this::assignLastUpdateTimeOfStudentDailyAnswer);
-		commonObjectPropertyCheck(studentDailyAnswerAsBaseEntity,"changeRequest",this::checkChangeRequestOfStudentDailyAnswer);
 		commonObjectPropertyCheck(studentDailyAnswerAsBaseEntity,"version",this::checkVersionOfStudentDailyAnswer);
+		commonObjectPropertyCheck(studentDailyAnswerAsBaseEntity,"studentAnswerList",this::checkStudentAnswerListOfStudentDailyAnswer);
 		return this;
 
 	}
@@ -396,6 +402,47 @@ public class HealthObjectChecker extends HealthChecker{
 
 	}
 
+	public HealthObjectChecker checkAndFixHealthSurveyReport(BaseEntity healthSurveyReportAsBaseEntity){
+
+		if( isChecked(healthSurveyReportAsBaseEntity) ){
+			return this;
+		}
+		markAsChecked(healthSurveyReportAsBaseEntity);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"id",this::checkIdOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"surveyName",this::checkSurveyNameOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"surveyTime",this::checkSurveyTimeOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"teacherName",this::checkTeacherNameOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"school",this::checkSchoolOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"schoolClass",this::checkSchoolClassOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"studentName",this::checkStudentNameOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"studentNumber",this::checkStudentNumberOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"guardianName",this::checkGuardianNameOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"guardianMobile",this::checkGuardianMobileOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"student",this::checkStudentOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"teacher",this::checkTeacherOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"survey",this::checkSurveyOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"version",this::checkVersionOfHealthSurveyReport);
+		commonObjectPropertyCheck(healthSurveyReportAsBaseEntity,"studentAnswerList",this::checkStudentAnswerListOfHealthSurveyReport);
+		return this;
+
+	}
+
+	public HealthObjectChecker checkAndFixStudentAnswer(BaseEntity studentAnswerAsBaseEntity){
+
+		if( isChecked(studentAnswerAsBaseEntity) ){
+			return this;
+		}
+		markAsChecked(studentAnswerAsBaseEntity);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"id",this::checkIdOfStudentAnswer);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"healthSurveyReport",this::checkHealthSurveyReportOfStudentAnswer);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"dailyAnswer",this::checkDailyAnswerOfStudentAnswer);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"questionTopic",this::checkQuestionTopicOfStudentAnswer);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"answer",this::checkAnswerOfStudentAnswer);
+		commonObjectPropertyCheck(studentAnswerAsBaseEntity,"version",this::checkVersionOfStudentAnswer);
+		return this;
+
+	}
+
 	public HealthObjectChecker checkAndFixUser(BaseEntity userAsBaseEntity){
 
 		if( isChecked(userAsBaseEntity) ){
@@ -405,10 +452,10 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(userAsBaseEntity,"id",this::checkIdOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"name",this::checkNameOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"avatar",this::checkAvatarOfUser);
-		commonObjectPropertyCheck(userAsBaseEntity,"address",this::checkAddressOfUser);
 		commonObjectPropertyAssign(userAsBaseEntity,"createTime",this::assignCreateTimeOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"platform",this::checkPlatformOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"version",this::checkVersionOfUser);
+		commonObjectPropertyCheck(userAsBaseEntity,"teacherList",this::checkTeacherListOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"studentList",this::checkStudentListOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"questionList",this::checkQuestionListOfUser);
 		commonObjectPropertyCheck(userAsBaseEntity,"classDailyHealthSurveyList",this::checkClassDailyHealthSurveyListOfUser);
@@ -448,11 +495,9 @@ public class HealthObjectChecker extends HealthChecker{
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"platform",this::checkPlatformOfChangeRequest);
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"version",this::checkVersionOfChangeRequest);
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"teacherList",this::checkTeacherListOfChangeRequest);
-		commonObjectPropertyCheck(changeRequestAsBaseEntity,"studentList",this::checkStudentListOfChangeRequest);
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"questionList",this::checkQuestionListOfChangeRequest);
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"classDailyHealthSurveyList",this::checkClassDailyHealthSurveyListOfChangeRequest);
 		commonObjectPropertyCheck(changeRequestAsBaseEntity,"studentHealthSurveyList",this::checkStudentHealthSurveyListOfChangeRequest);
-		commonObjectPropertyCheck(changeRequestAsBaseEntity,"studentDailyAnswerList",this::checkStudentDailyAnswerListOfChangeRequest);
 		return this;
 
 	}
@@ -977,13 +1022,6 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
-	public HealthObjectChecker checkUserListOfLocation(List<BaseEntity> userList){
-		AtomicInteger index = new AtomicInteger();
-		userList.stream().forEach(user->
-			commonObjectElementCheck(user,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixUser));
-		return this;
-	}
-
 	public static final String DISTRICT_OF_LOCATION = "location.district";
 
 
@@ -1026,6 +1064,13 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
+	public HealthObjectChecker checkHealthSurveyReportListOfTeacher(List<BaseEntity> healthSurveyReportList){
+		AtomicInteger index = new AtomicInteger();
+		healthSurveyReportList.stream().forEach(healthSurveyReport->
+			commonObjectElementCheck(healthSurveyReport,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixHealthSurveyReport));
+		return this;
+	}
+
 	public static final String PLATFORM_OF_TEACHER = "teacher.platform";
 
 
@@ -1040,13 +1085,27 @@ public class HealthObjectChecker extends HealthChecker{
 	}
 
 
+	public static final String USER_OF_TEACHER = "teacher.user";
+
+
+	public HealthObjectChecker checkUserOfTeacher(BaseEntity userAsBaseEntity){
+
+		if(userAsBaseEntity == null){
+			checkBaseEntityReference(userAsBaseEntity,true,USER_OF_TEACHER);
+			return this;
+		}
+		checkAndFixUser(userAsBaseEntity);
+		return this;
+	}
+
+
 	public static final String CHANGE_REQUEST_OF_TEACHER = "teacher.change_request";
 
 
 	public HealthObjectChecker checkChangeRequestOfTeacher(BaseEntity changeRequestAsBaseEntity){
 
 		if(changeRequestAsBaseEntity == null){
-			checkBaseEntityReference(changeRequestAsBaseEntity,true,CHANGE_REQUEST_OF_TEACHER);
+			checkBaseEntityReference(changeRequestAsBaseEntity,false,CHANGE_REQUEST_OF_TEACHER);
 			return this;
 		}
 		checkAndFixChangeRequest(changeRequestAsBaseEntity);
@@ -1061,13 +1120,20 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
+	public HealthObjectChecker checkHealthSurveyReportListOfStudent(List<BaseEntity> healthSurveyReportList){
+		AtomicInteger index = new AtomicInteger();
+		healthSurveyReportList.stream().forEach(healthSurveyReport->
+			commonObjectElementCheck(healthSurveyReport,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixHealthSurveyReport));
+		return this;
+	}
+
 	public static final String ADDRESS_OF_STUDENT = "student.address";
 
 
 	public HealthObjectChecker checkAddressOfStudent(BaseEntity addressAsBaseEntity){
 
 		if(addressAsBaseEntity == null){
-			checkBaseEntityReference(addressAsBaseEntity,true,ADDRESS_OF_STUDENT);
+			checkBaseEntityReference(addressAsBaseEntity,false,ADDRESS_OF_STUDENT);
 			return this;
 		}
 		checkAndFixLocation(addressAsBaseEntity);
@@ -1099,20 +1165,6 @@ public class HealthObjectChecker extends HealthChecker{
 			return this;
 		}
 		checkAndFixPlatform(platformAsBaseEntity);
-		return this;
-	}
-
-
-	public static final String CHANGE_REQUEST_OF_STUDENT = "student.change_request";
-
-
-	public HealthObjectChecker checkChangeRequestOfStudent(BaseEntity changeRequestAsBaseEntity){
-
-		if(changeRequestAsBaseEntity == null){
-			checkBaseEntityReference(changeRequestAsBaseEntity,true,CHANGE_REQUEST_OF_STUDENT);
-			return this;
-		}
-		checkAndFixChangeRequest(changeRequestAsBaseEntity);
 		return this;
 	}
 
@@ -1172,7 +1224,7 @@ public class HealthObjectChecker extends HealthChecker{
 	public HealthObjectChecker checkCqOfQuestion(BaseEntity cqAsBaseEntity){
 
 		if(cqAsBaseEntity == null){
-			checkBaseEntityReference(cqAsBaseEntity,true,CQ_OF_QUESTION);
+			checkBaseEntityReference(cqAsBaseEntity,false,CQ_OF_QUESTION);
 			return this;
 		}
 		checkAndFixChangeRequest(cqAsBaseEntity);
@@ -1222,6 +1274,13 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
+	public HealthObjectChecker checkHealthSurveyReportListOfClassDailyHealthSurvey(List<BaseEntity> healthSurveyReportList){
+		AtomicInteger index = new AtomicInteger();
+		healthSurveyReportList.stream().forEach(healthSurveyReport->
+			commonObjectElementCheck(healthSurveyReport,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixHealthSurveyReport));
+		return this;
+	}
+
 	public static final String TEACHER_OF_CLASS_DAILY_HEALTH_SURVEY = "class_daily_health_survey.teacher";
 
 
@@ -1256,7 +1315,7 @@ public class HealthObjectChecker extends HealthChecker{
 	public HealthObjectChecker checkChangeRequestOfClassDailyHealthSurvey(BaseEntity changeRequestAsBaseEntity){
 
 		if(changeRequestAsBaseEntity == null){
-			checkBaseEntityReference(changeRequestAsBaseEntity,true,CHANGE_REQUEST_OF_CLASS_DAILY_HEALTH_SURVEY);
+			checkBaseEntityReference(changeRequestAsBaseEntity,false,CHANGE_REQUEST_OF_CLASS_DAILY_HEALTH_SURVEY);
 			return this;
 		}
 		checkAndFixChangeRequest(changeRequestAsBaseEntity);
@@ -1382,13 +1441,20 @@ public class HealthObjectChecker extends HealthChecker{
 	public HealthObjectChecker checkChangeRequestOfStudentHealthSurvey(BaseEntity changeRequestAsBaseEntity){
 
 		if(changeRequestAsBaseEntity == null){
-			checkBaseEntityReference(changeRequestAsBaseEntity,true,CHANGE_REQUEST_OF_STUDENT_HEALTH_SURVEY);
+			checkBaseEntityReference(changeRequestAsBaseEntity,false,CHANGE_REQUEST_OF_STUDENT_HEALTH_SURVEY);
 			return this;
 		}
 		checkAndFixChangeRequest(changeRequestAsBaseEntity);
 		return this;
 	}
 
+
+	public HealthObjectChecker checkStudentAnswerListOfStudentDailyAnswer(List<BaseEntity> studentAnswerList){
+		AtomicInteger index = new AtomicInteger();
+		studentAnswerList.stream().forEach(studentAnswer->
+			commonObjectElementCheck(studentAnswer,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixStudentAnswer));
+		return this;
+	}
 
 	public static final String STUDENT_HEALTH_SURVEY_OF_STUDENT_DAILY_ANSWER = "student_daily_answer.student_health_survey";
 
@@ -1418,20 +1484,6 @@ public class HealthObjectChecker extends HealthChecker{
 	}
 
 
-	public static final String CHANGE_REQUEST_OF_STUDENT_DAILY_ANSWER = "student_daily_answer.change_request";
-
-
-	public HealthObjectChecker checkChangeRequestOfStudentDailyAnswer(BaseEntity changeRequestAsBaseEntity){
-
-		if(changeRequestAsBaseEntity == null){
-			checkBaseEntityReference(changeRequestAsBaseEntity,true,CHANGE_REQUEST_OF_STUDENT_DAILY_ANSWER);
-			return this;
-		}
-		checkAndFixChangeRequest(changeRequestAsBaseEntity);
-		return this;
-	}
-
-
 	public HealthObjectChecker checkStudentHealthSurveyListOfSurveyStatus(List<BaseEntity> studentHealthSurveyList){
 		AtomicInteger index = new AtomicInteger();
 		studentHealthSurveyList.stream().forEach(studentHealthSurvey->
@@ -1452,6 +1504,90 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
+
+	public HealthObjectChecker checkStudentAnswerListOfHealthSurveyReport(List<BaseEntity> studentAnswerList){
+		AtomicInteger index = new AtomicInteger();
+		studentAnswerList.stream().forEach(studentAnswer->
+			commonObjectElementCheck(studentAnswer,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixStudentAnswer));
+		return this;
+	}
+
+	public static final String STUDENT_OF_HEALTH_SURVEY_REPORT = "health_survey_report.student";
+
+
+	public HealthObjectChecker checkStudentOfHealthSurveyReport(BaseEntity studentAsBaseEntity){
+
+		if(studentAsBaseEntity == null){
+			checkBaseEntityReference(studentAsBaseEntity,true,STUDENT_OF_HEALTH_SURVEY_REPORT);
+			return this;
+		}
+		checkAndFixStudent(studentAsBaseEntity);
+		return this;
+	}
+
+
+	public static final String TEACHER_OF_HEALTH_SURVEY_REPORT = "health_survey_report.teacher";
+
+
+	public HealthObjectChecker checkTeacherOfHealthSurveyReport(BaseEntity teacherAsBaseEntity){
+
+		if(teacherAsBaseEntity == null){
+			checkBaseEntityReference(teacherAsBaseEntity,true,TEACHER_OF_HEALTH_SURVEY_REPORT);
+			return this;
+		}
+		checkAndFixTeacher(teacherAsBaseEntity);
+		return this;
+	}
+
+
+	public static final String SURVEY_OF_HEALTH_SURVEY_REPORT = "health_survey_report.survey";
+
+
+	public HealthObjectChecker checkSurveyOfHealthSurveyReport(BaseEntity surveyAsBaseEntity){
+
+		if(surveyAsBaseEntity == null){
+			checkBaseEntityReference(surveyAsBaseEntity,true,SURVEY_OF_HEALTH_SURVEY_REPORT);
+			return this;
+		}
+		checkAndFixClassDailyHealthSurvey(surveyAsBaseEntity);
+		return this;
+	}
+
+
+	public static final String HEALTH_SURVEY_REPORT_OF_STUDENT_ANSWER = "student_answer.health_survey_report";
+
+
+	public HealthObjectChecker checkHealthSurveyReportOfStudentAnswer(BaseEntity healthSurveyReportAsBaseEntity){
+
+		if(healthSurveyReportAsBaseEntity == null){
+			checkBaseEntityReference(healthSurveyReportAsBaseEntity,true,HEALTH_SURVEY_REPORT_OF_STUDENT_ANSWER);
+			return this;
+		}
+		checkAndFixHealthSurveyReport(healthSurveyReportAsBaseEntity);
+		return this;
+	}
+
+
+	public static final String DAILY_ANSWER_OF_STUDENT_ANSWER = "student_answer.daily_answer";
+
+
+	public HealthObjectChecker checkDailyAnswerOfStudentAnswer(BaseEntity dailyAnswerAsBaseEntity){
+
+		if(dailyAnswerAsBaseEntity == null){
+			checkBaseEntityReference(dailyAnswerAsBaseEntity,true,DAILY_ANSWER_OF_STUDENT_ANSWER);
+			return this;
+		}
+		checkAndFixStudentDailyAnswer(dailyAnswerAsBaseEntity);
+		return this;
+	}
+
+
+	public HealthObjectChecker checkTeacherListOfUser(List<BaseEntity> teacherList){
+		AtomicInteger index = new AtomicInteger();
+		teacherList.stream().forEach(teacher->
+			commonObjectElementCheck(teacher,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixTeacher));
+		return this;
+	}
 
 	public HealthObjectChecker checkStudentListOfUser(List<BaseEntity> studentList){
 		AtomicInteger index = new AtomicInteger();
@@ -1480,20 +1616,6 @@ public class HealthObjectChecker extends HealthChecker{
 			commonObjectElementCheck(wechatLoginInfo,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixWechatLoginInfo));
 		return this;
 	}
-
-	public static final String ADDRESS_OF_USER = "user.address";
-
-
-	public HealthObjectChecker checkAddressOfUser(BaseEntity addressAsBaseEntity){
-
-		if(addressAsBaseEntity == null){
-			checkBaseEntityReference(addressAsBaseEntity,true,ADDRESS_OF_USER);
-			return this;
-		}
-		checkAndFixLocation(addressAsBaseEntity);
-		return this;
-	}
-
 
 	public static final String PLATFORM_OF_USER = "user.platform";
 
@@ -1530,13 +1652,6 @@ public class HealthObjectChecker extends HealthChecker{
 		return this;
 	}
 
-	public HealthObjectChecker checkStudentListOfChangeRequest(List<BaseEntity> studentList){
-		AtomicInteger index = new AtomicInteger();
-		studentList.stream().forEach(student->
-			commonObjectElementCheck(student,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixStudent));
-		return this;
-	}
-
 	public HealthObjectChecker checkQuestionListOfChangeRequest(List<BaseEntity> questionList){
 		AtomicInteger index = new AtomicInteger();
 		questionList.stream().forEach(question->
@@ -1555,13 +1670,6 @@ public class HealthObjectChecker extends HealthChecker{
 		AtomicInteger index = new AtomicInteger();
 		studentHealthSurveyList.stream().forEach(studentHealthSurvey->
 			commonObjectElementCheck(studentHealthSurvey,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixStudentHealthSurvey));
-		return this;
-	}
-
-	public HealthObjectChecker checkStudentDailyAnswerListOfChangeRequest(List<BaseEntity> studentDailyAnswerList){
-		AtomicInteger index = new AtomicInteger();
-		studentDailyAnswerList.stream().forEach(studentDailyAnswer->
-			commonObjectElementCheck(studentDailyAnswer,wrapArrayIndex(index.getAndIncrement()),this::checkAndFixStudentDailyAnswer));
 		return this;
 	}
 

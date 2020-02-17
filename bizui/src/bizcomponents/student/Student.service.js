@@ -63,21 +63,6 @@ const transferToAnotherPlatform = (id, parameters) => {
 
 
 
-const requestCandidateChangeRequest = (ownerClass, id, filterKey, pageNo) => {
- 
-  const url = `${PREFIX}studentManager/requestCandidateChangeRequest/ownerClass/id/filterKey/pageNo/`
-  const requestParameters = {id, ownerClass,filterKey, pageNo}
-  return postForm({url,requestParameters})
-}	
-
-const transferToAnotherChangeRequest = (id, parameters) => {
-  const url = `${PREFIX}studentManager/transferToAnotherChangeRequest/id/anotherChangeRequestId/`
-  const requestParameters = {id, ...parameters}
-  return postForm({url,requestParameters})
-}
-
-
-
 
 
 
@@ -98,6 +83,28 @@ const updateStudentHealthSurvey = (targetObjectId, parameters) => {
 
 const removeStudentHealthSurveyList = (targetObjectId, parameters) => {
   const url = `${PREFIX}studentManager/removeStudentHealthSurveyList/studentId/studentHealthSurveyIds/tokensExpr/`
+  const requestParameters = { ...parameters, studentId: targetObjectId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+
+
+const addHealthSurveyReport = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentManager/addHealthSurveyReport/studentId/surveyName/surveyTime/teacherName/school/schoolClass/studentName/studentNumber/guardianName/guardianMobile/teacherId/surveyId/tokensExpr/`
+  const studentId = targetObjectId
+  const requestParameters = { ...parameters, studentId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const updateHealthSurveyReport = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentManager/updateHealthSurveyReportProperties/studentId/id/surveyName/surveyTime/teacherName/school/schoolClass/studentName/studentNumber/guardianName/guardianMobile/tokensExpr/`
+  const studentId = targetObjectId
+  const requestParameters = { ...parameters, studentId, tokensExpr: 'none' }
+  return postForm({ url,requestParameters})
+}
+
+const removeHealthSurveyReportList = (targetObjectId, parameters) => {
+  const url = `${PREFIX}studentManager/removeHealthSurveyReportList/studentId/healthSurveyReportIds/tokensExpr/`
   const requestParameters = { ...parameters, studentId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -133,15 +140,16 @@ const  processRequest = (data) => {
 const StudentService = { view,
   load,
   addStudentHealthSurvey,
+  addHealthSurveyReport,
   updateStudentHealthSurvey,
+  updateHealthSurveyReport,
   removeStudentHealthSurveyList,
+  removeHealthSurveyReportList,
   requestCandidateAddress,
   requestCandidateUser,
   requestCandidatePlatform,
-  requestCandidateChangeRequest,
   transferToAnotherAddress,
   transferToAnotherUser,
-  transferToAnotherPlatform,
-  transferToAnotherChangeRequest, listFunctions, saveRequest, processRequest}
+  transferToAnotherPlatform, listFunctions, saveRequest, processRequest}
 export default StudentService
 

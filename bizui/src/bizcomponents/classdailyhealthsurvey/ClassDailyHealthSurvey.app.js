@@ -286,6 +286,58 @@ constructor(props) {
     }))(StudentHealthSurveyUpdateForm)
   }
 
+  getHealthSurveyReportSearch = () => {
+    const {HealthSurveyReportSearch} = GlobalComponents;
+    const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      name: window.mtrans('health_survey_report','class_daily_health_survey.health_survey_report_list',false),
+      role: "healthSurveyReport",
+      data: state._classDailyHealthSurvey.healthSurveyReportList,
+      metaInfo: state._classDailyHealthSurvey.healthSurveyReportListMetaInfo,
+      count: state._classDailyHealthSurvey.healthSurveyReportCount,
+      returnURL: `/classDailyHealthSurvey/${state._classDailyHealthSurvey.id}/dashboard`,
+      currentPage: state._classDailyHealthSurvey.healthSurveyReportCurrentPageNumber,
+      searchFormParameters: state._classDailyHealthSurvey.healthSurveyReportSearchFormParameters,
+      searchParameters: {...state._classDailyHealthSurvey.searchParameters},
+      expandForm: state._classDailyHealthSurvey.expandForm,
+      loading: state._classDailyHealthSurvey.loading,
+      partialList: state._classDailyHealthSurvey.partialList,
+      owner: { type: '_classDailyHealthSurvey', id: state._classDailyHealthSurvey.id, 
+      referenceName: 'survey', 
+      listName: 'healthSurveyReportList', ref:state._classDailyHealthSurvey, 
+      listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(HealthSurveyReportSearch)
+  }
+  
+  getHealthSurveyReportCreateForm = () => {
+   	const {HealthSurveyReportCreateForm} = GlobalComponents;
+   	const userContext = null
+    return connect(state => ({
+      rule: state.rule,
+      role: "healthSurveyReport",
+      data: state._classDailyHealthSurvey.healthSurveyReportList,
+      metaInfo: state._classDailyHealthSurvey.healthSurveyReportListMetaInfo,
+      count: state._classDailyHealthSurvey.healthSurveyReportCount,
+      returnURL: `/classDailyHealthSurvey/${state._classDailyHealthSurvey.id}/list`,
+      currentPage: state._classDailyHealthSurvey.healthSurveyReportCurrentPageNumber,
+      searchFormParameters: state._classDailyHealthSurvey.healthSurveyReportSearchFormParameters,
+      loading: state._classDailyHealthSurvey.loading,
+      owner: { type: '_classDailyHealthSurvey', id: state._classDailyHealthSurvey.id, referenceName: 'survey', listName: 'healthSurveyReportList', ref:state._classDailyHealthSurvey, listDisplayName: appLocaleName(userContext,"List")}, // this is for model namespace and
+    }))(HealthSurveyReportCreateForm)
+  }
+  
+  getHealthSurveyReportUpdateForm = () => {
+    const userContext = null
+  	const {HealthSurveyReportUpdateForm} = GlobalComponents;
+    return connect(state => ({
+      selectedRows: state._classDailyHealthSurvey.selectedRows,
+      role: "healthSurveyReport",
+      currentUpdateIndex: state._classDailyHealthSurvey.currentUpdateIndex,
+      owner: { type: '_classDailyHealthSurvey', id: state._classDailyHealthSurvey.id, listName: 'healthSurveyReportList', ref:state._classDailyHealthSurvey, listDisplayName: appLocaleName(userContext,"List") }, // this is for model namespace and
+    }))(HealthSurveyReportUpdateForm)
+  }
+
 
   
 
@@ -318,6 +370,10 @@ constructor(props) {
   	{path:"/classDailyHealthSurvey/:id/list/studentHealthSurveyList", component: this.getStudentHealthSurveySearch()},
   	{path:"/classDailyHealthSurvey/:id/list/studentHealthSurveyCreateForm", component: this.getStudentHealthSurveyCreateForm()},
   	{path:"/classDailyHealthSurvey/:id/list/studentHealthSurveyUpdateForm", component: this.getStudentHealthSurveyUpdateForm()},
+   	
+  	{path:"/classDailyHealthSurvey/:id/list/healthSurveyReportList", component: this.getHealthSurveyReportSearch()},
+  	{path:"/classDailyHealthSurvey/:id/list/healthSurveyReportCreateForm", component: this.getHealthSurveyReportCreateForm()},
+  	{path:"/classDailyHealthSurvey/:id/list/healthSurveyReportUpdateForm", component: this.getHealthSurveyReportUpdateForm()},
    	{path:"/classDailyHealthSurvey/:id/ChangeRequestType/:code", component: GlobalComponents.ChangeRequestStepForm},
     	
  	 

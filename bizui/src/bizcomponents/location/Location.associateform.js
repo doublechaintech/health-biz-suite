@@ -20,8 +20,8 @@ const testValues = {};
 const testValues = {
   name: '公司地址',
   address: '四川省成都市高新区南华路100号',
-  latitude: '29.354794602241363',
-  longitude: '105.91101492693986',
+  latitude: '32.23599701616664',
+  longitude: '105.12560928126476',
   districtId: 'D000001',
   provinceId: 'P000001',
 }
@@ -78,7 +78,6 @@ class LocationAssociateForm extends Component {
     const userContext = null
     
  const {StudentModalTable} = GlobalComponents;
- const {UserModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -238,7 +237,6 @@ class LocationAssociateForm extends Component {
         </Card>
         
 	<StudentModalTable data={data.studentList} owner={owner} />
-	<UserModalTable data={data.userList} owner={owner} />
         
         
         

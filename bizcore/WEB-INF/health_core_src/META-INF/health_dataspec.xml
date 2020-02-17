@@ -60,10 +60,12 @@
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="name" type="string" checkType="StringLengthRange" min="1" max="20" description="名称" />
 			<field name="mobile" type="string_china_mobile_phone" checkType="ChinaMobilePhone" min="5" max="44" description="手机号码" />
-			<field name="school" type="string" checkType="StringLengthRange" min="2" max="16" description="学校" />
+			<field name="school" type="string" checkType="StringLengthRange" min="1" max="99" description="学校" />
 			<field name="school_class" type="string" checkType="StringLengthRange" min="1" max="99" description="学校类" />
+			<field name="class_size" type="int" checkType="IntegerRange" min="1" max="999" description="班级规模" />
 			<field name="create_time" type="date_time_create" checkType="DateTimeCreate" min="1900-01-01T00:00:00" max="createTime()" description="创建时间" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
+			<field name="user" type="reference" checkType="exist(user)" description="用户" />
 			<field name="change_request" type="reference" checkType="exist(change_request)" description="变更请求" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
@@ -72,15 +74,15 @@
 	<table name="student_data">
 		<fields>
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
-			<field name="student_name" type="string" checkType="StringLengthRange" min="1" max="20" description="学生的名字" />
-			<field name="student_id" type="string" checkType="StringLengthRange" min="1" max="3" description="学生证" />
-			<field name="guardian_name" type="string" checkType="StringLengthRange" min="1" max="20" description="监护人姓名" />
+			<field name="student_name" type="string" checkType="StringLengthRange" min="0" max="20" description="学生的名字" />
+			<field name="student_number" type="string" checkType="StringLengthRange" min="0" max="99" description="学生数量" />
+			<field name="student_avatar" type="string_image" checkType="Image" min="0" max="512" description="学生阿凡达" />
+			<field name="guardian_name" type="string" checkType="StringLengthRange" min="0" max="20" description="监护人姓名" />
 			<field name="guardian_mobile" type="string_china_mobile_phone" checkType="ChinaMobilePhone" min="5" max="44" description="监护人手机" />
 			<field name="address" type="reference" checkType="exist(location)" description="地址" />
 			<field name="user" type="reference" checkType="exist(user)" description="用户" />
 			<field name="create_time" type="date_time_create" checkType="DateTimeCreate" min="1900-01-01T00:00:00" max="createTime()" description="创建时间" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
-			<field name="change_request" type="reference" checkType="exist(change_request)" description="变更请求" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
 	</table>
@@ -90,8 +92,8 @@
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="topic" type="string" checkType="StringLengthRange" min="1" max="50" description="活动主题" />
 			<field name="question_type" type="reference" checkType="exist(question_type)" description="问题类型" />
-			<field name="option_a" type="string" checkType="StringLengthRange" min="1" max="99" description="A选项" />
-			<field name="option_b" type="string" checkType="StringLengthRange" min="1" max="99" description="B选项" />
+			<field name="option_a" type="string" checkType="StringLengthRange" min="0" max="99" description="A选项" />
+			<field name="option_b" type="string" checkType="StringLengthRange" min="0" max="99" description="B选项" />
 			<field name="option_c" type="string" checkType="StringLengthRange" min="0" max="99" description="C选项" />
 			<field name="option_d" type="string" checkType="StringLengthRange" min="0" max="99" description="D选项" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
@@ -105,7 +107,7 @@
 		<fields>
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="name" type="string" checkType="StringLengthRange" min="1" max="12" description="名称" />
-			<field name="code" type="string" checkType="StringLengthRange" min="4" max="48" description="编码" />
+			<field name="code" type="string" checkType="StringLengthRange" min="5" max="52" description="编码" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
@@ -118,6 +120,7 @@
 			<field name="teacher" type="reference" checkType="exist(teacher)" description="老师" />
 			<field name="survey_time" type="date_time" checkType="DateTime" min="1900-01-01T00:00:00" max="2099-12-31T23:59:59" description="调查的时间" />
 			<field name="creator" type="reference" checkType="exist(user)" description="创建人名称" />
+			<field name="download_url" type="string_url" checkType="Url" min="0" max="99999" description="下载网址" />
 			<field name="change_request" type="reference" checkType="exist(change_request)" description="变更请求" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
@@ -128,8 +131,8 @@
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="topic" type="string" checkType="StringLengthRange" min="1" max="50" description="活动主题" />
 			<field name="question_type" type="reference" checkType="exist(question_type)" description="问题类型" />
-			<field name="option_a" type="string" checkType="StringLengthRange" min="1" max="99" description="A选项" />
-			<field name="option_b" type="string" checkType="StringLengthRange" min="1" max="99" description="B选项" />
+			<field name="option_a" type="string" checkType="StringLengthRange" min="0" max="99" description="A选项" />
+			<field name="option_b" type="string" checkType="StringLengthRange" min="0" max="99" description="B选项" />
 			<field name="option_c" type="string" checkType="StringLengthRange" min="0" max="99" description="C选项" />
 			<field name="option_d" type="string" checkType="StringLengthRange" min="0" max="99" description="D选项" />
 			<field name="class_daily_health_survey" type="reference" checkType="exist(class_daily_health_survey)" description="每日健康调查" />
@@ -161,7 +164,6 @@
 			<field name="answer" type="string" checkType="StringLengthRange" min="1" max="99" description="回答" />
 			<field name="create_time" type="date_time_create" checkType="DateTimeCreate" min="1900-01-01T00:00:00" max="createTime()" description="创建时间" />
 			<field name="last_update_time" type="date_time_update" checkType="DateTimeUpdate" min="1900-01-01T00:00:00" max="updateTime()" description="最后更新时间" />
-			<field name="change_request" type="reference" checkType="exist(change_request)" description="变更请求" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
 	</table>
@@ -170,8 +172,38 @@
 		<fields>
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="name" type="string" checkType="StringLengthRange" min="1" max="12" description="名称" />
-			<field name="code" type="string" checkType="StringLengthRange" min="2" max="44" description="编码" />
+			<field name="code" type="string" checkType="StringLengthRange" min="2" max="48" description="编码" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
+			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
+		</fields>
+	</table>
+
+	<table name="health_survey_report_data">
+		<fields>
+			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
+			<field name="survey_name" type="string" checkType="StringLengthRange" min="6" max="88" description="调查的名字" />
+			<field name="survey_time" type="date_time" checkType="DateTime" min="1900-01-01T00:00:00" max="2099-12-31T23:59:59" description="调查的时间" />
+			<field name="teacher_name" type="string" checkType="StringLengthRange" min="1" max="20" description="老师的名字" />
+			<field name="school" type="string" checkType="StringLengthRange" min="2" max="16" description="学校" />
+			<field name="school_class" type="string" checkType="StringLengthRange" min="1" max="99" description="学校类" />
+			<field name="student_name" type="string" checkType="StringLengthRange" min="1" max="20" description="学生的名字" />
+			<field name="student_number" type="string" checkType="StringLengthRange" min="1" max="3" description="学生数量" />
+			<field name="guardian_name" type="string" checkType="StringLengthRange" min="1" max="20" description="监护人姓名" />
+			<field name="guardian_mobile" type="string_china_mobile_phone" checkType="ChinaMobilePhone" min="5" max="44" description="监护人手机" />
+			<field name="student" type="reference" checkType="exist(student)" description="学生" />
+			<field name="teacher" type="reference" checkType="exist(teacher)" description="老师" />
+			<field name="survey" type="reference" checkType="exist(class_daily_health_survey)" description="调查" />
+			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
+		</fields>
+	</table>
+
+	<table name="student_answer_data">
+		<fields>
+			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
+			<field name="health_survey_report" type="reference" checkType="exist(health_survey_report)" description="健康调查报告" />
+			<field name="daily_answer" type="reference" checkType="exist(student_daily_answer)" description="每天回答" />
+			<field name="question_topic" type="string" checkType="StringLengthRange" min="1" max="99" description="问题的话题" />
+			<field name="answer" type="string" checkType="StringLengthRange" min="1" max="99" description="回答" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
 		</fields>
 	</table>
@@ -181,7 +213,6 @@
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
 			<field name="name" type="string" checkType="StringLengthRange" min="1" max="200" description="名称" />
 			<field name="avatar" type="string_image" checkType="Image" min="0" max="512" description="头像" />
-			<field name="address" type="reference" checkType="exist(location)" description="地址" />
 			<field name="create_time" type="date_time_create" checkType="DateTimeCreate" min="1900-01-01T00:00:00" max="createTime()" description="创建时间" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />
 			<field name="version" type="int" checkType="IntegerRange" min="0" max="Integer.MAX_VALUE" description="版本" />
@@ -215,10 +246,10 @@
 	<table name="change_request_type_data">
 		<fields>
 			<field name="id" nullable="false" type="string" checkType="StringLengthRange" min="2" max="64" description="ID" />
-			<field name="name" type="string" checkType="StringLengthRange" min="1" max="100" description="名称" />
-			<field name="code" type="string" checkType="StringLengthRange" min="2" max="20" description="编码" />
-			<field name="icon" type="string" checkType="StringLengthRange" min="2" max="16" description="图标" />
-			<field name="display_order" type="int" checkType="IntegerRange" min="0" max="1" description="顺序" />
+			<field name="name" type="string" checkType="StringLengthRange" min="2" max="16" description="名称" />
+			<field name="code" type="string" checkType="StringLengthRange" min="4" max="56" description="编码" />
+			<field name="icon" type="string" checkType="StringLengthRange" min="1" max="16" description="图标" />
+			<field name="display_order" type="int" checkType="IntegerRange" min="0" max="4" description="顺序" />
 			<field name="bind_types" type="string_longtext" checkType="Longtext" min="0" max="1048576" description="绑定类型" />
 			<field name="step_configuration" type="string_longtext" checkType="Longtext" min="0" max="1048576" description="分步配置" />
 			<field name="platform" type="reference" checkType="exist(platform)" description="平台" />

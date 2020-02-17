@@ -53,14 +53,14 @@ const transferToAnotherProvince = (id, parameters) => {
 
 
 const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/addStudent/locationId/studentName/studentId/guardianName/guardianMobile/userId/platformId/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}locationManager/addStudent/locationId/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/userId/platformId/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/updateStudentProperties/locationId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
+  const url = `${PREFIX}locationManager/updateStudentProperties/locationId/id/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/tokensExpr/`
   const locationId = targetObjectId
   const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -68,28 +68,6 @@ const updateStudent = (targetObjectId, parameters) => {
 
 const removeStudentList = (targetObjectId, parameters) => {
   const url = `${PREFIX}locationManager/removeStudentList/locationId/studentIds/tokensExpr/`
-  const requestParameters = { ...parameters, locationId: targetObjectId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-
-
-const addUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/addUser/locationId/name/avatar/platformId/tokensExpr/`
-  const locationId = targetObjectId
-  const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const updateUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/updateUserProperties/locationId/id/name/avatar/tokensExpr/`
-  const locationId = targetObjectId
-  const requestParameters = { ...parameters, locationId, tokensExpr: 'none' }
-  return postForm({ url,requestParameters})
-}
-
-const removeUserList = (targetObjectId, parameters) => {
-  const url = `${PREFIX}locationManager/removeUserList/locationId/userIds/tokensExpr/`
   const requestParameters = { ...parameters, locationId: targetObjectId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
@@ -125,11 +103,8 @@ const  processRequest = (data) => {
 const LocationService = { view,
   load,
   addStudent,
-  addUser,
   updateStudent,
-  updateUser,
   removeStudentList,
-  removeUserList,
   requestCandidateDistrict,
   requestCandidateProvince,
   transferToAnotherDistrict,

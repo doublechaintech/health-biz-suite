@@ -36,7 +36,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setId(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(SecUserTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -48,7 +50,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setLogin(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String login = rs.getString(SecUserTable.COLUMN_LOGIN);
+		
 		if(login == null){
 			//do nothing when nothing found in database
 			return;
@@ -60,7 +64,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setMobile(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String mobile = rs.getString(SecUserTable.COLUMN_MOBILE);
+		
 		if(mobile == null){
 			//do nothing when nothing found in database
 			return;
@@ -72,7 +78,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setEmail(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String email = rs.getString(SecUserTable.COLUMN_EMAIL);
+		
 		if(email == null){
 			//do nothing when nothing found in database
 			return;
@@ -84,7 +92,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setPwd(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String pwd = rs.getString(SecUserTable.COLUMN_PWD);
+		
 		if(pwd == null){
 			//do nothing when nothing found in database
 			return;
@@ -96,7 +106,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setWeixinOpenid(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String weixinOpenid = rs.getString(SecUserTable.COLUMN_WEIXIN_OPENID);
+		
 		if(weixinOpenid == null){
 			//do nothing when nothing found in database
 			return;
@@ -108,7 +120,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setWeixinAppid(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String weixinAppid = rs.getString(SecUserTable.COLUMN_WEIXIN_APPID);
+		
 		if(weixinAppid == null){
 			//do nothing when nothing found in database
 			return;
@@ -120,7 +134,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setAccessToken(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String accessToken = rs.getString(SecUserTable.COLUMN_ACCESS_TOKEN);
+		
 		if(accessToken == null){
 			//do nothing when nothing found in database
 			return;
@@ -132,7 +148,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setVerificationCode(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer verificationCode = rs.getInt(SecUserTable.COLUMN_VERIFICATION_CODE);
+		
 		if(verificationCode == null){
 			//do nothing when nothing found in database
 			return;
@@ -144,7 +162,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setVerificationCodeExpire(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date verificationCodeExpire = rs.getTimestamp(SecUserTable.COLUMN_VERIFICATION_CODE_EXPIRE);
+		
 		if(verificationCodeExpire == null){
 			//do nothing when nothing found in database
 			return;
@@ -156,7 +176,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setLastLoginTime(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Date lastLoginTime = rs.getTimestamp(SecUserTable.COLUMN_LAST_LOGIN_TIME);
+		
 		if(lastLoginTime == null){
 			//do nothing when nothing found in database
 			return;
@@ -186,7 +208,9 @@ public class SecUserMapper extends BaseRowMapper<SecUser>{
 	protected void setVersion(SecUser secUser, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(SecUserTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

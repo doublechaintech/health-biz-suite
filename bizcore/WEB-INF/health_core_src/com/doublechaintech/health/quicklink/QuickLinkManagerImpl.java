@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -219,16 +220,28 @@ public class QuickLinkManagerImpl extends CustomHealthCheckerManager implements 
 		
 
 		if(QuickLink.NAME_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkNameOfQuickLink(parseString(newValueExpr));
+		
+			
 		}
 		if(QuickLink.ICON_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkIconOfQuickLink(parseString(newValueExpr));
+		
+			
 		}
 		if(QuickLink.IMAGE_PATH_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkImagePathOfQuickLink(parseString(newValueExpr));
+		
+			
 		}
 		if(QuickLink.LINK_TARGET_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkLinkTargetOfQuickLink(parseString(newValueExpr));
+		
+			
 		}		
 
 		

@@ -22,7 +22,7 @@ const testValues = {
   optionB: '有',
   optionC: '不确定',
   optionD: '不知道',
-  questionTypeId: 'OptionSelect',
+  questionTypeId: 'SINGLE_SELECT',
   classDailyHealthSurveyId: 'CDHS000001',
   surveyQuestionId: 'Q000001',
 }

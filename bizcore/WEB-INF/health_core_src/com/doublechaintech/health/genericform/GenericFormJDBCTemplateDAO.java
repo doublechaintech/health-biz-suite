@@ -752,8 +752,12 @@ public class GenericFormJDBCTemplateDAO extends HealthBaseDAOImpl implements Gen
  	protected Object[] prepareGenericFormUpdateParameters(GenericForm genericForm){
  		Object[] parameters = new Object[5];
  
+ 		
  		parameters[0] = genericForm.getTitle();
- 		parameters[1] = genericForm.getDescription();		
+ 		
+ 		
+ 		parameters[1] = genericForm.getDescription();
+ 				
  		parameters[2] = genericForm.nextVersion();
  		parameters[3] = genericForm.getId();
  		parameters[4] = genericForm.getVersion();
@@ -766,8 +770,12 @@ public class GenericFormJDBCTemplateDAO extends HealthBaseDAOImpl implements Gen
 		genericForm.setId(newGenericFormId);
 		parameters[0] =  genericForm.getId();
  
+ 		
  		parameters[1] = genericForm.getTitle();
- 		parameters[2] = genericForm.getDescription();		
+ 		
+ 		
+ 		parameters[2] = genericForm.getDescription();
+ 				
  				
  		return parameters;
  	}

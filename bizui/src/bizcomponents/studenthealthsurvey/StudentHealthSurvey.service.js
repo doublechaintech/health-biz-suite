@@ -98,7 +98,7 @@ const transferToAnotherChangeRequest = (id, parameters) => {
 
 
 const addStudentDailyAnswer = (targetObjectId, parameters) => {
-  const url = `${PREFIX}studentHealthSurveyManager/addStudentDailyAnswer/studentHealthSurveyId/questionId/answer/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}studentHealthSurveyManager/addStudentDailyAnswer/studentHealthSurveyId/questionId/answer/tokensExpr/`
   const studentHealthSurveyId = targetObjectId
   const requestParameters = { ...parameters, studentHealthSurveyId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})

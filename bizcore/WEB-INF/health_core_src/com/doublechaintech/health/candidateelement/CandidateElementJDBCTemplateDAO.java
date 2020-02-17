@@ -435,9 +435,15 @@ public class CandidateElementJDBCTemplateDAO extends HealthBaseDAOImpl implement
  	protected Object[] prepareCandidateElementUpdateParameters(CandidateElement candidateElement){
  		Object[] parameters = new Object[7];
  
+ 		
  		parameters[0] = candidateElement.getName();
+ 		
+ 		
  		parameters[1] = candidateElement.getType();
- 		parameters[2] = candidateElement.getImage(); 	
+ 		
+ 		
+ 		parameters[2] = candidateElement.getImage();
+ 		 	
  		if(candidateElement.getContainer() != null){
  			parameters[3] = candidateElement.getContainer().getId();
  		}
@@ -454,9 +460,15 @@ public class CandidateElementJDBCTemplateDAO extends HealthBaseDAOImpl implement
 		candidateElement.setId(newCandidateElementId);
 		parameters[0] =  candidateElement.getId();
  
+ 		
  		parameters[1] = candidateElement.getName();
+ 		
+ 		
  		parameters[2] = candidateElement.getType();
- 		parameters[3] = candidateElement.getImage(); 	
+ 		
+ 		
+ 		parameters[3] = candidateElement.getImage();
+ 		 	
  		if(candidateElement.getContainer() != null){
  			parameters[4] = candidateElement.getContainer().getId();
  		

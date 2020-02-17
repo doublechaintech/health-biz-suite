@@ -452,7 +452,9 @@ public class CandidateContainerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
  	protected Object[] prepareCandidateContainerUpdateParameters(CandidateContainer candidateContainer){
  		Object[] parameters = new Object[4];
  
- 		parameters[0] = candidateContainer.getName();		
+ 		
+ 		parameters[0] = candidateContainer.getName();
+ 				
  		parameters[1] = candidateContainer.nextVersion();
  		parameters[2] = candidateContainer.getId();
  		parameters[3] = candidateContainer.getVersion();
@@ -465,7 +467,9 @@ public class CandidateContainerJDBCTemplateDAO extends HealthBaseDAOImpl impleme
 		candidateContainer.setId(newCandidateContainerId);
 		parameters[0] =  candidateContainer.getId();
  
- 		parameters[1] = candidateContainer.getName();		
+ 		
+ 		parameters[1] = candidateContainer.getName();
+ 				
  				
  		return parameters;
  	}

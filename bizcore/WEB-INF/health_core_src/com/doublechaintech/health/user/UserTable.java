@@ -20,13 +20,12 @@ public class UserTable{
 	static final String COLUMN_ID = "id";
 	static final String COLUMN_NAME = "name";
 	static final String COLUMN_AVATAR = "avatar";
-	static final String COLUMN_ADDRESS = "address";
 	static final String COLUMN_CREATE_TIME = "create_time";
 	static final String COLUMN_PLATFORM = "platform";
 	static final String COLUMN_VERSION = "version";
  
-	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_NAME,COLUMN_AVATAR,COLUMN_ADDRESS,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_VERSION};
-	public static final String []NORMAL_CLOUMNS = {COLUMN_NAME,COLUMN_AVATAR,COLUMN_ADDRESS,COLUMN_CREATE_TIME,COLUMN_PLATFORM};
+	public static final String []ALL_CLOUMNS = {COLUMN_ID,COLUMN_NAME,COLUMN_AVATAR,COLUMN_CREATE_TIME,COLUMN_PLATFORM,COLUMN_VERSION};
+	public static final String []NORMAL_CLOUMNS = {COLUMN_NAME,COLUMN_AVATAR,COLUMN_CREATE_TIME,COLUMN_PLATFORM};
 	
 	
 }

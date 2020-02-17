@@ -321,6 +321,18 @@ class TeacherUpdateForm extends Component {
                 </Form.Item>
               </Col>
 
+              <Col lg={24} md={24} sm={24}>
+                <Form.Item label={fieldLabels.classSize} {...formItemLayout}>
+                  {getFieldDecorator('classSize', {
+                    initialValue: selectedRow.classSize,
+                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
+                  })(
+                    <Input size="large"  placeHolder={fieldLabels.classSize} />
+                    
+                  )}
+                </Form.Item>
+              </Col>
+
             
        
         

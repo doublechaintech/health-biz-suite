@@ -75,8 +75,8 @@ public class StudentTokens extends CommonTokens{
 			.withAddress()
 			.withUser()
 			.withPlatform()
-			.withChangeRequest()
-			.withStudentHealthSurveyList();
+			.withStudentHealthSurveyList()
+			.withHealthSurveyReportList();
 	
 	}
 	public static StudentTokens withoutListsTokens(){
@@ -84,8 +84,7 @@ public class StudentTokens extends CommonTokens{
 		return start()
 			.withAddress()
 			.withUser()
-			.withPlatform()
-			.withChangeRequest();
+			.withPlatform();
 	
 	}
 	
@@ -130,16 +129,6 @@ public class StudentTokens extends CommonTokens{
 	}
 	public StudentTokens withPlatform(){		
 		addSimpleOptions(PLATFORM);
-		return this;
-	}
-	
-	
-	protected static final String CHANGEREQUEST = "changeRequest";
-	public String getChangeRequest(){
-		return CHANGEREQUEST;
-	}
-	public StudentTokens withChangeRequest(){		
-		addSimpleOptions(CHANGEREQUEST);
 		return this;
 	}
 	
@@ -214,10 +203,81 @@ public class StudentTokens extends CommonTokens{
 	
 	
 		
+	protected static final String HEALTH_SURVEY_REPORT_LIST = "healthSurveyReportList";
+	public String getHealthSurveyReportList(){
+		return HEALTH_SURVEY_REPORT_LIST;
+	}
+	public StudentTokens withHealthSurveyReportList(){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST);
+		return this;
+	}
+	public StudentTokens analyzeHealthSurveyReportList(){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+".anaylze");
+		return this;
+	}
+	public boolean analyzeHealthSurveyReportListEnabled(){		
+		
+		if(checkOptions(this.options(), HEALTH_SURVEY_REPORT_LIST+".anaylze")){
+			return true; //most of the case, should call here
+		}
+		//if not true, then query for global setting
+		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
+	}
+	public StudentTokens extractMoreFromHealthSurveyReportList(String idsSeperatedWithComma){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+".extractIds", idsSeperatedWithComma);
+		return this;
+	}
+	
+	
+	
+	
+	private int healthSurveyReportListSortCounter = 0;
+	public StudentTokens sortHealthSurveyReportListWith(String field, String descOrAsc){		
+		addSortMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSortCounter++, field, descOrAsc);
+		return this;
+	}
+	private int healthSurveyReportListSearchCounter = 0;
+	public StudentTokens searchHealthSurveyReportListWith(String field, String verb, String value){		
+		
+		withHealthSurveyReportList();
+		addSearchMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public StudentTokens searchAllTextOfHealthSurveyReportList(String verb, String value){	
+		String field = "id|surveyName|teacherName|school|schoolClass|studentName|studentNumber|guardianName|guardianMobile";
+		addSearchMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public StudentTokens rowsPerPageOfHealthSurveyReportList(int rowsPerPage){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"RowsPerPage",rowsPerPage);
+		return this;
+	}
+	public StudentTokens currentPageNumberOfHealthSurveyReportList(int currentPageNumber){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"CurrentPage",currentPageNumber);
+		return this;
+	}
+	public StudentTokens retainColumnsOfHealthSurveyReportList(String[] columns){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"RetainColumns",columns);
+		return this;
+	}
+	public StudentTokens excludeColumnsOfHealthSurveyReportList(String[] columns){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"ExcludeColumns",columns);
+		return this;
+	}
+	
+	
+		
 	
 	public  StudentTokens searchEntireObjectText(String verb, String value){
 		
 		searchAllTextOfStudentHealthSurveyList(verb, value);	
+		searchAllTextOfHealthSurveyReportList(verb, value);	
 		return this;
 	}
 }

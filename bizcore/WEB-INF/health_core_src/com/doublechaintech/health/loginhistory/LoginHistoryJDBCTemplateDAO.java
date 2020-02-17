@@ -451,9 +451,15 @@ public class LoginHistoryJDBCTemplateDAO extends HealthBaseDAOImpl implements Lo
  	protected Object[] prepareLoginHistoryUpdateParameters(LoginHistory loginHistory){
  		Object[] parameters = new Object[7];
  
+ 		
  		parameters[0] = loginHistory.getLoginTime();
+ 		
+ 		
  		parameters[1] = loginHistory.getFromIp();
- 		parameters[2] = loginHistory.getDescription(); 	
+ 		
+ 		
+ 		parameters[2] = loginHistory.getDescription();
+ 		 	
  		if(loginHistory.getSecUser() != null){
  			parameters[3] = loginHistory.getSecUser().getId();
  		}
@@ -470,9 +476,15 @@ public class LoginHistoryJDBCTemplateDAO extends HealthBaseDAOImpl implements Lo
 		loginHistory.setId(newLoginHistoryId);
 		parameters[0] =  loginHistory.getId();
  
+ 		
  		parameters[1] = loginHistory.getLoginTime();
+ 		
+ 		
  		parameters[2] = loginHistory.getFromIp();
- 		parameters[3] = loginHistory.getDescription(); 	
+ 		
+ 		
+ 		parameters[3] = loginHistory.getDescription();
+ 		 	
  		if(loginHistory.getSecUser() != null){
  			parameters[4] = loginHistory.getSecUser().getId();
  		

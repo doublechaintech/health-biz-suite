@@ -1452,8 +1452,12 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
  	protected Object[] preparePlatformUpdateParameters(Platform platform){
  		Object[] parameters = new Object[5];
  
+ 		
  		parameters[0] = platform.getName();
- 		parameters[1] = platform.getDescription();		
+ 		
+ 		
+ 		parameters[1] = platform.getDescription();
+ 				
  		parameters[2] = platform.nextVersion();
  		parameters[3] = platform.getId();
  		parameters[4] = platform.getVersion();
@@ -1466,8 +1470,12 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		platform.setId(newPlatformId);
 		parameters[0] =  platform.getId();
  
+ 		
  		parameters[1] = platform.getName();
- 		parameters[2] = platform.getDescription();		
+ 		
+ 		
+ 		parameters[2] = platform.getDescription();
+ 				
  				
  		return parameters;
  	}
@@ -1764,6 +1772,50 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
+	//disconnect Platform with user in Teacher
+	public Platform planToRemoveTeacherListWithUser(Platform platform, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+		
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.PLATFORM_PROPERTY, platform.getId());
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		SmartList<Teacher> externalTeacherList = getTeacherDAO().
+				findTeacherWithKey(key, options);
+		if(externalTeacherList == null){
+			return platform;
+		}
+		if(externalTeacherList.isEmpty()){
+			return platform;
+		}
+		
+		for(Teacher teacherItem: externalTeacherList){
+			teacherItem.clearUser();
+			teacherItem.clearPlatform();
+			
+		}
+		
+		
+		SmartList<Teacher> teacherList = platform.getTeacherList();		
+		teacherList.addAllToRemoveList(externalTeacherList);
+		return platform;
+	}
+	
+	public int countTeacherListWithUser(String platformId, String userId, Map<String,Object> options)throws Exception{
+				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
+		//the list will not be null here, empty, maybe
+		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
+
+		MultipleAccessKey key = new MultipleAccessKey();
+		key.put(Teacher.PLATFORM_PROPERTY, platformId);
+		key.put(Teacher.USER_PROPERTY, userId);
+		
+		int count = getTeacherDAO().countTeacherWithKey(key, options);
+		return count;
+	}
+	
 	//disconnect Platform with change_request in Teacher
 	public Platform planToRemoveTeacherListWithChangeRequest(Platform platform, String changeRequestId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
@@ -1836,50 +1888,6 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
-	//disconnect Platform with student_id in Student
-	public Platform planToRemoveStudentListWithStudentId(Platform platform, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return platform;
-		}
-		if(externalStudentList.isEmpty()){
-			return platform;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearStudentId();
-			studentItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return platform;
-	}
-	
-	public int countStudentListWithStudentId(String platformId, String studentIdId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.STUDENT_ID_PROPERTY, studentIdId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
 	//disconnect Platform with address in Student
 	public Platform planToRemoveStudentListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
 				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
@@ -1963,50 +1971,6 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 		MultipleAccessKey key = new MultipleAccessKey();
 		key.put(Student.PLATFORM_PROPERTY, platformId);
 		key.put(Student.USER_PROPERTY, userId);
-		
-		int count = getStudentDAO().countStudentWithKey(key, options);
-		return count;
-	}
-	
-	//disconnect Platform with change_request in Student
-	public Platform planToRemoveStudentListWithChangeRequest(Platform platform, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platform.getId());
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
-		
-		SmartList<Student> externalStudentList = getStudentDAO().
-				findStudentWithKey(key, options);
-		if(externalStudentList == null){
-			return platform;
-		}
-		if(externalStudentList.isEmpty()){
-			return platform;
-		}
-		
-		for(Student studentItem: externalStudentList){
-			studentItem.clearChangeRequest();
-			studentItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<Student> studentList = platform.getStudentList();		
-		studentList.addAllToRemoveList(externalStudentList);
-		return platform;
-	}
-	
-	public int countStudentListWithChangeRequest(String platformId, String changeRequestId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(Student.PLATFORM_PROPERTY, platformId);
-		key.put(Student.CHANGE_REQUEST_PROPERTY, changeRequestId);
 		
 		int count = getStudentDAO().countStudentWithKey(key, options);
 		return count;
@@ -2256,50 +2220,6 @@ public class PlatformJDBCTemplateDAO extends HealthBaseDAOImpl implements Platfo
 	}
 
 
-	//disconnect Platform with address in User
-	public Platform planToRemoveUserListWithAddress(Platform platform, String addressId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-		
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, platform.getId());
-		key.put(User.ADDRESS_PROPERTY, addressId);
-		
-		SmartList<User> externalUserList = getUserDAO().
-				findUserWithKey(key, options);
-		if(externalUserList == null){
-			return platform;
-		}
-		if(externalUserList.isEmpty()){
-			return platform;
-		}
-		
-		for(User userItem: externalUserList){
-			userItem.clearAddress();
-			userItem.clearPlatform();
-			
-		}
-		
-		
-		SmartList<User> userList = platform.getUserList();		
-		userList.addAllToRemoveList(externalUserList);
-		return platform;
-	}
-	
-	public int countUserListWithAddress(String platformId, String addressId, Map<String,Object> options)throws Exception{
-				//SmartList<ThreadLike> toRemoveThreadLikeList = threadLikeList.getToRemoveList();
-		//the list will not be null here, empty, maybe
-		//getThreadLikeDAO().removeThreadLikeList(toRemoveThreadLikeList,options);
-
-		MultipleAccessKey key = new MultipleAccessKey();
-		key.put(User.PLATFORM_PROPERTY, platformId);
-		key.put(User.ADDRESS_PROPERTY, addressId);
-		
-		int count = getUserDAO().countUserWithKey(key, options);
-		return count;
-	}
-	
 	public Platform planToRemoveChangeRequestList(Platform platform, String changeRequestIds[], Map<String,Object> options)throws Exception{
 	
 		MultipleAccessKey key = new MultipleAccessKey();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import com.terapico.caf.DateTime;
+import com.terapico.caf.Images;
 import com.terapico.caf.Password;
 
 import com.doublechaintech.health.*;
@@ -28,7 +29,6 @@ import com.doublechaintech.health.questiontype.CandidateQuestionType;
 import com.doublechaintech.health.classdailyhealthsurvey.CandidateClassDailyHealthSurvey;
 import com.doublechaintech.health.question.CandidateQuestion;
 
-import com.doublechaintech.health.changerequest.ChangeRequest;
 import com.doublechaintech.health.dailysurveyquestion.DailySurveyQuestion;
 import com.doublechaintech.health.studenthealthsurvey.StudentHealthSurvey;
 
@@ -244,21 +244,36 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 
 		if(DailySurveyQuestion.TOPIC_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkTopicOfDailySurveyQuestion(parseString(newValueExpr));
+		
+			
 		}		
 
 		
 		if(DailySurveyQuestion.OPTION_A_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionAOfDailySurveyQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(DailySurveyQuestion.OPTION_B_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionBOfDailySurveyQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(DailySurveyQuestion.OPTION_C_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionCOfDailySurveyQuestion(parseString(newValueExpr));
+		
+			
 		}
 		if(DailySurveyQuestion.OPTION_D_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkOptionDOfDailySurveyQuestion(parseString(newValueExpr));
+		
+			
 		}		
 
 				
@@ -641,31 +656,13 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 				return dailySurveyQuestion;
 			}
 	}
-	//disconnect DailySurveyQuestion with change_request in StudentDailyAnswer
-	protected DailySurveyQuestion breakWithStudentDailyAnswerByChangeRequest(HealthUserContext userContext, String dailySurveyQuestionId, String changeRequestId,  String [] tokensExpr)
-		 throws Exception{
-
-			//TODO add check code here
-
-			DailySurveyQuestion dailySurveyQuestion = loadDailySurveyQuestion(userContext, dailySurveyQuestionId, allTokens());
-
-			synchronized(dailySurveyQuestion){
-				//Will be good when the thread loaded from this JVM process cache.
-				//Also good when there is a RAM based DAO implementation
-
-				dailySurveyQuestionDaoOf(userContext).planToRemoveStudentDailyAnswerListWithChangeRequest(dailySurveyQuestion, changeRequestId, this.emptyOptions());
-
-				dailySurveyQuestion = saveDailySurveyQuestion(userContext, dailySurveyQuestion, tokens().withStudentDailyAnswerList().done());
-				return dailySurveyQuestion;
-			}
-	}
 
 
 
 
 
 
-	protected void checkParamsForAddingStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId,String [] tokensExpr) throws Exception{
+	protected void checkParamsForAddingStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer,String [] tokensExpr) throws Exception{
 
 				checkerOf(userContext).checkIdOfDailySurveyQuestion(dailySurveyQuestionId);
 
@@ -673,19 +670,17 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		checkerOf(userContext).checkStudentHealthSurveyIdOfStudentDailyAnswer(studentHealthSurveyId);
 		
 		checkerOf(userContext).checkAnswerOfStudentDailyAnswer(answer);
-		
-		checkerOf(userContext).checkChangeRequestIdOfStudentDailyAnswer(changeRequestId);
 	
 		checkerOf(userContext).throwExceptionIfHasErrors(DailySurveyQuestionManagerException.class);
 
 
 	}
-	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String changeRequestId, String [] tokensExpr) throws Exception
+	public  DailySurveyQuestion addStudentDailyAnswer(HealthUserContext userContext, String dailySurveyQuestionId, String studentHealthSurveyId, String answer, String [] tokensExpr) throws Exception
 	{
 
-		checkParamsForAddingStudentDailyAnswer(userContext,dailySurveyQuestionId,studentHealthSurveyId, answer, changeRequestId,tokensExpr);
+		checkParamsForAddingStudentDailyAnswer(userContext,dailySurveyQuestionId,studentHealthSurveyId, answer,tokensExpr);
 
-		StudentDailyAnswer studentDailyAnswer = createStudentDailyAnswer(userContext,studentHealthSurveyId, answer, changeRequestId);
+		StudentDailyAnswer studentDailyAnswer = createStudentDailyAnswer(userContext,studentHealthSurveyId, answer);
 
 		DailySurveyQuestion dailySurveyQuestion = loadDailySurveyQuestion(userContext, dailySurveyQuestionId, emptyOptions());
 		synchronized(dailySurveyQuestion){
@@ -736,7 +731,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 	}
 
 
-	protected StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String answer, String changeRequestId) throws Exception{
+	protected StudentDailyAnswer createStudentDailyAnswer(HealthUserContext userContext, String studentHealthSurveyId, String answer) throws Exception{
 
 		StudentDailyAnswer studentDailyAnswer = new StudentDailyAnswer();
 		
@@ -746,10 +741,7 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		studentDailyAnswer.setStudentHealthSurvey(studentHealthSurvey);		
 		studentDailyAnswer.setAnswer(answer);		
 		studentDailyAnswer.setCreateTime(userContext.now());		
-		studentDailyAnswer.setLastUpdateTime(userContext.now());		
-		ChangeRequest  changeRequest = new ChangeRequest();
-		changeRequest.setId(changeRequestId);		
-		studentDailyAnswer.setChangeRequest(changeRequest);
+		studentDailyAnswer.setLastUpdateTime(userContext.now());
 	
 		
 		return studentDailyAnswer;
@@ -862,7 +854,9 @@ public class DailySurveyQuestionManagerImpl extends CustomHealthCheckerManager i
 		
 
 		if(StudentDailyAnswer.ANSWER_PROPERTY.equals(property)){
+		
 			checkerOf(userContext).checkAnswerOfStudentDailyAnswer(parseString(newValueExpr));
+		
 		}
 		
 	

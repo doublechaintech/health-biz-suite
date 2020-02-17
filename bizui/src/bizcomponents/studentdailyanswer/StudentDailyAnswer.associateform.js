@@ -21,7 +21,6 @@ const testValues = {
   answer: 'A',
   studentHealthSurveyId: 'SHS000001',
   questionId: 'DSQ000001',
-  changeRequestId: 'CR000001',
 }
 */
 
@@ -75,6 +74,7 @@ class StudentDailyAnswerAssociateForm extends Component {
     const {StudentDailyAnswerService} = GlobalComponents
     const userContext = null
     
+ const {StudentAnswerModalTable} = GlobalComponents;
 
 
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form
@@ -192,21 +192,6 @@ class StudentDailyAnswerAssociateForm extends Component {
                 </Form.Item>
               </Col>
 
-              <Col lg={12} md={12} sm={24}>
-                <Form.Item label={fieldLabels.changeRequest} {...formItemLayout}>
-                  {getFieldDecorator('changeRequestId', {
-                  	initialValue: tryinit('changeRequest'),
-                    rules: [{ required: true, message: appLocaleName(userContext,"PleaseInput") }],
-                  })(
-                <SelectObject 
-                    disabled={!availableForEdit('changeRequest')}
-                    targetType={"changeRequest"} 
-                    requestFunction={StudentDailyAnswerService.requestCandidateChangeRequest}/>
-  
-                  )}
-                </Form.Item>
-              </Col>
-
             </Row>
          
        
@@ -218,6 +203,7 @@ class StudentDailyAnswerAssociateForm extends Component {
 			
         </Card>
         
+	<StudentAnswerModalTable data={data.studentAnswerList} owner={owner} />
         
         
         

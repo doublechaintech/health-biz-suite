@@ -89,14 +89,14 @@ const removeDistrictList = (targetObjectId, parameters) => {
 
 
 const addTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addTeacher/platformId/name/mobile/school/schoolClass/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}platformManager/addTeacher/platformId/name/mobile/school/schoolClass/classSize/userId/changeRequestId/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateTeacher = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/updateTeacherProperties/platformId/id/name/mobile/school/schoolClass/tokensExpr/`
+  const url = `${PREFIX}platformManager/updateTeacherProperties/platformId/id/name/mobile/school/schoolClass/classSize/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -111,14 +111,14 @@ const removeTeacherList = (targetObjectId, parameters) => {
 
 
 const addStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addStudent/platformId/studentName/studentId/guardianName/guardianMobile/addressId/userId/changeRequestId/tokensExpr/`
+  const url = `${PREFIX}platformManager/addStudent/platformId/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/addressId/userId/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
 }
 
 const updateStudent = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/updateStudentProperties/platformId/id/studentName/studentId/guardianName/guardianMobile/tokensExpr/`
+  const url = `${PREFIX}platformManager/updateStudentProperties/platformId/id/studentName/studentNumber/studentAvatar/guardianName/guardianMobile/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})
@@ -199,7 +199,7 @@ const removeSurveyStatusList = (targetObjectId, parameters) => {
 
 
 const addUser = (targetObjectId, parameters) => {
-  const url = `${PREFIX}platformManager/addUser/platformId/name/avatar/addressId/tokensExpr/`
+  const url = `${PREFIX}platformManager/addUser/platformId/name/avatar/tokensExpr/`
   const platformId = targetObjectId
   const requestParameters = { ...parameters, platformId, tokensExpr: 'none' }
   return postForm({ url,requestParameters})

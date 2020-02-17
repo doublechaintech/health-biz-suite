@@ -35,7 +35,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setId(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String id = rs.getString(DailySurveyQuestionTable.COLUMN_ID);
+		
 		if(id == null){
 			//do nothing when nothing found in database
 			return;
@@ -47,7 +49,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setTopic(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String topic = rs.getString(DailySurveyQuestionTable.COLUMN_TOPIC);
+		
 		if(topic == null){
 			//do nothing when nothing found in database
 			return;
@@ -77,7 +81,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setOptionA(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionA = rs.getString(DailySurveyQuestionTable.COLUMN_OPTION_A);
+		
 		if(optionA == null){
 			//do nothing when nothing found in database
 			return;
@@ -89,7 +95,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setOptionB(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionB = rs.getString(DailySurveyQuestionTable.COLUMN_OPTION_B);
+		
 		if(optionB == null){
 			//do nothing when nothing found in database
 			return;
@@ -101,7 +109,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setOptionC(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionC = rs.getString(DailySurveyQuestionTable.COLUMN_OPTION_C);
+		
 		if(optionC == null){
 			//do nothing when nothing found in database
 			return;
@@ -113,7 +123,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setOptionD(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		String optionD = rs.getString(DailySurveyQuestionTable.COLUMN_OPTION_D);
+		
 		if(optionD == null){
 			//do nothing when nothing found in database
 			return;
@@ -161,7 +173,9 @@ public class DailySurveyQuestionMapper extends BaseRowMapper<DailySurveyQuestion
 	protected void setVersion(DailySurveyQuestion dailySurveyQuestion, ResultSet rs, int rowNumber) throws SQLException{
 	
 		//there will be issue when the type is double/int/long
+		
 		Integer version = rs.getInt(DailySurveyQuestionTable.COLUMN_VERSION);
+		
 		if(version == null){
 			//do nothing when nothing found in database
 			return;

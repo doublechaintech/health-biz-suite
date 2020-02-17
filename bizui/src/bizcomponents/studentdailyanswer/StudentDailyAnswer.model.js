@@ -114,6 +114,75 @@ export default {
       yield put(routerRedux.push(`/studentDailyAnswer/${id}/list/${type}List/${listName}`))
     },
 
+
+
+
+    *addStudentAnswer({ payload }, { call, put }) {
+      const userContext = null
+      const {StudentDailyAnswerService} = GlobalComponents;
+
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(StudentDailyAnswerService.addStudentAnswer, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+      yield put({ type: 'updateState', payload: newPlayload })
+      // yield put(routerRedux.push(`/studentDailyAnswer/${id}/list/${role}CreateForm'))
+      notifySuccess(userContext)
+      if (continueNext) {
+        return
+      }
+      const partialList = true
+      const newState = {...data, partialList}
+      const location = { pathname: `/studentDailyAnswer/${id}/list/StudentAnswerList/学生回答+${appLocaleName(userContext,'List')}`, state: newState }
+      yield put(routerRedux.push(location))
+    },
+    *updateStudentAnswer({ payload }, { call, put }) {
+      const userContext = null
+      const {StudentDailyAnswerService} = GlobalComponents;      
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(StudentDailyAnswerService.updateStudentAnswer, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const partialList = true
+      
+      const newPlayload = { ...payload, ...data, selectedRows, currentUpdateIndex,partialList }
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+      
+      if (continueNext) {
+        return
+      }
+      const location = { pathname: `/studentDailyAnswer/${id}/list/StudentAnswerList/学生回答列表`, state: newPlayload }
+      yield put(routerRedux.push(location))
+    },
+    *gotoNextStudentAnswerUpdateRow({ payload }, { call, put }) {
+      const { id, type, parameters, continueNext, selectedRows, currentUpdateIndex } = payload
+      const newPlayload = { ...payload, selectedRows, currentUpdateIndex }
+      yield put({ type: 'updateState', payload: newPlayload })
+    },
+    *removeStudentAnswerList({ payload }, { call, put }) {
+     const userContext = null
+      const {StudentDailyAnswerService} = GlobalComponents; 
+      const { id, role, parameters, continueNext } = payload
+      console.log('get form parameters', parameters)
+      const data = yield call(StudentDailyAnswerService.removeStudentAnswerList, id, parameters)
+      if (hasError(data)) {
+        handleServerError(data)
+        return
+      }
+      const newPlayload = { ...payload, ...data }
+
+      yield put({ type: 'updateState', payload: newPlayload })
+      notifySuccess(userContext)
+    },
+
   },
   
   reducers: {

@@ -76,7 +76,8 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 			.withCreator()
 			.withChangeRequest()
 			.withDailySurveyQuestionList()
-			.withStudentHealthSurveyList();
+			.withStudentHealthSurveyList()
+			.withHealthSurveyReportList();
 	
 	}
 	public static ClassDailyHealthSurveyTokens withoutListsTokens(){
@@ -273,11 +274,82 @@ public class ClassDailyHealthSurveyTokens extends CommonTokens{
 	
 	
 		
+	protected static final String HEALTH_SURVEY_REPORT_LIST = "healthSurveyReportList";
+	public String getHealthSurveyReportList(){
+		return HEALTH_SURVEY_REPORT_LIST;
+	}
+	public ClassDailyHealthSurveyTokens withHealthSurveyReportList(){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST);
+		return this;
+	}
+	public ClassDailyHealthSurveyTokens analyzeHealthSurveyReportList(){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+".anaylze");
+		return this;
+	}
+	public boolean analyzeHealthSurveyReportListEnabled(){		
+		
+		if(checkOptions(this.options(), HEALTH_SURVEY_REPORT_LIST+".anaylze")){
+			return true; //most of the case, should call here
+		}
+		//if not true, then query for global setting
+		return checkOptions(this.options(), ALL_LISTS_ANALYZE);
+	}
+	public ClassDailyHealthSurveyTokens extractMoreFromHealthSurveyReportList(String idsSeperatedWithComma){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+".extractIds", idsSeperatedWithComma);
+		return this;
+	}
+	
+	
+	
+	
+	private int healthSurveyReportListSortCounter = 0;
+	public ClassDailyHealthSurveyTokens sortHealthSurveyReportListWith(String field, String descOrAsc){		
+		addSortMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSortCounter++, field, descOrAsc);
+		return this;
+	}
+	private int healthSurveyReportListSearchCounter = 0;
+	public ClassDailyHealthSurveyTokens searchHealthSurveyReportListWith(String field, String verb, String value){		
+		
+		withHealthSurveyReportList();
+		addSearchMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public ClassDailyHealthSurveyTokens searchAllTextOfHealthSurveyReportList(String verb, String value){	
+		String field = "id|surveyName|teacherName|school|schoolClass|studentName|studentNumber|guardianName|guardianMobile";
+		addSearchMoreOptions(HEALTH_SURVEY_REPORT_LIST,healthSurveyReportListSearchCounter++, field, verb, value);
+		return this;
+	}
+	
+	
+	
+	public ClassDailyHealthSurveyTokens rowsPerPageOfHealthSurveyReportList(int rowsPerPage){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"RowsPerPage",rowsPerPage);
+		return this;
+	}
+	public ClassDailyHealthSurveyTokens currentPageNumberOfHealthSurveyReportList(int currentPageNumber){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"CurrentPage",currentPageNumber);
+		return this;
+	}
+	public ClassDailyHealthSurveyTokens retainColumnsOfHealthSurveyReportList(String[] columns){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"RetainColumns",columns);
+		return this;
+	}
+	public ClassDailyHealthSurveyTokens excludeColumnsOfHealthSurveyReportList(String[] columns){		
+		addSimpleOptions(HEALTH_SURVEY_REPORT_LIST+"ExcludeColumns",columns);
+		return this;
+	}
+	
+	
+		
 	
 	public  ClassDailyHealthSurveyTokens searchEntireObjectText(String verb, String value){
 		
 		searchAllTextOfDailySurveyQuestionList(verb, value);	
 		searchAllTextOfStudentHealthSurveyList(verb, value);	
+		searchAllTextOfHealthSurveyReportList(verb, value);	
 		return this;
 	}
 }

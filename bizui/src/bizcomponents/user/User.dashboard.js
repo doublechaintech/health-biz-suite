@@ -119,12 +119,6 @@ const internalSummaryOf = (user,targetComponent) =>{
 	<DescriptionList className={styles.headerList} size="small" col="4">
 <Description term="ID" style={{wordBreak: 'break-all'}}>{user.id}</Description> 
 <Description term="名称" style={{wordBreak: 'break-all'}}>{user.name}</Description> 
-<Description term="地址">{user.address==null?appLocaleName(userContext,"NotAssigned"):`${user.address.displayName}(${user.address.id})`}
- <Icon type="swap" onClick={()=>
-  showTransferModel(targetComponent,"地址","location",UserService.requestCandidateAddress,
-	      UserService.transferToAnotherAddress,"anotherAddressId",user.address?user.address.id:"")} 
-  style={{fontSize: 20,color:"red"}} />
-</Description>
 <Description term="创建时间">{ moment(user.createTime).format('YYYY-MM-DD HH:mm')}</Description> 
 	
         {buildTransferModal(user,targetComponent)}
@@ -157,7 +151,7 @@ class UserDashboard extends Component {
 
   render() {
     // eslint-disable-next-line max-len
-    const { id,displayName, studentListMetaInfo, questionListMetaInfo, classDailyHealthSurveyListMetaInfo, wechatLoginInfoListMetaInfo, studentCount, questionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = this.props.user
+    const { id,displayName, teacherListMetaInfo, studentListMetaInfo, questionListMetaInfo, classDailyHealthSurveyListMetaInfo, wechatLoginInfoListMetaInfo, teacherCount, studentCount, questionCount, classDailyHealthSurveyCount, wechatLoginInfoCount } = this.props.user
     if(!this.props.user.class){
       return null
     }
@@ -166,6 +160,7 @@ class UserDashboard extends Component {
     const cardsData = {cardsName:"用户",cardsFor: "user",
     	cardsSource: this.props.user,returnURL,displayName,
   		subItems: [
+{name: 'teacherList', displayName: window.mtrans('teacher','user.teacher_list',false) ,viewGroup:'__no_group', type:'teacher',count:teacherCount,addFunction: true, role: 'teacher', metaInfo: teacherListMetaInfo, renderItem: GlobalComponents.TeacherBase.renderItemOfList},
 {name: 'studentList', displayName: window.mtrans('student','user.student_list',false) ,viewGroup:'__no_group', type:'student',count:studentCount,addFunction: true, role: 'student', metaInfo: studentListMetaInfo, renderItem: GlobalComponents.StudentBase.renderItemOfList},
 {name: 'questionList', displayName: window.mtrans('question','user.question_list',false) ,viewGroup:'__no_group', type:'question',count:questionCount,addFunction: true, role: 'question', metaInfo: questionListMetaInfo, renderItem: GlobalComponents.QuestionBase.renderItemOfList},
 {name: 'classDailyHealthSurveyList', displayName: window.mtrans('class_daily_health_survey','user.class_daily_health_survey_list',false) ,viewGroup:'__no_group', type:'classDailyHealthSurvey',count:classDailyHealthSurveyCount,addFunction: true, role: 'classDailyHealthSurvey', metaInfo: classDailyHealthSurveyListMetaInfo, renderItem: GlobalComponents.ClassDailyHealthSurveyBase.renderItemOfList},
