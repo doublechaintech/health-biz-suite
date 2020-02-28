@@ -117,8 +117,8 @@
 	
 	
 	<bean id="aliyunOssServiceConfiguration" class="com.skynet.infrastructure.AliyunServiceConfiguration">
-		<property name="accessKeyId" value="${health.aliyun.oss.accessKeyId}"/>
-		<property name="accessKeySecret" value="${health.aliyun.oss.accessKeySecret}"/>
+		<property name="accessKeyId" value="${HEALTH_ALIYUN_OSS_ACCESSKEYID}"/>
+		<property name="accessKeySecret" value="${HEALTH_ALIYUN_OSS_ACCESSKEYSECRET}"/>
 		<property name="ossBucket" value="${aliyun.oss.ossBucket}"/>
 		<property name="roleArn" value="${aliyun.oss.roleArn}"/>
 		<property name="policy" value="${aliyun.oss.policy}"/>
