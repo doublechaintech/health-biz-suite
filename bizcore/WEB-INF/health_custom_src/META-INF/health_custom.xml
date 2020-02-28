@@ -116,7 +116,17 @@
 	</bean>
 	
 	
-
+	<bean id="aliyunOssServiceConfiguration" class="com.skynet.infrastructure.AliyunServiceConfiguration">
+		<property name="accessKeyId" value="${HEALTH_ALIYUN_OSS_ACCESSKEYID}"/>
+		<property name="accessKeySecret" value="${HEALTH_ALIYUN_OSS_ACCESSKEYSECRET}"/>
+		<property name="ossBucket" value="${aliyun.oss.ossBucket}"/>
+		<property name="roleArn" value="${aliyun.oss.roleArn}"/>
+		<property name="policy" value="${aliyun.oss.policy}"/>
+		<property name="endpoint" value="${aliyun.oss.endpoint}"/>
+		<property name="region" value="${aliyun.oss.region}"/>
+		<property name="stsVersion" value="${aliyun.oss.stsVersion}"/>
+		<property name="durationSeconds" value="${aliyun.oss.durationSeconds}"/>
+    </bean>
 
 
 </beans>
